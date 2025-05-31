@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//Get information create request form user
 public class UserCreateRequest {
     private String username;
     private String passwordHash;

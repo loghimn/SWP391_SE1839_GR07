@@ -21,7 +21,7 @@ import swp391_gr7.hivsystem.service.AuthenticationService;
 public class AuthenticationController {
     @Autowired
     AuthenticationService authenticationService;
-
+//Chuc nang login Don nhan request tu client va xuat ra reponse
     @PostMapping("/login")
     ApiReponse<AuthenticationReponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
         var result = authenticationService.authenticate(authenticationRequest);

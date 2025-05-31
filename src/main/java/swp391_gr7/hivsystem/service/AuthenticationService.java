@@ -34,7 +34,9 @@ public class AuthenticationService {
                 .authenticated(true)
                 .build();
     }
+    //Token has three component:header, payload, signature
     private String generateToken(String username) throws JOSEException {
+       //Header of token
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .subject(username)
@@ -43,8 +45,10 @@ public class AuthenticationService {
                 .expirationTime(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))
                 .claim("username", username)
                 .build();
+        //Create payload
         Payload payload = new Payload(claimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
+        //Add signature
         try{
             jwsObject.sign(new MACSigner(SECRET_KEY.getBytes()));
             return jwsObject.serialize();

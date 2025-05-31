@@ -18,7 +18,7 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public User createUser(UserCreateRequest request) {
+    public User createUser(UserCreateRequest request) { //Lay information request in UserCreate request
         User user = new User();
         user.setPasswordHash(request.getPasswordHash());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -34,7 +34,7 @@ public class UserServiceImp implements UserService {
     public User findUserByUserId(String userId){
         return userRepository.findByUserId(userId);
     }
-    public User updateUser(String UserId, UserUpdateRequest request){
+    public User updateUser(String UserId, UserUpdateRequest request){//Lay information request in UserCreate request
         User user = findUserByUserId(UserId);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPasswordHash(passwordEncoder.encode(request.getPasswordHash()));

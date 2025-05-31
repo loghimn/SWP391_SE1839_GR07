@@ -6,11 +6,12 @@ import java.time.LocalDate;
 import lombok.*;
 
 @Entity
-@Table(name = "users") // Hoặc tên bảng của bạn trong DB
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class User {
 
     @Id
