@@ -12,11 +12,12 @@ import java.time.LocalDate;
 //Get information update request form user
 public class UserUpdateRequest {
     private String username;
-    private String passwordHash;
+    private String password;
     private String email;
     private String phone;
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
-    private String role;
+    //private String role; Notable to update role
+    private String address;
 }

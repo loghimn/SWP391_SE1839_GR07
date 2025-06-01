@@ -21,8 +21,8 @@ public class User {
     @Column(length = 50, nullable = false, unique = true)
     private String username;
 
-    @Column(length = 255, nullable = false)
-    private String passwordHash;
+    @Column(length = 255, nullable = true)
+    private String password;
 
     @Column(length = 100)
     private String email;
@@ -48,4 +48,6 @@ public class User {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+    @Column(length = 20)
+        private String address;
 }

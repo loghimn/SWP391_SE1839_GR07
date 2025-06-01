@@ -20,8 +20,16 @@ import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import swp391_gr7.hivsystem.dto.reponse.AuthenticationReponse;
 import swp391_gr7.hivsystem.dto.request.AuthenticationRequest;
+import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
+<<<<<<< HEAD
+=======
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.Optional;
+
+>>>>>>> 3684022 (Update user-related logic and security config)
 @Slf4j
 @Service
 public class AuthenticationService {
@@ -33,23 +41,25 @@ public class AuthenticationService {
            throws JOSEException {
         var user = userRepository.findByUsername(authenticationRequest.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        boolean result =  passwordEncoder.matches(authenticationRequest.getPassword(), user.get().getPasswordHash());
-        var token = generateToken(authenticationRequest.getUsername());
+        boolean result =  passwordEncoder.matches(authenticationRequest.getPassword(), user.get().getPassword());
+        var token = generateToken(user.get().getUserId());
         return AuthenticationReponse.builder()
                 .token(token)
                 .authenticated(result)
                 .build();
     }
     //Token has three component:header, payload, signature
-    private String generateToken(String username) throws JOSEException {
+    private String generateToken(int userId) throws JOSEException {
        //Header of token
+        User user = userRepository.findByUserId(userId);
+        String role = user.getRole();
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(user.getUsername())
                 .issuer("gr7")
                 .issueTime(new Date())
                 .expirationTime(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))
-                .claim("username", username)
+                .claim("role", role)
                 .build();
         //Create payload
         Payload payload = new Payload(claimsSet.toJSONObject());

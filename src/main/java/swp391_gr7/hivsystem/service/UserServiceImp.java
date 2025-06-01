@@ -35,15 +35,17 @@ public class UserServiceImp implements UserService {
     @Override
     public User createUser(UserCreateRequest request) { //Lay information request in UserCreate request
         User user = new User();
-        user.setPasswordHash(request.getPasswordHash());
+        //user.setPassword(request.getPassword());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPasswordHash(passwordEncoder.encode(request.getPasswordHash()));
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
         user.setUsername(request.getUsername());
+        user.setFullName(request.getFullName());
         user.setDateOfBirth(request.getDateOfBirth());
         user.setGender(request.getGender());
-        user.setRole(request.getRole());
+        user.setAddress(request.getAddress());
+        user.setRole("Customer");
         return userRepository.save(user);
     }
     public User findUserByUserId(int userId){
@@ -52,14 +54,15 @@ public class UserServiceImp implements UserService {
     public User updateUser(int UserId, UserUpdateRequest request){//Lay information request in UserCreate request
         User user = findUserByUserId(UserId);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        user.setPasswordHash(passwordEncoder.encode(request.getPasswordHash()));
-        user.setPasswordHash(request.getPasswordHash());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(request.getPassword());
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
+        user.setFullName(request.getFullName());
         user.setUsername(request.getUsername());
         user.setDateOfBirth(request.getDateOfBirth());
         user.setGender(request.getGender());
-        user.setRole(request.getRole());
+        user.setAddress(request.getAddress());
         return userRepository.save(user);
     }
 
@@ -72,7 +75,7 @@ public class UserServiceImp implements UserService {
         } else {
             User user = new User();
             user.setUsername(customerDto.getUsername());
-            user.setPasswordHash(this.PasswordEncoder.encode(customerDto.getPassword()));
+            user.setPassword(this.PasswordEncoder.encode(customerDto.getPassword()));
             user.setEmail(customerDto.getEmail());
             user.setPhone(customerDto.getPhone());
             user.setFullName(customerDto.getFullName());
@@ -101,7 +104,7 @@ public class UserServiceImp implements UserService {
         } else {
             User user = new User();
             user.setUsername(staffDto.getUsername());
-            user.setPasswordHash(this.PasswordEncoder.encode(staffDto.getPassword()));
+            user.setPassword(this.PasswordEncoder.encode(staffDto.getPassword()));
             user.setEmail(staffDto.getEmail());
             user.setPhone(staffDto.getPhone());
             user.setFullName(staffDto.getFullName());
@@ -136,7 +139,7 @@ public class UserServiceImp implements UserService {
         } else {
             User user = new User();
             user.setUsername(doctorDto.getUsername());
-            user.setPasswordHash(this.PasswordEncoder.encode(doctorDto.getPassword()));
+            user.setPassword(this.PasswordEncoder.encode(doctorDto.getPassword()));
             user.setEmail(doctorDto.getEmail());
             user.setPhone(doctorDto.getPhone());
             user.setFullName(doctorDto.getFullName());
@@ -167,7 +170,7 @@ public class UserServiceImp implements UserService {
         } else {
             User user = new User();
             user.setUsername(managerDto.getUsername());
-            user.setPasswordHash(this.PasswordEncoder.encode(managerDto.getPassword()));
+            user.setPassword(this.PasswordEncoder.encode(managerDto.getPassword()));
             user.setEmail(managerDto.getEmail());
             user.setPhone(managerDto.getPhone());
             user.setFullName(managerDto.getFullName());
