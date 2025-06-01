@@ -1,21 +1,26 @@
 package swp391_gr7.hivsystem.service;
 
 
-import com.nimbusds.jose.*;
-import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jwt.JWTClaimsSet;
-import lombok.experimental.NonFinal;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.JWSHeader;
+import com.nimbusds.jose.JWSObject;
+import com.nimbusds.jose.Payload;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jwt.JWTClaimsSet;
+
+import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 import swp391_gr7.hivsystem.dto.reponse.AuthenticationReponse;
 import swp391_gr7.hivsystem.dto.request.AuthenticationRequest;
 import swp391_gr7.hivsystem.repository.UserRepository;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
 
 @Slf4j
 @Service
@@ -32,7 +37,7 @@ public class AuthenticationService {
         var token = generateToken(authenticationRequest.getUsername());
         return AuthenticationReponse.builder()
                 .token(token)
-                .authenticated(true)
+                .authenticated(result)
                 .build();
     }
     //Token has three component:header, payload, signature
