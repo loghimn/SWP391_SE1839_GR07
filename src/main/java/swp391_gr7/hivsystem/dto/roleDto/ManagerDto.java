@@ -1,8 +1,8 @@
-package SWP391_GR07.HivSystem.dto;
+package swp391_gr7.hivsystem.dto.roleDto;
 
 import java.time.LocalDate;
 
-public class CustomerDto{
+public class ManagerDto {
     private String username;
     private String password;
     private String email;
@@ -10,15 +10,16 @@ public class CustomerDto{
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
-    private String address;
-    private String role = "customer";
+    private String department;
+    private String officePhone;
+    private String role = "manager";
 
-    public CustomerDto() {
+    public ManagerDto() {
     }
 
-    public CustomerDto(String username, String password, String email, String phone,
-                       String fullName, LocalDate dateOfBirth, String gender,
-                       String address) {
+    public ManagerDto(String username, String password, String email, String phone,
+                      String fullName, LocalDate dateOfBirth, String gender,
+                      String department, String officePhone) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -26,8 +27,9 @@ public class CustomerDto{
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.address = address;
-        this.role = "customer";
+        this.department = department;
+        this.officePhone = officePhone;
+        this.role = "manager";
     }
 
     public String getUsername() {
@@ -86,12 +88,20 @@ public class CustomerDto{
         this.gender = gender;
     }
 
-    public String getAddress() {
-        return address;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getOfficePhone() {
+        return officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
     }
 
     public String getRole() {

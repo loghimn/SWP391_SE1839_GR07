@@ -16,11 +16,13 @@ public class UserController {
     @Autowired
     private UserService userService;
     //Create user
+    //http://localhost:8080/user/create
     @PostMapping("/create")
     public User createUser(@RequestBody UserCreateRequest request) {
         return userService.createUser(request);
     }
     //Get user by id
+    //http://localhost:8080/user/userId  id tu phat sinh
     @GetMapping("/{userId}")
         public User getUser(@PathVariable String userId) {
         return userService.findUserByUserId(userId);

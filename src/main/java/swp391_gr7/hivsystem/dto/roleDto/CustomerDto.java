@@ -1,8 +1,8 @@
-package SWP391_GR07.HivSystem.dto;
+package swp391_gr7.hivsystem.dto.roleDto;
 
 import java.time.LocalDate;
 
-public class DoctorDto {
+public class CustomerDto{
     private String username;
     private String password;
     private String email;
@@ -10,17 +10,15 @@ public class DoctorDto {
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
-    private String department;
-    private int yearExperience;
-    private String licenseNumber;
-    private String role = "doctor";
+    private String address;
+    private String role = "customer";
 
-    public DoctorDto() {
+    public CustomerDto() {
     }
 
-    public DoctorDto(String username, String password, String email, String phone,
-                     String fullName, LocalDate dateOfBirth, String gender,
-                     String department, int yearExperience, String licenseNumber) {
+    public CustomerDto(String username, String password, String email, String phone,
+                       String fullName, LocalDate dateOfBirth, String gender,
+                       String address) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -28,10 +26,8 @@ public class DoctorDto {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.department = department;
-        this.yearExperience = yearExperience;
-        this.licenseNumber = licenseNumber;
-        this.role = "doctor";
+        this.address = address;
+        this.role = "customer";
     }
 
     public String getUsername() {
@@ -90,28 +86,12 @@ public class DoctorDto {
         this.gender = gender;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public int getYearExperience() {
-        return yearExperience;
-    }
-
-    public void setYearExperience(int yearExperience) {
-        this.yearExperience = yearExperience;
-    }
-
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
-
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getRole() {

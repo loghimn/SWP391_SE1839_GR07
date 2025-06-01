@@ -1,8 +1,8 @@
-package SWP391_GR07.HivSystem.dto;
+package swp391_gr7.hivsystem.dto.roleDto;
 
 import java.time.LocalDate;
 
-public class StaffDto {
+public class DoctorDto {
     private String username;
     private String password;
     private String email;
@@ -11,16 +11,16 @@ public class StaffDto {
     private LocalDate dateOfBirth;
     private String gender;
     private String department;
-    private int workShift;
-    private String assignedModule;
-    private String role = "staff";
+    private int yearExperience;
+    private String licenseNumber;
+    private String role = "doctor";
 
-    public StaffDto() {
+    public DoctorDto() {
     }
 
-    public StaffDto(String username, String password, String email, String phone,
-                    String fullName, LocalDate dateOfBirth, String gender,
-                    String department, int workShift, String assignedModule) {
+    public DoctorDto(String username, String password, String email, String phone,
+                     String fullName, LocalDate dateOfBirth, String gender,
+                     String department, int yearExperience, String licenseNumber) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -29,9 +29,9 @@ public class StaffDto {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.department = department;
-        this.workShift = workShift;
-        this.assignedModule = assignedModule;
-        this.role = "staff";
+        this.yearExperience = yearExperience;
+        this.licenseNumber = licenseNumber;
+        this.role = "doctor";
     }
 
     public String getUsername() {
@@ -98,20 +98,20 @@ public class StaffDto {
         this.department = department;
     }
 
-    public int getWorkShift() {
-        return workShift;
+    public int getYearExperience() {
+        return yearExperience;
     }
 
-    public void setWorkShift(int workShift) {
-        this.workShift = workShift;
+    public void setYearExperience(int yearExperience) {
+        this.yearExperience = yearExperience;
     }
 
-    public String getAssignedModule() {
-        return assignedModule;
+    public String getLicenseNumber() {
+        return licenseNumber;
     }
 
-    public void setAssignedModule(String assignedModule) {
-        this.assignedModule = assignedModule;
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
     public String getRole() {

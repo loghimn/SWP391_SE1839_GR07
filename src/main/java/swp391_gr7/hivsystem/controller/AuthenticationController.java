@@ -22,10 +22,13 @@ public class AuthenticationController {
     @Autowired
     AuthenticationService authenticationService;
 //Chuc nang login Don nhan request tu client va xuat ra reponse
+//http://localhost:8080/auth/login
     @PostMapping("/login")
     ApiReponse<AuthenticationReponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
         var result = authenticationService.authenticate(authenticationRequest);
         return ApiReponse.<AuthenticationReponse>builder()
+                //Cau truc tra ve json (mess, result(token, authen(Status auth))
+                        .message("Authentication Successful")
                         .result(result)
                         .build();
 

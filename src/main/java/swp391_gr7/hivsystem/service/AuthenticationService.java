@@ -21,10 +21,11 @@ import java.util.Date;
 @Service
 public class AuthenticationService {
     @NonFinal
-    private static final String SECRET_KEY = "secret_la_bi_mat_thoi-lam-on-chay-dum-tao";
+    private static final String SECRET_KEY = "secret_la_bi_mat_thoi-lam-on-chay-dum-tao"; // tu tao
     @Autowired
     UserRepository userRepository;
-   public AuthenticationReponse authenticate(AuthenticationRequest authenticationRequest) throws JOSEException {
+   public AuthenticationReponse authenticate(AuthenticationRequest authenticationRequest)
+           throws JOSEException {
         var user = userRepository.findByUsername(authenticationRequest.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         boolean result =  passwordEncoder.matches(authenticationRequest.getPassword(), user.get().getPasswordHash());

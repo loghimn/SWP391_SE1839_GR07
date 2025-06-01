@@ -1,17 +1,17 @@
-package SWP391_GR07.HivSystem.controller;
+package swp391_gr7.hivsystem.controller;
 
-import SWP391_GR07.HivSystem.dto.CustomerDto;
-import SWP391_GR07.HivSystem.dto.DoctorDto;
-import SWP391_GR07.HivSystem.dto.ManagerDto;
-import SWP391_GR07.HivSystem.dto.StaffDto;
-import SWP391_GR07.HivSystem.message.registerMessage;
-import SWP391_GR07.HivSystem.service.user.UserService;
+import swp391_gr7.hivsystem.dto.roleDto.CustomerDto;
+import swp391_gr7.hivsystem.dto.roleDto.DoctorDto;
+import swp391_gr7.hivsystem.dto.roleDto.ManagerDto;
+import swp391_gr7.hivsystem.dto.roleDto.StaffDto;
+import swp391_gr7.hivsystem.message.registerMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import swp391_gr7.hivsystem.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/home")

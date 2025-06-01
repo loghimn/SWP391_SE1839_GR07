@@ -1,4 +1,4 @@
-package SWP391_GR07.HivSystem.model;
+package swp391_gr7.hivsystem.model;
 
 import jakarta.persistence.*;
 
@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Manager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -28,11 +28,11 @@ public class Manager {
         this.officePhone = officePhone;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

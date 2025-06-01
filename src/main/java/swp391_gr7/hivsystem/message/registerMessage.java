@@ -1,4 +1,4 @@
-package SWP391_GR07.HivSystem.message;
+package swp391_gr7.hivsystem.message;
 
 public class registerMessage {
     private String message;

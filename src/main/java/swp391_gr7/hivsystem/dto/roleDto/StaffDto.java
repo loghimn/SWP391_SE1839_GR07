@@ -1,8 +1,8 @@
-package SWP391_GR07.HivSystem.dto;
+package swp391_gr7.hivsystem.dto.roleDto;
 
 import java.time.LocalDate;
 
-public class ManagerDto {
+public class StaffDto {
     private String username;
     private String password;
     private String email;
@@ -11,15 +11,16 @@ public class ManagerDto {
     private LocalDate dateOfBirth;
     private String gender;
     private String department;
-    private String officePhone;
-    private String role = "manager";
+    private int workShift;
+    private String assignedModule;
+    private String role = "staff";
 
-    public ManagerDto() {
+    public StaffDto() {
     }
 
-    public ManagerDto(String username, String password, String email, String phone,
-                      String fullName, LocalDate dateOfBirth, String gender,
-                      String department, String officePhone) {
+    public StaffDto(String username, String password, String email, String phone,
+                    String fullName, LocalDate dateOfBirth, String gender,
+                    String department, int workShift, String assignedModule) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -28,8 +29,9 @@ public class ManagerDto {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.department = department;
-        this.officePhone = officePhone;
-        this.role = "manager";
+        this.workShift = workShift;
+        this.assignedModule = assignedModule;
+        this.role = "staff";
     }
 
     public String getUsername() {
@@ -96,12 +98,20 @@ public class ManagerDto {
         this.department = department;
     }
 
-    public String getOfficePhone() {
-        return officePhone;
+    public int getWorkShift() {
+        return workShift;
     }
 
-    public void setOfficePhone(String officePhone) {
-        this.officePhone = officePhone;
+    public void setWorkShift(int workShift) {
+        this.workShift = workShift;
+    }
+
+    public String getAssignedModule() {
+        return assignedModule;
+    }
+
+    public void setAssignedModule(String assignedModule) {
+        this.assignedModule = assignedModule;
     }
 
     public String getRole() {

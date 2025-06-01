@@ -15,7 +15,7 @@ import lombok.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)// tu phat sinh id string
     private String userId;
 
     @Column(length = 50, nullable = false, unique = true)
@@ -41,5 +41,11 @@ public class User {
     @Column(length = 20)
     private String role;
 
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }

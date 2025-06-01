@@ -1,6 +1,6 @@
-package SWP391_GR07.HivSystem.repository;
+package swp391_gr7.hivsystem.repository;
 
-import SWP391_GR07.HivSystem.model.Doctor;
+import swp391_gr7.hivsystem.model.Doctor;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DoctorRepository extends CrudRepository<Doctor, Long> {
