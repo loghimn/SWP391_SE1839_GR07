@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 
 public enum Role {
     ROLE_USER,

@@ -24,17 +24,17 @@ public class UserController {
     //Get user by id
     //http://localhost:8080/user/userId  id tu phat sinh
     @GetMapping("/{userId}")
-        public User getUser(@PathVariable String userId) {
+        public User getUser(@PathVariable int userId) {
         return userService.findUserByUserId(userId);
     }
     //Update user by user id
     @PutMapping("/{userId}")
-        public User updateUser(@PathVariable String userId, @RequestBody UserUpdateRequest request) {
+        public User updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
         return userService.updateUser(userId, request);
     }
     //Delete user by id
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable String userId) {
+    public void deleteUser(@PathVariable int userId) {
         userService.deleteUser(userId);
     }
 }

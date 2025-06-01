@@ -46,10 +46,10 @@ public class UserServiceImp implements UserService {
         user.setRole(request.getRole());
         return userRepository.save(user);
     }
-    public User findUserByUserId(String userId){
+    public User findUserByUserId(int userId){
         return userRepository.findByUserId(userId);
     }
-    public User updateUser(String UserId, UserUpdateRequest request){//Lay information request in UserCreate request
+    public User updateUser(int UserId, UserUpdateRequest request){//Lay information request in UserCreate request
         User user = findUserByUserId(UserId);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPasswordHash(passwordEncoder.encode(request.getPasswordHash()));
@@ -188,7 +188,7 @@ public class UserServiceImp implements UserService {
         }
     }
 
-    public void deleteUser(String userId){
+    public void deleteUser(int userId){
         userRepository.delete(findUserByUserId(userId));
     }
 }

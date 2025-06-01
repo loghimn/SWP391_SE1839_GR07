@@ -15,8 +15,8 @@ import lombok.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)// tu phat sinh id string
-    private String userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// tu phat sinh id int
+    private Integer userId;
 
     @Column(length = 50, nullable = false, unique = true)
     private String username;

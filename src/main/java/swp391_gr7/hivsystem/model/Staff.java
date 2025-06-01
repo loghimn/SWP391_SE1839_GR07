@@ -9,7 +9,7 @@ public class Staff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -34,11 +34,11 @@ public class Staff {
         this.assignedModule = assignedModule;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
