@@ -30,9 +30,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/home/register-customer",
                                 "/api/v1/home/register-staff",
                                 "/api/v1/home/register-manager",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
                                 "/api/v1/home/register-doctor").permitAll()
                         .anyRequest().authenticated()
                 )
+
 
         //Verify token
                 .oauth2ResourceServer(oauth2 ->
