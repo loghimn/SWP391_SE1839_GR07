@@ -1,9 +1,10 @@
 package swp391_gr7.hivsystem.service;
 
-import swp391_gr7.hivsystem.dto.roleDto.CustomerDto;
-import swp391_gr7.hivsystem.message.registerMessage;
+import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
+import swp391_gr7.hivsystem.model.Customer;
+import swp391_gr7.hivsystem.model.User;
 
 
 public interface CustomerService {
-    registerMessage save(CustomerDto customerDto);
+    Customer saveCustomer(UserAndCustomerCreateRequest userAndCustomerCreateRequest, User user);
 }

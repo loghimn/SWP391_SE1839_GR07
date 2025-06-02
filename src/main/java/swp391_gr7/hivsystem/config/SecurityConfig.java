@@ -25,7 +25,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //Permit Access endpoint
-                        .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/customer/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/manager/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/staff/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/doctor/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers("/api/v1/home/register-customer",
                                 "/api/v1/home/register-staff",

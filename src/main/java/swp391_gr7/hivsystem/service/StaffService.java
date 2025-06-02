@@ -1,9 +1,12 @@
 package swp391_gr7.hivsystem.service;
 
-import swp391_gr7.hivsystem.dto.roleDto.StaffDto;
-import swp391_gr7.hivsystem.message.registerMessage;
+import swp391_gr7.hivsystem.dto.request.UserAndManagerCreateRequest;
+import swp391_gr7.hivsystem.dto.request.UserAndStaffCreateRequest;
+import swp391_gr7.hivsystem.model.Manager;
+import swp391_gr7.hivsystem.model.Staff;
+import swp391_gr7.hivsystem.model.User;
 
 
 public interface StaffService {
-    public registerMessage save(StaffDto staffDto);
+    Staff saveStaff(UserAndStaffCreateRequest request, User user);
 }
