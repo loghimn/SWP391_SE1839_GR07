@@ -14,10 +14,6 @@ import swp391_gr7.hivsystem.model.User;
 public interface UserService {
     public User createUser(UserCreateRequest request);
     public User findUserByUserId(int userId);
-    public void deleteUser(int userId);
+    //public void deleteUser(int userId);
     public User updateUser(int UserId,UserUpdateRequest request);
-    registerMessage save(CustomerDto customerDto);
-    registerMessage save(StaffDto staffDto);
-    registerMessage save(DoctorDto doctorDto);
-    registerMessage save(ManagerDto managerDto);
 }

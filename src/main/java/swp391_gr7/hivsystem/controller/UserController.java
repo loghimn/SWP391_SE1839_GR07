@@ -35,10 +35,12 @@ public class UserController {
         return userService.updateUser(userId, request);
     }
     //Delete user by id
+    /*
     @PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/delete/{userId}")
     public void deleteUser(@PathVariable int userId) {
         userService.deleteUser(userId);
     }
+    */
 }
 
