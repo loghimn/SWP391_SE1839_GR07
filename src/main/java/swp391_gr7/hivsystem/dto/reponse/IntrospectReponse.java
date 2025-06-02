@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+//Verifi token
 public class IntrospectReponse {
     private boolean valid;
 }

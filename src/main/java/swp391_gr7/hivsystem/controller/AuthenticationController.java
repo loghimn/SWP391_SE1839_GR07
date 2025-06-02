@@ -26,6 +26,14 @@ public class AuthenticationController {
     @PostMapping("/login")
     ApiReponse<AuthenticationReponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
         var result = authenticationService.authenticate(authenticationRequest);
+        System.out.println(result.isAuthenticated());
+        if(result.isAuthenticated() == false){
+            return ApiReponse.<AuthenticationReponse>builder()
+                    .code(403)
+                    .message("Sai pass hoac username ban oi")
+                    .build();
+        }
+
         return ApiReponse.<AuthenticationReponse>builder()
                 //Cau truc tra ve json (mess, result(token, authen(Status auth))
                         .message("Authentication Successful")

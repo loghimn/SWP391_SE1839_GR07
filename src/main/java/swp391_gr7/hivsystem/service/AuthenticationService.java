@@ -23,13 +23,12 @@ import swp391_gr7.hivsystem.dto.request.AuthenticationRequest;
 import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
-<<<<<<< HEAD
-=======
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Optional;
 
->>>>>>> 3684022 (Update user-related logic and security config)
+
 @Slf4j
 @Service
 public class AuthenticationService {
