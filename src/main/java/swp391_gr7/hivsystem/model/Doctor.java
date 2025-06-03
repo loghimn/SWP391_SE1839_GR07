@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -30,4 +32,7 @@ public class Doctor {
     @Column(name = "license_number", nullable = false, unique = true)
     private String licenseNumber;
 
+    @OneToMany
+    @JoinColumn(name = "appointment_id")
+    private List<Appointment> appointment;
 }

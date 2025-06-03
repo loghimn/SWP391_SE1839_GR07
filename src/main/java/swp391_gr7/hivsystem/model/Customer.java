@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Customer")
 @Data
@@ -22,4 +24,7 @@ public class Customer {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @OneToMany
+    @JoinColumn(name = "appointment_id")
+    private List<Appointment> appointments;
 }
