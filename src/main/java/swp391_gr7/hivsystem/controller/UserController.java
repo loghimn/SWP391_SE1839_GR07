@@ -28,7 +28,7 @@ public class UserController {
 
     //Create user
     //http://localhost:8080/user/create
-   @PostMapping("/customer/register")
+    @PostMapping("/customer/register")
     public ApiReponse<Boolean> registerUserAndCustomer(@RequestBody UserAndCustomerCreateRequest request) {
         if (request.getDateOfBirth() == null) {
             return ApiReponse.<Boolean>builder()
@@ -41,6 +41,13 @@ public class UserController {
             return ApiReponse.<Boolean>builder()
                     .code(400)
                     .message("Username already exists")
+                    .result(false)
+                    .build();
+        }
+        if (userRepository.existsByPhone(request.getPhone())) {
+            return ApiReponse.<Boolean>builder()
+                    .code(400)
+                    .message("Phone number already exists")
                     .result(false)
                     .build();
         }
@@ -64,6 +71,7 @@ public class UserController {
                 .message("Success")
                 .build();
     }
+
     @PostMapping("/doctor/register")
     public ApiReponse<Boolean> registerUserAndDoctor(@RequestBody UserAndDoctorCreateRequest request) {
         boolean result = userService.registerUserAndDoctor(request); // gọi từ service
@@ -72,6 +80,7 @@ public class UserController {
                 .message("Success")
                 .build();
     }
+
     @PostMapping("/manager/register")
     public ApiReponse<Boolean> registerUserAndManager(@RequestBody UserAndManagerCreateRequest request) {
         boolean result = userService.registerUserAndManager(request); // gọi từ service
@@ -80,6 +89,7 @@ public class UserController {
                 .message("Success")
                 .build();
     }
+
     @PostMapping("/staff/register")
     public ApiReponse<Boolean> registerUserAndStaff(@RequestBody UserAndStaffCreateRequest request) {
         boolean result = userService.registerUserAndStaff(request); // gọi từ service
@@ -92,15 +102,17 @@ public class UserController {
     //Get user by id
     //http://localhost:8080/user/userId  id tu phat sinh
     @GetMapping("/{userId}")
-        public User getUser(@PathVariable int userId) {
+    public User getUser(@PathVariable int userId) {
         return userService.findUserByUserId(userId);
     }
+
     //Update user by user id
     @PreAuthorize("hasRole('Admin')")
     @PutMapping("/update/{userId}")
-        public User updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
+    public User updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
         return userService.updateUser(userId, request);
     }
+
     //Delete user by id
     /*
     @PreAuthorize("hasRole('Admin')")
@@ -113,7 +125,7 @@ public class UserController {
     ApiReponse<AuthenticationReponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
         var result = authenticationService.authenticate(authenticationRequest);
         System.out.println(result.isAuthenticated());
-        if(result.isAuthenticated() == false){
+        if (result.isAuthenticated() == false) {
             return ApiReponse.<AuthenticationReponse>builder()
                     .code(403)
                     .message("Sai pass hoac username ban oi")

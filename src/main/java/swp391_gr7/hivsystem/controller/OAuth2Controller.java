@@ -60,6 +60,12 @@ public class OAuth2Controller {
                     .result("fail")
                     .build();
         }
+        if (userRepository.existsByPhone(request.getPhone())) {
+            return ApiReponse.<String>builder()
+                    .message("Phone number already exists")
+                    .result("fail")
+                    .build();
+        }
 
         try {
             LocalDate dob = LocalDate.parse(request.getDateOfBirth());
@@ -107,6 +113,11 @@ public class OAuth2Controller {
     @GetMapping("/check-email")
     public Map<String, Boolean> checkEmailExists(@RequestParam String email) {
         boolean exists = userRepository.existsByEmail(email);
+        return Map.of("exists", exists);
+    }
+    @GetMapping("/check-phone")
+    public Map<String, Boolean> checkPhoneExists(@RequestParam String phone) {
+        boolean exists = userRepository.existsByPhone(phone);
         return Map.of("exists", exists);
     }
 
