@@ -5,7 +5,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
 import swp391_gr7.hivsystem.dto.request.*;
+import swp391_gr7.hivsystem.model.Appointment;
 import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.service.AppointmentService;
 import swp391_gr7.hivsystem.service.UserService;
 
 
@@ -71,5 +73,17 @@ public class UserController {
         userService.deleteUser(userId);
     }
     */
+    @Autowired
+    public AppointmentService appointmentService;
+
+    @PostMapping("/appoint/register")
+    public ApiReponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
+        Appointment appointment = appointmentService.addAppointment(request);// gọi từ service
+        boolean result = appointment != null;
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
+    }
 }
 

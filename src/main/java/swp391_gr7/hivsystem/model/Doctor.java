@@ -6,19 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "doctors")
-public class Doctor {
+public class Doctor{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "doctor_id")
+    private int DoctorId;
 
     @OneToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(name = "department", nullable = false)
@@ -30,4 +32,7 @@ public class Doctor {
     @Column(name = "license_number", nullable = false, unique = true)
     private String licenseNumber;
 
+    @OneToMany
+    @JoinColumn(name = "appointment_id")
+    private List<Appointment> appointment;
 }

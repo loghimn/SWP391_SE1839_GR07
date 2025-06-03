@@ -5,15 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Customer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Customer{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "customer_id")
+    private int customerId;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -21,5 +24,9 @@ public class Customer {
 
     @Column(name = "address", nullable = false)
     private String address;
+
+    @OneToMany
+    @JoinColumn(name = "appointment_id")
+    private List<Appointment> appointments;
 
 }

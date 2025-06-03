@@ -30,6 +30,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/user/staff/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/doctor/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "user/appoint/register").permitAll()
                         .requestMatchers("/api/v1/home/register-customer",
                                 "/api/v1/home/register-staff",
                                 "/api/v1/home/register-manager",
