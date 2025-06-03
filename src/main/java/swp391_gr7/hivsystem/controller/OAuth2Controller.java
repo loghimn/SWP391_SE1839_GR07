@@ -56,13 +56,25 @@ public class OAuth2Controller {
         }
 
         try {
+            LocalDate dob = LocalDate.parse(request.getDateOfBirth());
+            int age = LocalDate.now().getYear() - dob.getYear();
+            if (dob.plusYears(age).isAfter(LocalDate.now())) {
+                age--; // Adjust if birthday hasn't occurred yet this year
+            }
+            if (age < 18) {
+                return ApiReponse.<String>builder()
+                        .message("User must be at least 18 years old")
+                        .result("fail")
+                        .build();
+            }
+
             User user = User.builder()
                     .username(request.getUsername())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .email(request.getEmail())
                     .phone(request.getPhone())
                     .fullName(request.getFullName())
-                    .dateOfBirth(LocalDate.parse(request.getDateOfBirth()))
+                    .dateOfBirth(dob)
                     .gender(request.getGender())
                     .role("CUSTOMER")
                     .build();

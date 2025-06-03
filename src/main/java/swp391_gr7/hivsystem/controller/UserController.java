@@ -11,6 +11,7 @@ import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.service.AuthenticationService;
 import swp391_gr7.hivsystem.service.UserService;
 
+import java.time.LocalDate;
 
 
 @RestController
@@ -25,8 +26,29 @@ public class UserController {
     //http://localhost:8080/user/create
     @PostMapping("/customer/register")
     public ApiReponse<Boolean> registerUserAndCustomer(@RequestBody UserAndCustomerCreateRequest request) {
-        boolean result = userService.registerUserAndCustomer(request); // gọi từ service
+        if (request.getDateOfBirth() == null) {
+            return ApiReponse.<Boolean>builder()
+                    .code(400)
+                    .message("Date of birth is required")
+                    .result(false)
+                    .build();
+        }
+        LocalDate dob = request.getDateOfBirth();
+        LocalDate now = LocalDate.now();
+        int age = now.getYear() - dob.getYear();
+        if (dob.plusYears(age).isAfter(now)) {
+            age--;
+        }
+        if (age < 18) {
+            return ApiReponse.<Boolean>builder()
+                    .code(400)
+                    .message("User must be at least 18 years old")
+                    .result(false)
+                    .build();
+        }
+        boolean result = userService.registerUserAndCustomer(request);
         return ApiReponse.<Boolean>builder()
+                .code(200)
                 .result(result)
                 .message("Success")
                 .build();
