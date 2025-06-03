@@ -54,12 +54,18 @@ public class OAuth2Controller {
                     .result("fail")
                     .build();
         }
+        if (userRepository.existsByUsername(request.getUsername())) {
+            return ApiReponse.<String>builder()
+                    .message("Username already exists")
+                    .result("fail")
+                    .build();
+        }
 
         try {
             LocalDate dob = LocalDate.parse(request.getDateOfBirth());
             int age = LocalDate.now().getYear() - dob.getYear();
             if (dob.plusYears(age).isAfter(LocalDate.now())) {
-                age--; // Adjust if birthday hasn't occurred yet this year
+                age--;
             }
             if (age < 18) {
                 return ApiReponse.<String>builder()

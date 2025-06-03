@@ -8,6 +8,7 @@ import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
 import swp391_gr7.hivsystem.dto.reponse.AuthenticationReponse;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.repository.UserRepository;
 import swp391_gr7.hivsystem.service.AuthenticationService;
 import swp391_gr7.hivsystem.service.UserService;
 
@@ -22,14 +23,24 @@ public class UserController {
     private UserService userService;
     @Autowired
     AuthenticationService authenticationService;
+    @Autowired
+    private UserRepository userRepository;
+
     //Create user
     //http://localhost:8080/user/create
-    @PostMapping("/customer/register")
+   @PostMapping("/customer/register")
     public ApiReponse<Boolean> registerUserAndCustomer(@RequestBody UserAndCustomerCreateRequest request) {
         if (request.getDateOfBirth() == null) {
             return ApiReponse.<Boolean>builder()
                     .code(400)
                     .message("Date of birth is required")
+                    .result(false)
+                    .build();
+        }
+        if (userRepository.existsByUsername(request.getUsername())) {
+            return ApiReponse.<Boolean>builder()
+                    .code(400)
+                    .message("Username already exists")
                     .result(false)
                     .build();
         }
