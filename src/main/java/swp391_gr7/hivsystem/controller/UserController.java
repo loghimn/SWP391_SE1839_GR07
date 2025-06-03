@@ -1,11 +1,14 @@
 package swp391_gr7.hivsystem.controller;
 
+import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
+import swp391_gr7.hivsystem.dto.reponse.AuthenticationReponse;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.service.AuthenticationService;
 import swp391_gr7.hivsystem.service.UserService;
 
 
@@ -16,6 +19,8 @@ import swp391_gr7.hivsystem.service.UserService;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    AuthenticationService authenticationService;
     //Create user
     //http://localhost:8080/user/create
     @PostMapping("/customer/register")
@@ -59,7 +64,7 @@ public class UserController {
     }
     //Update user by user id
     @PreAuthorize("hasRole('Admin')")
-    @PutMapping("/updtae/{userId}")
+    @PutMapping("/update/{userId}")
         public User updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
         return userService.updateUser(userId, request);
     }
@@ -71,5 +76,23 @@ public class UserController {
         userService.deleteUser(userId);
     }
     */
+    @PostMapping("/login")
+    ApiReponse<AuthenticationReponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
+        var result = authenticationService.authenticate(authenticationRequest);
+        System.out.println(result.isAuthenticated());
+        if(result.isAuthenticated() == false){
+            return ApiReponse.<AuthenticationReponse>builder()
+                    .code(403)
+                    .message("Sai pass hoac username ban oi")
+                    .build();
+        }
+
+        return ApiReponse.<AuthenticationReponse>builder()
+                //Cau truc tra ve json (mess, result(token, authen(Status auth))
+                .message("Authentication Successful")
+                .result(result)
+                .build();
+
+    }
 }
 

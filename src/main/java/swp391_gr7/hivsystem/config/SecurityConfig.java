@@ -25,11 +25,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //Permit Access endpoint
-                        .requestMatchers(HttpMethod.POST, "/user/customer/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/manager/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/staff/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/doctor/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/customer/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/manager/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/staff/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/doctor/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers("/api/v1/home/register-customer",
                                 "/api/v1/home/register-staff",
                                 "/api/v1/home/register-manager",
@@ -50,7 +50,7 @@ public class SecurityConfig {
                         )
                 );
 
-//Csrf -> cook
+//Csrf -> disable
         //http.csrf(csrf -> csrf.disable()); //
         return http.build();
     }
@@ -58,7 +58,7 @@ public class SecurityConfig {
     @Bean
         // define decode
     JwtDecoder jwtDecoder() {
-        SecretKeySpec secretKeySpec = new SecretKeySpec("secret_la_bi_mat_thoi-lam-on-chay-dum-tao".getBytes(), "HmacSHA256");
+        SecretKeySpec secretKeySpec = new SecretKeySpec("secret".getBytes(), "HmacSHA256");
         return NimbusJwtDecoder
                 .withSecretKey(secretKeySpec)
                 .macAlgorithm(MacAlgorithm.HS256)
