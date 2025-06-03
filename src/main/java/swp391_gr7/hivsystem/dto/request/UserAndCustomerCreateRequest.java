@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 //Get information create request form user
-public class UserCreateRequest {
+public class UserAndCustomerCreateRequest extends CreateUserRequest{
     private String username;
     private String password;
     private String email;

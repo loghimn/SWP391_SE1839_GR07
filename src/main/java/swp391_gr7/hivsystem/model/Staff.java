@@ -1,9 +1,17 @@
 package swp391_gr7.hivsystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "staffs")
 public class Staff {
 
@@ -12,7 +20,7 @@ public class Staff {
     private int id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column(name = "department", nullable = false)
@@ -24,53 +32,4 @@ public class Staff {
     @Column(name = "assigned_module", nullable = false)
     private String assignedModule;
 
-    public Staff(){
-    }
-
-    public Staff(User user, String department, int workShift, String assignedModule) {
-        this.user = user;
-        this.department = department;
-        this.workShift = workShift;
-        this.assignedModule = assignedModule;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public int getWorkShift() {
-        return workShift;
-    }
-
-    public void setWorkShift(int workShift) {
-        this.workShift = workShift;
-    }
-
-    public String getAssignedModule() {
-        return assignedModule;
-    }
-
-    public void setAssignedModule(String assignedModule) {
-        this.assignedModule = assignedModule;
-    }
 }

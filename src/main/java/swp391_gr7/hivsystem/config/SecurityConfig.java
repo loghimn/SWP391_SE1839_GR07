@@ -13,12 +13,7 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 import javax.crypto.spec.SecretKeySpec;
-import java.util.List;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -27,24 +22,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // Permit access
-                        .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                        //Permit Access endpoint
+                        .requestMatchers(HttpMethod.POST, "/user/customer/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/manager/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/staff/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/doctor/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(
-                                "/api/v1/home/register-customer",
+                        .requestMatchers("/api/v1/home/register-customer",
                                 "/api/v1/home/register-staff",
                                 "/api/v1/home/register-manager",
-                                "/api/v1/home/register-doctor",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
+                                "/swagger-ui.html",
+                                "/api/v1/home/register-doctor").permitAll()
                         .anyRequest().authenticated()
                 )
-                // Verify token
+
+
+        //Verify token
                 .oauth2ResourceServer(oauth2 ->
                         oauth2.jwt(jwt ->
                                 jwt
@@ -53,6 +50,8 @@ public class SecurityConfig {
                         )
                 );
 
+//Csrf -> cook
+        //http.csrf(csrf -> csrf.disable()); //
         return http.build();
     }
 
@@ -82,16 +81,4 @@ public class SecurityConfig {
         return converter;
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Địa chỉ FE
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // Quan trọng nếu frontend dùng cookie/session
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Áp dụng cho mọi URL
-        return source;
-    }
 }

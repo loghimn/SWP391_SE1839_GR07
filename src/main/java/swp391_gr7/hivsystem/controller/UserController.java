@@ -3,8 +3,8 @@ package swp391_gr7.hivsystem.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import swp391_gr7.hivsystem.dto.request.UserCreateRequest;
-import swp391_gr7.hivsystem.dto.request.UserUpdateRequest;
+import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
+import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.service.UserService;
 
@@ -12,16 +12,45 @@ import swp391_gr7.hivsystem.service.UserService;
 
 @RestController
 //CRUD
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
     //Create user
     //http://localhost:8080/user/create
-    @PostMapping("/create")
-    public User createUser(@RequestBody UserCreateRequest request) {
-        return userService.createUser(request);
+    @PostMapping("/customer/register")
+    public ApiReponse<Boolean> registerUserAndCustomer(@RequestBody UserAndCustomerCreateRequest request) {
+        boolean result = userService.registerUserAndCustomer(request); // gọi từ service
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
     }
+    @PostMapping("/doctor/register")
+    public ApiReponse<Boolean> registerUserAndDoctor(@RequestBody UserAndDoctorCreateRequest request) {
+        boolean result = userService.registerUserAndDoctor(request); // gọi từ service
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
+    }
+    @PostMapping("/manager/register")
+    public ApiReponse<Boolean> registerUserAndManager(@RequestBody UserAndManagerCreateRequest request) {
+        boolean result = userService.registerUserAndManager(request); // gọi từ service
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
+    }
+    @PostMapping("/staff/register")
+    public ApiReponse<Boolean> registerUserAndStaff(@RequestBody UserAndStaffCreateRequest request) {
+        boolean result = userService.registerUserAndStaff(request); // gọi từ service
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
+    }
+
     //Get user by id
     //http://localhost:8080/user/userId  id tu phat sinh
     @GetMapping("/{userId}")

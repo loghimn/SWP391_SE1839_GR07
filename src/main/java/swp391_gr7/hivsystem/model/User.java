@@ -48,6 +48,5 @@ public class User {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-    @Column(length = 20)
-        private String address;
+
 }
