@@ -66,6 +66,14 @@ public class OAuth2Controller {
                     .result("fail")
                     .build();
         }
+        String gender = request.getGender();
+        if (gender == null ||
+            !(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
+            return ApiReponse.<String>builder()
+                    .message("Gender must be 'male' or 'female'")
+                    .result("fail")
+                    .build();
+        }
 
         try {
             LocalDate dob = LocalDate.parse(request.getDateOfBirth());

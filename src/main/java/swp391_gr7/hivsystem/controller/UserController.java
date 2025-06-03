@@ -51,6 +51,15 @@ public class UserController {
                     .result(false)
                     .build();
         }
+        String gender = request.getGender();
+        if (gender == null ||
+            !(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
+            return ApiReponse.<Boolean>builder()
+                    .code(400)
+                    .message("Gender must be 'male' or 'female'")
+                    .result(false)
+                    .build();
+        }
         LocalDate dob = request.getDateOfBirth();
         LocalDate now = LocalDate.now();
         int age = now.getYear() - dob.getYear();
