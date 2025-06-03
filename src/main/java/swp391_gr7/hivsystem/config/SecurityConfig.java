@@ -13,8 +13,12 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -23,36 +27,29 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        // Permit các endpoint register và login
-                        .requestMatchers(HttpMethod.POST, "/api/user/customer/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/user/manager/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/user/staff/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/user/doctor/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                        .requestMatchers("/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/swagger-ui.html"
-                        ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/oauth2//loginSuccess").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
-                        .anyRequest().authenticated()
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> {}) // Use lambda, do not call .and()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.POST, "/api/user/customer/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/manager/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/staff/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/doctor/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/oauth2//loginSuccess").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
+                .anyRequest().authenticated()
+            )
+            .oauth2Login(oauth2 -> oauth2
+                .defaultSuccessUrl("/api/oauth2/loginSuccess", true)
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt
+                    .decoder(jwtDecoder())
+                    .jwtAuthenticationConverter(jwtAuthenticationConverter())
                 )
-                // ADD OAuth2 login
-                .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/api/oauth2/loginSuccess", true) // url xử lý sau login thành công
-                )
-                // Verify token JWT (Resource Server)
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .decoder(jwtDecoder())
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                        )
-                );
-        //Csrf -> disable
-        //http.csrf(csrf -> csrf.disable()); //
+            );
         return http.build();
     }
 
@@ -83,5 +80,16 @@ public class SecurityConfig {
         converter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return converter;
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:3000")); // FE domain
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true); // Nếu dùng cookie hoặc token trong header
 
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 }
