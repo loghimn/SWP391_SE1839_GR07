@@ -47,6 +47,9 @@ public class User {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+
     }
+    @Column(length = 10, nullable = false)
+    private boolean status;
 
 }

@@ -9,6 +9,8 @@ import swp391_gr7.hivsystem.model.Staff;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.Optional;
+
 public interface DoctorRepository extends CrudRepository<Doctor, Long> {
     Doctor findByLicenseNumber(String licenseNumber);
 

@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +13,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer{
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
-    private int customerId;
+    private int id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -26,7 +26,7 @@ public class Customer{
     private String address;
 
     @OneToMany
+    @JsonIgnore
     @JoinColumn(name = "appointment_id")
     private List<Appointment> appointments;
-
 }

@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public class Doctor{
     private String licenseNumber;
 
     @OneToMany
+    @JsonIgnore
     @JoinColumn(name = "appointment_id")
-    private List<Appointment> appointment;
+    private List<Appointment> appointments;
 }
