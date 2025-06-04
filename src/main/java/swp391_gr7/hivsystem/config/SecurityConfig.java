@@ -27,29 +27,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> {}) // Use lambda, do not call .and()
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/api/user/customer/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/manager/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/staff/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/doctor/register").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/oauth2//loginSuccess").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
-                .anyRequest().authenticated()
-            )
-            .oauth2Login(oauth2 -> oauth2
-                .defaultSuccessUrl("/api/oauth2/loginSuccess", true)
-            )
-            .oauth2ResourceServer(oauth2 -> oauth2
-                .jwt(jwt -> jwt
-                    .decoder(jwtDecoder())
-                    .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> {
+                }) // Use lambda, do not call .and()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/api/user/customer/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/manager/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/staff/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/doctor/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/oauth2//loginSuccess").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
+                        .requestMatchers(HttpMethod.POST, "user/appoint/register").permitAll()
+                        .anyRequest().authenticated()
                 )
-            );
+                .oauth2Login(oauth2 -> oauth2
+                        .defaultSuccessUrl("/api/oauth2/loginSuccess", true)
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt
+                                .decoder(jwtDecoder())
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                        )
+                );
         return http.build();
     }
 
@@ -80,6 +82,7 @@ public class SecurityConfig {
         converter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
         return converter;
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
