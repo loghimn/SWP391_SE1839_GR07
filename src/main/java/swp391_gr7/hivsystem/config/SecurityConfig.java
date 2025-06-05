@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
                         .requestMatchers(HttpMethod.POST, "user/customer/appoint/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "user/customer/appoint/list").permitAll()
+                        .requestMatchers(HttpMethod.GET, "user/customer/appoint/list/notanonymus").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

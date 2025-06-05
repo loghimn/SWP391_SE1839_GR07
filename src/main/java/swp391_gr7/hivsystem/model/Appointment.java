@@ -23,13 +23,13 @@ public class Appointment {
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "doctor_id ", nullable = false)
     private Doctor doctor;
 
     private LocalDate appointmentTime;  // bỏ length, LocalDate không cần length
 
     private boolean status;  // boolean không cần length
 
-    private boolean isAnonymous;  // boolean không cần length
+    private boolean anonymous;  // boolean không cần length
 }
 

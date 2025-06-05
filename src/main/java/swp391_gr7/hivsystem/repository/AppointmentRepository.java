@@ -10,4 +10,6 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
     @Override
     List<Appointment> findAll();
+    List<Appointment> findAllByAnonymous(boolean anonymous);
+    Appointment save(Appointment appointment);
 }

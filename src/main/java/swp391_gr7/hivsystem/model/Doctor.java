@@ -3,7 +3,6 @@ package swp391_gr7.hivsystem.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +16,7 @@ import java.util.List;
 public class Doctor{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "doctor_id")
-    private int DoctorId;
+    private int id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -30,11 +28,11 @@ public class Doctor{
     @Column(name = "year_experience", nullable = false)
     private int yearExperience;
 
-    @Column(name = "license_number", nullable = false, unique = true)
+    @Column(name = "license_number", nullable = false)
     private String licenseNumber;
 
-    @OneToMany
+    @OneToMany(mappedBy = "doctor")
     @JsonIgnore
-    @JoinColumn(name = "appointment_id")
     private List<Appointment> appointments;
+
 }

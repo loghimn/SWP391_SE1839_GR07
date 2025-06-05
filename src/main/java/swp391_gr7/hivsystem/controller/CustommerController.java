@@ -37,9 +37,20 @@ public class CustommerController {
     public ApiReponse<List> appointmentList() {
         List <Appointment> appointmentList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
         boolean result = appointmentList != null;
+        String resultString = result ? "Success" : "Failed";
         return ApiReponse.<List>builder()
                 .result(appointmentList)
-                .message("Success")
+                .message(resultString)
+                .build();
+    }
+    @GetMapping("/appoint/list/notanonymus")
+    public ApiReponse<List> appointmentListEcceptAnonymous() {
+        List <Appointment> appointmentList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
+        boolean result = appointmentList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiReponse.<List>builder()
+                .result(appointmentList)
+                .message(resultString)
                 .build();
     }
 }

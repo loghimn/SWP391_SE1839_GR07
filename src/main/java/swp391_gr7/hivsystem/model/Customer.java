@@ -25,8 +25,8 @@ public class Customer {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany
+
+    @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    @JoinColumn(name = "appointment_id")
     private List<Appointment> appointments;
 }

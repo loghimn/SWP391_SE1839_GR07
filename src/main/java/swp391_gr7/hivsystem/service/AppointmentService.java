@@ -10,4 +10,5 @@ import java.util.List;
 public interface AppointmentService {
     public Appointment addAppointment(AppointmentCreateRequest request);
     public List<Appointment> getAllAppointmentsFullInfor();
+    public List<Appointment> getAllAppointmentsEcceptAnonymous();
 }

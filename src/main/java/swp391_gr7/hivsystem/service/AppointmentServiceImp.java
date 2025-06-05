@@ -33,23 +33,30 @@ public class AppointmentServiceImp implements AppointmentService {
         }
         //System.out.println(customer);
         // Lấy danh sách doctor, rồi lấy doctor đầu tiên (nếu có)
-        var doctor = doctorRepository.findDoctorByUsername(request.getDoctorsName());
+        System.out.println(request.getDoctorsName());
+        var doctor = doctorRepository.findDoctorByUser_Username(request.getDoctorsName());
+
         if (doctor.isEmpty()) {
             throw new RuntimeException("Doctor not found with name: " + request.getDoctorsName());
         }
         appointment.setCustomer(customer.get());
-       // System.out.println("-------------");
-        //System.out.println(doctor.toString());
         appointment.setDoctor(doctor.get());
         appointment.setAppointmentTime(request.getAppointmentTime());
         appointment.setStatus(request.isStatus());
+        System.out.println("-------------------");
+        System.out.println(request.isAnonymous());
         appointment.setAnonymous(request.isAnonymous());
-
+       // System.out.println("Im here");
         return appointmentRepository.save(appointment);
     }
     public List<Appointment> getAllAppointmentsFullInfor(){
         List<Appointment> list = appointmentRepository.findAll();
-       // System.out.println(list.size());
+        return list;
+    }
+
+    @Override
+    public List<Appointment> getAllAppointmentsEcceptAnonymous() {
+        List<Appointment> list = appointmentRepository.findAllByAnonymous(false);
         return list;
     }
 
