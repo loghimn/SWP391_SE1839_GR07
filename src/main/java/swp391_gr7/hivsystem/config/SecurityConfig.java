@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/oauth2//loginSuccess").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
-                        .requestMatchers(HttpMethod.POST, "user/appoint/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/customer/appoint/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
