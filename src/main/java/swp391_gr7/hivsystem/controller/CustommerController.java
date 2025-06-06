@@ -19,12 +19,12 @@ import java.util.List;
 
 @RestController
 //CRUD
-@RequestMapping("/user/customer")
+@RequestMapping("/api/user/customer")
 public class CustommerController {
     @Autowired
     public AppointmentService appointmentService;
 
-    @PostMapping("/appoint/register")
+    @PostMapping("/appoint/book")
     public ApiReponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
         Appointment appointment = appointmentService.addAppointment(request);// gọi từ service
         boolean result = appointment != null;
@@ -33,7 +33,7 @@ public class CustommerController {
                 .message("Success")
                 .build();
     }
-    @GetMapping("/appoint/list")
+    @GetMapping("/appoint/anonymous")
     public ApiReponse<List> appointmentList() {
         List <Appointment> appointmentList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
         boolean result = appointmentList != null;
@@ -43,7 +43,7 @@ public class CustommerController {
                 .message(resultString)
                 .build();
     }
-    @GetMapping("/appoint/list/notanonymus")
+    @GetMapping("/appoint")
     public ApiReponse<List> appointmentListEcceptAnonymous() {
         List <Appointment> appointmentList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
         boolean result = appointmentList != null;

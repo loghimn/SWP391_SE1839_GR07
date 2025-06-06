@@ -38,15 +38,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/oauth2/loginSuccess").permitAll()
+                      //  .requestMatchers(HttpMethod.GET, "/api/oauth2/loginSuccess").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
-                        .requestMatchers(HttpMethod.POST, "user/customer/appoint/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "user/customer/appoint/list").permitAll()
-                        .requestMatchers(HttpMethod.GET, "user/customer/appoint/list/notanonymus").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/customer/appoint/book").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/user/customer/appoint").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/user/customer/appoint/anonymous").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/api/oauth2/loginSuccess", true)
+                        .defaultSuccessUrl("/api/oauth2/loginSuccess", true).permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt

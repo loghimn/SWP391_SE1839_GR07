@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/oauth2")
+@RequestMapping("/api/oauth2")
 public class OAuth2Controller {
 
     @Autowired
