@@ -11,11 +11,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)// tu phat sinh id int
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// tu phat sinh id
+    @Column(name = "user_id")
     private Integer userId;
 
     @Column(length = 50, nullable = false, unique = true)
@@ -47,6 +47,9 @@ public class User {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+
     }
+    @Column(length = 10, nullable = false)
+    private boolean status;
 
 }

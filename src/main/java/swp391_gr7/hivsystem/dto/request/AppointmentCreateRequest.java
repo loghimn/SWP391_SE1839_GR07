@@ -10,9 +10,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentCreateRequest {
-    private int appointmentID;
+    //private int appointmentID;
     private String customerMail;
     private String doctorsName;
     private LocalDate appointmentTime;
     private boolean status;
+    private boolean anonymous;
 }

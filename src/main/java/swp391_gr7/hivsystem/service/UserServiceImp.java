@@ -38,6 +38,7 @@ public class UserServiceImp implements UserService {
         user.setFullName(request.getFullName());
         user.setDateOfBirth(request.getDateOfBirth());
         user.setGender(request.getGender());
+        user.setStatus(true);
         // Default role
         return userRepository.save(user);
     }

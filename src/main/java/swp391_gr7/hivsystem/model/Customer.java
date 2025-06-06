@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,8 @@ public class Customer {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany
-    @JoinColumn(name = "appointment_id")
+
+    @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Appointment> appointments;
 }

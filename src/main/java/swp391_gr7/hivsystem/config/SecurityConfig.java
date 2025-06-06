@@ -38,9 +38,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/oauth2//loginSuccess").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/oauth2/loginSuccess").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/customer/appoint/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "user/customer/appoint/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "user/customer/appoint/list").permitAll()
+                        .requestMatchers(HttpMethod.GET, "user/customer/appoint/list/notanonymus").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

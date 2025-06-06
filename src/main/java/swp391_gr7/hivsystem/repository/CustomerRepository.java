@@ -10,11 +10,15 @@ import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    @Query(value = "SELECT c.* FROM customer c JOIN users u ON c.user_id = u.user_id WHERE u.email = :mail", nativeQuery = true)
+    @Query(
+            value = "SELECT c.* FROM customer c JOIN users u ON c.user_id = u.user_id WHERE u.email = :mail",
+            nativeQuery = true)
     Optional<Customer> findCustomersByMail(@Param("mail") String mail);
 
     // Optional<Customer> findByEmail(String email);
 
-    @Query(value = "SELECT * FROM customer c JOIN users u ON c.user_id = u.user_id WHERE u.phone = :phone", nativeQuery = true)
+    @Query(
+            value = "SELECT * FROM customer c JOIN users u ON c.user_id = u.user_id WHERE u.phone = :phone",
+            nativeQuery = true)
     Optional<Customer> findCustomersByPhone(@Param("phone") String phone);
     }

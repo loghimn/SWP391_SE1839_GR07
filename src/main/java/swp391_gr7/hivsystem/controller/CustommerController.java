@@ -14,6 +14,7 @@ import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.service.AppointmentService;
 import swp391_gr7.hivsystem.service.UserService;
 
+import java.util.List;
 
 
 @RestController
@@ -32,5 +33,24 @@ public class CustommerController {
                 .message("Success")
                 .build();
     }
-
+    @GetMapping("/appoint/list")
+    public ApiReponse<List> appointmentList() {
+        List <Appointment> appointmentList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
+        boolean result = appointmentList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiReponse.<List>builder()
+                .result(appointmentList)
+                .message(resultString)
+                .build();
+    }
+    @GetMapping("/appoint/list/notanonymus")
+    public ApiReponse<List> appointmentListEcceptAnonymous() {
+        List <Appointment> appointmentList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
+        boolean result = appointmentList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiReponse.<List>builder()
+                .result(appointmentList)
+                .message(resultString)
+                .build();
+    }
 }
