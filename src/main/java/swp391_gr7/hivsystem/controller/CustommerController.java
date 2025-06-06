@@ -12,6 +12,7 @@ import swp391_gr7.hivsystem.dto.request.*;
         import swp391_gr7.hivsystem.model.Appointment;
 import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.service.AppointmentService;
+import swp391_gr7.hivsystem.service.AppointmentServiceImp;
 import swp391_gr7.hivsystem.service.UserService;
 
 import java.util.List;
@@ -28,6 +29,16 @@ public class CustommerController {
     public ApiReponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
         Appointment appointment = appointmentService.addAppointment(request);// gọi từ service
         boolean result = appointment != null;
+
+        if(appointment == null){
+            AppointmentServiceImp imp = new AppointmentServiceImp();
+            if(imp.error != null){
+                return  ApiReponse.<Boolean>builder()
+                        .result(result)
+                        .message(imp.error)
+                        .build();
+            }
+        }
         return ApiReponse.<Boolean>builder()
                 .result(result)
                 .message("Success")

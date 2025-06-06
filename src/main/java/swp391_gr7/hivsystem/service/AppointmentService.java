@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public interface AppointmentService {
+    //public String error = null;
     public Appointment addAppointment(AppointmentCreateRequest request);
     public List<Appointment> getAllAppointmentsFullInfor();
     public List<Appointment> getAllAppointmentsEcceptAnonymous();

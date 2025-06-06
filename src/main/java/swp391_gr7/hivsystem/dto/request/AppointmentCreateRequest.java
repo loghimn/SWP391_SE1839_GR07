@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentCreateRequest {
-    //private int appointmentID;
+    //private int appointmentID; vi id tu generate ra
     private String customerMail;
     private String doctorsName;
     private LocalDate appointmentTime;
