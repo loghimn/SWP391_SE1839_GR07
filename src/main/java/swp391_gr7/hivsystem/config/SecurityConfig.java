@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/customer/appoint/book").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/user/customer/appoint").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/user/customer/appoint/anonymous").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/reminder/create").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
