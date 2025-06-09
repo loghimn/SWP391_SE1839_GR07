@@ -6,9 +6,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.*;
+import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
+
+import java.time.LocalDate;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -19,13 +22,16 @@ public class UserServiceImp implements UserService {
     private final DoctorServiceImp doctorService;
     private final ManagerServiceImp managerService;
     private final StaffServiceImp staffService;
+    private final CustomerRepository customerRepository;
+
     @Autowired
-    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, ManagerServiceImp managerService1, StaffServiceImp staffService) {
+    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, ManagerServiceImp managerService1, StaffServiceImp staffService, CustomerRepository customerRepository) {
         this.userRepository = userRepository;
         this.customerService = customerService;
         this.doctorService = doctorService;
         this.managerService = managerService;
         this.staffService = staffService;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -43,12 +49,52 @@ public class UserServiceImp implements UserService {
         return userRepository.save(user);
     }
 
+
+    @Override
     public boolean registerUserAndCustomer(UserAndCustomerCreateRequest request) {
-        User user = this.createUser(request);
-        user.setRole("Customer");
-        System.out.println(user);
-        Customer customer = customerService.saveCustomer(request, user);
-        return user != null && customer != null;
+        if (request.getDateOfBirth() == null) {
+            return false;
+        }
+        if (userRepository.existsByUsername(request.getUsername())) {
+            return false;
+        }
+        if (userRepository.existsByPhone(request.getPhone())) {
+            return false;
+        }
+        String gender = request.getGender();
+        if (gender == null || !(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
+            return false;
+        }
+        LocalDate dob = request.getDateOfBirth();
+        LocalDate now = LocalDate.now();
+        int age = now.getYear() - dob.getYear();
+        if (dob.plusYears(age).isAfter(now)) {
+            age--;
+        }
+        if (age < 18) {
+            return false;
+        }
+        try {
+            User user = User.builder()
+                    .username(request.getUsername())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .email(request.getEmail())
+                    .phone(request.getPhone())
+                    .fullName(request.getFullName())
+                    .dateOfBirth(dob)
+                    .gender(request.getGender())
+                    .role("CUSTOMER")
+                    .build();
+
+            Customer customer = new Customer();
+            customer.setUser(user);
+            customer.setAddress(request.getAddress());
+
+            customerRepository.save(customer);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -79,7 +125,6 @@ public class UserServiceImp implements UserService {
     }
 
 
-
     public User findUserByUserId(int userId) {
         return userRepository.findByUserId(userId);
     }
@@ -96,4 +141,5 @@ public class UserServiceImp implements UserService {
         user.setGender(request.getGender());
         return userRepository.save(user);
     }
+
 }

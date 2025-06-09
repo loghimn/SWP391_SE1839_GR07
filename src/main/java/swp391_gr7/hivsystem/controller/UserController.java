@@ -28,56 +28,13 @@ public class UserController {
 
     //Create user
     //http://localhost:8080/user/create
-    @PostMapping("/customer/register")
+   @PostMapping("/customer/register")
     public ApiReponse<Boolean> registerUserAndCustomer(@RequestBody UserAndCustomerCreateRequest request) {
-        if (request.getDateOfBirth() == null) {
-            return ApiReponse.<Boolean>builder()
-                    .code(400)
-                    .message("Date of birth is required")
-                    .result(false)
-                    .build();
-        }
-        if (userRepository.existsByUsername(request.getUsername())) {
-            return ApiReponse.<Boolean>builder()
-                    .code(400)
-                    .message("Username already exists")
-                    .result(false)
-                    .build();
-        }
-        if (userRepository.existsByPhone(request.getPhone())) {
-            return ApiReponse.<Boolean>builder()
-                    .code(400)
-                    .message("Phone number already exists")
-                    .result(false)
-                    .build();
-        }
-        String gender = request.getGender();
-        if (gender == null ||
-            !(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
-            return ApiReponse.<Boolean>builder()
-                    .code(400)
-                    .message("Gender must be 'male' or 'female'")
-                    .result(false)
-                    .build();
-        }
-        LocalDate dob = request.getDateOfBirth();
-        LocalDate now = LocalDate.now();
-        int age = now.getYear() - dob.getYear();
-        if (dob.plusYears(age).isAfter(now)) {
-            age--;
-        }
-        if (age < 18) {
-            return ApiReponse.<Boolean>builder()
-                    .code(400)
-                    .message("User must be at least 18 years old")
-                    .result(false)
-                    .build();
-        }
         boolean result = userService.registerUserAndCustomer(request);
         return ApiReponse.<Boolean>builder()
-                .code(200)
+                .code(result ? 200 : 400)
                 .result(result)
-                .message("Success")
+                .message(result ? "Success" : "Registration failed")
                 .build();
     }
 

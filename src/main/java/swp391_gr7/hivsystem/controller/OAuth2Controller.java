@@ -19,6 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.view.RedirectView;
+import swp391_gr7.hivsystem.service.OAuth2Service;
+import swp391_gr7.hivsystem.service.OAuth2ServiceImp;
+import swp391_gr7.hivsystem.service.UserService;
+import swp391_gr7.hivsystem.service.UserServiceImp;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -26,16 +30,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/oauth2")
 public class OAuth2Controller {
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserServiceImp userServiceImp;
+    @Autowired
+    private OAuth2Service oAuth2Service;
 
     public OAuth2Controller(UserRepository userRepository, CustomerRepository customerRepository) {
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
+
     }
 
 
@@ -47,75 +56,12 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/user/google/register")
-    public ApiReponse<String> registerGoogleUser(@RequestBody GoogleRegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            return ApiReponse.<String>builder()
-                    .message("Email already exists")
-                    .result("fail")
-                    .build();
-        }
-        if (userRepository.existsByUsername(request.getUsername())) {
-            return ApiReponse.<String>builder()
-                    .message("Username already exists")
-                    .result("fail")
-                    .build();
-        }
-        if (userRepository.existsByPhone(request.getPhone())) {
-            return ApiReponse.<String>builder()
-                    .message("Phone number already exists")
-                    .result("fail")
-                    .build();
-        }
-        String gender = request.getGender();
-        if (gender == null ||
-            !(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))) {
-            return ApiReponse.<String>builder()
-                    .message("Gender must be 'male' or 'female'")
-                    .result("fail")
-                    .build();
-        }
-
-        try {
-            LocalDate dob = LocalDate.parse(request.getDateOfBirth());
-            int age = LocalDate.now().getYear() - dob.getYear();
-            if (dob.plusYears(age).isAfter(LocalDate.now())) {
-                age--;
-            }
-            if (age < 18) {
-                return ApiReponse.<String>builder()
-                        .message("User must be at least 18 years old")
-                        .result("fail")
-                        .build();
-            }
-
-            User user = User.builder()
-                    .username(request.getUsername())
-                    .password(passwordEncoder.encode(request.getPassword()))
-                    .email(request.getEmail())
-                    .phone(request.getPhone())
-                    .fullName(request.getFullName())
-                    .dateOfBirth(dob)
-                    .gender(request.getGender())
-                    .role("CUSTOMER")
-                    .build();
-
-            Customer customer = new Customer();
-            customer.setUser(user);
-            customer.setAddress(request.getAddress());
-
-            customerRepository.save(customer);
-
-            return ApiReponse.<String>builder()
-                    .message("Google account registered successfully")
-                    .result("success")
-                    .build();
-
-        } catch (Exception e) {
-            return ApiReponse.<String>builder()
-                    .message("Registration failed: " + e.getMessage())
-                    .result("fail")
-                    .build();
-        }
+    public ApiReponse<Boolean> registerGoogleUser(@RequestBody GoogleRegisterRequest request) {
+        boolean result = oAuth2Service.registerGoogleUsers(request);
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message(result ? "Google account registered successfully" : "Registration failed")
+                .build();
     }
 
     @GetMapping("/check-email")
