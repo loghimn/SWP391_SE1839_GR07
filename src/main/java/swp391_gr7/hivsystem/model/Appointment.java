@@ -26,6 +26,10 @@ public class Appointment {
     @JoinColumn(name = "doctor_id ", nullable = false)
     private Doctor doctor;
 
+    @ManyToOne
+    @JoinColumn(name = "staff_id ", nullable = false)
+    private Staff staff;
+
     private LocalDate appointmentTime;  // bỏ length, LocalDate không cần length
 
     private boolean status;  // boolean không cần length

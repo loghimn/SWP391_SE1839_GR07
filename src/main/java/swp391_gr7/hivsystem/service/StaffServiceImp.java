@@ -9,14 +9,16 @@ import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class StaffServiceImp implements StaffService {
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    private  StaffRepository staffRepository;
+    private StaffRepository staffRepository;
     @Autowired
-    private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Staff saveStaff(UserAndStaffCreateRequest request, User user) {
@@ -27,6 +29,27 @@ public class StaffServiceImp implements StaffService {
         staff.setAssignedModule(request.getAssignedModule());
         return staffRepository.save(staff);
 
+    }
+
+    // Tim Staff co lich thap nhat
+    @Override
+    public Staff findStaffHasLeastAppointment() {
+        List<Staff> staffs = staffRepository.findAllStaff();
+        Staff staff = null;
+        if (staffs.size() == 1) {
+            return staffs.get(0);
+        }
+        for (int i = 0; i < staffs.size(); i++) {
+            staff = staffs.get(i);
+            if (staff.getAppointments().size() == 0) {
+                return staff;
+            }
+            Staff staffNext = staffs.get(i + 1);
+            if (staff.getAppointments().size() > staffNext.getAppointments().size()) {
+                staff = staffNext;
+            }
+        }
+        return staff;
     }
 
 }

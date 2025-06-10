@@ -1,10 +1,13 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Entity
@@ -31,5 +34,9 @@ public class Staff {
 
     @Column(name = "assigned_module", nullable = false)
     private String assignedModule;
+
+    @OneToMany(mappedBy = "staff")
+    @JsonIgnore
+    private List<Appointment> appointments;
 
 }

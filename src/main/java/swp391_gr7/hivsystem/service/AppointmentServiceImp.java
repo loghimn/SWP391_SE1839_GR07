@@ -7,9 +7,11 @@ import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
 import swp391_gr7.hivsystem.model.Appointment;
 import swp391_gr7.hivsystem.model.Customer;
 import swp391_gr7.hivsystem.model.Doctor;
+import swp391_gr7.hivsystem.model.Staff;
 import swp391_gr7.hivsystem.repository.AppointmentRepository;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
+import swp391_gr7.hivsystem.repository.StaffRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,7 +26,11 @@ public class AppointmentServiceImp implements AppointmentService {
     private DoctorRepository doctorRepository;
     @Autowired
     CustomerRepository customerRepository;
-   public static String error = "";
+    public static String error = "";
+    @Autowired
+    private StaffRepository staffRepository;
+    @Autowired
+    private StaffService staffService;
 
     @Override
     public Appointment addAppointment(AppointmentCreateRequest request) {
@@ -65,7 +71,6 @@ public class AppointmentServiceImp implements AppointmentService {
             System.out.println(error);
             return null;
         }
-
         // Tạo mới appointment nếu không có lỗi
         Appointment appointment = new Appointment();
         appointment.setCustomer(customer);
@@ -73,10 +78,16 @@ public class AppointmentServiceImp implements AppointmentService {
         appointment.setAppointmentTime(request.getAppointmentTime());
         appointment.setStatus(request.isStatus());
         appointment.setAnonymous(request.isAnonymous());
-
+        Staff staff = staffService.findStaffHasLeastAppointment();
+        appointment.setStaff(staff);
         return appointmentRepository.save(appointment);
     }
 
+
+
+
+
+    //Tra full lít
     public List<Appointment> getAllAppointmentsFullInfor(){
         List<Appointment> list = appointmentRepository.findAll();
         return list;
