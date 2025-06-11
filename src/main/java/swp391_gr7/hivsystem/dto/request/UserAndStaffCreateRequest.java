@@ -10,13 +10,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAndStaffCreateRequest extends CreateUserRequest{
-        private String username;
-        private String password;
-        private String email;
-        private String phone;
-        private String fullName;
-        private LocalDate dateOfBirth;
-        private String gender;
         private String department;
         private int workShift;
         private String assignedModule;

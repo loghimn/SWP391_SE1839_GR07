@@ -125,12 +125,14 @@ public class UserServiceImp implements UserService {
     }
 
 
+
     public User findUserByUserId(int userId) {
         return userRepository.findByUserId(userId);
     }
 
-    public User updateUser(int userId, UserUpdateRequest request) {
-        User user = findUserByUserId(userId);
+
+
+    public User updateUser(UserUpdateRequest request, User user) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
@@ -141,5 +143,20 @@ public class UserServiceImp implements UserService {
         user.setGender(request.getGender());
         return userRepository.save(user);
     }
+
+    @Override
+    public boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request) {
+        User user = findUserByUserId(userId);
+        this.updateUser(request, user);
+        Doctor doctor = doctorService.updateDoctor(request, user);
+        return user != null && doctor != null;
+    }
+
+    public User deleteUser(int userId) {
+        User user = findUserByUserId(userId);
+        user.setStatus(false);
+        return userRepository.save(user);
+    }
+
 
 }
