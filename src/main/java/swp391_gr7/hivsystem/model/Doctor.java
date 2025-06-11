@@ -16,8 +16,9 @@ import java.util.List;
 public class Doctor{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    @Column(name = "doctor_id")
+    private int doctorId;
+//
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -30,9 +31,28 @@ public class Doctor{
 
     @Column(name = "license_number", nullable = false)
     private String licenseNumber;
-
+//
     @OneToMany(mappedBy = "doctor")
     @JsonIgnore
     private List<Appointment> appointments;
-
+//
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<Schedules> schedules ;
+//
+    @ManyToOne
+    @JoinColumn(name = "manager_id", nullable = false)
+    private Manager manager;
+//
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<TreatmentPlans> treatmentPlans;
+    //
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<Consultations> consultations;
+//
+    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    private List<TestResults> testResults;
 }

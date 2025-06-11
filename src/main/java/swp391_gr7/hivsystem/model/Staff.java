@@ -21,8 +21,9 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "staff_id")
     private int staffId;
+//
+    @OneToOne(fetch = FetchType.LAZY)
 
-    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -32,11 +33,20 @@ public class Staff {
     @Column(name = "work_shift", nullable = false)
     private int workShift;
 
-    @Column(name = "assigned_module", nullable = false)
-    private String assignedModule;
-
+    @Column(name = "assigned_area", nullable = false)
+    private String assignedArea;
+//
     @OneToMany(mappedBy = "staff")
     @JsonIgnore
     private List<Appointment> appointments;
 
+    //
+    @OneToMany(mappedBy = "staff")
+    @JsonIgnore
+    private List<Reminder> reminders;
+//
+    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "manager_id", nullable = false)
+    private Manager manager;
 }

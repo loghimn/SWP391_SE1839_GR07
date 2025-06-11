@@ -15,9 +15,11 @@ import java.time.LocalDate;
 public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "blog_id")
     private int blogID;
+//
+    @ManyToOne(fetch = FetchType.LAZY)
 
-    @ManyToOne
     @JoinColumn(name = "admin_id")
     private Admin admin;
 

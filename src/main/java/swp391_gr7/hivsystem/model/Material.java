@@ -16,8 +16,9 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialID;
+//
+    @ManyToOne(fetch = FetchType.LAZY)
 
-    @ManyToOne
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;
 
