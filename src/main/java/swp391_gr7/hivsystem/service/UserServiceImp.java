@@ -86,6 +86,7 @@ public class UserServiceImp implements UserService {
                     .dateOfBirth(dob)
                     .gender(request.getGender())
                     .role("CUSTOMER")
+                    .status(true)
                     .build();
 
             Customer customer = new Customer();
