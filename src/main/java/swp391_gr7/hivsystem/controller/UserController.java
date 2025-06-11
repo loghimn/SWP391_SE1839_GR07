@@ -28,7 +28,7 @@ public class UserController {
 
     //Create user
     //http://localhost:8080/user/create
-   @PostMapping("/customer/register")
+    @PostMapping("/customer/register")
     public ApiReponse<Boolean> registerUserAndCustomer(@RequestBody UserAndCustomerCreateRequest request) {
         boolean result = userService.registerUserAndCustomer(request);
         return ApiReponse.<Boolean>builder()
@@ -38,30 +38,34 @@ public class UserController {
                 .build();
     }
 
+
     @PostMapping("/doctor/register")
     public ApiReponse<Boolean> registerUserAndDoctor(@RequestBody UserAndDoctorCreateRequest request) {
-        boolean result = userService.registerUserAndDoctor(request); // gọi từ service
+        var result = userService.registerUserAndDoctor(request);
         return ApiReponse.<Boolean>builder()
+                .code(result ? 200 : 400)
                 .result(result)
-                .message("Success")
+                .message(result ? "Success" : "Registration failed")
                 .build();
     }
 
     @PostMapping("/manager/register")
     public ApiReponse<Boolean> registerUserAndManager(@RequestBody UserAndManagerCreateRequest request) {
-        boolean result = userService.registerUserAndManager(request); // gọi từ service
+        var result = userService.registerUserAndManager(request);
         return ApiReponse.<Boolean>builder()
+                .code(result ? 200 : 400)
                 .result(result)
-                .message("Success")
+                .message(result ? "Success" : "Registration failed")
                 .build();
     }
 
     @PostMapping("/staff/register")
     public ApiReponse<Boolean> registerUserAndStaff(@RequestBody UserAndStaffCreateRequest request) {
-        boolean result = userService.registerUserAndStaff(request); // gọi từ service
+        var result = userService.registerUserAndStaff(request);
         return ApiReponse.<Boolean>builder()
+                .code(result ? 200 : 400)
                 .result(result)
-                .message("Success")
+                .message(result ? "Success" : "Registration failed")
                 .build();
     }
 

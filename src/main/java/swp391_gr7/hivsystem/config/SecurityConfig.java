@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/staff/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/doctor/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/oauth2/user/google/register").permitAll()
                       //  .requestMatchers(HttpMethod.GET, "/api/oauth2/loginSuccess").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/oauth2/check-email").permitAll()

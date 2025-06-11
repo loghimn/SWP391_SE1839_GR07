@@ -69,10 +69,4 @@ public class OAuth2Controller {
         boolean exists = userRepository.existsByEmail(email);
         return Map.of("exists", exists);
     }
-    @GetMapping("/check-phone")
-    public Map<String, Boolean> checkPhoneExists(@RequestParam String phone) {
-        boolean exists = userRepository.existsByPhone(phone);
-        return Map.of("exists", exists);
-    }
-
 }
