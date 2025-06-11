@@ -12,6 +12,7 @@ public interface UserService {
     public boolean registerUserAndDoctor(UserAndDoctorCreateRequest request);
     public boolean registerUserAndManager(UserAndManagerCreateRequest request);
     public boolean registerUserAndStaff(UserAndStaffCreateRequest request);
+    public boolean registerUserAndAdmin(UserAndAdminCreateRequest request);
     public User findUserByUserId(int userId);
     public User updateUser(UserUpdateRequest request, User user);
     boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request);

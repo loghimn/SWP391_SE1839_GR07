@@ -7,24 +7,15 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
-import swp391_gr7.hivsystem.dto.reponse.AuthenticationReponse;
-import swp391_gr7.hivsystem.dto.reponse.OAuth2LoginResponse;
 import swp391_gr7.hivsystem.dto.request.GoogleRegisterRequest;
-import swp391_gr7.hivsystem.model.Customer;
-import swp391_gr7.hivsystem.model.User;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.view.RedirectView;
 import swp391_gr7.hivsystem.service.OAuth2Service;
-import swp391_gr7.hivsystem.service.OAuth2ServiceImp;
 import swp391_gr7.hivsystem.service.UserService;
 import swp391_gr7.hivsystem.service.UserServiceImp;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 @RestController

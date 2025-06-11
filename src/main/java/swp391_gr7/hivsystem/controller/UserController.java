@@ -69,6 +69,15 @@ public class UserController {
                 .build();
     }
 
+    @PostMapping("/admin/register")
+    public ApiReponse<Boolean> registerUserAndAdmin(@RequestBody UserAndAdminCreateRequest request) {
+        boolean result = userService.registerUserAndAdmin(request);
+        return ApiReponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
+    }
+
     //Get user by id
     //http://localhost:8080/user/userId  id tu phat sinh
     @GetMapping("/{userId}")

@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import swp391_gr7.hivsystem.model.Doctor;
 import swp391_gr7.hivsystem.model.Staff;
 import org.springframework.data.repository.CrudRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface StaffRepository extends CrudRepository<Staff, Long> {
     @Query(
             value = "SELECT s.* FROM staff s JOIN users u ON s.user_id = u.user_id WHERE u.username = :StaffName",
@@ -17,4 +19,8 @@ public interface StaffRepository extends CrudRepository<Staff, Long> {
     Optional<Doctor> findDoctorByUser_Username(@Param("staffName") String staffName);
     @Query("SELECT s FROM Staff s")
     List<Staff> findAllStaff();
+    @Query(
+            value = "SELECT s.* FROM staffs s JOIN users u ON s.user_id = u.user_id WHERE u.email = :mail",
+            nativeQuery = true)
+    Optional<Staff> findStaffByMail(@Param("mail") String email);
 }
