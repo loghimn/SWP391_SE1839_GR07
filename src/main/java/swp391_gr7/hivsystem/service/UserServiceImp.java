@@ -19,13 +19,16 @@ public class UserServiceImp implements UserService {
     private final DoctorServiceImp doctorService;
     private final ManagerServiceImp managerService;
     private final StaffServiceImp staffService;
+    private final AdminServiceImp adminService;
+
     @Autowired
-    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, ManagerServiceImp managerService1, StaffServiceImp staffService) {
+    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, ManagerServiceImp managerService1, StaffServiceImp staffService, AdminServiceImp adminService) {
         this.userRepository = userRepository;
         this.customerService = customerService;
         this.doctorService = doctorService;
         this.managerService = managerService;
         this.staffService = staffService;
+        this.adminService = adminService;
     }
 
     @Override
@@ -78,7 +81,14 @@ public class UserServiceImp implements UserService {
         return user != null && staff != null;
     }
 
-
+    @Override
+    public boolean registerUserAndAdmin(UserAndAdminCreateRequest request) {
+        User user = this.createUser(request);
+        user.setRole("Admin");
+        System.out.println(user);
+        Admin admin = adminService.saveAdmin(request, user);
+        return user != null && admin != null;
+    }
 
     public User findUserByUserId(int userId) {
         return userRepository.findByUserId(userId);
