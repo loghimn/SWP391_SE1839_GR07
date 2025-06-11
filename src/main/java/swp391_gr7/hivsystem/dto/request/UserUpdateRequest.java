@@ -18,6 +18,4 @@ public class UserUpdateRequest {
     private String fullName;
     private LocalDate dateOfBirth;
     private String gender;
-    //private String role; Notable to update role
-    private String address;
 }

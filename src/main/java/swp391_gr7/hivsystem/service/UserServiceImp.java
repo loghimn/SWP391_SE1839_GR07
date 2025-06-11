@@ -6,8 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.*;
-import swp391_gr7.hivsystem.repository.DoctorRepository;
-import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
 @Service
@@ -84,8 +82,9 @@ public class UserServiceImp implements UserService {
         return userRepository.findByUserId(userId);
     }
 
-    public User updateUser(int userId, UserUpdateRequest request) {
-        User user = findUserByUserId(userId);
+
+
+    public User updateUser(UserUpdateRequest request, User user) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
@@ -96,4 +95,19 @@ public class UserServiceImp implements UserService {
         user.setGender(request.getGender());
         return userRepository.save(user);
     }
+
+    @Override
+    public boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request) {
+        User user = findUserByUserId(userId);
+        this.updateUser(request, user);
+        Doctor doctor = doctorService.updateDoctor(request, user);
+        return user != null && doctor != null;
+    }
+
+    public User deleteUser(int userId) {
+        User user = findUserByUserId(userId);
+        user.setStatus(false);
+        return userRepository.save(user);
+    }
+
 }

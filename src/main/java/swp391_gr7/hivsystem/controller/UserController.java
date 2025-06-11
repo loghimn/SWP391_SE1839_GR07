@@ -115,12 +115,7 @@ public class UserController {
         return userService.findUserByUserId(userId);
     }
 
-    //Update user by user id
-    @PreAuthorize("hasRole('Admin')")
-    @PutMapping("/update/{userId}")
-    public User updateUser(@PathVariable int userId, @RequestBody UserUpdateRequest request) {
-        return userService.updateUser(userId, request);
-    }
+
 
     //Delete user by id
     /*
