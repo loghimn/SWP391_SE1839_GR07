@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
+import swp391_gr7.hivsystem.repository.ManagerRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -21,10 +22,12 @@ public class UserServiceImp implements UserService {
     private final ManagerServiceImp managerService;
     private final StaffServiceImp staffService;
     private final AdminServiceImp adminService;
+    private final ManagerRepository managerRepository;
 
     private final CustomerRepository customerRepository;
+
     @Autowired
-    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, StaffServiceImp staffService, AdminServiceImp adminService, CustomerRepository customerRepository) {
+    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, StaffServiceImp staffService, AdminServiceImp adminService, CustomerRepository customerRepository, ManagerRepository managerRepository) {
         this.userRepository = userRepository;
         this.customerService = customerService;
         this.doctorService = doctorService;
@@ -32,6 +35,7 @@ public class UserServiceImp implements UserService {
         this.staffService = staffService;
         this.adminService = adminService;
         this.customerRepository = customerRepository;
+        this.managerRepository = managerRepository;
     }
 
     @Override
@@ -87,13 +91,22 @@ public class UserServiceImp implements UserService {
                     .status(true)
                     .build();
 
+            // Save user first
+            users = userRepository.save(users);
+
+            Managers manager = managerRepository.findManagerById(1);
+            if (manager == null) {
+                return false; // Manager not found
+            }
+
             Customers customers = new Customers();
             customers.setUsers(users);
             customers.setAddress(request.getAddress());
-
+            customers.setManagers(manager);
             customerRepository.save(customers);
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
+            e.printStackTrace(); // Add this line to see the error in logs
             return false;
         }
     }
@@ -137,7 +150,6 @@ public class UserServiceImp implements UserService {
     public Users findUserByUserId(int userId) {
         return userRepository.findByUserId(userId);
     }
-
 
 
     public Users updateUser(UserUpdateRequest request, Users users) {

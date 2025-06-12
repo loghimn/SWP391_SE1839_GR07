@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffCreateRequest;
+import swp391_gr7.hivsystem.model.Managers;
 import swp391_gr7.hivsystem.model.Staffs;
 import swp391_gr7.hivsystem.model.Users;
+import swp391_gr7.hivsystem.repository.ManagerRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
@@ -19,13 +21,21 @@ public class StaffServiceImp implements StaffService {
     private StaffRepository staffRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ManagerRepository managerRepository;
 
     @Override
     public Staffs saveStaff(UserAndStaffCreateRequest request, Users users) {
+        Managers manager = managerRepository.findManagerById(1);
+        if (manager == null) {
+            return null; // Manager not found
+        }
         Staffs staffs = new Staffs();
         staffs.setUsers(users);
         staffs.setDepartment(request.getDepartment());
         staffs.setWorkShift(request.getWorkShift());
+        staffs.setAssignedArea(request.getAssignedArea());
+        staffs.setManagers(manager);
        // staff.setAssignedModule(request.getAssignedModule());
         return staffRepository.save(staffs);
 

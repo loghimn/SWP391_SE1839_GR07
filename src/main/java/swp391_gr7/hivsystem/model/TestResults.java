@@ -1,11 +1,17 @@
 package swp391_gr7.hivsystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "test_result")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TestResults {
 
     @Id

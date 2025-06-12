@@ -12,4 +12,5 @@ public interface AppointmentService {
     public Appointments addAppointment(AppointmentCreateRequest request);
     public List<Appointments> getAllAppointmentsFullInfor();
     public List<Appointments> getAllAppointmentsEcceptAnonymous();
+    String getErrorMessage();
 }

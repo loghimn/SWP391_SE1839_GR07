@@ -22,19 +22,39 @@ public class CustommerController {
     @Autowired
     public AppointmentService appointmentService;
 
+//    @PostMapping("/appoint/book")
+//    public ApiResponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
+//        Appointments appointments = appointmentService.addAppointment(request);// gọi từ service
+//        boolean result = appointments != null;
+//
+//        if(appointments == null){
+//            AppointmentServiceImp imp = new AppointmentServiceImp();
+//            if(imp.error != null){
+//                return  ApiResponse.<Boolean>builder()
+//                        .result(result)
+//                        .message(imp.error)
+//                        .build();
+//            }
+//        }
+//        return ApiResponse.<Boolean>builder()
+//                .result(result)
+//                .message("Success")
+//                .build();
+//    }
+
+
     @PostMapping("/appoint/book")
     public ApiResponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
-        Appointments appointments = appointmentService.addAppointment(request);// gọi từ service
+        Appointments appointments = appointmentService.addAppointment(request);
         boolean result = appointments != null;
 
-        if(appointments == null){
-            AppointmentServiceImp imp = new AppointmentServiceImp();
-            if(imp.error != null){
-                return  ApiResponse.<Boolean>builder()
-                        .result(result)
-                        .message(imp.error)
-                        .build();
-            }
+        if (!result) {
+            // Use the public getter from the injected bean
+            String errorMsg = appointmentService.getErrorMessage();
+            return ApiResponse.<Boolean>builder()
+                    .result(result)
+                    .message(errorMsg != null && !errorMsg.isEmpty() ? errorMsg : "Failed")
+                    .build();
         }
         return ApiResponse.<Boolean>builder()
                 .result(result)

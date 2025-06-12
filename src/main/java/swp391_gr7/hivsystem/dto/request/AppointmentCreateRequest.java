@@ -10,10 +10,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentCreateRequest {
-    //private int appointmentID; vi id tu generate ra
-    private String customerMail;
-    private String doctorsName;
+    private int customerId;
+    private int doctorId;
+    private int staffId;
     private LocalDate appointmentTime;
     private boolean status;
     private boolean anonymous;
+    private String appointmentType;
+    private int scheduleId;
+
 }

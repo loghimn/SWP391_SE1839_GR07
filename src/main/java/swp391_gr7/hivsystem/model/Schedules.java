@@ -5,14 +5,21 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "schedules")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Schedules {
    // scheduleID (PK)
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "schedule_id")
-   private Long scheduleID;
+   private int scheduleID;
 
     //doctorID : int (FK)
     @ManyToOne(fetch = FetchType.LAZY)

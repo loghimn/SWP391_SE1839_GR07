@@ -12,5 +12,5 @@ import java.time.LocalDate;
 public class UserAndStaffCreateRequest extends CreateUserRequest{
         private String department;
         private int workShift;
-        private String assignedModule;
+        private String assignedArea;
 }
