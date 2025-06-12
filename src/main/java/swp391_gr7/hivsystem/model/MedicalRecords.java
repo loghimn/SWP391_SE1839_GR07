@@ -20,10 +20,6 @@ public class MedicalRecords {
     private Long medicalRecordID;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointments appointments;
-
-    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
 

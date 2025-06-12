@@ -30,6 +30,10 @@ public class Appointments {
     @JoinColumn(name = "staff_id ", nullable = false)
     private Staffs staffs;
 
+    @ManyToOne
+    @JoinColumn(name = "medical_record_id ", nullable = false)
+    private MedicalRecords medicalRecords;
+
     @Column(name = "appointment_time")
     private LocalDate appointmentTime;  // bỏ length, LocalDate không cần length
 

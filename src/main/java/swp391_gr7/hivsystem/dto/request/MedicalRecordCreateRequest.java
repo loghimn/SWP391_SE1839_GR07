@@ -16,6 +16,4 @@ public class MedicalRecordCreateRequest {
     private String diagnosis;
     private String treatment;
     private LocalDate recordDate;
-
-
 }

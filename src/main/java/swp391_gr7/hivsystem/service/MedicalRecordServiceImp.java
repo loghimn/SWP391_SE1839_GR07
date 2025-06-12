@@ -19,9 +19,9 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
-    private DoctorRepository doctorRepository;
-    @Autowired
     private MedicalRecordRepository medicalRecordRepository;
+
+    private String error = "";
 
     @Override
     public List<MedicalRecords> getAll() {
@@ -35,24 +35,25 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
 
     @Override
     public MedicalRecords addMedicalRecord(MedicalRecordCreateRequest request) {
-        // Validate and fetch Customer
-        Optional<Customers> customerOpt = customerRepository.findById(request.getCustomerId());
-        if (customerOpt.isEmpty()) {
-            System.out.println("Customer not found with ID: " + request.getCustomerId());
+        error = "";
+
+        // Check if customer exists
+        Customers customer = customerRepository.findById(request.getCustomerId())
+                .orElse(null);
+        if (customer == null) {
+            error += "Customer not found. ";
             return null;
         }
 
-        // Validate and fetch Doctor
-        Optional<Doctors> doctorOpt = doctorRepository.findById(request.getDoctorId());
-        if (doctorOpt.isEmpty()) {
-            System.out.println("Doctor not found with ID: " + request.getDoctorId());
+        // Check if customer already has a medical record
+        Optional<MedicalRecords> existingRecord = medicalRecordRepository.findByCustomers(customer);
+        if (existingRecord.isPresent()) {
+            error += "Customer already has a medical record. ";
             return null;
         }
 
-        // Create new MedicalRecord
         MedicalRecords record = new MedicalRecords();
-        record.setCustomers(customerOpt.get());
-        //record.setDoctors(doctorOpt.get());
+        record.setCustomers(customer);
         record.setDiagnosis(request.getDiagnosis());
         record.setTreatment(request.getTreatment());
         record.setRecordDate(request.getRecordDate());
@@ -60,9 +61,37 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
         return medicalRecordRepository.save(record);
     }
 
+    @Override
+    public MedicalRecords updateMedicalRecord(int id, MedicalRecordCreateRequest request) {
+        error = "";
+
+        // Check if record exists
+        MedicalRecords existingRecord = medicalRecordRepository.findById(id)
+                .orElse(null);
+        if (existingRecord == null) {
+            error += "Medical record not found. ";
+            return null;
+        }
+
+        // Update fields
+        existingRecord.setDiagnosis(request.getDiagnosis());
+        existingRecord.setTreatment(request.getTreatment());
+        existingRecord.setRecordDate(request.getRecordDate());
+
+        return medicalRecordRepository.save(existingRecord);
+    }
 
     @Override
     public void deleteById(int id) {
-        medicalRecordRepository.deleteById(id);
+        try {
+            medicalRecordRepository.deleteById(id);
+        } catch (Exception e) {
+            error = "Failed to delete medical record: " + e.getMessage();
+        }
+    }
+
+    @Override
+    public String getError() {
+        return error;
     }
 }

@@ -24,6 +24,9 @@ public class AppointmentServiceImp implements AppointmentService {
     private StaffService staffService;
     @Autowired
     private ScheduleRepository scheduleRepository;
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+
 
     private String error = "";
 
@@ -86,6 +89,7 @@ public class AppointmentServiceImp implements AppointmentService {
         Doctors doctors = doctorRepository.findById((long) request.getDoctorId()).orElse(null);
         Staffs staffs = staffRepository.findById((long) request.getStaffId()).orElse(staffService.findStaffHasLeastAppointment());
         Schedules schedules = scheduleRepository.findById(request.getScheduleId()).orElse(null);
+        MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers).orElse(null);
 
         if (customers == null || doctors == null || schedules == null) {
             error += "Invalid customer, doctor, or schedule. ";
@@ -121,6 +125,7 @@ public class AppointmentServiceImp implements AppointmentService {
         appointments.setCustomers(customers);
         appointments.setDoctors(doctors);
         appointments.setStaffs(staffs);
+        appointments.setMedicalRecords(medicalRecord);
         appointments.setAppointmentTime(request.getAppointmentTime());
         appointments.setStatus(request.isStatus());
         appointments.setAnonymous(request.isAnonymous());
