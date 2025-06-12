@@ -18,7 +18,9 @@ public class TreatmentPlans {
 
     @Column(name = "plan_description", nullable = false)
     private String planDescription;
-    @Column(name = "arv_reqiment_id", nullable = false)
-    private int arvReqimentID ;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "arv_reqiment_id", nullable = false)
+    private ArvRegiments arvReqimentID ;
 
 }

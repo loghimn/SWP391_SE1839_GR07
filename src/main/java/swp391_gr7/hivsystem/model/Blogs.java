@@ -29,6 +29,11 @@ public class Blogs {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
     @Column(name = "createAt", nullable = false)
     private LocalDate createAt;
+
+
 }

@@ -27,10 +27,6 @@ public class MedicalRecords {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctors doctors;
-
     @Column(name = "diagnosis")
     private String diagnosis;
 

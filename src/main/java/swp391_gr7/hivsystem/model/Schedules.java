@@ -30,6 +30,8 @@ public class Schedules {
     @Column(name = "notes")
     private String notes;
 
-
+    @OneToMany(mappedBy = "schedules")
+    @JsonIgnore
+    private List<Appointments> appointments;
 
 }

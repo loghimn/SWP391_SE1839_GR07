@@ -28,6 +28,9 @@ public class Materials {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
+
     @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 

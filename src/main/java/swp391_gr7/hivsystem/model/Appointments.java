@@ -17,15 +17,15 @@ public class Appointments {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
     private int appointmentId;
-//
+    //
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
-//
+    //
     @ManyToOne
     @JoinColumn(name = "doctor_id ", nullable = false)
     private Doctors doctors;
-//
+    //
     @ManyToOne
     @JoinColumn(name = "staff_id ", nullable = false)
     private Staffs staffs;
@@ -41,6 +41,10 @@ public class Appointments {
 
     @Column(name = "appointment_type")
     private String appointmentType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_id", nullable = false)
+    private Schedules schedules;
 
 
 }

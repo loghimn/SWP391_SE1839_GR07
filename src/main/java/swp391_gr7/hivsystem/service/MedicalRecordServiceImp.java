@@ -52,7 +52,7 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
         // Create new MedicalRecord
         MedicalRecords record = new MedicalRecords();
         record.setCustomers(customerOpt.get());
-        record.setDoctors(doctorOpt.get());
+        //record.setDoctors(doctorOpt.get());
         record.setDiagnosis(request.getDiagnosis());
         record.setTreatment(request.getTreatment());
         record.setRecordDate(request.getRecordDate());
