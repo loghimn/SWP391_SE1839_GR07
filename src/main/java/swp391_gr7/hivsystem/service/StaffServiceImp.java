@@ -26,7 +26,7 @@ public class StaffServiceImp implements StaffService {
         staff.setUser(user);
         staff.setDepartment(request.getDepartment());
         staff.setWorkShift(request.getWorkShift());
-        staff.setAssignedModule(request.getAssignedModule());
+       // staff.setAssignedModule(request.getAssignedModule());
         return staffRepository.save(staff);
 
     }
@@ -35,21 +35,28 @@ public class StaffServiceImp implements StaffService {
     @Override
     public Staff findStaffHasLeastAppointment() {
         List<Staff> staffs = staffRepository.findAllStaff();
-        Staff staff = null;
-        if (staffs.size() == 1) {
-            return staffs.get(0);
+        if (staffs.isEmpty()) {
+            return null;
         }
-        for (int i = 0; i < staffs.size(); i++) {
-            staff = staffs.get(i);
-            if (staff.getAppointments().size() == 0) {
-                return staff;
-            }
-            Staff staffNext = staffs.get(i + 1);
-            if (staff.getAppointments().size() > staffNext.getAppointments().size()) {
-                staff = staffNext;
+
+        Staff minStaff = staffs.get(0);
+        int minAppointments = minStaff.getAppointments().size();
+
+        for (int i = 1; i < staffs.size(); i++) {
+            Staff current = staffs.get(i);
+            int currentAppointments = current.getAppointments().size();
+
+            if (currentAppointments < minAppointments) {
+                minStaff = current;
+                minAppointments = currentAppointments;
+
+                if (minAppointments == 0) {
+                    break; // không cần tìm tiếp
+                }
             }
         }
-        return staff;
+
+        return minStaff;
     }
 
 }

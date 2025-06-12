@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.MedicalRecordCreateRequest;
 import swp391_gr7.hivsystem.model.Customer;
 import swp391_gr7.hivsystem.model.Doctor;
-import swp391_gr7.hivsystem.model.MedicalRecord;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 import swp391_gr7.hivsystem.repository.MedicalRecordRepository;

@@ -1,0 +1,38 @@
+package swp391_gr7.hivsystem.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+public class Schedules {
+   // scheduleID (PK)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "schedule_id")
+   private Long scheduleID;
+
+    //doctorID : int (FK)
+    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "doctor_id ", nullable = false)
+    private Doctor doctor;
+
+    //
+    @ManyToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "managerID", nullable = false)
+    private Manager manager;
+    @Column(name = "work_date")
+    private LocalDate workDate;
+    @Column(name = "notes")
+    private String notes;
+    // n appointment
+    @OneToMany(mappedBy = "schedule")
+    @JsonIgnore
+    private List<Appointment> appointments;
+
+
+}

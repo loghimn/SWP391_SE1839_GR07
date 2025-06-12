@@ -1,7 +1,6 @@
 package swp391_gr7.hivsystem.service;
 
 import swp391_gr7.hivsystem.dto.request.MedicalRecordCreateRequest;
-import swp391_gr7.hivsystem.model.MedicalRecord;
 
 import java.util.List;
 import java.util.Optional;

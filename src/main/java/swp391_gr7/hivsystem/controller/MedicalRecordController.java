@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
 import swp391_gr7.hivsystem.dto.request.MedicalRecordCreateRequest;
-import swp391_gr7.hivsystem.model.MedicalRecord;
 import swp391_gr7.hivsystem.service.MedicalRecordService;
 
 import java.util.List;

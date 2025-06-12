@@ -16,8 +16,9 @@ public class Reminder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reminderID; // tên biến đặt chuẩn camel case
+//
+    @ManyToOne(fetch = FetchType.LAZY)
 
-    @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
@@ -32,8 +33,20 @@ public class Reminder {
 
     @Column(name = "status", nullable = false)
     private boolean status;
+//
+    @ManyToOne(fetch = FetchType.LAZY)
 
-    @ManyToOne
     @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
+//
+   /* @OneToOne
+    @JoinColumn(name = "appointment_id", nullable = false)
+    private Appointment appointment;
+//*/
+    @OneToOne(fetch = FetchType.LAZY)
+
+    @JoinColumn(name = "test_result_id", nullable = false)
+    private TestResults testResults;
+
+
 }
