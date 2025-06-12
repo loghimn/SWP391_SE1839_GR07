@@ -55,19 +55,4 @@ public class User {
 
     @JoinColumn(name = "customer_id")
     private Customer customer;
-  //
-  @OneToOne(fetch = FetchType.LAZY)
-
-  @JoinColumn(name = "doctor_id")
-  private Doctor doctor;
-  //
-  @OneToOne(fetch = FetchType.LAZY)
-
-  @JoinColumn(name = "manager_id")
-  private Manager manager;
-  //
-  @OneToOne(fetch = FetchType.LAZY)
-
-  @JoinColumn(name = "staff_id")
-  private Staff staff;
 }

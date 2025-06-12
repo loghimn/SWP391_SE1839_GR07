@@ -48,9 +48,9 @@ public class Appointment {
     @JoinColumn(name = "schedule_id ", nullable = false)
     private Schedules schedule;
 //Map 1 n voi testResults
-    @OneToOne(mappedBy = "appointment")
+    @OneToMany(mappedBy = "appointment")
     @JsonIgnore
-    private TestResults testResults;
+    private List <TestResults> testResults;
 
 //Map 1 1 voi consultation
     @OneToOne(mappedBy = "appointment")

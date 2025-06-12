@@ -18,14 +18,8 @@ public class TreatmentPlans {
 
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
-//
-    @OneToOne(fetch = FetchType.LAZY)
-
-    @JoinColumn(name = "test_result_id", unique = true)
-    private TestResults testResult;
 
     @OneToOne(fetch = FetchType.LAZY)
-
     @JoinColumn(name = "arvRegimentID", nullable = false)
     private ArvRegiments arvRegiment;
 

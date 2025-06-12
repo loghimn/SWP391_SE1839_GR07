@@ -39,10 +39,10 @@ public class TestResults {
 
     @JoinColumn(name = "cutomer_id")
     private Customer cutomer;
-
-    private boolean reExamination;
+@Column(name = "re_examination")
+    private boolean re_examination;
     //
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointment appointment;
     //
