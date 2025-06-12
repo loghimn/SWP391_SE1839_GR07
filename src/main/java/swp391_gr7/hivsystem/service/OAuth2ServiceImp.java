@@ -2,8 +2,8 @@ package swp391_gr7.hivsystem.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import swp391_gr7.hivsystem.dto.request.GoogleRegisterRequest;
-import swp391_gr7.hivsystem.model.Customer;
-import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.model.Customers;
+import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.OAuth2Repository;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class OAuth2ServiceImp implements OAuth2Service {
             if (dob.plusYears(age).isAfter(LocalDate.now())) age--;
             if (age < 18) return false;
 
-            User user = User.builder()
+            Users users = Users.builder()
                     .username(request.getUsername())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .email(request.getEmail())
@@ -47,11 +47,11 @@ public class OAuth2ServiceImp implements OAuth2Service {
                     .role("CUSTOMER")
                     .build();
 
-            Customer customer = new Customer();
-            customer.setUser(user);
-            customer.setAddress(request.getAddress());
+            Customers customers = new Customers();
+            customers.setUsers(users);
+            customers.setAddress(request.getAddress());
 
-            customerRepository.save(customer);
+            customerRepository.save(customers);
             return true;
         } catch (Exception e) {
             return false;

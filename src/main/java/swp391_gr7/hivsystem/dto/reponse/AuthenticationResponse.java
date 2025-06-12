@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//Cau truc api json reponse
-public class ApiReponse <T>{
-    private int code;
-    private String message;
-    private T result;
+//Response when authentication successfully
+public class AuthenticationResponse {
+    private String token;
+    boolean authenticated;
 }

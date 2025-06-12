@@ -18,15 +18,10 @@ import com.nimbusds.jwt.JWTClaimsSet;
 
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import swp391_gr7.hivsystem.dto.reponse.AuthenticationReponse;
+import swp391_gr7.hivsystem.dto.reponse.AuthenticationResponse;
 import swp391_gr7.hivsystem.dto.request.AuthenticationRequest;
-import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.repository.UserRepository;
-
-
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.Optional;
 
 
 @Slf4j
@@ -36,13 +31,13 @@ public class AuthenticationService {
     private static final String SECRET_KEY = "secret_la_bi_mat_thoi-lam-on-chay-dum-tao"; // tu tao
     @Autowired
     UserRepository userRepository;
-   public AuthenticationReponse authenticate(AuthenticationRequest authenticationRequest)
+   public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest)
            throws JOSEException {
         var user = userRepository.findByUsername(authenticationRequest.getUsername());
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         boolean result =  passwordEncoder.matches(authenticationRequest.getPassword(), user.get().getPassword());
         var token = generateToken(user.get().getUserId());
-        return AuthenticationReponse.builder()
+        return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(result)
                 .build();
@@ -50,11 +45,11 @@ public class AuthenticationService {
     //Token has three component:header, payload, signature
     private String generateToken(int userId) throws JOSEException {
        //Header of token
-        User user = userRepository.findByUserId(userId);
-        String role = user.getRole();
+        Users users = userRepository.findByUserId(userId);
+        String role = users.getRole();
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
+                .subject(users.getUsername())
                 .issuer("gr7")
                 .issueTime(new Date())
                 .expirationTime(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))

@@ -3,8 +3,9 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.MedicalRecordCreateRequest;
-import swp391_gr7.hivsystem.model.Customer;
-import swp391_gr7.hivsystem.model.Doctor;
+import swp391_gr7.hivsystem.model.Customers;
+import swp391_gr7.hivsystem.model.Doctors;
+import swp391_gr7.hivsystem.model.MedicalRecords;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 import swp391_gr7.hivsystem.repository.MedicalRecordRepository;
@@ -23,35 +24,35 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
     private MedicalRecordRepository medicalRecordRepository;
 
     @Override
-    public List<MedicalRecord> getAll() {
+    public List<MedicalRecords> getAll() {
         return medicalRecordRepository.findAll();
     }
 
     @Override
-    public Optional<MedicalRecord> getById(int id) {
+    public Optional<MedicalRecords> getById(int id) {
         return medicalRecordRepository.findById(id);
     }
 
     @Override
-    public MedicalRecord addMedicalRecord(MedicalRecordCreateRequest request) {
+    public MedicalRecords addMedicalRecord(MedicalRecordCreateRequest request) {
         // Validate and fetch Customer
-        Optional<Customer> customerOpt = customerRepository.findById(request.getCustomerId());
+        Optional<Customers> customerOpt = customerRepository.findById(request.getCustomerId());
         if (customerOpt.isEmpty()) {
             System.out.println("Customer not found with ID: " + request.getCustomerId());
             return null;
         }
 
         // Validate and fetch Doctor
-        Optional<Doctor> doctorOpt = doctorRepository.findById(request.getDoctorId());
+        Optional<Doctors> doctorOpt = doctorRepository.findById(request.getDoctorId());
         if (doctorOpt.isEmpty()) {
             System.out.println("Doctor not found with ID: " + request.getDoctorId());
             return null;
         }
 
         // Create new MedicalRecord
-        MedicalRecord record = new MedicalRecord();
-        record.setCustomer(customerOpt.get());
-        record.setDoctor(doctorOpt.get());
+        MedicalRecords record = new MedicalRecords();
+        record.setCustomers(customerOpt.get());
+        record.setDoctors(doctorOpt.get());
         record.setDiagnosis(request.getDiagnosis());
         record.setTreatment(request.getTreatment());
         record.setRecordDate(request.getRecordDate());

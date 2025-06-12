@@ -13,40 +13,24 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private int customerId;
-//
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
 
     @Column(name = "address", nullable = false)
     private String address;
-//
-    @OneToMany(mappedBy = "customer")
+
+    @OneToMany(mappedBy = "customers")
     @JsonIgnore
-    private List<Appointment> appointments;
-//
+    private List<Appointments> appointments;
+
     @ManyToOne
     @JoinColumn(name = "manager_id", nullable = false)
-    private Manager manager;
-//
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
-    private List<TestResults> testResults;
-//
-    @OneToOne
-    @JoinColumn(name = "medical_record_id")
-    private MedicalRecords medicalRecords;
-//
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
-    private List<Reminder> reminders;
-//
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnore
-    private List<Consultations> consultations;
+    private Managers managers;
 }

@@ -3,11 +3,10 @@ package swp391_gr7.hivsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
+import swp391_gr7.hivsystem.dto.reponse.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
-import swp391_gr7.hivsystem.model.Appointment;
-import swp391_gr7.hivsystem.model.Doctor;
-import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.model.Doctors;
+import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.service.DoctorService;
 import swp391_gr7.hivsystem.service.UserService;
 
@@ -28,28 +27,28 @@ public class ManagerController {
         return userService.updateUserAndDoctor(userId, request);
     }
     @GetMapping("/list/active")
-    public ApiReponse<List> DoctorsListActive() {
-        List <Doctor> DoctorListActive = doctorService.showAllDoctorsActive();
-        boolean result = DoctorListActive != null;
+    public ApiResponse<List> DoctorsListActive() {
+        List <Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
+        boolean result = doctorsListActive != null;
         String resultString = result ? "Success" : "Failed";
-        return ApiReponse.<List>builder()
-                .result(DoctorListActive)
+        return ApiResponse.<List>builder()
+                .result(doctorsListActive)
                 .message(resultString)
                 .build();
     }
     @GetMapping("/list/full")
-    public ApiReponse<List> DoctorsListFull() {
-        List <Doctor> DoctorListFull = doctorService.showAllDoctors();
-        boolean result = DoctorListFull!= null;
+    public ApiResponse<List> DoctorsListFull() {
+        List <Doctors> doctorsListFull = doctorService.showAllDoctors();
+        boolean result = doctorsListFull != null;
         String resultString = result ? "Success" : "Failed";
-        return ApiReponse.<List>builder()
-                .result(DoctorListFull)
+        return ApiResponse.<List>builder()
+                .result(doctorsListFull)
                 .message(resultString)
                 .build();
     }
 
     @PutMapping("/delete/{userId}")
-    public User deleteUser(@PathVariable int userId) {
+    public Users deleteUser(@PathVariable int userId) {
         return userService.deleteUser(userId);
     }
 }

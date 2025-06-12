@@ -18,21 +18,18 @@ public class Schedules {
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "doctor_id ", nullable = false)
-    private Doctor doctor;
+    private Doctors doctors;
 
     //
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "managerID", nullable = false)
-    private Manager manager;
+    private Managers managers;
     @Column(name = "work_date")
     private LocalDate workDate;
     @Column(name = "notes")
     private String notes;
-    // n appointment
-    @OneToMany(mappedBy = "schedule")
-    @JsonIgnore
-    private List<Appointment> appointments;
+
 
 
 }

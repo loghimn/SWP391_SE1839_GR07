@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
-import swp391_gr7.hivsystem.model.Customer;
-import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.model.Customers;
+import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
@@ -20,11 +20,11 @@ public class CustomerServiceImp implements CustomerService{
     private CustomerRepository customerRepository;
 
     @Override
-    public Customer saveCustomer(UserAndCustomerCreateRequest userAndCustomerCreateRequest, User user) {
-        Customer customer = new Customer();
-        customer.setUser(user);
-        customer.setAddress(userAndCustomerCreateRequest.getAddress());
-        return customerRepository.save(customer);
+    public Customers saveCustomer(UserAndCustomerCreateRequest userAndCustomerCreateRequest, Users users) {
+        Customers customers = new Customers();
+        customers.setUsers(users);
+        customers.setAddress(userAndCustomerCreateRequest.getAddress());
+        return customerRepository.save(customers);
     }
 
 }

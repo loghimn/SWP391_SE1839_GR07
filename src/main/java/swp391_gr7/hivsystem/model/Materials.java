@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Material {
+public class Materials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialID;
@@ -20,7 +20,7 @@ public class Material {
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "admin_id", nullable = false)
-    private Admin admin;
+    private Admins admins;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -28,7 +28,7 @@ public class Material {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "createAt", nullable = false)
+    @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 
 }

@@ -13,15 +13,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "doctors")
-public class Doctor{
+public class Doctors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctor_id")
     private int doctorId;
-//
+
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users users;
 
     @Column(name = "department", nullable = false)
     private String department;
@@ -31,28 +31,12 @@ public class Doctor{
 
     @Column(name = "license_number", nullable = false)
     private String licenseNumber;
-//
-    @OneToMany(mappedBy = "doctor")
-    @JsonIgnore
-    private List<Appointment> appointments;
-//
-    @OneToMany(mappedBy = "doctor")
-    @JsonIgnore
-    private List<Schedules> schedules ;
-//
+
     @ManyToOne
     @JoinColumn(name = "manager_id", nullable = false)
-    private Manager manager;
-//
-    @OneToMany(mappedBy = "doctor")
+    private Managers managers;
+
+    @OneToMany(mappedBy = "doctors", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<TreatmentPlans> treatmentPlans;
-    //
-    @OneToMany(mappedBy = "doctor")
-    @JsonIgnore
-    private List<Consultations> consultations;
-//
-    @OneToMany(mappedBy = "doctor")
-    @JsonIgnore
-    private List<TestResults> testResults;
+    private List<Appointments> appointments;
 }

@@ -1,20 +1,18 @@
 package swp391_gr7.hivsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "appointments")
-public class Appointment {
+public class Appointments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
@@ -22,15 +20,15 @@ public class Appointment {
 //
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private Customers customers;
 //
     @ManyToOne
     @JoinColumn(name = "doctor_id ", nullable = false)
-    private Doctor doctor;
+    private Doctors doctors;
 //
     @ManyToOne
     @JoinColumn(name = "staff_id ", nullable = false)
-    private Staff staff;
+    private Staffs staffs;
 
     @Column(name = "appointment_time")
     private LocalDate appointmentTime;  // bỏ length, LocalDate không cần length
@@ -43,18 +41,7 @@ public class Appointment {
 
     @Column(name = "appointment_type")
     private String appointmentType;
-//
-    @ManyToOne
-    @JoinColumn(name = "schedule_id ", nullable = false)
-    private Schedules schedule;
-//Map 1 n voi testResults
-    @OneToMany(mappedBy = "appointment")
-    @JsonIgnore
-    private List <TestResults> testResults;
 
-//Map 1 1 voi consultation
-    @OneToOne(mappedBy = "appointment")
-    @JoinColumn(name = "consultation_id", nullable = false)
-    private Consultations consultation;
+
 }
 

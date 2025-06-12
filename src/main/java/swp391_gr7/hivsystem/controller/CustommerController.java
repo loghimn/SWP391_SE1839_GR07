@@ -5,15 +5,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-        import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
+        import swp391_gr7.hivsystem.dto.reponse.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.*;
-        import swp391_gr7.hivsystem.model.Appointment;
-import swp391_gr7.hivsystem.model.User;
+        import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.service.AppointmentService;
 import swp391_gr7.hivsystem.service.AppointmentServiceImp;
-import swp391_gr7.hivsystem.service.UserService;
 
 import java.util.List;
 
@@ -26,41 +23,41 @@ public class CustommerController {
     public AppointmentService appointmentService;
 
     @PostMapping("/appoint/book")
-    public ApiReponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
-        Appointment appointment = appointmentService.addAppointment(request);// gọi từ service
-        boolean result = appointment != null;
+    public ApiResponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
+        Appointments appointments = appointmentService.addAppointment(request);// gọi từ service
+        boolean result = appointments != null;
 
-        if(appointment == null){
+        if(appointments == null){
             AppointmentServiceImp imp = new AppointmentServiceImp();
             if(imp.error != null){
-                return  ApiReponse.<Boolean>builder()
+                return  ApiResponse.<Boolean>builder()
                         .result(result)
                         .message(imp.error)
                         .build();
             }
         }
-        return ApiReponse.<Boolean>builder()
+        return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message("Success")
                 .build();
     }
     @GetMapping("/appoint/anonymous")
-    public ApiReponse<List> appointmentList() {
-        List <Appointment> appointmentList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
-        boolean result = appointmentList != null;
+    public ApiResponse<List> appointmentList() {
+        List <Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
+        boolean result = appointmentsList != null;
         String resultString = result ? "Success" : "Failed";
-        return ApiReponse.<List>builder()
-                .result(appointmentList)
+        return ApiResponse.<List>builder()
+                .result(appointmentsList)
                 .message(resultString)
                 .build();
     }
     @GetMapping("/appoint")
-    public ApiReponse<List> appointmentListEcceptAnonymous() {
-        List <Appointment> appointmentList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
-        boolean result = appointmentList != null;
+    public ApiResponse<List> appointmentListEcceptAnonymous() {
+        List <Appointments> appointmentsList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
+        boolean result = appointmentsList != null;
         String resultString = result ? "Success" : "Failed";
-        return ApiReponse.<List>builder()
-                .result(appointmentList)
+        return ApiResponse.<List>builder()
+                .result(appointmentsList)
                 .message(resultString)
                 .build();
     }

@@ -3,14 +3,13 @@ package swp391_gr7.hivsystem.service;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
-import swp391_gr7.hivsystem.model.Customer;
-import swp391_gr7.hivsystem.model.Reminder;
-import swp391_gr7.hivsystem.model.Staff;
+import swp391_gr7.hivsystem.model.Customers;
+import swp391_gr7.hivsystem.model.Reminders;
+import swp391_gr7.hivsystem.model.Staffs;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.ReminderRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
@@ -33,25 +32,25 @@ public class ReminderServiceImp implements ReminderService {
     public static String error = "";
 
     @Override
-    public Reminder addReminder(ReminderCreateRequest request) {
+    public Reminders addReminder(ReminderCreateRequest request) {
         // Khởi tạo chuỗi lỗi rỗng
         error = "";
         // xử lý customer
-        Optional<Customer> customerOpt = customerRepository.findCustomersByMail(request.getCustomerMail());
-        Customer customer = null;
+        Optional<Customers> customerOpt = customerRepository.findCustomersByMail(request.getCustomerMail());
+        Customers customers = null;
         if(customerOpt.isEmpty()) {
             error += "Customer not found with mail";
         } else {
-            customer = customerOpt.get();
+            customers = customerOpt.get();
         }
 
         // xử lý staff
-        Optional<Staff> staffOpt = staffRepository.findStaffByMail(request.getStaffMail());
-        Staff staff = null;
+        Optional<Staffs> staffOpt = staffRepository.findStaffByMail(request.getStaffMail());
+        Staffs staffs = null;
         if(staffOpt.isEmpty()) {
             error += ", Staff not found with mail";
         } else {
-            staff = staffOpt.get();
+            staffs = staffOpt.get();
         }
         if(!error.isEmpty()) {
             // Nếu có lỗi, in ra và trả null
@@ -59,51 +58,51 @@ public class ReminderServiceImp implements ReminderService {
             return null;
         }
         // Tạo mới Reminder nếu không có lỗi
-        Reminder reminder = new Reminder();
-        reminder.setCustomer(customer);
-        reminder.setStaff(staff);
-        reminder.setReminderType(request.getReminderType());
-        reminder.setReminderTime(request.getReminderTime());
-        reminder.setMessage(request.getMessage());
-        reminder.setStatus(false);
+        Reminders reminders = new Reminders();
+        reminders.setCustomers(customers);
+        reminders.setStaffs(staffs);
+        reminders.setReminderType(request.getReminderType());
+        reminders.setReminderTime(request.getReminderTime());
+        reminders.setMessage(request.getMessage());
+        reminders.setStatus(false);
 
-        return reminderRepository.save(reminder);
+        return reminderRepository.save(reminders);
     }
 
     @Override
-    public List<Reminder> getAllReminders() {
-        List<Reminder> reminderList = reminderRepository.findAll();
-        return reminderList;
+    public List<Reminders> getAllReminders() {
+        List<Reminders> remindersList = reminderRepository.findAll();
+        return remindersList;
     }
 
     @Override
     @Scheduled(fixedRate = 60000) // Chạy mỗi 1 phút
     public void sendDueReminder() {
         // Tìm reminder có status false và đến thời điểm nhắc nhở
-        List<Reminder> reminderDue = reminderRepository.findReminderStatusFalseAndReminderTimeBefore(LocalDateTime.now());
+        List<Reminders> remindersDue = reminderRepository.findReminderStatusFalseAndReminderTimeBefore(LocalDateTime.now());
 
         // Chạy vòng lặp để tìm reminder theo điều kiện
-        for(Reminder reminder : reminderDue) {
+        for(Reminders reminders : remindersDue) {
             try{
                 // tạo mimemesage
                 MimeMessage message = mailSender.createMimeMessage();
                 // lưu message vào helper
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
                 // Gửi đến người
-                helper.setTo(reminder.getCustomer().getUser().getEmail());
+                helper.setTo(reminders.getCustomers().getUsers().getEmail());
                 // Tiêu đề
-                helper.setSubject(reminder.getReminderType());
+                helper.setSubject(reminders.getReminderType());
                 // Nội dung
-                helper.setText(reminder.getMessage());
+                helper.setText(reminders.getMessage());
                 // Người gửi
-                helper.setFrom(reminder.getStaff().getUser().getEmail());
+                helper.setFrom(reminders.getStaffs().getUsers().getEmail());
 
                 // gửi đi
                 mailSender.send(message);
                 // gửi thành công, tự động đổi status thành true
-                reminder.setStatus(true);
+                reminders.setStatus(true);
                 // rồi lưu vào database
-                reminderRepository.save(reminder);
+                reminderRepository.save(reminders);
             }catch (Exception e) {
                 e.printStackTrace(); // in ra log lỗi
             }

@@ -2,9 +2,9 @@ package swp391_gr7.hivsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
+import swp391_gr7.hivsystem.dto.reponse.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
-import swp391_gr7.hivsystem.model.Reminder;
+import swp391_gr7.hivsystem.model.Reminders;
 import swp391_gr7.hivsystem.service.ReminderService;
 import swp391_gr7.hivsystem.service.ReminderServiceImp;
 
@@ -19,23 +19,23 @@ public class ReminderController {
 
     // đường dẫn đến tạo lịch nhắc (reminder)
     @PostMapping("/reminder/create")
-    public ApiReponse<Boolean> reminderCreate(@RequestBody ReminderCreateRequest request) {
-        Reminder reminder = reminderService.addReminder(request); // gọi từ service
+    public ApiResponse<Boolean> reminderCreate(@RequestBody ReminderCreateRequest request) {
+        Reminders reminders = reminderService.addReminder(request); // gọi từ service
         // kiểm tra reminder có null không, rồi gán vào biến result
-        boolean result = reminder != null;
+        boolean result = reminders != null;
 
-        if(reminder == null){
+        if(reminders == null){
             ReminderServiceImp reminderServiceImp = new ReminderServiceImp();
             // in ra lỗi đã thêm vào biến error ở bên ReminderServiceImp
             if(reminderServiceImp.error != null){
-                return  ApiReponse.<Boolean>builder()
+                return  ApiResponse.<Boolean>builder()
                         .result(result)
                         .message(reminderServiceImp.error)
                         .build();
             }
         }
         // Nếu tạo thành công, trả về tin nhắn success
-        return ApiReponse.<Boolean>builder()
+        return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message("Success")
                 .build();
@@ -43,11 +43,11 @@ public class ReminderController {
 
     // In ra danh sách Reminder có trong database
     @GetMapping("/reminder/list")
-    public ApiReponse<List> reminderList() {
-        List<Reminder> remindersList = reminderService.getAllReminders(); // Được gọi từ service
+    public ApiResponse<List> reminderList() {
+        List<Reminders> remindersList = reminderService.getAllReminders(); // Được gọi từ service
         boolean result = remindersList != null;
         String resultString = result ? "Success" : "Error";
-        return ApiReponse.<List>builder()
+        return ApiResponse.<List>builder()
                 .result(remindersList)
                 .message(resultString)
                 .build();
@@ -55,9 +55,9 @@ public class ReminderController {
 
     // Gửi Email theo lịch trong database
     @PostMapping("/reminder/send")
-    public ApiReponse<Boolean> sendReminder(){
+    public ApiResponse<Boolean> sendReminder(){
         reminderService.sendDueReminder();
-        return ApiReponse.<Boolean>builder()
+        return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
                 .build();

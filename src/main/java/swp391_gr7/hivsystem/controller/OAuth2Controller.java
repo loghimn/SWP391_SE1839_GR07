@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-import swp391_gr7.hivsystem.dto.reponse.ApiReponse;
+import swp391_gr7.hivsystem.dto.reponse.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.GoogleRegisterRequest;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
@@ -47,9 +47,9 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/user/google/register")
-    public ApiReponse<Boolean> registerGoogleUser(@RequestBody GoogleRegisterRequest request) {
+    public ApiResponse<Boolean> registerGoogleUser(@RequestBody GoogleRegisterRequest request) {
         boolean result = oAuth2Service.registerGoogleUsers(request);
-        return ApiReponse.<Boolean>builder()
+        return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message(result ? "Google account registered successfully" : "Registration failed")
                 .build();

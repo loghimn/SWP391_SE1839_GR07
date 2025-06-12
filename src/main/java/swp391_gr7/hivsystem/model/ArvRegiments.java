@@ -1,8 +1,15 @@
 package swp391_gr7.hivsystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "arv_regiments")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ArvRegiments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +24,7 @@ public class ArvRegiments {
     @Column(name = "default_dosage")
     private String defaultDosage;
 //
-    @OneToOne(fetch = FetchType.LAZY)
-
-    @JoinColumn(name = "treatment_plan_id")
-    private TreatmentPlans treatmentPlan;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctors doctors;
 }

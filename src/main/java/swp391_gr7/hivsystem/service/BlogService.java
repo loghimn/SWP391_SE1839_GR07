@@ -1,10 +1,10 @@
 package swp391_gr7.hivsystem.service;
 
 import swp391_gr7.hivsystem.dto.request.BlogCreateRequest;
-import swp391_gr7.hivsystem.model.Blog;
+import swp391_gr7.hivsystem.model.Blogs;
 
 public interface BlogService {
-    Blog addBlog(BlogCreateRequest request);
-    Blog updateInformationBlog(int id, Blog updateContent);
+    Blogs addBlog(BlogCreateRequest request);
+    Blogs updateInformationBlog(int id, Blogs updateContent);
     void deleteBlog(int id);
 }

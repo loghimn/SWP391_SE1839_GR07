@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)// tu phat sinh id
@@ -48,11 +48,7 @@ public class User {
         createdAt = LocalDateTime.now();
 
     }
-    @Column(length = 10, nullable = false)
+    @Column(nullable = false)
     private boolean status;
-//
-    @OneToOne(fetch = FetchType.LAZY)
 
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 }

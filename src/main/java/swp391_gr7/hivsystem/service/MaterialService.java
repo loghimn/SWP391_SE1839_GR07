@@ -1,10 +1,10 @@
 package swp391_gr7.hivsystem.service;
 
 import swp391_gr7.hivsystem.dto.request.MaterialCreateRequest;
-import swp391_gr7.hivsystem.model.Material;
+import swp391_gr7.hivsystem.model.Materials;
 
 public interface MaterialService {
-    Material addMaterial(MaterialCreateRequest request);
-    Material updateInformationMaterial(int id, Material updateContent);
+    Materials addMaterial(MaterialCreateRequest request);
+    Materials updateInformationMaterial(int id, Materials updateContent);
     void deleteMaterial(int id);
 }

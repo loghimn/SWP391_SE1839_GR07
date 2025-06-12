@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
-import swp391_gr7.hivsystem.model.Doctor;
-import swp391_gr7.hivsystem.model.User;
+import swp391_gr7.hivsystem.model.Doctors;
+import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
@@ -20,9 +20,9 @@ public class DoctorServiceImp implements DoctorService{
     private DoctorRepository doctorRepository;
 
     @Override
-    public Doctor saveDoctor(UserAndDoctorCreateRequest request, User user) {
-        Doctor doctoc = new Doctor();
-        doctoc.setUser(user);
+    public Doctors saveDoctor(UserAndDoctorCreateRequest request, Users users) {
+        Doctors doctoc = new Doctors();
+        doctoc.setUsers(users);
         doctoc.setDepartment(request.getDepartment());
         doctoc.setYearExperience(request.getYearExperience());
         doctoc.setLicenseNumber(request.getLicenseNumber());
@@ -30,19 +30,19 @@ public class DoctorServiceImp implements DoctorService{
     }
 
     @Override
-    public List<Doctor> showAllDoctors() {
+    public List<Doctors> showAllDoctors() {
         return doctorRepository.findAllDoctors();
     }
 
     @Override
-    public List<Doctor> showAllDoctorsActive() {
+    public List<Doctors> showAllDoctorsActive() {
         return doctorRepository.findAllDoctorActive();
     }
 
     @Override
-    public Doctor updateDoctor(UserAndDoctorUpdateRequest request, User user) {
-        Doctor doctoc = doctorRepository.findDoctorByUser_UserId(user.getUserId().toString()).get();
-        doctoc.setUser(user);
+    public Doctors updateDoctor(UserAndDoctorUpdateRequest request, Users users) {
+        Doctors doctoc = doctorRepository.findDoctorByUser_UserId(users.getUserId().toString()).get();
+        doctoc.setUsers(users);
         doctoc.setDepartment(request.getDepartment());
         doctoc.setYearExperience(request.getYearExperience());
         doctoc.setLicenseNumber(request.getLicenseNumber());

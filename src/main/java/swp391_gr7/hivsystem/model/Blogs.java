@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Blog {
+public class Blogs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "blog_id")
@@ -21,7 +21,7 @@ public class Blog {
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "admin_id")
-    private Admin admin;
+    private Admins admins;
 
     @Column(name = "title", nullable = false)
     private String title;

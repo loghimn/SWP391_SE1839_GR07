@@ -16,37 +16,30 @@ public class TestResults {
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private Customers customers;
 
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
-
+    private Doctors doctors;
+    @Column(name = "test_type")
     private String testType;
-
+    @Column(name = "result_value")
     private String resultValue;
-
+    @Column(name = "test_date")
     private LocalDate testDate;
-
+    @Column(name = "notes")
     private String notes;
     //
     @OneToOne
     @JoinColumn(name = "treatment_plan_id")
     private TreatmentPlans treatmentPlan;
     //
-    @ManyToOne(fetch = FetchType.LAZY)
-
-    @JoinColumn(name = "cutomer_id")
-    private Customer cutomer;
-@Column(name = "re_examination")
+    @Column(name = "re_examination")
     private boolean re_examination;
     //
     @ManyToOne
     @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointment appointment;
+    private Appointments appointments;
     //
-    @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private Staff staff;
 }

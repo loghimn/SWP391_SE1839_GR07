@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Reminder {
+public class Reminders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reminderID; // tên biến đặt chuẩn camel case
@@ -20,7 +20,7 @@ public class Reminder {
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private Customers customers;
 
     @Column(name = "reminderType", nullable = false)
     private String reminderType;
@@ -37,16 +37,14 @@ public class Reminder {
     @ManyToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "staff_id", nullable = false)
-    private Staff staff;
-//
-   /* @OneToOne
-    @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointment appointment;
-//*/
+    private Staffs staffs;
+
     @OneToOne(fetch = FetchType.LAZY)
 
     @JoinColumn(name = "test_result_id", nullable = false)
     private TestResults testResults;
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id", nullable = false)
+    private Appointments appointments;
 
 }
