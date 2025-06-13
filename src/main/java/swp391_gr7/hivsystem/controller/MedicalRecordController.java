@@ -2,7 +2,7 @@ package swp391_gr7.hivsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import swp391_gr7.hivsystem.dto.reponse.ApiResponse;
+import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.MedicalRecordCreateRequest;
 import swp391_gr7.hivsystem.model.MedicalRecords;
 import swp391_gr7.hivsystem.service.MedicalRecordService;

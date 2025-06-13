@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-        import swp391_gr7.hivsystem.dto.reponse.ApiResponse;
+        import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.*;
         import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.service.AppointmentService;
-import swp391_gr7.hivsystem.service.AppointmentServiceImp;
 
 import java.util.List;
 

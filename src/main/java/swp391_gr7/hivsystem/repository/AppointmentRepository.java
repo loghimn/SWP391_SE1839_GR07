@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AppointmentRepository extends JpaRepository<Appointments, Integer> {
+public interface AppointmentRepository extends JpaRepository<Appointments, Long> {
     @Override
     List<Appointments> findAll();
     List<Appointments> findAllByAnonymous(boolean anonymous);

@@ -18,7 +18,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
-import swp391_gr7.hivsystem.dto.reponse.AuthenticationResponse;
+import swp391_gr7.hivsystem.dto.response.AuthenticationResponse;
 import swp391_gr7.hivsystem.dto.request.AuthenticationRequest;
 import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.repository.UserRepository;

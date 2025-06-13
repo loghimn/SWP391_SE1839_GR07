@@ -1,4 +1,4 @@
-package swp391_gr7.hivsystem.dto.reponse;
+package swp391_gr7.hivsystem.dto.response;
 
 
 import lombok.AllArgsConstructor;
