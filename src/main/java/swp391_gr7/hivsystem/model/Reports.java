@@ -23,14 +23,15 @@ public class Reports {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")
-    private Long reportID;
+    private int reportID;
 //
     @ManyToOne(fetch = FetchType.LAZY)
-
     @JoinColumn(name = "manager_id", nullable = false)
     private Managers managers;
+
     @Column(name = "report_type")
     private String reportType;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }

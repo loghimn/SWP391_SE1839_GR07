@@ -10,8 +10,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MaterialCreateRequest {
-    private String adminMail;
+    private String doctorMail;
     private String title;
     private String content;
+    private String imageUrl;
+    private String source;
     private LocalDate createAt;
 }

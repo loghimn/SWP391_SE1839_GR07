@@ -7,4 +7,5 @@ public interface MaterialService {
     Materials addMaterial(MaterialCreateRequest request);
     Materials updateInformationMaterial(int id, Materials updateContent);
     void deleteMaterial(int id);
+    Materials getMaterialById(int id);
 }

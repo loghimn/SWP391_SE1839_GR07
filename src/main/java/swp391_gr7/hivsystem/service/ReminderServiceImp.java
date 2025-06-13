@@ -7,12 +7,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
-import swp391_gr7.hivsystem.model.Customers;
-import swp391_gr7.hivsystem.model.Reminders;
-import swp391_gr7.hivsystem.model.Staffs;
+import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.ReminderRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
+import swp391_gr7.hivsystem.repository.TestResultRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +28,8 @@ public class ReminderServiceImp implements ReminderService {
     private StaffRepository staffRepository;
     @Autowired
     private ReminderRepository reminderRepository;
+    @Autowired
+    private TestResultRepository testResultRepository;
     public static String error = "";
 
     @Override
@@ -57,6 +58,7 @@ public class ReminderServiceImp implements ReminderService {
             System.out.println(error);
             return null;
         }
+
         // Tạo mới Reminder nếu không có lỗi
         Reminders reminders = new Reminders();
         reminders.setCustomers(customers);
