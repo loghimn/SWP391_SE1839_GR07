@@ -11,5 +11,4 @@ public class HivSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HivSystemApplication.class, args);
 	}
-
 }

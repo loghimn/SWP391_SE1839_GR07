@@ -16,7 +16,7 @@ public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
-    @PreAuthorize("hasRole('Admin')")
+    //@PreAuthorize("hasRole('Admin')")
     @PostMapping("/create")
     public ApiResponse<Boolean> createMaterial(@RequestBody MaterialCreateRequest request) {
         Materials materials = materialService.addMaterial(request);
@@ -39,7 +39,7 @@ public class MaterialController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Admin')")
+    //@PreAuthorize("hasRole('Admin')")
     @PutMapping("/update/{id}")
     public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent){
         materialService.updateInformationMaterial(id, updateContent);
@@ -49,12 +49,21 @@ public class MaterialController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Admin')")
+    //@PreAuthorize("hasRole('Admin')")
     @DeleteMapping("/delete/{id}")
     public ApiResponse<Boolean> deleteMaterial(@PathVariable int id){
         materialService.deleteMaterial(id);
         return ApiResponse.<Boolean>builder()
                 .result(true)
+                .message("Success")
+                .build();
+    }
+
+    @GetMapping("/get/{id}")
+    public ApiResponse<Materials> getMaterialById(@PathVariable int id) {
+        Materials materials = materialService.getMaterialById(id);
+        return ApiResponse.<Materials>builder()
+                .result(materials)
                 .message("Success")
                 .build();
     }

@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.BlogCreateRequest;
 import swp391_gr7.hivsystem.model.Admins;
 import swp391_gr7.hivsystem.model.Blogs;
+import swp391_gr7.hivsystem.model.Doctors;
 import swp391_gr7.hivsystem.repository.AdminRepository;
 import swp391_gr7.hivsystem.repository.BlogRepository;
+import swp391_gr7.hivsystem.repository.DoctorRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -17,26 +19,28 @@ public class BlogServiceImp implements BlogService{
     @Autowired
     private BlogRepository blogRepository;
     @Autowired
-    private AdminRepository adminRepository;
+    private DoctorRepository doctorRepository;
     public static String error = "";
 
     @Override
     public Blogs addBlog(BlogCreateRequest request) {
         error = "";
-        // Xử lý admin
-        Optional<Admins> adminOpt = adminRepository.findAdminByMail(request.getAdminMail());
-        Admins admins = null;
-        if(adminOpt.isEmpty()){
-            error += "Admin not found with mail";
+        // Xử lý doctor
+        Optional<Doctors> doctorOpt = doctorRepository.findDoctorByMail(request.getDoctorMail());
+        Doctors doctor = null;
+        if(doctorOpt.isEmpty()){
+            error += "Doctor not found with mail";
         } else {
-            admins = adminOpt.get();
+            doctor = doctorOpt.get();
         }
 
         // Tạo mới blogs
         Blogs blogs = new Blogs();
-        blogs.setAdmins(admins);
+        blogs.setDoctors(doctor);
         blogs.setTitle(request.getTitle());
         blogs.setContent(request.getContent());
+        blogs.setImageUrl(request.getImageUrl());
+        blogs.setSource(request.getSource());
         blogs.setCreateAt(LocalDate.now());
 
         // lưu blogs mới tạo
@@ -50,6 +54,8 @@ public class BlogServiceImp implements BlogService{
                 .orElseThrow(() -> new RuntimeException("Blog ID not found"));
         blogs.setTitle(updateContent.getTitle());
         blogs.setContent(updateContent.getContent());
+        blogs.setImageUrl(updateContent.getImageUrl());
+        blogs.setSource(updateContent.getSource());
         blogs.setCreateAt(LocalDate.now());
 
         // lưu thông tin thay đổi
@@ -61,5 +67,11 @@ public class BlogServiceImp implements BlogService{
         Blogs blogs = blogRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Blog not found"));
         blogRepository.delete(blogs);
+    }
+
+    @Override
+    public Blogs getBlogById(int id) {
+        return blogRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Blog not found with ID: " + id));
     }
 }

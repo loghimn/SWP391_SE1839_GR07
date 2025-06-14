@@ -7,4 +7,5 @@ public interface BlogService {
     Blogs addBlog(BlogCreateRequest request);
     Blogs updateInformationBlog(int id, Blogs updateContent);
     void deleteBlog(int id);
+    Blogs getBlogById(int id);
 }

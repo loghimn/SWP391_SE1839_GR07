@@ -15,6 +15,7 @@ public class Admins {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
     private int adminID;
+
 //Noi 1 voi 1 bang user
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
