@@ -16,4 +16,5 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     Appointments save(Appointments appointments);
     Optional<Appointments> findByAppointmentTime(Date appointmentTime);
 
+    Appointments getAppointmentsByAppointmentId(int appointmentId);
 }

@@ -30,7 +30,7 @@ import java.time.LocalDate;
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "consultation_id")
-        private Long consultationID;
+        private int consultationID;
 //
         @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "appointment_id", nullable = false)

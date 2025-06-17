@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "arv_regiments")
 @Data
@@ -14,17 +16,22 @@ public class ArvRegiments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arv_regiment_id")
-    private Long arvRegimentID;
-    @Column(name = "name_arv")
-    private String nameARV;
-    @Column(name = "description_arv")
-    private String descriptionARV;
-    @Column(name = "group_name") // "group" là từ khóa trong SQL, nên nên đổi tên cột
-    private String group;
-    @Column(name = "default_dosage")
-    private String defaultDosage;
-//
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id")
-    private Doctors doctors;
+    private int arvRegimentID;;
+    @Column(name = "level")
+    private int level; // 1: bậc 1, 2: bậc 2
+    @Column(name = "is_for_pregnancy")
+    private boolean isForPregnancy;
+    @Column(name = "description", length = 1000)
+    private String description;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "test_result_id")
+    private TestResults testResults;
+    @ManyToMany
+    @JoinTable(
+            name = "arv_medications_regiment", // bảng trung gian
+            joinColumns = @JoinColumn(name = "arv_regiment_id"),
+            inverseJoinColumns = @JoinColumn(name = "arv_medication_id")
+    )
+    private List<ArvMedications> arvMedications;
+
 }

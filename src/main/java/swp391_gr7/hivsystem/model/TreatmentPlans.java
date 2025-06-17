@@ -1,15 +1,21 @@
 package swp391_gr7.hivsystem.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "treatment_plan")
 public class TreatmentPlans {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "treatment_plan_id")
-    private Long treatmentPlanID;
+    private int treatmentPlanID;
 
     @ManyToOne(fetch = FetchType.LAZY)
 

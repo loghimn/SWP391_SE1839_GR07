@@ -34,4 +34,5 @@ public interface DoctorRepository extends CrudRepository<Doctors, Long> {
     )
     Optional<Doctors> findDoctorByUser_UserId(@Param("userId") String userId);
 
+    Doctors getDoctorsByDoctorId(int doctorId);
 }

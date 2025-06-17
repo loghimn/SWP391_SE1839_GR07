@@ -17,7 +17,7 @@ public class MedicalRecords {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "medical_record_id")
-    private Long medicalRecordID;
+    private int medicalRecordID;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
