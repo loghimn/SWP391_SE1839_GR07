@@ -31,7 +31,7 @@ public class TestResults {
     @Column(name = "test_type")
     private String testType;
     @Column(name = "result_value")
-    private String resultValue;
+    private boolean resultValue;
     @Column(name = "test_date")
     private LocalDate testDate;
     @Column(name = "notes")

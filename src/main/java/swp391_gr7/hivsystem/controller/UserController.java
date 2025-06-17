@@ -20,8 +20,6 @@ public class UserController {
     private UserService userService;
     @Autowired
     AuthenticationService authenticationService;
-    @Autowired
-    private UserRepository userRepository;
 
     //Create user
     //http://localhost:8080/user/create

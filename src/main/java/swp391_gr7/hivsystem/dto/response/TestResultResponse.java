@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class TestResultResponse {
     private Long id;
     private String testType;
-    private String resultValue;
+    private boolean resultValue;
     private LocalDate testDate;
     private String notes;
     private boolean reExamination;

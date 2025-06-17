@@ -43,6 +43,7 @@ public class Reminders {
 
     @JoinColumn(name = "test_result_id", nullable = false)
     private TestResults testResults;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointments appointments;
