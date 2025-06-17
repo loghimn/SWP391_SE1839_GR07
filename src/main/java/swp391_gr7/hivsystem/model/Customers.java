@@ -33,4 +33,8 @@ public class Customers {
     @ManyToOne
     @JoinColumn(name = "manager_id", nullable = false)
     private Managers managers;
+
+    @OneToMany(mappedBy = "customers", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<TestResults> testResultsList;
 }

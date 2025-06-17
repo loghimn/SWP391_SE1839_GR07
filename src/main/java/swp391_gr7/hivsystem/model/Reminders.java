@@ -15,6 +15,7 @@ import java.time.LocalDate;
 public class Reminders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "reminder_id")
     private int reminderID; // tên biến đặt chuẩn camel case
 //
     @ManyToOne(fetch = FetchType.LAZY)

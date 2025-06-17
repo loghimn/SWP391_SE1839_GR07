@@ -25,7 +25,8 @@ public class DoctorServiceImp implements DoctorService {
 
     @Override
     public Doctors saveDoctor(UserAndDoctorCreateRequest request, Users users) {
-        Managers manager = managerRepository.findManagerById(1);
+        Managers manager = managerRepository.findManagerById
+                (1);
         if (manager == null) {
             return null; // Manager not found
         }

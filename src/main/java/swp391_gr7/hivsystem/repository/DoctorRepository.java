@@ -2,7 +2,6 @@ package swp391_gr7.hivsystem.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import swp391_gr7.hivsystem.model.Admins;
 import swp391_gr7.hivsystem.model.Doctors;
 import org.springframework.data.repository.CrudRepository;
 
@@ -35,6 +34,7 @@ public interface DoctorRepository extends CrudRepository<Doctors, Long> {
     )
     Optional<Doctors> findDoctorByUser_UserId(@Param("userId") String userId);
 
+    Doctors getDoctorsByDoctorId(int doctorId);
     @Query(value = "SELECT d.* FROM doctors d JOIN users u ON d.user_id = u.user_id WHERE u.email = :mail",
             nativeQuery = true)
     Optional<Doctors> findDoctorByMail(@Param("mail") String mail);

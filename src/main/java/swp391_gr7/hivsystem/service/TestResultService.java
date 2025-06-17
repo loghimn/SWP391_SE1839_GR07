@@ -9,4 +9,5 @@ public interface TestResultService {
     TestResults addTestResult(Long appointmentId, TestResultCreateRequest request);
     List<TestResults> getTestResultsByCustomer(Long customerId);
     String getError();
+    Boolean createTestResult(TestResultCreateRequest request);
 }
