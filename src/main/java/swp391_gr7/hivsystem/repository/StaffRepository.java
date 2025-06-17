@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface StaffRepository extends CrudRepository<Staffs, Long> {
+public interface StaffRepository extends CrudRepository<Staffs, Integer> {
     @Query(
             value = "SELECT s.* FROM staff s JOIN users u ON s.user_id = u.user_id WHERE u.username = :StaffName",
             nativeQuery = true

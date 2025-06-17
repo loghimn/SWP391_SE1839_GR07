@@ -25,7 +25,7 @@ public class TestResultController {
     public ApiResponse<TestResultResponse> addTestResult(
             @PathVariable Integer appointmentId,
             @RequestBody TestResultCreateRequest request) {
-        TestResults result = testResultService.addTestResult((long) appointmentId, request);
+        TestResults result = testResultService.addTestResult(appointmentId, request);
         TestResultResponse response = result != null ? convertToResponse(result) : null;
         if (response != null && result.isRe_examination()) {
             reExaminationService.handleReExamination(result);
@@ -40,7 +40,7 @@ public class TestResultController {
 
     @GetMapping("/customer/{customerId}")
     public ApiResponse<List<TestResultResponse>> getTestResultsByCustomer(
-            @PathVariable Long customerId) {
+            @PathVariable int customerId) {
         List<TestResults> results = testResultService.getTestResultsByCustomer(customerId);
         List<TestResultResponse> responses = results.stream()
                 .map(this::convertToResponse)
@@ -54,7 +54,7 @@ public class TestResultController {
 
     private TestResultResponse convertToResponse(TestResults result) {
         return TestResultResponse.builder()
-                .id(result.getTestResultID())
+                .id((long) result.getTestResultID())
                 .testType(result.getTestType())
                 .resultValue(result.isResultValue())
                 .testDate(result.getTestDate())

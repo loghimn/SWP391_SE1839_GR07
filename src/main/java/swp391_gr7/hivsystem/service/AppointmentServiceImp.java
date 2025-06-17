@@ -85,9 +85,9 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments addAppointment(AppointmentCreateRequest request) {
         error = "";
 
-        Customers customers = customerRepository.findById((long) request.getCustomerId()).orElse(null);
-        Doctors doctors = doctorRepository.findById((long) request.getDoctorId()).orElse(null);
-        Staffs staffs = staffRepository.findById((long) request.getStaffId()).orElse(staffService.findStaffHasLeastAppointment());
+        Customers customers = customerRepository.findById(request.getCustomerId()).orElse(null);
+        Doctors doctors = doctorRepository.findById(request.getDoctorId()).orElse(null);
+        Staffs staffs = staffRepository.findById(request.getStaffId()).orElse(staffService.findStaffHasLeastAppointment());
         Schedules schedules = scheduleRepository.findById(request.getScheduleId()).orElse(null);
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers).orElse(null);
 

@@ -9,6 +9,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConsultationCreateRequest {
-    private Long appointmentId;
+    private int appointmentId;
     private String notes;
 }

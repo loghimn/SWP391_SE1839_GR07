@@ -6,9 +6,9 @@ import swp391_gr7.hivsystem.dto.request.ConsultationCreateRequest;
 
 public interface ConsultationService {
     Consultations createConsultation(ConsultationCreateRequest request);
-    Consultations getConsultationById(Long id);
-    List<Consultations> getConsultationsByCustomer(Long customerId);
-    List<Consultations> getConsultationsByDoctor(Long doctorId);
-    boolean deleteConsultation(Long id);
+    Consultations getConsultationById(int id);
+    List<Consultations> getConsultationsByCustomer(int customerId);
+    List<Consultations> getConsultationsByDoctor(int doctorId);
+    boolean deleteConsultation(int id);
     String getError();
 }

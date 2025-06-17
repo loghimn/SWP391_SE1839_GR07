@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface DoctorRepository extends CrudRepository<Doctors, Long> {
+public interface DoctorRepository extends CrudRepository<Doctors, Integer> {
     Doctors findByLicenseNumber(String licenseNumber);
 
     @Query(

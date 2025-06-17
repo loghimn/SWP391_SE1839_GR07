@@ -26,7 +26,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
     public void handleReExamination(TestResults testResult) {
         if (testResult.isRe_examination()) {
             Appointments originalAppointment = appointmentRepository
-                    .findById((long) testResult.getAppointments().getAppointmentId())
+                    .findById(testResult.getAppointments().getAppointmentId())
                     .orElseThrow(() -> new RuntimeException("Original appointment not found"));
 
             Customers customers = testResult.getCustomers();

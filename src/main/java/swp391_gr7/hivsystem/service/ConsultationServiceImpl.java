@@ -21,7 +21,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     public Consultations createConsultation(ConsultationCreateRequest request) {
         error = "";
 
-        Appointments appointment = appointmentRepository.findById(request.getAppointmentId())
+        Appointments appointment = appointmentRepository.findByAppointmentId((Integer) request.getAppointmentId())
                 .orElse(null);
 
         if (appointment == null) {
@@ -45,22 +45,22 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
-    public Consultations getConsultationById(Long id) {
+    public Consultations getConsultationById(int id) {
         return consultationRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<Consultations> getConsultationsByCustomer(Long customerId) {
+    public List<Consultations> getConsultationsByCustomer(int customerId) {
         return consultationRepository.findByCustomers_CustomerId(customerId);
     }
 
     @Override
-    public List<Consultations> getConsultationsByDoctor(Long doctorId) {
+    public List<Consultations> getConsultationsByDoctor(int doctorId) {
         return consultationRepository.findByDoctors_DoctorId(doctorId);
     }
 
     @Override
-    public boolean deleteConsultation(Long id) {
+    public boolean deleteConsultation(int id) {
         if (consultationRepository.existsById(id)) {
             consultationRepository.deleteById(id);
             return true;

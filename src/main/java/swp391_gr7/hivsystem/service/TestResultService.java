@@ -6,8 +6,7 @@ import swp391_gr7.hivsystem.model.TestResults;
 import java.util.List;
 
 public interface TestResultService {
-    TestResults addTestResult(Long appointmentId, TestResultCreateRequest request);
-    List<TestResults> getTestResultsByCustomer(Long customerId);
+    TestResults addTestResult(int appointmentId, TestResultCreateRequest request);
+    List<TestResults> getTestResultsByCustomer(int customerId);
     String getError();
-    Boolean createTestResult(TestResultCreateRequest request);
 }

@@ -21,7 +21,7 @@ public class TestResultServiceImpl implements TestResultService {
     private String error = "";
 
     @Override
-    public TestResults addTestResult(Long appointmentId, TestResultCreateRequest request) {
+    public TestResults addTestResult(int appointmentId, TestResultCreateRequest request) {
         error = "";
 
         Appointments appointment = appointmentRepository.findById(appointmentId).orElse(null);
@@ -49,7 +49,7 @@ public class TestResultServiceImpl implements TestResultService {
     }
 
     @Override
-    public List<TestResults> getTestResultsByCustomer(Long customerId) {
+    public List<TestResults> getTestResultsByCustomer(int customerId) {
         return testResultRepository.findByCustomers_CustomerId(customerId);
     }
 

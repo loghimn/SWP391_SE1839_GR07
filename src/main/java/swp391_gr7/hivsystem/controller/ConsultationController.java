@@ -37,7 +37,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<Consultations> getById(@PathVariable Long id) {
+    public ApiResponse<Consultations> getById(@PathVariable int id) {
         try {
             Consultations consultation = consultationService.getConsultationById(id);
             if (consultation == null) {
@@ -63,7 +63,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/customer/{customerId}")
-    public ApiResponse<List<Consultations>> getByCustomer(@PathVariable Long customerId) {
+    public ApiResponse<List<Consultations>> getByCustomer(@PathVariable int customerId) {
         try {
             List<Consultations> consultations = consultationService.getConsultationsByCustomer(customerId);
             return ApiResponse.<List<Consultations>>builder()
@@ -81,7 +81,7 @@ public class ConsultationController {
     }
 
     @GetMapping("/doctor/{doctorId}")
-    public ApiResponse<List<Consultations>> getByDoctor(@PathVariable Long doctorId) {
+    public ApiResponse<List<Consultations>> getByDoctor(@PathVariable int doctorId) {
         try {
             List<Consultations> consultations = consultationService.getConsultationsByDoctor(doctorId);
             return ApiResponse.<List<Consultations>>builder()
@@ -99,7 +99,7 @@ public class ConsultationController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> delete(@PathVariable Long id) {
+    public ApiResponse<Boolean> delete(@PathVariable int id) {
         try {
             boolean success = consultationService.deleteConsultation(id);
             return ApiResponse.<Boolean>builder()

@@ -27,7 +27,7 @@ public class SchedulesController {
     @PostMapping("/create")
     public ApiResponse<Boolean> create(@RequestBody SchedulesCreateRequest request) {
         try {
-            Doctors doctor = doctorRepository.findById(Long.valueOf(request.getDoctorId()))
+            Doctors doctor = doctorRepository.findById(request.getDoctorId())
                     .orElseThrow(() -> new RuntimeException("Doctor not found"));
             Managers manager = managerRepository.findById(request.getManagerId())
                     .orElseThrow(() -> new RuntimeException("Manager not found"));
@@ -70,7 +70,7 @@ public class SchedulesController {
     @PutMapping("/update/{id}")
     public ApiResponse<Boolean> update(@PathVariable int id, @RequestBody SchedulesCreateRequest request) {
         try {
-            Doctors doctor = doctorRepository.findById(Long.valueOf(request.getDoctorId()))
+            Doctors doctor = doctorRepository.findById(request.getDoctorId())
                     .orElseThrow(() -> new RuntimeException("Doctor not found"));
             Managers manager = managerRepository.findById(request.getManagerId())
                     .orElseThrow(() -> new RuntimeException("Manager not found"));

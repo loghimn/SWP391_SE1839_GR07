@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customers, Long> {
+public interface CustomerRepository extends JpaRepository<Customers, Integer> {
     @Query(
             value = "SELECT c.* FROM customers c JOIN users u ON c.user_id = u.user_id WHERE u.email = :mail",
             nativeQuery = true)

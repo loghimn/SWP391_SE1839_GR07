@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicalRecordCreateRequest {
-    private Long customerId;
-    private Long doctorId;
+    private int customerId;
+    private int doctorId;
     private String diagnosis;
     private String treatment;
     private LocalDate recordDate;

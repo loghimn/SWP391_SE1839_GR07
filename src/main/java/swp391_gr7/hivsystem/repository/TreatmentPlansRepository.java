@@ -8,7 +8,5 @@ import swp391_gr7.hivsystem.model.TreatmentPlans;
 
 public interface TreatmentPlansRepository extends JpaRepository<TreatmentPlans, Integer>{
 
-    //TreatmentPlans getTreatmentPlansByTreatmentPlanID(Long treatmentPlanID);
-
     TreatmentPlans getTreatmentPlansByTreatmentPlanID(int treatmentPlanID);
 }
