@@ -24,8 +24,9 @@ public class TestResultController {
     @PostMapping("/{appointmentId}")
     public ApiResponse<TestResultResponse> addTestResult(
             @PathVariable Integer appointmentId,
+            @PathVariable Integer trearmentplanId,
             @RequestBody TestResultCreateRequest request) {
-        TestResults result = testResultService.addTestResult(appointmentId, request);
+        TestResults result = testResultService.addTestResult(appointmentId, trearmentplanId, request);
         TestResultResponse response = result != null ? convertToResponse(result) : null;
         if (response != null && result.isRe_examination()) {
             reExaminationService.handleReExamination(result);
@@ -54,15 +55,15 @@ public class TestResultController {
 
     private TestResultResponse convertToResponse(TestResults result) {
         return TestResultResponse.builder()
-                .id((long) result.getTestResultID())
+                .id(result.getTestResultID())
                 .testType(result.getTestType())
                 .resultValue(result.isResultValue())
                 .testDate(result.getTestDate())
                 .notes(result.getNotes())
                 .reExamination(result.isRe_examination())
-                .appointmentId((long) result.getAppointments().getAppointmentId())
-                .customerId((long) result.getCustomers().getCustomerId())
-                .doctorId((long) result.getDoctors().getDoctorId())
+                .appointmentId(result.getAppointments().getAppointmentId())
+                .customerId(result.getCustomers().getCustomerId())
+                .doctorId(result.getDoctors().getDoctorId())
                 .build();
     }
 }

@@ -11,13 +11,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestResultResponse {
-    private Long id;
+    private int id;
     private String testType;
     private boolean resultValue;
     private LocalDate testDate;
     private String notes;
     private boolean reExamination;
-    private Long appointmentId;
-    private Long customerId;
-    private Long doctorId;
+    private int appointmentId;
+    private int customerId;
+    private int doctorId;
 }

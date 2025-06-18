@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.TestResultCreateRequest;
 import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.model.TestResults;
+import swp391_gr7.hivsystem.model.TreatmentPlans;
 import swp391_gr7.hivsystem.repository.AppointmentRepository;
 import swp391_gr7.hivsystem.repository.TestResultRepository;
+import swp391_gr7.hivsystem.repository.TreatmentPlansRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,11 +19,13 @@ public class TestResultServiceImpl implements TestResultService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private TestResultRepository testResultRepository;
+    @Autowired
+    private TreatmentPlansRepository treatmentPlansRepository;
 
     private String error = "";
 
     @Override
-    public TestResults addTestResult(int appointmentId, TestResultCreateRequest request) {
+    public TestResults addTestResult(int appointmentId, int treatmentplanId, TestResultCreateRequest request) {
         error = "";
 
         Appointments appointment = appointmentRepository.findById(appointmentId).orElse(null);
@@ -34,6 +38,11 @@ public class TestResultServiceImpl implements TestResultService {
             error = "Appointment is not for HIV testing";
             return null;
         }
+        TreatmentPlans treatmentPlan = treatmentPlansRepository.findById(treatmentplanId).orElse(null);
+        if (treatmentPlan == null) {
+            error = "Treatment plan not found";
+            return null;
+        }
 
         TestResults testResult = new TestResults();
         testResult.setAppointments(appointment);
@@ -44,6 +53,7 @@ public class TestResultServiceImpl implements TestResultService {
         testResult.setTestDate(appointment.getAppointmentTime());
         testResult.setNotes(request.getNotes());
         testResult.setRe_examination(request.isReExamination());
+        testResult.setTreatmentPlan(treatmentPlan);
 
         return testResultRepository.save(testResult);
     }
