@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import swp391_gr7.hivsystem.dto.request.OAuth2CreateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.GoogleRegisterRequest;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
@@ -26,38 +27,41 @@ public class OAuth2Controller {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private UserService userService;
-    @Autowired
-    private UserServiceImp userServiceImp;
-    @Autowired
     private OAuth2Service oAuth2Service;
 
     public OAuth2Controller(UserRepository userRepository, CustomerRepository customerRepository) {
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
-
     }
 
-
-
-    @GetMapping("/loginSuccess")
-    public RedirectView oauth2LoginSuccess(@AuthenticationPrincipal OAuth2User oauth2User) {
+    @GetMapping("/login")
+    public ApiResponse<String> oauth2Login(@AuthenticationPrincipal OAuth2User oauth2User) {
         String email = oauth2User.getAttribute("email");
-        return new RedirectView("http://localhost:8080/login.html?email=" + email);
-    }
-
-    @PostMapping("/user/google/register")
-    public ApiResponse<Boolean> registerGoogleUser(@RequestBody GoogleRegisterRequest request) {
-        boolean result = oAuth2Service.registerGoogleUsers(request);
-        return ApiResponse.<Boolean>builder()
-                .result(result)
-                .message(result ? "Google account registered successfully" : "Registration failed")
-                .build();
-    }
-
-    @GetMapping("/check-email")
-    public Map<String, Boolean> checkEmailExists(@RequestParam String email) {
         boolean exists = userRepository.existsByEmail(email);
-        return Map.of("exists", exists);
+
+        if (exists) {
+            return ApiResponse.<String>builder()
+                    .code(200)
+                    .result("LOGIN_SUCCESS")
+                    .message("Login successful")
+                    .build();
+        } else {
+            return ApiResponse.<String>builder()
+                    .code(302)
+                    .result("REGISTRATION_REQUIRED")
+                    .message("Please complete registration")
+                    .build();
+        }
+    }
+
+    @PostMapping("/register")
+    public ApiResponse<Boolean> registerOAuth2User(@RequestBody OAuth2CreateRequest request) {
+        boolean result = oAuth2Service.registerOAuth2User(request);
+
+        return ApiResponse.<Boolean>builder()
+                .code(result ? 200 : 400)
+                .result(result)
+                .message(result ? "Registration successful" : "Registration failed")
+                .build();
     }
 }
