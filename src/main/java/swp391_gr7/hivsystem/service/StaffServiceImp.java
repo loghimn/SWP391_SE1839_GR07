@@ -36,7 +36,6 @@ public class StaffServiceImp implements StaffService {
         staffs.setWorkShift(request.getWorkShift());
         staffs.setAssignedArea(request.getAssignedArea());
         staffs.setManagers(manager);
-       // staff.setAssignedModule(request.getAssignedModule());
         return staffRepository.save(staffs);
 
     }
@@ -65,7 +64,6 @@ public class StaffServiceImp implements StaffService {
                 }
             }
         }
-
         return minStaffs;
     }
 

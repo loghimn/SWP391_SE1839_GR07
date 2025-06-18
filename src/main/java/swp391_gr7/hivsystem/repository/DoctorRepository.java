@@ -39,4 +39,5 @@ public interface DoctorRepository extends CrudRepository<Doctors, Integer> {
             nativeQuery = true)
     Optional<Doctors> findDoctorByMail(@Param("mail") String mail);
 
+    boolean existsByLicenseNumber(String licenseNumber);
 }

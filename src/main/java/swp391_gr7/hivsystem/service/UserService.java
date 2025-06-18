@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.model.Users;
 
+import java.util.List;
+
 @Service
 public interface UserService {
     public Users createUser(CreateUserRequest request);
@@ -16,4 +18,6 @@ public interface UserService {
     public Users updateUser(UserUpdateRequest request, Users users);
     boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request);
     Users deleteUser(int userId);
+    public List<Users> findAllUsers();
+    public Users getMyInfo();
 }

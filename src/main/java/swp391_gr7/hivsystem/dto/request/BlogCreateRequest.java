@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BlogCreateRequest {
+
+
     private String doctorMail;
     private String title;
     private String content;
