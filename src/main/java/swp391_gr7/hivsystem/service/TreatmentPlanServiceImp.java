@@ -22,7 +22,9 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
         plan.setDoctors(doctorRepository.getDoctorsByDoctorId(request.getDoctorId()));
         plan.setPlanDescription(request.getTreatmentPlanDescription());
         System.out.println(arvRegimentRepository.findArvRegimentsByArvRegimentID(request.getArvRegimentId()));
+
         plan.setArvReqimentID(arvRegimentRepository.findArvRegimentsByArvRegimentID(request.getArvRegimentId()));
+        plan.setDosageTime(request.getDosageTime());
         plan = treatmentPlansRepository.save(plan);
         if (plan != null) {
             return true;

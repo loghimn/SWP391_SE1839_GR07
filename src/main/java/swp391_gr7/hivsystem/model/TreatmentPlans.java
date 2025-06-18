@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -24,6 +26,9 @@ public class TreatmentPlans {
 
     @Column(name = "plan_description", nullable = false)
     private String planDescription;
+
+    @Column(name = "dosage_time") // thời gian uống thuốc
+    private LocalTime dosageTime;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arv_reqiment_id", nullable = false)
