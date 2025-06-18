@@ -62,6 +62,40 @@ public class TestResultServiceImpl implements TestResultService {
     public List<TestResults> getTestResultsByCustomer(int customerId) {
         return testResultRepository.findByCustomers_CustomerId(customerId);
     }
+    @Override
+    public TestResults updateTestResult(int id, TestResultCreateRequest request) {
+        TestResults existing = testResultRepository.findById(id).orElse(null);
+        if (existing == null) {
+            error = "Test result not found";
+            return null;
+        }
+
+        existing.setResultValue(request.isResultValue());
+        existing.setNotes(request.getNotes());
+        existing.setRe_examination(request.isReExamination());
+
+        // Nếu bạn cho phép update thời gian test, có thể thêm dòng sau:
+        // existing.setTestDate(request.getTestDate());
+
+        return testResultRepository.save(existing);
+    }
+
+    @Override
+    public TestResults getTestResultById(int id) {
+        return testResultRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public boolean deleteTestResult(int id) {
+        TestResults result = testResultRepository.findById(id).orElse(null);
+        if (result == null) {
+            error = "Test result not found";
+            return false;
+        }
+        testResultRepository.delete(result);
+        return true;
+    }
+
 
     @Override
     public String getError() {

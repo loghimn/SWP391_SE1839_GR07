@@ -7,63 +7,79 @@ import swp391_gr7.hivsystem.dto.request.TestResultCreateRequest;
 import swp391_gr7.hivsystem.model.TestResults;
 import swp391_gr7.hivsystem.service.ReExaminationService;
 import swp391_gr7.hivsystem.service.TestResultService;
-import swp391_gr7.hivsystem.dto.response.TestResultResponse;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/testresults")
 public class TestResultController {
-
     @Autowired
     private TestResultService testResultService;
     @Autowired
     private ReExaminationService reExaminationService;
 
-    @PostMapping("/{appointmentId}")
-    public ApiResponse<TestResultResponse> addTestResult(
-            @PathVariable Integer appointmentId,
-            @PathVariable Integer trearmentplanId,
+    @PostMapping("/{appointmentId}/{treatmentPlanId}")
+    public ApiResponse<TestResults> addTestResult(
+            @PathVariable int appointmentId,
+            @PathVariable int treatmentPlanId,
             @RequestBody TestResultCreateRequest request) {
-        TestResults result = testResultService.addTestResult(appointmentId, trearmentplanId, request);
-        TestResultResponse response = result != null ? convertToResponse(result) : null;
-        if (response != null && result.isRe_examination()) {
+        TestResults result = testResultService.addTestResult(appointmentId, treatmentPlanId, request);
+
+        if (result != null && result.isRe_examination()) {
             reExaminationService.handleReExamination(result);
         }
 
-        return ApiResponse.<TestResultResponse>builder()
-                .code(response != null ? 200 : 400)
-                .result(response)
-                .message(response != null ? "Success" : testResultService.getError())
+        return ApiResponse.<TestResults>builder()
+                .code(result != null ? 200 : 400)
+                .result(result)
+                .message(result != null ? "Success" : testResultService.getError())
+                .build();
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<TestResults> getTestResult(@PathVariable int id) {
+        TestResults result = testResultService.getTestResultById(id);
+
+        return ApiResponse.<TestResults>builder()
+                .code(result != null ? 200 : 404)
+                .result(result)
+                .message(result != null ? "Success" : "Test result not found")
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<TestResults> updateTestResult(
+            @PathVariable int id,
+            @RequestBody TestResultCreateRequest request) {
+        TestResults result = testResultService.updateTestResult(id, request);
+
+        return ApiResponse.<TestResults>builder()
+                .code(result != null ? 200 : 400)
+                .result(result)
+                .message(result != null ? "Success" : testResultService.getError())
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<Boolean> deleteTestResult(@PathVariable int id) {
+        boolean deleted = testResultService.deleteTestResult(id);
+
+        return ApiResponse.<Boolean>builder()
+                .code(deleted ? 200 : 404)
+                .result(deleted)
+                .message(deleted ? "Success" : "Test result not found")
                 .build();
     }
 
     @GetMapping("/customer/{customerId}")
-    public ApiResponse<List<TestResultResponse>> getTestResultsByCustomer(
+    public ApiResponse<List<TestResults>> getTestResultsByCustomer(
             @PathVariable int customerId) {
         List<TestResults> results = testResultService.getTestResultsByCustomer(customerId);
-        List<TestResultResponse> responses = results.stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-        return ApiResponse.<List<TestResultResponse>>builder()
-                .code(200)
-                .result(responses)
-                .message("Success")
-                .build();
-    }
 
-    private TestResultResponse convertToResponse(TestResults result) {
-        return TestResultResponse.builder()
-                .id(result.getTestResultID())
-                .testType(result.getTestType())
-                .resultValue(result.isResultValue())
-                .testDate(result.getTestDate())
-                .notes(result.getNotes())
-                .reExamination(result.isRe_examination())
-                .appointmentId(result.getAppointments().getAppointmentId())
-                .customerId(result.getCustomers().getCustomerId())
-                .doctorId(result.getDoctors().getDoctorId())
+        return ApiResponse.<List<TestResults>>builder()
+                .code(200)
+                .result(results)
+                .message(results.isEmpty() ? "No results found" : "Success")
                 .build();
     }
 }
