@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Doctors;
 import swp391_gr7.hivsystem.model.Managers;
 import swp391_gr7.hivsystem.model.Users;
@@ -28,6 +30,9 @@ public class DoctorServiceImp implements DoctorService {
         Managers manager = managerRepository.findManagerById(1);
         if (manager == null) {
             return null; // Manager not found
+        }
+        if(doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+            throw new AppException(ErrorCode.DOCTOR_INVALID_LICENSE_NUMBER_EXIST);
         }
         Doctors doctor = new Doctors();
         doctor.setUsers(users);

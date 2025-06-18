@@ -12,12 +12,5 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class UserAndAdminCreateRequest extends CreateUserRequest{
-    private String username;
-    private String password;
-    private String email;
-    private String phone;
-    private String fullName;
-    private LocalDate dateOfBirth;
-    private String gender;
     private String assignedArea;
 }
