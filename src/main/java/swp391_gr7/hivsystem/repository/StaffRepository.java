@@ -13,12 +13,14 @@ import java.util.Optional;
 @Repository
 public interface StaffRepository extends CrudRepository<Staffs, Integer> {
     @Query(
-            value = "SELECT s.* FROM staff s JOIN users u ON s.user_id = u.user_id WHERE u.username = :StaffName",
+            value = "SELECT s.* FROM staff s JOIN users u ON s.user_id = u.user_id WHERE u.username = :staffName",
             nativeQuery = true
     )
     Optional<Doctors> findDoctorByUser_Username(@Param("staffName") String staffName);
+
     @Query("SELECT s FROM Staffs s")
     List<Staffs> findAllStaff();
+
     @Query(
             value = "SELECT s.* FROM staffs s JOIN users u ON s.user_id = u.user_id WHERE u.email = :mail",
             nativeQuery = true)
