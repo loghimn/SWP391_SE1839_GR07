@@ -34,7 +34,7 @@ public class ArvRegimentServiceImp implements ArvRegimentService {
         arvRegiments = arvRegimentRepository.save(arvRegiments);
         return arvRegiments != null;
     }
-
+/*
     @Override
     public List<ArvMedications> suggestArvMedication(int testResultId) {
         TestResults testResults = testResultRepository.findTestResultsByTestResultID(testResultId);
@@ -79,7 +79,7 @@ public class ArvRegimentServiceImp implements ArvRegimentService {
         return filtered;
     }
 
-
+*/
 
 
 
