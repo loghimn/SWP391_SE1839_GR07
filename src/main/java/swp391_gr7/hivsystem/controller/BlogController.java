@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,22 +19,9 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> blogCreate(@RequestBody BlogCreateRequest request) {
+    public ApiResponse<Boolean> blogCreate(@RequestBody @Valid BlogCreateRequest request) {
         Blogs blogs = blogService.addBlog(request);
-        // Kiểm tra blog có null không, gán vào result
         boolean result = blogs != null;
-
-        if (blogs == null) {
-            BlogServiceImp blogServiceImp = new BlogServiceImp();
-            // in ra lỗi đã thêm vào biến error ở bên BlogServiceImp
-            if(blogServiceImp.error != null){
-                return ApiResponse.<Boolean>builder()
-                        .result(result)
-                        .message(blogServiceImp.error)
-                        .build();
-            }
-        }
-        // Nếu tạo thành công, trả về tin nhắn success
         return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message("Success")
