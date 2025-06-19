@@ -26,34 +26,13 @@ public class SchedulesController {
 
     @PostMapping("/create")
     public ApiResponse<Boolean> create(@RequestBody SchedulesCreateRequest request) {
-        try {
-            Doctors doctor = doctorRepository.findById(request.getDoctorId())
-                    .orElseThrow(() -> new RuntimeException("Doctor not found"));
-            Managers manager = managerRepository.findById(request.getManagerId())
-                    .orElseThrow(() -> new RuntimeException("Manager not found"));
-
-            Schedules schedule = Schedules.builder()
-                    .doctors(doctor)
-                    .managers(manager)
-                    .workDate(request.getWorkDate())
-                    .notes(request.getNotes())
-                    .build();
-
-            Schedules result = schedulesService.createSchedule(schedule);
-            boolean success = result != null;
-
-            return ApiResponse.<Boolean>builder()
-                    .code(success ? 200 : 400)
-                    .result(success)
-                    .message(success ? "Success" : "Create failed")
-                    .build();
-        } catch (Exception e) {
-            return ApiResponse.<Boolean>builder()
-                    .code(400)
-                    .result(false)
-                    .message("Create failed: " + e.getMessage())
-                    .build();
-        }
+        Schedules schedule = schedulesService.createSchedule(request);
+        boolean result = schedule != null;
+        return ApiResponse.<Boolean>builder()
+                .code(result ? 200 : 400)
+                .result(result)
+                .message(result ? "Schedule created successfully" : "Failed to create schedule")
+                .build();
     }
 
 

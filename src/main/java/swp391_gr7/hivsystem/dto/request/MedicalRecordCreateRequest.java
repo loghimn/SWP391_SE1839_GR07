@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class MedicalRecordCreateRequest {
     private int customerId;
-    private int doctorId;
     private String diagnosis;
     private String treatment;
     private LocalDate recordDate;

@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,7 +56,7 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/register")
-    public ApiResponse<Boolean> registerOAuth2User(@RequestBody OAuth2CreateRequest request) {
+    public ApiResponse<Boolean> registerOAuth2User(@RequestBody @Valid OAuth2CreateRequest request) {
         boolean result = oAuth2Service.registerOAuth2User(request);
 
         return ApiResponse.<Boolean>builder()
