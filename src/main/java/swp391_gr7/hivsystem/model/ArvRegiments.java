@@ -26,12 +26,5 @@ public class ArvRegiments {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "test_result_id")
     private TestResults testResults;
-    @ManyToMany
-    @JoinTable(
-            name = "arv_medications_regiment", // bảng trung gian
-            joinColumns = @JoinColumn(name = "arv_regiment_id"),
-            inverseJoinColumns = @JoinColumn(name = "arv_medication_id")
-    )
-    private List<ArvMedications> arvMedications;
 
 }

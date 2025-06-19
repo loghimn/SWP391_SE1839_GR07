@@ -30,8 +30,8 @@ public class TreatmentPlans {
     @Column(name = "dosage_time") // thời gian uống thuốc
     private LocalTime dosageTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "arv_reqiment_id", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "arv_regiment_id", nullable = false)
     private ArvRegiments arvReqimentID ;
 
 }

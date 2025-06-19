@@ -30,6 +30,7 @@ public class ArvRegimentController {
                 .message("Fail created arvregiment")
                 .build();
     }
+    /*
     @GetMapping("/suggest/medications")
     public ApiResponse<List> suggestMedications(@RequestParam int testResultId) {
         List list;
@@ -46,5 +47,5 @@ public class ArvRegimentController {
 
     }
 
-
+*/
 }

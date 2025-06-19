@@ -19,7 +19,7 @@ public class Staffs {
     @Column(name = "staff_id")
     private int staffId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
 

@@ -40,9 +40,9 @@ public class ArvMedications {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
-    @ManyToMany(mappedBy = "arvMedications") // Tên thuộc tính trong ArvRegiments
+    @ManyToOne
     @JsonIgnore
-    private List<ArvRegiments> arvRegimens;
+    private ArvRegiments arvRegimens;
 
 
 }
