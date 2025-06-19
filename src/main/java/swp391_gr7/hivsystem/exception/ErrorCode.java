@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatusCode;
 @AllArgsConstructor
 public enum ErrorCode {
 
-    // Unknown error
+     // Unknown error
     UNKNOWN_ERROR(9999, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR), // 500
 
     // Wrong key
@@ -77,8 +77,42 @@ public enum ErrorCode {
     DOCTOR_INVALID_LICENSE_NUMBER_FORMAT(1034, "License number must follow the format DC-{4 number}", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_EXIST(1035, "License number already exists", HttpStatus.BAD_REQUEST), // 400
 
-    // Add error for blog
-    BLOG_DOCTOR_NOT_FOUND(1035, "Doctor not found with mail", HttpStatus.NOT_FOUND), // 404
+    // Add error for appointment
+    APPOINTMENT_CUSTOMER_NOT_FOUND(1036, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_DOCTOR_NOT_FOUND(1037, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_SCHEDULE_NOT_FOUND(1038, "Schedule not found with ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_DOCTOR_NOT_WORKING(1039, "Doctor is not working on the selected appointment day", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_DUPLICATE_CUSTOMER(1040, "Appointment time with this customer already exists", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_DUPLICATE_DOCTOR(1041, "Appointment time with this doctor already exists", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_TIME_PAST(1042, "Appointment time must be today or later", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for schedule
+    SCHEDULE_DOCTOR_NOT_FOUND(1043, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_MANAGER_NOT_FOUND(1044, "Manager not found with ID", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_INVALID_DATE(1045, "Schedule date must be today or later", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for OAuth2
+    OAUTH2_INVALID_USERNAME_EXIST(1046, "Username already exists", HttpStatus.BAD_REQUEST), // 400
+    OAUTH2_INVALID_EMAIL_EXIST(1046, "Email already exists", HttpStatus.BAD_REQUEST), // 400
+    OAUTH2_INVALID_PHONE_EXIST(1048, "Phone number already exists", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for blogs
+    BLOG_DOCTOR_NOT_FOUND(1055, "Doctor not found with mail", HttpStatus.NOT_FOUND), // 404
+    BLOG_NOT_FOUND(1056, "Blog not found with ID", HttpStatus.NOT_FOUND), // 404
+    BLOG_DOCTOR_INVALID_MAIL_NOTBLANK(1057, "Doctor email is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_TITLE_NOTBLANK(1058, "Blog title is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_CONTENT_NOTBLANK(1059, "Blog content is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_IMAGEURL_NOTBLANK(1060, "Blog image URL is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_SOURCE_NOTBLANK(1061, "Blog source is required", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for materials
+    MATERIAL_DOCTOR_NOT_FOUND(1062, "Doctor not found with mail", HttpStatus.NOT_FOUND), // 404
+    MATERIAL_NOT_FOUND(1063, "Material not found with ID", HttpStatus.NOT_FOUND), // 404
+    MATERIAL_DOCTOR_INVALID_MAIL_NOTBLANK(1064, "Doctor email is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_TITLE_NOTBLANK(1065, "Material title is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_CONTENT_NOTBLANK(1066, "Material content is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_IMAGEURL_NOTBLANK(1067, "Material image URL is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_SOURCE_NOTBLANK(1068, "Material source is required", HttpStatus.BAD_REQUEST) // 400
     ;
 
     private int code;

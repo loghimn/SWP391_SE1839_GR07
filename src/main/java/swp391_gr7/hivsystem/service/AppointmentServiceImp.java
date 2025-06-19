@@ -3,9 +3,12 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,42 +86,49 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments addAppointment(AppointmentCreateRequest request) {
-        error = "";
 
-        Customers customers = customerRepository.findById(request.getCustomerId()).orElse(null);
-        Doctors doctors = doctorRepository.findById(request.getDoctorId()).orElse(null);
-        Staffs staffs = staffRepository.findById(request.getStaffId()).orElse(staffService.findStaffHasLeastAppointment());
-        Schedules schedules = scheduleRepository.findById(request.getScheduleId()).orElse(null);
-        MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers).orElse(null);
+        Customers customers = customerRepository.findById(request.getCustomerId())
+                .orElse(null);
 
-        if (customers == null || doctors == null || schedules == null) {
-            error += "Invalid customer, doctor, or schedule. ";
-            return null;
+        Doctors doctors = doctorRepository.findById(request.getDoctorId())
+                .orElse(null);
+
+        Staffs staffs = staffRepository.findById(request.getStaffId())
+                .orElse(staffService.findStaffHasLeastAppointment());
+
+        Schedules schedules = scheduleRepository.findById(request.getScheduleId())
+                .orElse(null);
+
+        MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
+                .orElse(null);
+
+        if (customers == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND);
+        }
+        if( doctors == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND);
+        }
+        if (schedules == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
         }
 
         // Check if appointment date matches doctor's working date
         if (!schedules.getWorkDate().equals(request.getAppointmentTime())) {
-            error += "Doctor is not working on the selected appointment day. ";
+            throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
         }
 
         // Check for duplicate appointment time for customer
         for (Appointments a : customers.getAppointments()) {
             if (request.getAppointmentTime().equals(a.getAppointmentTime())) {
-                error += "Appointment time with this customer already exists. ";
-                break;
+                throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
             }
         }
 
         // Check for duplicate appointment time for doctor
         for (Appointments a : doctors.getAppointments()) {
             if (request.getAppointmentTime().equals(a.getAppointmentTime())) {
-                error += "Appointment time with this doctor already exists. ";
-                break;
+                throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_DOCTOR);
             }
-        }
-
-        if (!error.isEmpty()) {
-            return null;
         }
 
         Appointments appointments = new Appointments();
@@ -134,7 +144,6 @@ public class AppointmentServiceImp implements AppointmentService {
 
         return appointmentRepository.save(appointments);
     }
-
 
     @Override
     public List<Appointments> getAllAppointmentsFullInfor() {

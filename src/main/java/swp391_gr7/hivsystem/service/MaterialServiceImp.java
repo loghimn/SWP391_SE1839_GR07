@@ -3,6 +3,8 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.MaterialCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Admins;
 import swp391_gr7.hivsystem.model.Doctors;
 import swp391_gr7.hivsystem.model.Materials;
@@ -24,15 +26,9 @@ public class MaterialServiceImp implements MaterialService {
 
     @Override
     public Materials addMaterial(MaterialCreateRequest request) {
-        error = "";
         // Xử lý doctor
-        Optional<Doctors> doctorOpt = doctorRepository.findDoctorByMail(request.getDoctorMail());
-        Doctors doctor = null;
-        if(doctorOpt.isEmpty()){
-            error += "Doctor not found with mail";
-        } else {
-            doctor = doctorOpt.get();
-        }
+        Doctors doctor = doctorRepository.findDoctorByMail(request.getDoctorMail())
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_DOCTOR_NOT_FOUND));
 
         // Tạo mới Materials
         Materials materials = new Materials();
@@ -51,7 +47,7 @@ public class MaterialServiceImp implements MaterialService {
     public Materials updateInformationMaterial(int id, Materials updateMaterials) {
         // Tìm ID material
         Materials materials = materialRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Material ID not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
 
         // Thay đổi thông tin
         materials.setTitle(updateMaterials.getTitle());
@@ -68,7 +64,7 @@ public class MaterialServiceImp implements MaterialService {
     public void deleteMaterial(int id) {
         // Tìm ID material
         Materials materials = materialRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Material ID not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
 
         // Xóa material
         materialRepository.delete(materials);
@@ -77,6 +73,6 @@ public class MaterialServiceImp implements MaterialService {
     @Override
     public Materials getMaterialById(int id) {
         return materialRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Material ID not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
     }
 }

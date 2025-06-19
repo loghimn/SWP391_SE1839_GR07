@@ -3,6 +3,8 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.BlogCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Admins;
 import swp391_gr7.hivsystem.model.Blogs;
 import swp391_gr7.hivsystem.model.Doctors;
@@ -24,15 +26,9 @@ public class BlogServiceImp implements BlogService{
 
     @Override
     public Blogs addBlog(BlogCreateRequest request) {
-        error = "";
         // Xử lý doctor
-        Optional<Doctors> doctorOpt = doctorRepository.findDoctorByMail(request.getDoctorMail());
-        Doctors doctor = null;
-        if(doctorOpt.isEmpty()){
-            error += "Doctor not found with mail";
-        } else {
-            doctor = doctorOpt.get();
-        }
+        Doctors doctor = doctorRepository.findDoctorByMail(request.getDoctorMail())
+                .orElseThrow(() -> new AppException(ErrorCode.BLOG_DOCTOR_NOT_FOUND));
 
         // Tạo mới blogs
         Blogs blogs = new Blogs();
@@ -51,7 +47,9 @@ public class BlogServiceImp implements BlogService{
     public Blogs updateInformationBlog(int id, Blogs updateContent) {
         // tìm blog bằng id
         Blogs blogs = blogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Blog ID not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND));
+
+        // thay đổi thông tin
         blogs.setTitle(updateContent.getTitle());
         blogs.setContent(updateContent.getContent());
         blogs.setImageUrl(updateContent.getImageUrl());
@@ -65,13 +63,13 @@ public class BlogServiceImp implements BlogService{
     @Override
     public void deleteBlog(int id) {
         Blogs blogs = blogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Blog not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND));
         blogRepository.delete(blogs);
     }
 
     @Override
     public Blogs getBlogById(int id) {
         return blogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Blog not found with ID: " + id));
+                .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND));
     }
 }

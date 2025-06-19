@@ -46,20 +46,12 @@ public class CustommerController {
     public ApiResponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
         Appointments appointments = appointmentService.addAppointment(request);
         boolean result = appointments != null;
-
-        if (!result) {
-            // Use the public getter from the injected bean
-            String errorMsg = appointmentService.getErrorMessage();
-            return ApiResponse.<Boolean>builder()
-                    .result(result)
-                    .message(errorMsg != null && !errorMsg.isEmpty() ? errorMsg : "Failed")
-                    .build();
-        }
         return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message("Success")
                 .build();
     }
+
     @GetMapping("/appoint/anonymous")
     public ApiResponse<List> appointmentList() {
         List <Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
