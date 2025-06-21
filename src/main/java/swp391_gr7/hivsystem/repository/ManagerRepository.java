@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import swp391_gr7.hivsystem.model.Managers;
 import org.springframework.data.repository.CrudRepository;
+import swp391_gr7.hivsystem.model.Users;
 
 import java.util.Optional;
 
@@ -17,4 +18,6 @@ public interface ManagerRepository extends CrudRepository<Managers, Integer> {
             value = "SELECT m.* FROM managers m JOIN users u ON m.user_id = u.user_id WHERE u.email = :mail",
             nativeQuery = true)
     Optional<Managers> findManagerByMail(@Param("mail") String email);
+
+    Managers findByUsers(Users users);
 }
