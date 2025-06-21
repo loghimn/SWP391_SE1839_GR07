@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "reminders")
@@ -27,7 +28,7 @@ public class Reminders {
     private String reminderType;
 
     @Column(name = "reminderTime", nullable = false)
-    private LocalDate reminderTime;
+    private LocalTime reminderTime;
 
     @Column(name = "message", nullable = false)
     private String message;

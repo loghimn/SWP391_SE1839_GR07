@@ -23,8 +23,8 @@ import swp391_gr7.hivsystem.dto.request.AuthenticationRequest;
 import swp391_gr7.hivsystem.dto.response.IntrospectReponse;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
-import swp391_gr7.hivsystem.model.Users;
-import swp391_gr7.hivsystem.repository.UserRepository;
+import swp391_gr7.hivsystem.model.*;
+import swp391_gr7.hivsystem.repository.*;
 
 
 @Slf4j
@@ -35,6 +35,16 @@ public class AuthenticationService {
     private static final String SECRET_KEY = "secret_la_bi_mat_thoi-lam-on-chay-dum-tao"; // tu tao
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private StaffRepository staffRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private DoctorRepository doctorRepository;
+    @Autowired
+    private ManagerRepository managerRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest)
             throws JOSEException {
@@ -54,37 +64,98 @@ public class AuthenticationService {
     }
 
     //Token has three component:header, payload, signature
+//    private String generateToken(int userId) throws JOSEException {
+//        //Header of token
+//        Users users = userRepository.findByUserId(userId);
+//        String role = users.getRole();
+//
+//        // Create JWSHeader with algorithm HS256
+//        JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
+//
+//        // Create JWTClaimsSet with subject, issuer, issue time, expiration time and custom claim
+//        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+//                .subject(users.getUsername()) // subject is the username of the user
+//                .issuer("gr7") // issuer is the name of the application or service
+//                .issueTime(new Date()) // issue time is the current time
+//                .expirationTime(new Date
+//                        (new Date().getTime() + 1000 * 60 * 60 * 24)) // expiration time is 24 hours from now
+//                .claim("role", role)
+//                .build();
+//
+//        //Create payload
+//        Payload payload = new Payload(claimsSet.toJSONObject());
+//
+//        //Create JWSObject -> JWSObject need 2 components: header and payload
+//        JWSObject jwsObject = new JWSObject(header, payload);
+//
+//        // Sign the JWSObject with the secret key
+//        try {
+//            // SECRET_KEY is defined above with minimum 32 characters
+//            jwsObject.sign(new MACSigner(SECRET_KEY.getBytes()));
+//            return jwsObject.serialize();
+//        } catch (JOSEException e) {
+//            log.error("Error generating token, can not create token", e);
+//            throw new JOSEException(e.getMessage());
+//        }
+//    }
+
+
     private String generateToken(int userId) throws JOSEException {
-        //Header of token
         Users users = userRepository.findByUserId(userId);
         String role = users.getRole();
 
-        // Create JWSHeader with algorithm HS256
+        JWTClaimsSet.Builder claimsBuilder = new JWTClaimsSet.Builder()
+                .subject(users.getUsername())
+                .issuer("gr7")
+                .issueTime(new Date())
+                .expirationTime(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))
+                .claim("role", role);
+
+        // Thêm ID tương ứng tùy theo role
+        switch (role) {
+            case "Admin":
+                Admins admin = adminRepository.findByUsers(users);
+                if (admin != null) {
+                    claimsBuilder.claim("adminId", admin.getAdminID());
+                }
+                break;
+            case "Staff":
+                Staffs staff = staffRepository.findByUsers(users);
+                if (staff != null) {
+                    claimsBuilder.claim("staffId", staff.getStaffId());
+                }
+                break;
+            case "Manager":
+                Managers managers = managerRepository.findByUsers(users);
+                if (managers != null) {
+                    claimsBuilder.claim("managerId", managers.getManagerId());
+                }
+                break;
+            case "Customer":
+                Customers customer = customerRepository.findByUsers(users);
+                if (customer != null) {
+                    claimsBuilder.claim("customerId", customer.getCustomerId());
+                }
+                break;
+            case "Doctor":
+                Doctors doctor = doctorRepository.findByUsers(users);
+                if (doctor != null) {
+                    claimsBuilder.claim("doctorId", doctor.getDoctorId());
+                }
+                break;
+        }
+
+        JWTClaimsSet claimsSet = claimsBuilder.build();
+
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
-
-        // Create JWTClaimsSet with subject, issuer, issue time, expiration time and custom claim
-        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(users.getUsername()) // subject is the username of the user
-                .issuer("gr7") // issuer is the name of the application or service
-                .issueTime(new Date()) // issue time is the current time
-                .expirationTime(new Date
-                        (new Date().getTime() + 1000 * 60 * 60 * 24)) // expiration time is 24 hours from now
-                .claim("role", role)
-                .build();
-
-        //Create payload
         Payload payload = new Payload(claimsSet.toJSONObject());
-
-        //Create JWSObject -> JWSObject need 2 components: header and payload
         JWSObject jwsObject = new JWSObject(header, payload);
 
-        // Sign the JWSObject with the secret key
         try {
-            // SECRET_KEY is defined above with minimum 32 characters
             jwsObject.sign(new MACSigner(SECRET_KEY.getBytes()));
             return jwsObject.serialize();
         } catch (JOSEException e) {
-            log.error("Error generating token, can not create token", e);
+            log.error("Error generating token", e);
             throw new JOSEException(e.getMessage());
         }
     }
