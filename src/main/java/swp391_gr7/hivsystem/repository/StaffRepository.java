@@ -17,4 +17,11 @@ public interface StaffRepository extends CrudRepository<Staffs, Integer> {
     List<Staffs> findAllStaff();
 
     Staffs findByUsers(Users user);
+
+    //Tim staff by user id
+    @Query(
+            value = "SELECT s.* FROM staffs s JOIN users u ON s.user_id = u.user_id WHERE u.user_id = :userId",
+            nativeQuery = true
+    )
+    Optional<Staffs> findStaffByUser_UserId(@Param("userId") String userId);
 }

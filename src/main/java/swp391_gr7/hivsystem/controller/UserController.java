@@ -88,7 +88,7 @@ public class UserController {
     //Get user by id
     //http://localhost:8080/user/userId  id tu phat sinh
     @GetMapping("/{userId}")
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PostAuthorize("returnObject.username == authentication.name") // Only the user can access their own information
     public Users getUser(@PathVariable int userId) {
         return userService.findUserByUserId(userId);
     }
