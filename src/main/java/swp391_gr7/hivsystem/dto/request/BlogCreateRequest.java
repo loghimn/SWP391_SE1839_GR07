@@ -12,8 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class BlogCreateRequest {
 
+    /*
     @NotBlank(message = "BLOG_DOCTOR_INVALID_MAIL_NOTBLANK")
     private String doctorMail;
+    */
 
     @NotBlank(message = "BLOG_TITLE_NOTBLANK")
     private String title;

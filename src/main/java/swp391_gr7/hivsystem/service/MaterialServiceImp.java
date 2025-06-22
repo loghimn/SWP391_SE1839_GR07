@@ -25,9 +25,9 @@ public class MaterialServiceImp implements MaterialService {
     public static String error = "";
 
     @Override
-    public Materials addMaterial(MaterialCreateRequest request) {
+    public Materials addMaterial(MaterialCreateRequest request, int doctorId) {
         // Xử lý doctor
-        Doctors doctor = doctorRepository.findDoctorByMail(request.getDoctorMail())
+        Doctors doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_DOCTOR_NOT_FOUND));
 
         // Tạo mới Materials

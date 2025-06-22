@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,7 +44,7 @@ public class CustommerController {
 
 
     @PostMapping("/appoint/book")
-    public ApiResponse<Boolean> appointmentRequest(@RequestBody AppointmentCreateRequest request) {
+    public ApiResponse<Boolean> appointmentRequest(@RequestBody @Valid AppointmentCreateRequest request) {
         Appointments appointments = appointmentService.addAppointment(request);
         boolean result = appointments != null;
         return ApiResponse.<Boolean>builder()
