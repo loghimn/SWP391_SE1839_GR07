@@ -25,11 +25,11 @@ public class ArvRegiments {
     private int level;
 
     @Nationalized
-    @Column(name = "description", columnDefinition = "NVARCHAR(255)")
+    @Column(name = "description")
     private String description;
 
     // Optional: Liên kết ngược
-    @OneToMany(mappedBy = "arvRegimens", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "arvRegiment", cascade = CascadeType.ALL)
     private List<ArvMedications> medications = new ArrayList<>();
 
     public ArvRegiments(int level, String description) {
