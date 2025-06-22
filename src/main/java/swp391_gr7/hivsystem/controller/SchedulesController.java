@@ -49,22 +49,8 @@ public class SchedulesController {
     @PutMapping("/update/{id}")
     public ApiResponse<Boolean> update(@PathVariable int id, @RequestBody SchedulesCreateRequest request) {
         try {
-            Doctors doctor = doctorRepository.findById(request.getDoctorId())
-                    .orElseThrow(() -> new RuntimeException("Doctor not found"));
-            Managers manager = managerRepository.findById(1)
-                    .orElseThrow(() -> new RuntimeException("Manager not found"));
-
-            Schedules schedule = Schedules.builder()
-                    .scheduleID(id)
-                    .doctors(doctor)
-                    .managers(manager)
-                    .workDate(request.getWorkDate())
-                    .notes(request.getNotes())
-                    .build();
-
-            Schedules result = schedulesService.updateSchedule(id, schedule);
-            boolean success = result != null;
-
+            Schedules updatedSchedule = schedulesService.updateSchedule(id, request);
+            boolean success = updatedSchedule != null;
             return ApiResponse.<Boolean>builder()
                     .code(success ? 200 : 400)
                     .result(success)
