@@ -8,17 +8,31 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    public Users createUser(CreateUserRequest request);
-    public boolean registerUserAndCustomer(UserAndCustomerCreateRequest request);
-    public boolean registerUserAndDoctor(UserAndDoctorCreateRequest request);
-    public boolean registerUserAndManager(UserAndManagerCreateRequest request);
-    public boolean registerUserAndStaff(UserAndStaffCreateRequest request);
-    public boolean registerUserAndAdmin(UserAndAdminCreateRequest request);
-    public Users findUserByUserId(int userId);
-    public Users updateUser(UserUpdateRequest request, Users users);
+    Users createUser(CreateUserRequest request);
+
+    boolean registerUserAndCustomer(UserAndCustomerCreateRequest request);
+
+    boolean registerUserAndDoctor(UserAndDoctorCreateRequest request);
+
+    boolean registerUserAndManager(UserAndManagerCreateRequest request);
+
+    boolean registerUserAndStaff(UserAndStaffCreateRequest request);
+
+    boolean registerUserAndAdmin(UserAndAdminCreateRequest request);
+
+    Users findUserByUserId(int userId);
+
+    Users updateUser(UserUpdateRequest request, Users users);
+
     boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request);
+
     boolean updateUserAndStaff(int userId, UserAndStaffUpdateRequest request);
+
     Users deleteUser(int userId);
-    public List<Users> findAllUsers();
-    public Users getMyInfo();
+
+    List<Users> findAllUsers();
+
+    Users getMyInfo();
+
+    Users getUserById(int id);
 }

@@ -4,7 +4,13 @@ import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
 import swp391_gr7.hivsystem.model.Customers;
 import swp391_gr7.hivsystem.model.Users;
 
+import java.util.List;
+
 
 public interface CustomerService {
     Customers saveCustomer(UserAndCustomerCreateRequest userAndCustomerCreateRequest, Users users);
+
+    Customers getCustomerById(int id);
+
+    List<Customers> getAllCustomers();
 }

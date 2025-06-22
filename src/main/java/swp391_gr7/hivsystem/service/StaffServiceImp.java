@@ -12,6 +12,7 @@ import swp391_gr7.hivsystem.repository.ManagerRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,5 +77,18 @@ public class StaffServiceImp implements StaffService {
         staff.setWorkShift(request.getWorkShift());
         staff.setAssignedArea(request.getAssignedArea());
         return staffRepository.save(staff);
+    }
+
+    @Override
+    public Staffs getStaffById(int id) {
+        return staffRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Staffs> getAllStaffs() {
+        Iterable<Staffs> iterable = staffRepository.findAll(); // iterable là một đối tượng Iterable chứa tất cả các Staffs
+        List<Staffs> list = new ArrayList<>();  // iterable là kiểu dữ liệu là cha của mọi kiểu collection như List, Set, Queue..
+        iterable.forEach(list::add);
+        return list;
     }
 }

@@ -46,4 +46,8 @@ public interface DoctorRepository extends CrudRepository<Doctors, Integer> {
             value = "SELECT d.* FROM doctors d JOIN users u ON d.user_id = u.user_id WHERE u.full_name = :full_name",
             nativeQuery = true)
     Optional<Doctors> findDoctorByFullName(@Param("full_name") String fullName);
+
+    Doctors findDoctorByDoctorId(int doctorId);
+
+
 }

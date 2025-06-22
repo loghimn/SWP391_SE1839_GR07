@@ -7,5 +7,6 @@ import java.io.IOException;
 
 public interface ReportService {
     void exportUserToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
+
     void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
 }

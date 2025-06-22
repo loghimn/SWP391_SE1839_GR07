@@ -58,12 +58,14 @@ public enum ErrorCode {
     // Add error for customer
     CUSTOMER_INVALID_ADDRESS_NOTBLANK(1020, "Address is required", HttpStatus.BAD_REQUEST), // 400
     CUSTOMER_INVALID_ADDRESS(1021, "Address must be the name of a province/city in Vietnam", HttpStatus.BAD_REQUEST), // 400
+    CUSTOMER_NOT_FOUND(1022, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for staff
     STAFF_INVALID_DEPARTMENT_NOTBLANK(1022, "Department is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_WORKSHIFT_NOTNULL(1023, "Work shift is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_WORKSHIFT(1024, "Work shift include 1, 2, 3", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_ASSIGNED_AREA_NOTBLANK(1025, "Assigned area is required", HttpStatus.BAD_REQUEST), // 400
+    STAFF_NOT_FOUND(1026, "Staff not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for manager
     MANAGER_INVALID_DEPARTMENT_NOTBLANK(1026, "Department is required", HttpStatus.BAD_REQUEST), // 400
@@ -77,6 +79,7 @@ public enum ErrorCode {
     DOCTOR_INVALID_LICENSE_NUMBER_NOTBLANK(1033, "License number is required", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_FORMAT(1034, "License number must follow the format DC-{4 number}", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_EXIST(1035, "License number already exists", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_NOT_FOUND(1036, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for appointment
     APPOINTMENT_CUSTOMER_NOT_FOUND(1036, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404

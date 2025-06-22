@@ -178,4 +178,8 @@ public class UserServiceImp implements UserService {
         return userRepository.findByUsername(name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     }
+    @Override
+    public Users getUserById(int id) {
+        return userRepository.findByUserId(id);
+    }
 }

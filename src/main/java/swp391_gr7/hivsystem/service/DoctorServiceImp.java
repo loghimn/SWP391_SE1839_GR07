@@ -65,4 +65,9 @@ public class DoctorServiceImp implements DoctorService {
         doctoc.setLicenseNumber(request.getLicenseNumber());
         return doctorRepository.save(doctoc);
     }
+
+    @Override
+    public Doctors findDoctorById(int id) {
+        return doctorRepository.findDoctorByDoctorId(id);
+    }
 }

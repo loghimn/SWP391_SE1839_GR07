@@ -14,4 +14,6 @@ public interface DoctorService {
     List<Doctors> showAllDoctorsActive();
 
     Doctors updateDoctor(UserAndDoctorUpdateRequest request, Users users);
+
+    Doctors findDoctorById(int id);
 }
