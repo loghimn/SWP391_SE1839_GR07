@@ -93,26 +93,50 @@ public enum ErrorCode {
 
     // Add error for OAuth2
     OAUTH2_INVALID_USERNAME_EXIST(1046, "Username already exists", HttpStatus.BAD_REQUEST), // 400
-    OAUTH2_INVALID_EMAIL_EXIST(1046, "Email already exists", HttpStatus.BAD_REQUEST), // 400
+    OAUTH2_INVALID_EMAIL_EXIST(1047, "Email already exists", HttpStatus.BAD_REQUEST), // 400
     OAUTH2_INVALID_PHONE_EXIST(1048, "Phone number already exists", HttpStatus.BAD_REQUEST), // 400
 
+    // Add error for appointment request
+    APPOINTMENT_REQUEST_CUSTOMER_NOTNULL(1049, "Customer ID is required", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_REQUEST_DOCTOR_NOTNULL(1050, "Doctor ID is required", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_REQUEST_SCHEDULE_NOTNULL(1051, "Schedule ID is required", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_REQUEST_TIME_NOTNULL(1052, "Appointment time is required", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_REQUEST_STAFF_NOTNULL(1053, "Staff ID is required", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_REQUEST_TYPE_NOTBLANK(1054, "Appointment type is required", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_REQUEST_TYPE_INVALID_FORMAT(1055, "Appointment type must be either 'Test HIV' or 'Consultation'", HttpStatus.BAD_REQUEST), // 400
+
     // Add error for blogs
-    BLOG_DOCTOR_NOT_FOUND(1055, "Doctor not found with mail", HttpStatus.NOT_FOUND), // 404
-    BLOG_NOT_FOUND(1056, "Blog not found with ID", HttpStatus.NOT_FOUND), // 404
-    BLOG_DOCTOR_INVALID_MAIL_NOTBLANK(1057, "Doctor email is required", HttpStatus.BAD_REQUEST), // 400
-    BLOG_TITLE_NOTBLANK(1058, "Blog title is required", HttpStatus.BAD_REQUEST), // 400
-    BLOG_CONTENT_NOTBLANK(1059, "Blog content is required", HttpStatus.BAD_REQUEST), // 400
-    BLOG_IMAGEURL_NOTBLANK(1060, "Blog image URL is required", HttpStatus.BAD_REQUEST), // 400
-    BLOG_SOURCE_NOTBLANK(1061, "Blog source is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_DOCTOR_NOT_FOUND(1056, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
+    BLOG_NOT_FOUND(1057, "Blog not found with ID", HttpStatus.NOT_FOUND), // 404
+    BLOG_DOCTOR_INVALID_MAIL_NOTBLANK(1058, "Doctor email is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_TITLE_NOTBLANK(1059, "Blog title is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_CONTENT_NOTBLANK(1060, "Blog content is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_IMAGEURL_NOTBLANK(1061, "Blog image URL is required", HttpStatus.BAD_REQUEST), // 400
+    BLOG_SOURCE_NOTBLANK(1062, "Blog source is required", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for materials
-    MATERIAL_DOCTOR_NOT_FOUND(1062, "Doctor not found with mail", HttpStatus.NOT_FOUND), // 404
-    MATERIAL_NOT_FOUND(1063, "Material not found with ID", HttpStatus.NOT_FOUND), // 404
-    MATERIAL_DOCTOR_INVALID_MAIL_NOTBLANK(1064, "Doctor email is required", HttpStatus.BAD_REQUEST), // 400
-    MATERIAL_TITLE_NOTBLANK(1065, "Material title is required", HttpStatus.BAD_REQUEST), // 400
-    MATERIAL_CONTENT_NOTBLANK(1066, "Material content is required", HttpStatus.BAD_REQUEST), // 400
-    MATERIAL_IMAGEURL_NOTBLANK(1067, "Material image URL is required", HttpStatus.BAD_REQUEST), // 400
-    MATERIAL_SOURCE_NOTBLANK(1068, "Material source is required", HttpStatus.BAD_REQUEST) // 400
+    MATERIAL_DOCTOR_NOT_FOUND(1063, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
+    MATERIAL_NOT_FOUND(1064, "Material not found with ID", HttpStatus.NOT_FOUND), // 404
+    MATERIAL_DOCTOR_INVALID_MAIL_NOTBLANK(1065, "Doctor email is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_TITLE_NOTBLANK(1066, "Material title is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_CONTENT_NOTBLANK(1067, "Material content is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_IMAGEURL_NOTBLANK(1068, "Material image URL is required", HttpStatus.BAD_REQUEST), // 400
+    MATERIAL_SOURCE_NOTBLANK(1069, "Material source is required", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for re-examination
+    RE_EXAMINATION_ORIGINAL_APPOINTMENT_NOT_FOUND(1070, "Original appointment not found", HttpStatus.NOT_FOUND), // 404
+    RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR(1071, "No schedule found for doctor", HttpStatus.NOT_FOUND), // 404
+    RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE(1072, "No upcoming schedule found for doctor after original appointment date", HttpStatus.NOT_FOUND), // 404
+    RE_EXAMINATION_NO_AVAILABLE_RE_EXAM_DATE_IN_NEXT_30_DAYS(1073, "No available re-exam date in next 30 days", HttpStatus.NOT_FOUND), // 404
+
+    // Add error for consultation
+    CONSULTATION_APPOINTMENT_NOT_FOUND(1074, "Appointment not found with ID", HttpStatus.NOT_FOUND), // 404
+    CONSULTATION_INVALID_APPOINTMENT_TYPE(1075, "Appointment is not for consultation", HttpStatus.BAD_REQUEST), // 400
+    CONSULTATION_NOT_FOUND_BY_ID(1076, "Consultation not found with ID", HttpStatus.NOT_FOUND), // 404
+
+    // Add error for consultation request
+    CONSULTATION_REQUEST_APPOINTMENT_NOT_NULL(1077, "Appointment ID is required", HttpStatus.BAD_REQUEST), // 400
+    CONSULTATION_REQUEST_NOTES_NOTBLANK(1078, "Notes cannot be blank", HttpStatus.BAD_REQUEST) // 400
     ;
 
     private int code;

@@ -9,6 +9,7 @@ import swp391_gr7.hivsystem.dto.request.BlogCreateRequest;
 import swp391_gr7.hivsystem.model.Blogs;
 import swp391_gr7.hivsystem.service.BlogService;
 import swp391_gr7.hivsystem.service.BlogServiceImp;
+import swp391_gr7.hivsystem.service.JWTUtils;
 
 @RestController
 @RequestMapping("/api/blogs")
@@ -19,8 +20,15 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> blogCreate(@RequestBody @Valid BlogCreateRequest request) {
-        Blogs blogs = blogService.addBlog(request);
+    public ApiResponse<Boolean> blogCreate(@RequestBody @Valid BlogCreateRequest request,
+                                           @RequestHeader("Authorization") String authorizationHeader) {
+
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+
+        Blogs blogs = blogService.addBlog(request, doctorId);
         boolean result = blogs != null;
         return ApiResponse.<Boolean>builder()
                 .result(result)

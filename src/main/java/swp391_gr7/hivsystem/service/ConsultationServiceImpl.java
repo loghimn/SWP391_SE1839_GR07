@@ -2,6 +2,8 @@ package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 import swp391_gr7.hivsystem.dto.request.ConsultationCreateRequest;
@@ -15,23 +17,16 @@ public class ConsultationServiceImpl implements ConsultationService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    private String error = "";
+
 
     @Override
     public Consultations createConsultation(ConsultationCreateRequest request) {
-        error = "";
 
         Appointments appointment = appointmentRepository.findByAppointmentId((Integer) request.getAppointmentId())
-                .orElse(null);
-
-        if (appointment == null) {
-            error = "Appointment not found";
-            return null;
-        }
+                .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_APPOINTMENT_NOT_FOUND));
 
         if (!"Consultation".equals(appointment.getAppointmentType())) {
-            error = "Appointment is not for consultation";
-            return null;
+            throw new AppException(ErrorCode.CONSULTATION_INVALID_APPOINTMENT_TYPE);
         }
 
         Consultations consultation = new Consultations();
@@ -46,7 +41,8 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public Consultations getConsultationById(int id) {
-        return consultationRepository.findById(id).orElse(null);
+        return consultationRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_NOT_FOUND_BY_ID));
     }
 
     @Override
@@ -61,15 +57,10 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public boolean deleteConsultation(int id) {
-        if (consultationRepository.existsById(id)) {
-            consultationRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        Consultations consultation = consultationRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_NOT_FOUND_BY_ID));
+        consultationRepository.delete(consultation);
+        return true;
     }
 
-    @Override
-    public String getError() {
-        return error;
-    }
 }

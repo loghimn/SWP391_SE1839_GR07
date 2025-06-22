@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.MaterialCreateRequest;
 import swp391_gr7.hivsystem.model.Materials;
+import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.MaterialService;
 import swp391_gr7.hivsystem.service.MaterialServiceImp;
 
@@ -17,10 +18,16 @@ public class MaterialController {
     @Autowired
     private MaterialService materialService;
 
-    //@PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> createMaterial(@RequestBody @Valid MaterialCreateRequest request) {
-        Materials materials = materialService.addMaterial(request);
+    public ApiResponse<Boolean> createMaterial(@RequestBody @Valid MaterialCreateRequest request,
+                                               @RequestHeader("Authorization") String authorizationHeader) {
+
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        Materials materials = materialService.addMaterial(request, doctorId);
         boolean result = materials != null;
         return ApiResponse.<Boolean>builder()
                 .result(result)
@@ -28,7 +35,7 @@ public class MaterialController {
                 .build();
     }
 
-    //@PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
     public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent){
         materialService.updateInformationMaterial(id, updateContent);
@@ -38,7 +45,7 @@ public class MaterialController {
                 .build();
     }
 
-    //@PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{id}")
     public ApiResponse<Boolean> deleteMaterial(@PathVariable int id){
         materialService.deleteMaterial(id);

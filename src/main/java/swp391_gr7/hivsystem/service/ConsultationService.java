@@ -10,5 +10,4 @@ public interface ConsultationService {
     List<Consultations> getConsultationsByCustomer(int customerId);
     List<Consultations> getConsultationsByDoctor(int doctorId);
     boolean deleteConsultation(int id);
-    String getError();
 }

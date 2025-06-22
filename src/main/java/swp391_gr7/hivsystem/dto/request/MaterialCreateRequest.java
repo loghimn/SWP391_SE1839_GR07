@@ -12,8 +12,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class MaterialCreateRequest {
 
+    /*
     @NotBlank(message = "MATERIAL_DOCTOR_INVALID_MAIL_NOTBLANK")
     private String doctorMail;
+     */
 
     @NotBlank(message = "MATERIAL_TITLE_NOTBLANK")
     private String title;

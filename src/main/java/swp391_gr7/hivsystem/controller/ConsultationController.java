@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
@@ -17,23 +18,14 @@ public class ConsultationController {
     private ConsultationService consultationService;
 
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(@RequestBody ConsultationCreateRequest request) {
-        try {
-            Consultations consultation = consultationService.createConsultation(request);
-            boolean success = consultation != null;
+    public ApiResponse<Boolean> create(@RequestBody @Valid ConsultationCreateRequest request) {
 
-            return ApiResponse.<Boolean>builder()
-                    .code(success ? 200 : 400)
-                    .result(success)
-                    .message(success ? "Success" : consultationService.getError())
-                    .build();
-        } catch (Exception e) {
-            return ApiResponse.<Boolean>builder()
-                    .code(400)
-                    .result(false)
-                    .message("Create failed: " + e.getMessage())
-                    .build();
-        }
+        Consultations consultation = consultationService.createConsultation(request);
+        boolean result = consultation != null;
+        return ApiResponse.<Boolean>builder()
+                .result(result)
+                .message("Success")
+                .build();
     }
 
     @GetMapping("/{id}")

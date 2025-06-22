@@ -25,9 +25,9 @@ public class BlogServiceImp implements BlogService{
     public static String error = "";
 
     @Override
-    public Blogs addBlog(BlogCreateRequest request) {
+    public Blogs addBlog(BlogCreateRequest request, int doctorId) {
         // Xử lý doctor
-        Doctors doctor = doctorRepository.findDoctorByMail(request.getDoctorMail())
+        Doctors doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new AppException(ErrorCode.BLOG_DOCTOR_NOT_FOUND));
 
         // Tạo mới blogs

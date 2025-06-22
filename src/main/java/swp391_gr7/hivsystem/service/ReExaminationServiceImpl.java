@@ -2,6 +2,8 @@ package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.AppointmentRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
@@ -27,7 +29,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
         if (testResult.isRe_examination()) {
             Appointments originalAppointment = appointmentRepository
                     .findById(testResult.getAppointments().getAppointmentId())
-                    .orElseThrow(() -> new RuntimeException("Original appointment not found"));
+                    .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_ORIGINAL_APPOINTMENT_NOT_FOUND));
 
             Customers customers = testResult.getCustomers();
             Doctors doctors = testResult.getDoctors();
@@ -35,16 +37,15 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             Schedules schedule = originalAppointment.getSchedules();
 
             // Lấy ngày bác sĩ làm việc
-
             List<Schedules> schedules = scheduleRepository.findByDoctors_DoctorId((doctors.getDoctorId()));
             if (schedules == null || schedules.isEmpty()) {
-                throw new RuntimeException("No schedules found for doctor");
+                throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
             }
 
             Schedules nextSchedule = schedules.stream()
                     .filter(s -> s.getWorkDate().isAfter(currentDate))
                     .min(Comparator.comparing(Schedules::getWorkDate))
-                    .orElseThrow(() -> new RuntimeException("No upcoming schedule found for doctor after original appointment date"));
+                    .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE));
             // Giới hạn 30 ngày tìm kiếm
             LocalDate finalDate = null;
             for (int i = 0; i < 30; i++) {
@@ -58,7 +59,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
 
 
             if (finalDate == null) {
-                throw new RuntimeException("No available re-exam date in next 30 days");
+                throw new AppException(ErrorCode.RE_EXAMINATION_NO_AVAILABLE_RE_EXAM_DATE_IN_NEXT_30_DAYS);
             }
 
             // Tạo lịch tái khám mới
