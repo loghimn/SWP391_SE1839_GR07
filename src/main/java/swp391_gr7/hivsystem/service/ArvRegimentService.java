@@ -10,5 +10,5 @@ public interface ArvRegimentService {
     Boolean createArvRegiment(ArvRegimentCreateRequest request);
     //public ArvRegiments suggestArvMedical(int testResultId);
 
-   // List<ArvMedications> suggestArvMedication(int testResultId);
+   List<ArvMedications> suggestArvMedication(int treatmentPlanId);
 }

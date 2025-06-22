@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "arv_regiments")
@@ -13,23 +15,25 @@ import org.hibernate.annotations.Nationalized;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArvRegiments {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arv_regiment_id")
     private int arvRegimentID;
 
-    @Column(name = "level", nullable = false)
-    private int level; // 1: bậc 1, 2: bậc 2
-
-    @Column(name = "is_for_pregnancy", nullable = false)
-    private boolean isForPregnancy;
+    @Column(name = "level")
+    private int level;
 
     @Nationalized
-    @Column(name = "description", length = 1000)
+    @Column(name = "description", columnDefinition = "NVARCHAR(255)")
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "test_result_id")
-    private TestResults testResults;
+    // Optional: Liên kết ngược
+    @OneToMany(mappedBy = "arvRegimens", cascade = CascadeType.ALL)
+    private List<ArvMedications> medications = new ArrayList<>();
 
+    public ArvRegiments(int level, String description) {
+        this.level = level;
+        this.description = description;
+    }
 }
