@@ -17,6 +17,7 @@ public interface UserService {
     public Users findUserByUserId(int userId);
     public Users updateUser(UserUpdateRequest request, Users users);
     boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request);
+    boolean updateUserAndStaff(int userId, UserAndStaffUpdateRequest request);
     Users deleteUser(int userId);
     public List<Users> findAllUsers();
     public Users getMyInfo();

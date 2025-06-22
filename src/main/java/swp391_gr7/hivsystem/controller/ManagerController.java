@@ -1,8 +1,11 @@
 package swp391_gr7.hivsystem.controller;
 
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
 import swp391_gr7.hivsystem.model.Doctors;
@@ -22,10 +25,12 @@ public class ManagerController {
     DoctorService doctorService;
 
 
-    @PutMapping("/update/{userId}")
-    public boolean updateDoctor(@PathVariable int userId, @RequestBody UserAndDoctorUpdateRequest request) {
+    @PreAuthorize("hasRole('Manager')")
+    @PutMapping("/update/doctor/{userId}")
+    public boolean updateDoctor(@PathVariable int userId, @RequestBody @Valid UserAndDoctorUpdateRequest request) {
         return userService.updateUserAndDoctor(userId, request);
     }
+
     @GetMapping("/list/active")
     public ApiResponse<List> DoctorsListActive() {
         List <Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
@@ -50,5 +55,11 @@ public class ManagerController {
     @PutMapping("/delete/{userId}")
     public Users deleteUser(@PathVariable int userId) {
         return userService.deleteUser(userId);
+    }
+
+    @PreAuthorize("hasRole('Manager')")
+    @PutMapping("/update/staff/{userId}")
+    public boolean updateStaff(@PathVariable int userId, @RequestBody @Valid UserAndStaffUpdateRequest request) {
+        return userService.updateUserAndStaff(userId, request);
     }
 }

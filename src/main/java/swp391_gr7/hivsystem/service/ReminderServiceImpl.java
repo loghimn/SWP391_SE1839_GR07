@@ -3,6 +3,8 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
@@ -25,14 +27,20 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public Reminders createReminder(ReminderCreateRequest request) {
         Reminders reminder = new Reminders();
-        TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
-        reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
+        TestResults testResult = testResultsRepository.findById(request.getTestResultId())
+                .orElseThrow(() -> new AppException(ErrorCode.REMINDER_NOT_FOUND_TEST_RESULT));
+
+        reminder.setCustomers(customersRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new AppException(ErrorCode.REMINDER_NOT_FOUND_CUSTOMER)));
+
         reminder.setReminderType(request.getReminderType());
         reminder.setMessage(request.getMessage());
         reminder.setStatus(request.getStatus());
-        reminder.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
+        reminder.setStaffs(staffsRepository.findById(request.getStaffId())
+                        .orElseThrow(() -> new AppException(ErrorCode.REMINDER_NOT_FOUND_STAFF)));
         reminder.setTestResults(testResult);
-        reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
+        reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId())
+                .orElseThrow(() -> new AppException(ErrorCode.REMINDER_NOT_FOUND_APPOINTMENT)));
         // Set reminderTime based on dosageTime in TreatmentPlans
         if (testResult != null && testResult.getTreatmentPlan() != null && testResult.getTreatmentPlan().getDosageTime() != null) {
             reminder.setReminderTime(testResult.getTreatmentPlan().getDosageTime());

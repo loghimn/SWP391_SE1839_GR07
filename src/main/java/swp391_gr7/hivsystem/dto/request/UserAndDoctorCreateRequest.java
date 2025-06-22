@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserAndDoctorCreateRequest extends CreateUserRequest{
 
-    @NotBlank(message = "MANAGER_INVALID_DEPARTMENT_NOTBLANK")
+    @NotBlank(message = "DOCTOR_INVALID_DEPARTMENT_NOTBLANK")
     private String department;
 
     @NotNull(message = "DOCTOR_INVALID_YEAR_EXPERIENCE_NOTNULL")

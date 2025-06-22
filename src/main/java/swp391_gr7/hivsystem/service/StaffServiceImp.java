@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffCreateRequest;
+import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.model.Managers;
 import swp391_gr7.hivsystem.model.Staffs;
 import swp391_gr7.hivsystem.model.Users;
@@ -67,4 +68,13 @@ public class StaffServiceImp implements StaffService {
         return minStaffs;
     }
 
+    @Override
+    public Staffs updateStaff(UserAndStaffUpdateRequest request, Users users) {
+        Staffs staff = staffRepository.findStaffByUser_UserId(users.getUserId().toString()).get();
+        staff.setUsers(users);
+        staff.setDepartment(request.getDepartment());
+        staff.setWorkShift(request.getWorkShift());
+        staff.setAssignedArea(request.getAssignedArea());
+        return staffRepository.save(staff);
+    }
 }
