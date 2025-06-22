@@ -115,17 +115,30 @@ public class UserServiceImp implements UserService {
     }
 
     public Users findUserByUserId(int userId) {
-        return userRepository.findByUserId(userId);
+        Users users = userRepository.findByUserId(userId);
+        if (users == null) {
+            throw new AppException(ErrorCode.USER_NEED_UPDATE_NOT_FOUND);
+        }
+        return users;
     }
 
 
     public Users updateUser(UserUpdateRequest request, Users users) {
+        if(userRepository.existsByUsername(request.getUsername())) {
+            throw new AppException(ErrorCode.USER_UPDATE_EXIST_USERNAME);
+        }
+        if(userRepository.existsByEmail(request.getEmail())) {
+            throw new AppException(ErrorCode.USER_UPDATE_EXIST_EMAIL);
+        }
+        if(userRepository.existsByPhone(request.getPhone())) {
+            throw new AppException(ErrorCode.USER_UPDATE_EXIST_PHONE);
+        }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        users.setUsername(request.getUsername());
         users.setPassword(passwordEncoder.encode(request.getPassword()));
         users.setEmail(request.getEmail());
         users.setPhone(request.getPhone());
         users.setFullName(request.getFullName());
-        users.setUsername(request.getUsername());
         users.setDateOfBirth(request.getDateOfBirth());
         users.setGender(request.getGender());
         return userRepository.save(users);
@@ -137,6 +150,14 @@ public class UserServiceImp implements UserService {
         this.updateUser(request, users);
         Doctors doctors = doctorService.updateDoctor(request, users);
         return users != null && doctors != null;
+    }
+
+    @Override
+    public boolean updateUserAndStaff(int userId, UserAndStaffUpdateRequest request) {
+        Users user = findUserByUserId(userId);
+        this.updateUser(request, user);
+        Staffs staffs = staffService.updateStaff(request, user);
+        return user != null && staffs != null;
     }
 
     public Users deleteUser(int userId) {
