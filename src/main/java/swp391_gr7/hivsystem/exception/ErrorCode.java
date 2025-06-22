@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import swp391_gr7.hivsystem.model.Users;
 
 @Getter
 @AllArgsConstructor
@@ -136,7 +137,50 @@ public enum ErrorCode {
 
     // Add error for consultation request
     CONSULTATION_REQUEST_APPOINTMENT_NOT_NULL(1077, "Appointment ID is required", HttpStatus.BAD_REQUEST), // 400
-    CONSULTATION_REQUEST_NOTES_NOTBLANK(1078, "Notes cannot be blank", HttpStatus.BAD_REQUEST) // 400
+    CONSULTATION_REQUEST_NOTES_NOTBLANK(1078, "Notes cannot be blank", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for update user request
+    USER_UPDATE_INVALID_USERNAME_SIZE(1079, "Username update must be at least 5 characters", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_USERNAME_NOTBLANK(1080, "Username update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_PASSWORD_SIZE(1081, "Password update must be at least 8 characters", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_PASSWORD_NOTBLANK(1082, "Password update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_PASSWORD_FORMAT(1083, "Password update must contain at least one letter, one digit, and one special character", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_EMAIL_NOTBLANK(1084, "Email update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_EMAIL_FORMAT(1085, "Email update must be in a valid format and belong to gmail or example domain ending with com, vn, org", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_PHONE_NOTBLANK(1086, "Phone number update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_PHONE_SIZE(1087, "Phone number update must be exactly 10 digits", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_PHONE_FORMAT(1088, "Phone number update must start with 0 and be followed by 9 digits", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_FULLNAME_NOTBLANK(1089, "Full Name update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_DATEOFBIRTH_NOTNULL(1090, "Date of Birth update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_DATEOFBIRTH(1091, "Date of Birth update must be at least 18", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_GENDER_NOTBLANK(1092, "Gender update is required", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_GENDER_FORMAT(1093, "Gender update is male or female", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for update doctor
+    DOCTOR_UPDATE_INVALID_DEPARTMENT_NOTBLANK(1094, "Department update is required", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_UPDATE_INVALID_YEAR_EXPERIENCE_NOTNULL(1095, "Year experience update is required", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_UPDATE_INVALID_YEAR_EXPERIENCE(1096, "Years of experience update must be at least 0", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_NOTBLANK(1097, "License number update is required", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_FORMAT(1098, "License number update must follow the format DC-{4 number}", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_EXIST(1099, "License number update already exists", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for user exists with email, phone, username, not found
+    USER_UPDATE_EXIST_USERNAME(1100, "Username update already exists", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_EXIST_EMAIL(1101, "Email update already exists", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_EXIST_PHONE(1102, "Phone number update already exists", HttpStatus.BAD_REQUEST), // 400
+    USER_NEED_UPDATE_NOT_FOUND(1103, "User needs to update not found", HttpStatus.NOT_FOUND), // 404
+
+    // Add error fot update staff
+    STAFF_UPDATE_INVALID_DEPARTMENT_NOTBLANK(1104, "Department update is required", HttpStatus.BAD_REQUEST), // 400
+    STAFF_UPDATE_INVALID_WORKSHIFT_NOTNULL(1105, "Work shift update is required", HttpStatus.BAD_REQUEST), // 400
+    STAFF_UPDATE_INVALID_WORKSHIFT(1106, "Work shift update must be 1, 2, or 3", HttpStatus.BAD_REQUEST), // 400
+    STAFF_UPDATE_INVALID_ASSIGNED_AREA_NOTBLANK(1107, "Assigned area update is required", HttpStatus.BAD_REQUEST), // 400
+
+    // Add error for reminder
+    REMINDER_NOT_FOUND_TEST_RESULT(1108, "Test result not found to set reminder", HttpStatus.NOT_FOUND), // 404
+    REMINDER_NOT_FOUND_CUSTOMER(1109, "Customer not found to set reminder", HttpStatus.NOT_FOUND), // 404
+    REMINDER_NOT_FOUND_STAFF(1110, "Staff not found to set reminder", HttpStatus.NOT_FOUND), // 404
+    REMINDER_NOT_FOUND_APPOINTMENT(1111, "Appointment not found to set reminder", HttpStatus.NOT_FOUND), // 404
     ;
 
     private int code;
