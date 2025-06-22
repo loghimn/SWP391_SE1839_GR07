@@ -3,6 +3,7 @@ package swp391_gr7.hivsystem.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.SuggestMedicationRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.ArvRegimentCreateRequest;
 import swp391_gr7.hivsystem.model.ArvMedications;
@@ -30,11 +31,11 @@ public class ArvRegimentController {
                 .message("Fail created arvregiment")
                 .build();
     }
-    /*
+
     @GetMapping("/suggest/medications")
-    public ApiResponse<List> suggestMedications(@RequestParam int testResultId) {
-        List list;
-        list =  (arvRegimentService.suggestArvMedication(testResultId));
+    public ApiResponse<List> suggestMedications(SuggestMedicationRequest requset) {
+        List list = new ArrayList();
+        list =  (arvRegimentService.suggestArvMedication(requset.getTreatmentPlansId()));
         if (list == null) {
             return ApiResponse.<List>builder()
                     .message("Fail")
@@ -47,5 +48,4 @@ public class ArvRegimentController {
 
     }
 
-*/
 }

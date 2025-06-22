@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customers, Integer> {
     Customers findByUsers(Users user);
 
+    Customers getCustomersByCustomerId(int customerId);
 }
