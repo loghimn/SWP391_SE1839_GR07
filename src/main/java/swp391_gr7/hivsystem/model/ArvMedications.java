@@ -34,7 +34,7 @@ public class ArvMedications {
     @Column(name = "manufacturer", length = 100)
     private String manufacturer;  // (tùy chọn) hãng sản xuất
 
-    @Column(name = "description", length = 1000)
+    @Column(name = "description", length = 1000, columnDefinition = "NVARCHAR(255)")
     private String description;  // mô tả mở rộng
 
     @Column(name = "is_active", nullable = false)
@@ -44,5 +44,18 @@ public class ArvMedications {
     @JsonIgnore
     private ArvRegiments arvRegimens;
 
+
+    public ArvMedications(String code, String name, String form, String strength,
+                          String manufacturer, String description, boolean isActive,
+                          ArvRegiments arvRegimens) {
+        this.code = code;
+        this.name = name;
+        this.form = form;
+        this.strength = strength;
+        this.manufacturer = manufacturer;
+        this.description = description;
+        this.isActive = isActive;
+        this.arvRegimens = arvRegimens;
+    }
 
 }

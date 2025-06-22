@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ArvMedicationsRepository extends JpaRepository<ArvMedications, Integer> {
+    //List<ArvMedications> findByDescriptionContainingIgnoreCaseAndArvRegiment_IdAndIsActiveTrue(String description, int arvRegimentId);
+
     List<ArvMedications> findAllByDescriptionContainingIgnoreCase(String keyword);
 }

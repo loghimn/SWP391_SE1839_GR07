@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,18 +14,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArvRegiments {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "arv_regiment_id")
-    private int arvRegimentID;;
-    @Column(name = "level")
-    private int level; // 1: bậc 1, 2: bậc 2
-    @Column(name = "is_for_pregnancy")
-    private boolean isForPregnancy;
-    @Column(name = "description", length = 1000)
-    private String description;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "test_result_id")
-    private TestResults testResults;
+    private int arvRegimentID;
 
+    @Column(name = "level")
+    private int level;
+
+    @Column(name = "description", columnDefinition = "NVARCHAR(255)")
+    private String description;
+
+    // Optional: Liên kết ngược
+    @OneToMany(mappedBy = "arvRegimens", cascade = CascadeType.ALL)
+    private List<ArvMedications> medications = new ArrayList<>();
+
+    public ArvRegiments(int level, String description) {
+        this.level = level;
+        this.description = description;
+    }
 }
