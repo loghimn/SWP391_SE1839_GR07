@@ -85,11 +85,15 @@ public enum ErrorCode {
     APPOINTMENT_DUPLICATE_CUSTOMER(1040, "Appointment time with this customer already exists", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_DUPLICATE_DOCTOR(1041, "Appointment time with this doctor already exists", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_TIME_PAST(1042, "Appointment time must be today or later", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_INVALID_TYPE(1042, "Appointment type must be either 'Test HIV' or 'Consultation'", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_NOT_FOUND(1042, "Appointment not found with ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_ALREADY_DELETED(1042, "Appointment has already been deleted", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for schedule
     SCHEDULE_DOCTOR_NOT_FOUND(1043, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_MANAGER_NOT_FOUND(1044, "Manager not found with ID", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_INVALID_DATE(1045, "Schedule date must be today or later", HttpStatus.BAD_REQUEST), // 400
+    SCHEDULE_NOT_FOUND(1046, "Schedule not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for OAuth2
     OAUTH2_INVALID_USERNAME_EXIST(1046, "Username already exists", HttpStatus.BAD_REQUEST), // 400

@@ -85,17 +85,6 @@ public class TestResultServiceImpl implements TestResultService {
         return testResultRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public boolean deleteTestResult(int id) {
-        TestResults result = testResultRepository.findById(id).orElse(null);
-        if (result == null) {
-            error = "Test result not found";
-            return false;
-        }
-        testResultRepository.delete(result);
-        return true;
-    }
-
 
     @Override
     public String getError() {

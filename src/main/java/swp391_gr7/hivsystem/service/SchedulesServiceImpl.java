@@ -55,9 +55,12 @@ public class SchedulesServiceImpl implements SchedulesService {
     }
 
     @Override
-    public Schedules updateSchedule(int id, Schedules schedule) {
-        schedule.setScheduleID(id);
-        return schedulesRepository.save(schedule);
+    public Schedules updateSchedule(int id, SchedulesCreateRequest request) {
+        Schedules existingSchedule = schedulesRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        existingSchedule.setWorkDate(request.getWorkDate());
+        return schedulesRepository.save(existingSchedule);
     }
 
     @Override

@@ -9,6 +9,6 @@ public interface SchedulesService {
     Schedules createSchedule(SchedulesCreateRequest request);
     Optional<Schedules> getScheduleById(int id);
     List<Schedules> getAllSchedules();
-    Schedules updateSchedule(int id, Schedules schedule);
+    Schedules updateSchedule(int id, SchedulesCreateRequest request);
     void deleteSchedule(int id);
 }

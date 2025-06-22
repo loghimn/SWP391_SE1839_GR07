@@ -20,8 +20,8 @@ public class ReminderCreateRequest {
     @NotBlank(message = "MESSAGE_REQUIRED")
     private String message;
 
-    @NotNull(message = "STATUS_REQUIRED")
-    private Boolean status;
+//    @NotNull(message = "STATUS_REQUIRED")
+//    private Boolean status;
 
   //  Cai này có thể không cần thiết, vì staffId có thể được lấy từ thông tin người dùng đã đăng nhập
 //    @NotNull(message = "STAFF_ID_REQUIRED")

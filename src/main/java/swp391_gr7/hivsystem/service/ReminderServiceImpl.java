@@ -38,7 +38,7 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
         reminder.setReminderType("Dosage Reminder");
         reminder.setMessage(request.getMessage());
-        reminder.setStatus(request.getStatus());
+        reminder.setStatus(true);
         reminder.setStaffs(staffsRepository.findById(id).orElse(null));
         reminder.setTestResults(testResult);
         reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
@@ -60,7 +60,7 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
-        reminder.setStatus(request.getStatus());
+        reminder.setStatus(true);
         reminder.setStaffs(staffsRepository.findById(id).orElse(null));
         reminder.setTestResults(testResult);
         Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
@@ -83,7 +83,7 @@ public class ReminderServiceImpl implements ReminderService {
             TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
             existing.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
             existing.setMessage(request.getMessage());
-            existing.setStatus(request.getStatus());
+//            existing.setStatus(request.getStatus());
 //            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
             existing.setTestResults(testResult);
             existing.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
@@ -98,13 +98,14 @@ public class ReminderServiceImpl implements ReminderService {
             return remindersRepository.save(existing);
         }).orElse(null);
     }
+
     @Override
     public Reminders updateReminderReExam(int id, ReminderCreateRequest request) {
         return remindersRepository.findById(id).map(existing -> {
             TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
             existing.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
             existing.setMessage(request.getMessage());
-            existing.setStatus(request.getStatus());
+//            existing.setStatus(request.getStatus());
 //            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
             existing.setTestResults(testResult);
             Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
@@ -156,6 +157,9 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public void deleteReminder(int id) {
-        remindersRepository.deleteById(id);
+        remindersRepository.findById(id).ifPresent(reminder -> {
+            reminder.setStatus(false);
+            remindersRepository.save(reminder);
+        });
     }
 }

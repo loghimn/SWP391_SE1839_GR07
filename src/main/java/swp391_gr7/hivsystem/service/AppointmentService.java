@@ -9,8 +9,19 @@ import java.util.List;
 @Service
 public interface AppointmentService {
     //public String error = null;
-    public Appointments addAppointment(int id, AppointmentCreateRequest request);
-    public List<Appointments> getAllAppointmentsFullInfor();
-    public List<Appointments> getAllAppointmentsEcceptAnonymous();
+    Appointments addAppointment(int id, AppointmentCreateRequest request);
+
+    List<Appointments> getAllAppointmentsFullInfor();
+
+    List<Appointments> getAllAppointmentsEcceptAnonymous();
+
+    List<Appointments> getAllAppointmentsAnonymous();
+
     String getErrorMessage();
+
+    Appointments updateAppointment(int id, AppointmentCreateRequest request);
+
+    Appointments deleteAppointment(int id);
+
+    Appointments getAppointmentById(int id);
 }

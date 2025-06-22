@@ -10,6 +10,5 @@ public interface TestResultService {
     TestResults updateTestResult(int id, TestResultCreateRequest request);
     TestResults getTestResultById(int id);
     List<TestResults> getTestResultsByCustomer(int customerId);
-    boolean deleteTestResult(int id);
     String getError();
 }

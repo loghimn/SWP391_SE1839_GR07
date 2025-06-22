@@ -19,10 +19,7 @@ public class TestResultController {
     private ReExaminationService reExaminationService;
 
     @PostMapping("/{appointmentId}/{treatmentPlanId}")
-    public ApiResponse<TestResults> addTestResult(
-            @PathVariable int appointmentId,
-            @PathVariable int treatmentPlanId,
-            @RequestBody TestResultCreateRequest request) {
+    public ApiResponse<TestResults> addTestResult(@RequestBody TestResultCreateRequest request) {
         TestResults result = testResultService.addTestResult(request);
 
         if (result != null && result.isRe_examination()) {
@@ -60,16 +57,6 @@ public class TestResultController {
                 .build();
     }
 
-    @DeleteMapping("/{id}")
-    public ApiResponse<Boolean> deleteTestResult(@PathVariable int id) {
-        boolean deleted = testResultService.deleteTestResult(id);
-
-        return ApiResponse.<Boolean>builder()
-                .code(deleted ? 200 : 404)
-                .result(deleted)
-                .message(deleted ? "Success" : "Test result not found")
-                .build();
-    }
 
     @GetMapping("/customer/{customerId}")
     public ApiResponse<List<TestResults>> getTestResultsByCustomer(
