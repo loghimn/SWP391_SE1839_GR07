@@ -34,16 +34,16 @@ public class Appointments {
     @JoinColumn(name = "medical_record_id ", nullable = false)
     private MedicalRecords medicalRecords;
 
-    @Column(name = "appointment_time")
+    @Column(name = "appointment_time", nullable = false)
     private LocalDate appointmentTime;  // bỏ length, LocalDate không cần length
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private boolean status;  // boolean không cần length
 
-    @Column(name = "anonymous")
+    @Column(name = "anonymous", nullable = false)
     private boolean anonymous;  // boolean không cần length
 
-    @Column(name = "appointment_type")
+    @Column(name = "appointment_type", nullable = false)
     private String appointmentType;
 
     @ManyToOne(fetch = FetchType.LAZY)

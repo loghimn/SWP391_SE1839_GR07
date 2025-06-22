@@ -17,7 +17,7 @@ public class AppointmentCreateRequest {
     private int customerId;
 
     @NotNull(message = "APPOINTMENT_REQUEST_DOCTOR_NOTNULL")
-    private int doctorId;
+    private String doctorName;
 
     @NotNull(message = "APPOINTMENT_REQUEST_STAFF_NOTNULL")
     private int staffId;

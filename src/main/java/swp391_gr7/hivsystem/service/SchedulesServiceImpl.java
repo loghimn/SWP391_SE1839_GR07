@@ -30,7 +30,7 @@ public class SchedulesServiceImpl implements SchedulesService {
     public Schedules createSchedule(SchedulesCreateRequest request) {
         Doctors doctor = doctorRepository.findById(request.getDoctorId())
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_DOCTOR_NOT_FOUND));
-        Managers manager = managerRepository.findById(request.getManagerId())
+        Managers manager = managerRepository.findById(1)
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_MANAGER_NOT_FOUND));
 
         if(request.getWorkDate().isBefore(LocalDate.now())) {

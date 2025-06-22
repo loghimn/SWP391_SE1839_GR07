@@ -23,7 +23,7 @@ public class TestResultController {
             @PathVariable int appointmentId,
             @PathVariable int treatmentPlanId,
             @RequestBody TestResultCreateRequest request) {
-        TestResults result = testResultService.addTestResult(appointmentId, treatmentPlanId, request);
+        TestResults result = testResultService.addTestResult(request);
 
         if (result != null && result.isRe_examination()) {
             reExaminationService.handleReExamination(result);

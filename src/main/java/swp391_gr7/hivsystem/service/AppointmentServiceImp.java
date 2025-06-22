@@ -8,7 +8,6 @@ import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,7 @@ public class AppointmentServiceImp implements AppointmentService {
     @Autowired
     private StaffService staffService;
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private SchedulesRepository schedulesRepository;
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
 
@@ -85,26 +84,31 @@ public class AppointmentServiceImp implements AppointmentService {
 //    }
 
     @Override
-    public Appointments addAppointment(AppointmentCreateRequest request) {
+    public Appointments addAppointment(int id, AppointmentCreateRequest request) {
 
-        Customers customers = customerRepository.findById(request.getCustomerId())
+        Customers customers = customerRepository.findById(id)
                 .orElse(null);
 
-        Doctors doctors = doctorRepository.findById(request.getDoctorId())
-                .orElse(null);
+       Optional<Doctors> doctorsOpt = doctorRepository.findDoctorByFullName(request.getDoctorName());
+       Doctors doctors = null;
+        if (doctorsOpt.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND);
+        } else {
+            doctors = doctorsOpt.get();
+        }
 
         Staffs staffs = staffRepository.findById(request.getStaffId())
                 .orElse(staffService.findStaffHasLeastAppointment());
 
-        Schedules schedules = scheduleRepository.findById(request.getScheduleId())
+        Schedules schedules = schedulesRepository.findById(request.getScheduleId())
                 .orElse(null);
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
                 .orElse(null);
 
-        if (customers == null) {
-            throw new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND);
-        }
+//        if (customers == null) {
+//            throw new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND);
+//        }
         if( doctors == null) {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND);
         }

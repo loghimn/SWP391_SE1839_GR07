@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface AppointmentService {
     //public String error = null;
-    public Appointments addAppointment(AppointmentCreateRequest request);
+    public Appointments addAppointment(int id, AppointmentCreateRequest request);
     public List<Appointments> getAllAppointmentsFullInfor();
     public List<Appointments> getAllAppointmentsEcceptAnonymous();
     String getErrorMessage();

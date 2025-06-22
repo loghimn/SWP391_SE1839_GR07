@@ -34,18 +34,20 @@ public class ReportServiceImp implements ReportService{
 
     @Override
     public void exportUserToCSV(HttpServletResponse response,
-                                ReportCreateRequest request) throws IOException {
+                                ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách User
         List<Users> users = userRepository.findAll();
 
+        Managers manager = managerRepository.findManagerById(id);
+
         // Xử lý Manager
-        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());
-        Managers manager = null;
-        if(managerOpt.isEmpty()) {
-            error += "Manager not found with mail";
-        } else {
-            manager = managerOpt.get();
-        }
+//        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());
+//        Managers manager = null;
+//        if(managerOpt.isEmpty()) {
+//            error += "Manager not found with mail";
+//        } else {
+//            manager = managerOpt.get();
+//        }
 
         // Ghi ra file CSV
         response.setContentType("text/csv");
@@ -66,18 +68,18 @@ public class ReportServiceImp implements ReportService{
     }
 
     @Override
-    public void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request) throws IOException {
+    public void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách Appointment
         List<Appointments> appointments = appointmentRepository.findAll();
 
         // Xử lý Manager
-        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());
-        Managers manager = null;
-        if(managerOpt.isEmpty()) {
-            error += "Manager not found with mail";
-        } else {
-            manager = managerOpt.get();
-        }
+//        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());
+//        Managers manager = null;
+//        if(managerOpt.isEmpty()) {
+//            error += "Manager not found with mail";
+//        } else {
+//            manager = managerOpt.get();
+//        }
 
         // Ghi ra file CSV
         response.setContentType("text/csv");
@@ -87,7 +89,7 @@ public class ReportServiceImp implements ReportService{
         printWriter.flush();
         // Ghi báo cáo vào bảng report, tạo mới nếu ko có lỗi
         Reports report = new Reports();
-        report.setManagers(manager);
+//        report.setManagers(manager);
         report.setReportType(request.getReportType());
         report.setCreatedAt(LocalDateTime.now());
         // Lưu thông tin vào bảng report

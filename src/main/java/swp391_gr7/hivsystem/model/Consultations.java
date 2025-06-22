@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
 
@@ -25,7 +26,6 @@ import java.time.LocalDate;
         private Appointments appointments;
 //
         @ManyToOne(fetch = FetchType.LAZY)
-
         @JoinColumn(name = "doctor_id", nullable = false)
         private Doctors doctors;
 //
@@ -33,8 +33,10 @@ import java.time.LocalDate;
         @JoinColumn(name = "customer_id", nullable = false)
         private Customers customers;
 
-        @Column(name = "consultation_date")
+        @Column(name = "consultation_date", nullable = false)
         private LocalDate consultationDate;
+
+        @Nationalized
         @Column(name = "notes")
         private String notes;
 }

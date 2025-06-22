@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReminderRepository extends JpaRepository<Reminders, Integer> {
-    Reminders save(Reminders reminders);
-    @Query(value = "SELECT * FROM reminders r WHERE r.status = 0 AND r.reminder_time <= :reminderTime",
+    @Query(value = "SELECT * FROM reminders r WHERE r.status = 0 AND r.reminder_time <= :reminderTime AND r.reminder_type = 'Re-Exam Reminder'",
             nativeQuery = true)
     List<Reminders> findReminderStatusFalseAndReminderTimeBefore(@Param("reminderTime") LocalDateTime reminderTime);
+
 }

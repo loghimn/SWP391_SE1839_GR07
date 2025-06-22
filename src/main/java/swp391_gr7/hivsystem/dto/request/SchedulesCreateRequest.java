@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Builder
 public class SchedulesCreateRequest {
     private Integer doctorId;
-    private Integer managerId;
+ //   private Integer managerId;
     private LocalDate workDate;
     private String notes;
 }

@@ -51,7 +51,7 @@ public class SchedulesController {
         try {
             Doctors doctor = doctorRepository.findById(request.getDoctorId())
                     .orElseThrow(() -> new RuntimeException("Doctor not found"));
-            Managers manager = managerRepository.findById(request.getManagerId())
+            Managers manager = managerRepository.findById(1)
                     .orElseThrow(() -> new RuntimeException("Manager not found"));
 
             Schedules schedule = Schedules.builder()

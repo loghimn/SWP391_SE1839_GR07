@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.request.*;
         import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.service.AppointmentService;
+import swp391_gr7.hivsystem.service.JWTUtils;
 
 import java.util.List;
 
@@ -44,8 +45,13 @@ public class CustommerController {
 
 
     @PostMapping("/appoint/book")
-    public ApiResponse<Boolean> appointmentRequest(@RequestBody @Valid AppointmentCreateRequest request) {
-        Appointments appointments = appointmentService.addAppointment(request);
+    public ApiResponse<Boolean> appointmentRequest(@RequestBody @Valid AppointmentCreateRequest request,
+                                                    @RequestHeader("Authorization") String authorizationHeader) {
+        // Extract customerId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+
+        Appointments appointments = appointmentService.addAppointment(customerId, request);
         boolean result = appointments != null;
         return ApiResponse.<Boolean>builder()
                 .result(result)

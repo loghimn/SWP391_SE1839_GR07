@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import lombok.*;
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Table(name = "users")
@@ -24,21 +25,23 @@ public class Users {
     @Column(length = 255, nullable = true)
     private String password;
 
-    @Column(length = 100)
+    @Column(length = 100, unique = true, nullable = false)
     private String email;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false, unique = true)
     private String phone;
 
-    @Column(length = 100)
+    @Nationalized
+    @Column(length = 100 , nullable = false)
     private String fullName;
 
+    @Column(length = 255 , nullable = true)
     private LocalDate dateOfBirth;
 
-    @Column(length = 10)
+    @Column(length = 10, nullable = true)
     private String gender;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String role;
 
     @Column(nullable = false, updatable = false)

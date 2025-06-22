@@ -29,9 +29,9 @@ public class Reports {
     @JoinColumn(name = "manager_id", nullable = false)
     private Managers managers;
 
-    @Column(name = "report_type")
+    @Column(name = "report_type", nullable = false)
     private String reportType;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 }

@@ -25,10 +25,10 @@ public class TestResultServiceImpl implements TestResultService {
     private String error = "";
 
     @Override
-    public TestResults addTestResult(int appointmentId, int treatmentplanId, TestResultCreateRequest request) {
+    public TestResults addTestResult(TestResultCreateRequest request) {
         error = "";
 
-        Appointments appointment = appointmentRepository.findById(appointmentId).orElse(null);
+        Appointments appointment = appointmentRepository.findById(request.getAppointmentId()).orElse(null);
         if (appointment == null) {
             error = "Appointment not found";
             return null;
@@ -38,7 +38,7 @@ public class TestResultServiceImpl implements TestResultService {
             error = "Appointment is not for HIV testing";
             return null;
         }
-        TreatmentPlans treatmentPlan = treatmentPlansRepository.findById(treatmentplanId).orElse(null);
+        TreatmentPlans treatmentPlan = treatmentPlansRepository.findById(request.getTreatmentPlanId()).orElse(null);
         if (treatmentPlan == null) {
             error = "Treatment plan not found";
             return null;

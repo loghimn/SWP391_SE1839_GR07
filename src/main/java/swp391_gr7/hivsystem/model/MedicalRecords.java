@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
 
@@ -23,12 +24,14 @@ public class MedicalRecords {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
 
-    @Column(name = "diagnosis")
+    @Nationalized
+    @Column(name = "diagnosis", nullable = false)
     private String diagnosis;
 
-    @Column(name = "treatment")
+    @Nationalized
+    @Column(name = "treatment", nullable = false)
     private String treatment;
 
-    @Column(name = "record_date")
+    @Column(name = "record_date", nullable = false)
     private LocalDate recordDate;
 }

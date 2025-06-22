@@ -1,11 +1,18 @@
 package swp391_gr7.hivsystem.service;
 
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -21,49 +28,120 @@ public class ReminderServiceImpl implements ReminderService {
     private TestResultRepository testResultsRepository;
     @Autowired
     private AppointmentRepository appointmentsRepository;
+    @Autowired
+    private JavaMailSenderImpl mailSender;
 
     @Override
-    public Reminders createReminder(ReminderCreateRequest request) {
+    public Reminders createReminderDosage(int id, ReminderCreateRequest request) {
         Reminders reminder = new Reminders();
         TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
         reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
-        reminder.setReminderType(request.getReminderType());
+        reminder.setReminderType("Dosage Reminder");
         reminder.setMessage(request.getMessage());
         reminder.setStatus(request.getStatus());
-        reminder.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
+        reminder.setStaffs(staffsRepository.findById(id).orElse(null));
         reminder.setTestResults(testResult);
         reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
         // Set reminderTime based on dosageTime in TreatmentPlans
         if (testResult != null && testResult.getTreatmentPlan() != null && testResult.getTreatmentPlan().getDosageTime() != null) {
-            reminder.setReminderTime(testResult.getTreatmentPlan().getDosageTime());
+            LocalDateTime reminderDateTime = LocalDateTime.of(testResult.getTestDate(), testResult.getTreatmentPlan().getDosageTime());
+            reminder.setReminderTime(reminderDateTime);
         } else {
-            // fallback: set to midnight
-            reminder.setReminderTime(java.time.LocalTime.MIDNIGHT);
+            reminder.setReminderTime(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
         }
         // Set staff if needed (if you have logic to get staff from context)
         return remindersRepository.save(reminder);
     }
 
     @Override
-    public Reminders updateReminder(int id, ReminderCreateRequest request) {
+    public Reminders createReminderReExam(int id, ReminderCreateRequest request) {
+        Reminders reminder = new Reminders();
+        TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
+        reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
+        reminder.setReminderType("Re-Exam Reminder");
+        reminder.setMessage(request.getMessage());
+        reminder.setStatus(request.getStatus());
+        reminder.setStaffs(staffsRepository.findById(id).orElse(null));
+        reminder.setTestResults(testResult);
+        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
+        reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
+        // Set reminderTime based on dosageTime in TreatmentPlans
+        if (appointments != null && appointments.getAppointmentTime() != null) {
+            LocalDate appointmentDay = appointments.getAppointmentTime();
+            LocalDate reminderDay = appointmentDay.minusDays(1);
+            LocalTime reminderTime = LocalTime.of(8, 0);
+            LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
+            reminder.setReminderTime(reminderDateTime); // store full datetime
+        }
+        // Set staff if needed (if you have logic to get staff from context)
+        return remindersRepository.save(reminder);
+    }
+
+    @Override
+    public Reminders updateReminderDosage(int id, ReminderCreateRequest request) {
         return remindersRepository.findById(id).map(existing -> {
             TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
             existing.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
-            existing.setReminderType(request.getReminderType());
             existing.setMessage(request.getMessage());
             existing.setStatus(request.getStatus());
-            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
+//            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
             existing.setTestResults(testResult);
             existing.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
             // Set reminderTime based on dosageTime in TreatmentPlans
             if (testResult != null && testResult.getTreatmentPlan() != null && testResult.getTreatmentPlan().getDosageTime() != null) {
-                existing.setReminderTime(testResult.getTreatmentPlan().getDosageTime());
+                LocalDateTime reminderDateTime = LocalDateTime.of(LocalDate.now(), testResult.getTreatmentPlan().getDosageTime());
+                existing.setReminderTime(reminderDateTime);
             } else {
-                existing.setReminderTime(java.time.LocalTime.MIDNIGHT);
+                existing.setReminderTime(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
             }
             // Set staff if needed (if you have logic to get staff from context)
             return remindersRepository.save(existing);
         }).orElse(null);
+    }
+    @Override
+    public Reminders updateReminderReExam(int id, ReminderCreateRequest request) {
+        return remindersRepository.findById(id).map(existing -> {
+            TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
+            existing.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
+            existing.setMessage(request.getMessage());
+            existing.setStatus(request.getStatus());
+//            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
+            existing.setTestResults(testResult);
+            Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
+            existing.setAppointments(appointments);
+            // Set reminderTime based on dosageTime in TreatmentPlans
+            if (appointments != null && appointments.getAppointmentTime() != null) {
+                LocalDate appointmentDay = appointments.getAppointmentTime();
+                LocalDate reminderDay = appointmentDay.minusDays(1);
+                LocalTime reminderTime = LocalTime.of(8, 0);
+                LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
+                existing.setReminderTime(reminderDateTime); // store full datetime
+            }
+            // Set staff if needed (if you have logic to get staff from context)
+            return remindersRepository.save(existing);
+        }).orElse(null);
+    }
+
+
+    @Override
+    @Scheduled(fixedRate = 60000)
+    public void sendDueReminderReExam() {
+        List<Reminders> remindersDue = remindersRepository.findReminderStatusFalseAndReminderTimeBefore(LocalDateTime.now());
+        for (Reminders reminders : remindersDue) {
+            try {
+                MimeMessage message = mailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+                helper.setTo(reminders.getCustomers().getUsers().getEmail());
+                helper.setSubject(reminders.getReminderType());
+                helper.setText(reminders.getMessage());
+                helper.setFrom(reminders.getStaffs().getUsers().getEmail());
+                mailSender.send(message);
+                reminders.setStatus(true);
+                remindersRepository.save(reminders);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

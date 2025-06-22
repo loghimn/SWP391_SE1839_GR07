@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalTime;
 
@@ -24,7 +25,8 @@ public class TreatmentPlans {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 
-    @Column(name = "plan_description", nullable = false)
+    @Nationalized
+    @Column(name = "plan_description")
     private String planDescription;
 
     @Column(name = "dosage_time") // thời gian uống thuốc

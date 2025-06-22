@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.util.List;
 
@@ -25,15 +26,16 @@ public class ArvMedications {
     @Column(name = "name", nullable = false, length = 100)
     private String name;  // Tên đầy đủ: Tenofovir disoproxil fumarate
 
-    @Column(name = "form", length = 50)
+    @Column(name = "form", length = 50, nullable = false)
     private String form;  // Dạng bào chế: viên nén, siro
 
-    @Column(name = "strength", length = 20)
+    @Column(name = "strength", length = 20, nullable = false)
     private String strength;  // Hàm lượng: 300mg, 50mg...
 
-    @Column(name = "manufacturer", length = 100)
-    private String manufacturer;  // (tùy chọn) hãng sản xuất
+    @Column(name = "manufacturer", length = 100, nullable = true)
+    private String manufacturer;  // hãng sản xuất
 
+    @Nationalized
     @Column(name = "description", length = 1000)
     private String description;  // mô tả mở rộng
 

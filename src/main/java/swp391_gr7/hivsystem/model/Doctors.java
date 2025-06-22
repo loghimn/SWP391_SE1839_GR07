@@ -20,7 +20,7 @@ public class Doctors {
     private int doctorId;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private Users users;
 
     @Column(name = "department", nullable = false)
