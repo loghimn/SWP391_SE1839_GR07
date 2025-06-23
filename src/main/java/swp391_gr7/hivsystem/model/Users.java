@@ -41,7 +41,7 @@ public class Users {
     @Column(length = 10, nullable = true)
     private String gender;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String role;
 
     @Column(nullable = false, updatable = false)
