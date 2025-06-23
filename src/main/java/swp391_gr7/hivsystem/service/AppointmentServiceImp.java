@@ -248,4 +248,15 @@ public class AppointmentServiceImp implements AppointmentService {
         return null;
     }
 
+    @Override
+    public List<Appointments> getAppointmentsByCustomerId(int customerId) {
+        Customers customers = customerRepository.findById(customerId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND));
+        return appointmentRepository.findByCustomers_CustomerId(customerId);
+    }
+
+    @Override
+    public List<Appointments> getCustomerAppointment(int currentCustomerId) {
+        return appointmentRepository.findByCustomers_CustomerId(currentCustomerId);
+    }
 }

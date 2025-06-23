@@ -15,4 +15,6 @@ public interface TestResultService {
     List<TestResults> getTestResultsByCustomer(int customerId);
 
     String getError();
+
+    List<TestResults> getMyTestResults(int customerId);
 }

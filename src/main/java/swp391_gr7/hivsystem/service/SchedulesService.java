@@ -15,5 +15,5 @@ public interface SchedulesService {
 
     Schedules updateSchedule(int id, SchedulesCreateRequest request);
 
-    void deleteSchedule(int id);
+    List<Schedules> getMySchedules(int doctorId);
 }

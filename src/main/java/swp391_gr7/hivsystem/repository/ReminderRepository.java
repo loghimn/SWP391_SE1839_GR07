@@ -13,4 +13,5 @@ public interface ReminderRepository extends JpaRepository<Reminders, Integer> {
             nativeQuery = true)
     List<Reminders> findReminderStatusFalseAndReminderTimeBefore(@Param("reminderTime") LocalDateTime reminderTime);
 
+    Reminders findRemindersByCustomersCustomerId(int customersCustomerId);
 }

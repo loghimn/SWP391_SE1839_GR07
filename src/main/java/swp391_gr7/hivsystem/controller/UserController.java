@@ -55,7 +55,7 @@ public class UserController {
                 .build();
     }
 
-
+    @PreAuthorize("hasRole('Manager')")
     @PostMapping("/doctor/register")
     public ApiResponse<Boolean> registerUserAndDoctor(@RequestBody @Valid UserAndDoctorCreateRequest request) {
         var result = userService.registerUserAndDoctor(request);
@@ -65,7 +65,7 @@ public class UserController {
                 .message(result ? "Success" : "Registration failed")
                 .build();
     }
-
+    @PreAuthorize("hasRole('Manager')")
     @PostMapping("/manager/register")
     public ApiResponse<Boolean> registerUserAndManager(@RequestBody @Valid UserAndManagerCreateRequest request) {
         var result = userService.registerUserAndManager(request);
@@ -75,7 +75,7 @@ public class UserController {
                 .message(result ? "Success" : "Registration failed")
                 .build();
     }
-
+    @PreAuthorize("hasRole('Manager')")
     @PostMapping("/staff/register")
     public ApiResponse<Boolean> registerUserAndStaff(@RequestBody @Valid UserAndStaffCreateRequest request) {
         var result = userService.registerUserAndStaff(request);

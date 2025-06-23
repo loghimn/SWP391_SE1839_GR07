@@ -85,6 +85,10 @@ public class TestResultServiceImpl implements TestResultService {
         return testResultRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public List<TestResults> getMyTestResults(int customerId) {
+        return testResultRepository.findByCustomers_CustomerId(customerId);
+    }
 
     @Override
     public String getError() {

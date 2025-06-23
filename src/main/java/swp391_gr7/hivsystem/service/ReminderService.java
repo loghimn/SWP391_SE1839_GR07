@@ -21,4 +21,6 @@ public interface ReminderService {
     void deleteReminder(int id);
 
     void sendDueReminderReExam();
+
+    Reminders getMyReminderById(int id);
 }

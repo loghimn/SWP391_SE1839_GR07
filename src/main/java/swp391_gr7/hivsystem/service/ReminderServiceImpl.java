@@ -162,4 +162,9 @@ public class ReminderServiceImpl implements ReminderService {
             remindersRepository.save(reminder);
         });
     }
+
+    @Override
+    public Reminders getMyReminderById(int id) {
+        return remindersRepository.findRemindersByCustomersCustomerId(id);
+    }
 }

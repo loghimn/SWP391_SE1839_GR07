@@ -34,11 +34,11 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
     }
 
     @Override
-    public MedicalRecords addMedicalRecord(MedicalRecordCreateRequest request) {
+    public MedicalRecords addMedicalRecord(int id, MedicalRecordCreateRequest request) {
         error = "";
 
         // Check if customer exists
-        Customers customer = customerRepository.findById(request.getCustomerId())
+        Customers customer = customerRepository.findById(id)
                 .orElse(null);
         if (customer == null) {
             error += "Customer not found. ";
@@ -62,11 +62,14 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
     }
 
     @Override
-    public MedicalRecords updateMedicalRecord(int id, MedicalRecordCreateRequest request) {
+    public MedicalRecords updateMedicalRecord(int cusId, MedicalRecordCreateRequest request) {
         error = "";
 
+        // Check if customer exists
+        Customers customer = customerRepository.findById(cusId)
+                .orElse(null);
         // Check if record exists
-        MedicalRecords existingRecord = medicalRecordRepository.findById(id)
+        MedicalRecords existingRecord = medicalRecordRepository.findByCustomers(customer)
                 .orElse(null);
         if (existingRecord == null) {
             error += "Medical record not found. ";
@@ -81,13 +84,27 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
         return medicalRecordRepository.save(existingRecord);
     }
 
+
     @Override
-    public void deleteById(int id) {
-        try {
-            medicalRecordRepository.deleteById(id);
-        } catch (Exception e) {
-            error = "Failed to delete medical record: " + e.getMessage();
+    public MedicalRecords getMyMedicalRecord(int customerId) {
+        error = "";
+
+        // Check if customer exists
+        Customers customer = customerRepository.findById(customerId)
+                .orElse(null);
+        if (customer == null) {
+            error += "Customer not found. ";
+            return null;
         }
+
+        // Find medical record by customer
+        Optional<MedicalRecords> record = medicalRecordRepository.findByCustomers(customer);
+        if (record.isEmpty()) {
+            error += "No medical record found for this customer. ";
+            return null;
+        }
+
+        return record.get();
     }
 
     @Override
