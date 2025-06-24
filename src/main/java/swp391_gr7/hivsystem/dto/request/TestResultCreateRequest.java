@@ -13,4 +13,6 @@ public class TestResultCreateRequest {
     private boolean resultValue;
     private String notes;
     private boolean reExamination;
+    private int CD4;
+    private int hivViralLoad;
 }
