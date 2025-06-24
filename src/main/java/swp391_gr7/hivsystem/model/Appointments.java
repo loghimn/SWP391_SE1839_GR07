@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
 
@@ -43,6 +44,7 @@ public class Appointments {
     @Column(name = "anonymous", nullable = false)
     private boolean anonymous;  // boolean không cần length
 
+    @Nationalized
     @Column(name = "appointment_type", nullable = false)
     private String appointmentType;
 

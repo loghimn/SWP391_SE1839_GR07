@@ -21,7 +21,6 @@ public class TreatmentPlans {
     private int treatmentPlanID;
 
     @ManyToOne(fetch = FetchType.LAZY)
-
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 

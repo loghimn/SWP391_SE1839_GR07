@@ -1,12 +1,10 @@
 package swp391_gr7.hivsystem.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.TreatmentPlansCreateRequest;
+import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.TreatmentPlanService;
 
 @RestController
@@ -15,8 +13,13 @@ public class TreatmentPlanController {
     @Autowired
     TreatmentPlanService treatmentPlanService;
     @PostMapping("/create")
-    public ApiResponse<Boolean> createTreatmentPlan(@RequestBody TreatmentPlansCreateRequest request) {
-        boolean result = treatmentPlanService.createTreatmentPlan(request);
+    public ApiResponse<Boolean> createTreatmentPlan(@RequestBody TreatmentPlansCreateRequest request,
+                                                    @RequestHeader("Authorization") String authorizationHeader) {
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        boolean result = treatmentPlanService.createTreatmentPlan(doctorId, request);
         if(result){
             return ApiResponse.<Boolean>builder()
                     .message("Success")

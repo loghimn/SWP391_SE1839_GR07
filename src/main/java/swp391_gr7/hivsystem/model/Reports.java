@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +30,7 @@ public class Reports {
     @JoinColumn(name = "manager_id", nullable = false)
     private Managers managers;
 
+    @Nationalized
     @Column(name = "report_type", nullable = false)
     private String reportType;
 

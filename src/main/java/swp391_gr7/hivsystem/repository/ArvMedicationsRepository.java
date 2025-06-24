@@ -11,4 +11,8 @@ public interface ArvMedicationsRepository extends JpaRepository<ArvMedications, 
     //List<ArvMedications> findByDescriptionContainingIgnoreCaseAndArvRegiment_IdAndIsActiveTrue(String description, int arvRegimentId);
 
     List<ArvMedications> findAllByDescriptionContainingIgnoreCase(String keyword);
+
+    ArvMedications getArvMedicationsByCode(String code);
+
+
 }

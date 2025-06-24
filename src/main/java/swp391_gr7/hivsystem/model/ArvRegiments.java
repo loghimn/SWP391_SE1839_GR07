@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,19 +22,30 @@ public class ArvRegiments {
     @Column(name = "arv_regiment_id")
     private int arvRegimentID;
 
-    @Column(name = "level")
+    @Nationalized
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "level", nullable = false)
     private int level;
 
     @Nationalized
     @Column(name = "description")
     private String description;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    @JsonIgnore
+    private Doctors doctor;
+
     // Optional: Liên kết ngược
     @OneToMany(mappedBy = "arvRegiment", cascade = CascadeType.ALL)
     private List<ArvMedications> medications = new ArrayList<>();
 
-    public ArvRegiments(int level, String description) {
-        this.level = level;
+    public ArvRegiments(String name, Doctors doctor, String description, int level) {
+        this.name = name;
+        this.doctor = doctor;
         this.description = description;
+        this.level = level;
     }
 }

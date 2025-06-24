@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
+
 import java.util.List;
 
 @Entity
@@ -23,12 +25,14 @@ public class Staffs {
     @JoinColumn(name = "user_id" , nullable = false)
     private Users users;
 
+    @Nationalized
     @Column(name = "department", nullable = false)
     private String department;
 
     @Column(name = "work_shift", nullable = false)
     private int workShift;
 
+    @Nationalized
     @Column(name = "assigned_area", nullable = false)
     private String assignedArea;
 

@@ -22,7 +22,7 @@ public class Users {
     @Column(length = 50, nullable = false, unique = true)
     private String username;
 
-    @Column(length = 255, nullable = true)
+    @Column(length = 255, nullable = false)
     private String password;
 
     @Column(length = 100, unique = true, nullable = false)
@@ -35,10 +35,10 @@ public class Users {
     @Column(length = 100 , nullable = false)
     private String fullName;
 
-    @Column(length = 255 , nullable = true)
+    @Column(length = 255 , nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(length = 10, nullable = true)
+    @Column(length = 10, nullable = false)
     private String gender;
 
     @Column(length = 20)

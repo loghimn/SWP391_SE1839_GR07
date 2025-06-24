@@ -37,6 +37,7 @@ public class Blogs {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @Nationalized
     @Column(name = "source", nullable = false)
     private String source;
 
