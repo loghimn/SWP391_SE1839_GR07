@@ -10,6 +10,7 @@ import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 import swp391_gr7.hivsystem.repository.MedicalRecordRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +57,7 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
         record.setCustomers(customer);
         record.setDiagnosis(request.getDiagnosis());
         record.setTreatment(request.getTreatment());
-        record.setRecordDate(request.getRecordDate());
+        record.setRecordDate(LocalDate.now());
 
         return medicalRecordRepository.save(record);
     }
@@ -79,7 +80,7 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
         // Update fields
         existingRecord.setDiagnosis(request.getDiagnosis());
         existingRecord.setTreatment(request.getTreatment());
-        existingRecord.setRecordDate(request.getRecordDate());
+        existingRecord.setRecordDate(LocalDate.now());
 
         return medicalRecordRepository.save(existingRecord);
     }
