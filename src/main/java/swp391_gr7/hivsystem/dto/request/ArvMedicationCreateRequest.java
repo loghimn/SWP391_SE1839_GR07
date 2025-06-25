@@ -1,17 +1,18 @@
 package swp391_gr7.hivsystem.dto.request;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import swp391_gr7.hivsystem.model.TestResults;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArvRegimentCreateRequest {
+public class ArvMedicationCreateRequest {
+    private String code;
     private String name;
-    private int level;
+    private String form;
+    private String strength;
+    private String manufacturer;
     private String description;
-    //private int testResultId;
+    private String arvRegimentName;
 }

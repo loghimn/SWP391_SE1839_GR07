@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Table(name = "admins")
@@ -17,10 +18,11 @@ public class Admins {
     private int adminID;
 
 //Noi 1 voi 1 bang user
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
 
+    @Nationalized
     @Column(name = "assigned_area", nullable = false)
     private String assignedArea;
 

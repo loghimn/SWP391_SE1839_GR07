@@ -29,10 +29,10 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
     CustomerRepository customerRepository;
 
     @Override
-    public Boolean createTreatmentPlan(TreatmentPlansCreateRequest request) {
+    public Boolean createTreatmentPlan(int doctorId, TreatmentPlansCreateRequest request) {
         TreatmentPlans plan = new TreatmentPlans();
         Customers customers = customerRepository.getCustomersByCustomerId(request.getCustomerId());
-        plan.setDoctors(doctorRepository.getDoctorsByDoctorId(request.getDoctorId()));
+        plan.setDoctors(doctorRepository.getDoctorsByDoctorId(doctorId));
         plan.setPlanDescription(request.getTreatmentPlanDescription());
         //System.out.println(arvRegimentRepository.findArvRegimentsByArvRegimentID(request.getArvRegimentId()));
         LocalDate dob = customers.getUsers().getDateOfBirth();
@@ -42,30 +42,30 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
             // Trẻ em
             if (request.isHistory()) {
                 if (request.isForPregnancy()) {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 2 - Trẻ em mang thai sau thất bại bậc 1");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 2 - Trẻ em mang thai sau thất bại bậc 1");
                 } else {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 2 - Trẻ em sau thất bại bậc 1");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 2 - Trẻ em sau thất bại bậc 1");
                 }
             } else {
                 if (request.isForPregnancy()) {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 1 - Trẻ em mang thai");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 1 - Trẻ em mang thai");
                 } else {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 1 - Trẻ em tiêu chuẩn");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 1 - Trẻ em tiêu chuẩn");
                 }
             }
         } else {
             // Người lớn
             if (request.isHistory()) {
                 if (request.isForPregnancy()) {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 2 - Người lớn mang thai");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 2 - Người lớn mang thai");
                 } else {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 2 - Người lớn sau thất bại bậc 1");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 2 - Người lớn sau thất bại bậc 1");
                 }
             } else {
                 if (request.isForPregnancy()) {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 1 - Người lớn mang thai");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 1 - Người lớn mang thai");
                 } else {
-                    arvRegiments = arvRegimentRepository.findArvRegimentsByDescriptionContaining("Bậc 1 - Người lớn tiêu chuẩn");
+                    arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Bậc 1 - Người lớn tiêu chuẩn");
                 }
             }
         }

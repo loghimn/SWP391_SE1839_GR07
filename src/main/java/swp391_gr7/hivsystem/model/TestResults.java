@@ -32,6 +32,7 @@ public class TestResults {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 
+    @Nationalized
     @Column(name = "test_type" , nullable = false)
     private String testType;
 
@@ -56,4 +57,9 @@ public class TestResults {
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointments appointments;
     //
+    @Column(name = "CD4", nullable = false)
+    private int CD4;
+
+    @Column(name = "hiv_viral_load", nullable = false)
+    private int hivViralLoad;
 }

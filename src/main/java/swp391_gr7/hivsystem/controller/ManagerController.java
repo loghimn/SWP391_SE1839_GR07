@@ -31,6 +31,7 @@ public class ManagerController {
         return userService.updateUserAndDoctor(userId, request);
     }
 
+    @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/active")
     public ApiResponse<List> DoctorsListActive() {
         List <Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
@@ -41,6 +42,8 @@ public class ManagerController {
                 .message(resultString)
                 .build();
     }
+
+    @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/full")
     public ApiResponse<List> DoctorsListFull() {
         List <Doctors> doctorsListFull = doctorService.showAllDoctors();
@@ -52,10 +55,13 @@ public class ManagerController {
                 .build();
     }
 
+
+    @PreAuthorize("hasRole('Manager')")
     @PutMapping("/delete/{userId}")
-    public Users deleteUser(@PathVariable int userId) {
-        return userService.deleteUser(userId);
+    public Users deleteDoctorStaffCus(@PathVariable int userId) {
+        return userService.deleteDoctorStaffCus(userId);
     }
+
 
     @PreAuthorize("hasRole('Manager')")
     @PutMapping("/update/staff/{userId}")

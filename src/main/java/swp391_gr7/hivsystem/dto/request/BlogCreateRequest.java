@@ -29,5 +29,5 @@ public class BlogCreateRequest {
     @NotBlank(message = "BLOG_SOURCE_NOTBLANK")
     private String source;
 
-    private LocalDate createAt;
+//    private LocalDate createAt;
 }

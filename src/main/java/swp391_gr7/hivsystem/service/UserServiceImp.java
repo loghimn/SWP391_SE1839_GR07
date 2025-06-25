@@ -166,6 +166,32 @@ public class UserServiceImp implements UserService {
         return userRepository.save(users);
     }
 
+    public Users deleteDoctorStaffCus(int userId) {
+        Users users = findUserByUserId(userId);
+        if(users == null && !(users.getRole().equals("Doctor")) && !(users.getRole().equals("Staff")) && !(users.getRole().equals("Customer"))) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        users.setStatus(false);
+        return userRepository.save(users);
+    }
+
+    public Users deleteCustomer(int userId) {
+        Users users = findUserByUserId(userId);
+        if(users == null && !(users.getRole().equals("Customer"))) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        users.setStatus(false);
+        return userRepository.save(users);
+    }
+
+    public Users deleteStaff(int userId) {
+        Users users = findUserByUserId(userId);
+        if(users == null && !(users.getRole().equals("Staff"))) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        users.setStatus(false);
+        return userRepository.save(users);
+    }
     @Override
     public List<Users> findAllUsers() {
         return userRepository.findAll();

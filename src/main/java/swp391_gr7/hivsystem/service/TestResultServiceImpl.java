@@ -54,6 +54,8 @@ public class TestResultServiceImpl implements TestResultService {
         testResult.setNotes(request.getNotes());
         testResult.setRe_examination(request.isReExamination());
         testResult.setTreatmentPlan(treatmentPlan);
+        testResult.setCD4(request.getCD4());
+        testResult.setHivViralLoad(request.getHivViralLoad());
 
         return testResultRepository.save(testResult);
     }
@@ -73,6 +75,8 @@ public class TestResultServiceImpl implements TestResultService {
         existing.setResultValue(request.isResultValue());
         existing.setNotes(request.getNotes());
         existing.setRe_examination(request.isReExamination());
+        existing.setCD4(request.getCD4());
+        existing.setHivViralLoad(request.getHivViralLoad());
 
         // Nếu bạn cho phép update thời gian test, có thể thêm dòng sau:
         // existing.setTestDate(request.getTestDate());
@@ -85,6 +89,10 @@ public class TestResultServiceImpl implements TestResultService {
         return testResultRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public List<TestResults> getMyTestResults(int customerId) {
+        return testResultRepository.findByCustomers_CustomerId(customerId);
+    }
 
     @Override
     public String getError() {

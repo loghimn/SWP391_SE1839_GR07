@@ -13,7 +13,11 @@ public interface ArvRegimentRepository extends JpaRepository<ArvRegiments, Integ
 
     ArvRegiments findArvRegimentsByArvRegimentID(int arvRegimentID);
 
-    ArvRegiments findArvRegimentsByDescriptionContaining(String description);
+//    ArvRegiments findArvRegimentsByDescriptionContaining(String description);
 
     //ArvRegiments findArvRegimentsByTestResults(TestResults testResults);
+
+    List<ArvRegiments> findArvRegimentsByDoctor_DoctorId(int doctorDoctorId);
+
+    ArvRegiments findArvRegimentsByNameContaining(String name);
 }

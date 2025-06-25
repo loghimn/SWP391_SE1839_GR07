@@ -24,4 +24,8 @@ public interface AppointmentService {
     Appointments deleteAppointment(int id);
 
     Appointments getAppointmentById(int id);
+
+    List<Appointments> getAppointmentsByCustomerId(int customerId);
+
+    List<Appointments> getCustomerAppointment(int currentCustomerId);
 }

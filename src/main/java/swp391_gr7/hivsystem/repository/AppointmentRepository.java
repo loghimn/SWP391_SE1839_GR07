@@ -15,4 +15,5 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     List<Appointments> findAllByAnonymous(boolean anonymous);
     Appointments save(Appointments appointments);
     Optional<Appointments> findByAppointmentId(int appointmentId);
+    List<Appointments> findByCustomers_CustomerId(int customerId);
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class Doctors {
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
 
+    @Nationalized
     @Column(name = "department", nullable = false)
     private String department;
 

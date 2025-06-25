@@ -35,4 +35,7 @@ public interface UserService {
     Users getMyInfo();
 
     Users getUserById(int id);
+
+    Users deleteDoctorStaffCus(int userId);
+
 }

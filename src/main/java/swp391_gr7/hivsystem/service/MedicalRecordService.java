@@ -11,11 +11,11 @@ public interface MedicalRecordService {
 
     Optional<MedicalRecords> getById(int id);
 
-    MedicalRecords addMedicalRecord(MedicalRecordCreateRequest request);
+    MedicalRecords addMedicalRecord(int id, MedicalRecordCreateRequest request);
 
     MedicalRecords updateMedicalRecord(int id, MedicalRecordCreateRequest request);
 
-    void deleteById(int id);
+    MedicalRecords getMyMedicalRecord(int customerId);
 
     String getError();
 }

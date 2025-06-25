@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +45,7 @@ public class CustommerController {
 //    }
 
 
+    @PreAuthorize("hasRole('Customer')")
     @PostMapping("/appoint/book")
     public ApiResponse<Boolean> appointmentRequest(@RequestBody @Valid AppointmentCreateRequest request,
                                                    @RequestHeader("Authorization") String authorizationHeader) {
@@ -59,6 +61,7 @@ public class CustommerController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/appoint/anonymous")
     public ApiResponse<List> appointmentList() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsAnonymous();// gọi từ service
@@ -70,6 +73,7 @@ public class CustommerController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/appoint/ecceptAnonymous")
     public ApiResponse<List> appointmentListEcceptAnonymous() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
@@ -81,6 +85,7 @@ public class CustommerController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/appoint/fullInfor")
     public ApiResponse<List> appointmentListFullInfor() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
@@ -92,6 +97,7 @@ public class CustommerController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/appoint/{id}")
     public ApiResponse<Appointments> getAppointmentById(@PathVariable int id) {
         Appointments appointment = appointmentService.getAppointmentById(id);
@@ -103,9 +109,68 @@ public class CustommerController {
                 .build();
     }
 
-    @PutMapping("/appoint/update/{id}")
-    public Appointments deleteAppointment(@PathVariable int id) {
+    // Changed to DELETE mapping and unique path
+    @PreAuthorize("hasRole('Doctor')")
+    @DeleteMapping("/appoint/delete/{id}")
+    public ApiResponse<Appointments> deleteAppointment(@PathVariable int id) {
         Appointments appointment = appointmentService.deleteAppointment(id);
-        return appointment;
+        if (appointment == null) {
+            return ApiResponse.<Appointments>builder()
+                    .message("Failed to delete appointment")
+                    .build();
+        }
+        return ApiResponse.<Appointments>builder()
+                .result(appointment)
+                .message("Success")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/appoint/getAppointmentByCustomerId/{id}")
+    public ApiResponse<List<Appointments>> getAppointmentByCustomerId(@PathVariable int id) {
+        List<Appointments> appointments = appointmentService.getAppointmentsByCustomerId(id);
+        if (appointments == null || appointments.isEmpty()) {
+            return ApiResponse.<List<Appointments>>builder()
+                    .message("No appointments found for this customer")
+                    .build();
+        }
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointments)
+                .message("Success")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/appoint/getCustomerAppointment")
+    public ApiResponse<List<Appointments>> getCustomerAppointment(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract customerId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int currentCustomerId = new JWTUtils().extractCustomerId(token);
+
+        List<Appointments> appointments = appointmentService.getCustomerAppointment(currentCustomerId);
+        if (appointments == null || appointments.isEmpty()) {
+            return ApiResponse.<List<Appointments>>builder()
+                    .message("No appointments found for this customer")
+                    .build();
+        }
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointments)
+                .message("Success")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Customer')")
+    @PutMapping("/appoint/update/{id}")
+    public ApiResponse<Appointments> updateAppointment(@PathVariable int id, @RequestBody @Valid AppointmentCreateRequest request) {
+        Appointments updatedAppointment = appointmentService.updateAppointment(id, request);
+        if (updatedAppointment == null) {
+            return ApiResponse.<Appointments>builder()
+                    .message("Failed to update appointment")
+                    .build();
+        }
+        return ApiResponse.<Appointments>builder()
+                .result(updatedAppointment)
+                .message("Success")
+                .build();
     }
 }

@@ -64,7 +64,9 @@ public class SchedulesServiceImpl implements SchedulesService {
     }
 
     @Override
-    public void deleteSchedule(int id) {
-        schedulesRepository.deleteById(id);
+    public List<Schedules> getMySchedules(int doctorId) {
+        Doctors doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_DOCTOR_NOT_FOUND));
+        return schedulesRepository.findByDoctors(doctor);
     }
 }
