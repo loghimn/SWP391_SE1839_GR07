@@ -103,7 +103,7 @@ public class ArvRegimentController {
 
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/suggest/medications")
-    public ApiResponse<List<ArvMedications>> suggestMedications(SuggestMedicationRequest request) {
+    public ApiResponse<List<ArvMedications>> suggestMedications(@RequestBody SuggestMedicationRequest request) {
         List<ArvMedications> list = arvRegimentService.suggestArvMedication(request.getTreatmentPlansId());
         if (list == null || list.isEmpty()) {
             return ApiResponse.<List<ArvMedications>>builder()
