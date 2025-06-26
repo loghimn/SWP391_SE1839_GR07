@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .cors(cors -> {
                 }) // Use lambda, do not call .and()
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
 //                .requestMatchers(HttpMethod.POST, "/api/user/customer/register").permitAll()
 //                .requestMatchers(HttpMethod.POST, "/api/user/manager/register").permitAll()
@@ -50,7 +50,7 @@ public class SecurityConfig {
 //                =======
 //                        .anyRequest().permitAll()
                 .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("/api/oauth2/loginSuccess", true).permitAll()
+                        .defaultSuccessUrl("/api/oauth2/loginSuccess", true)
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt

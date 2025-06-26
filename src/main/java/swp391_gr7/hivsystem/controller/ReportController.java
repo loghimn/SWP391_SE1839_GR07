@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/reports")
+@SecurityRequirement(name = "bearerAuth")
 public class ReportController {
 
     @Autowired

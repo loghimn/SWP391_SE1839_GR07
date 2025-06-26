@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 //CRUD
 @RequestMapping("/api/user/customer")
+@SecurityRequirement(name = "bearerAuth")
 public class CustommerController {
     @Autowired
     public AppointmentService appointmentService;

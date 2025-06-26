@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 import com.nimbusds.jose.JOSEException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -31,6 +32,7 @@ import java.util.List;
 @RestController
 //CRUD
 @RequestMapping("/api/user")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
     @Autowired
     private UserService userService;

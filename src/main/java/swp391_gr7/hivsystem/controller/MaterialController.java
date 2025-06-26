@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import swp391_gr7.hivsystem.service.MaterialServiceImp;
 
 @RestController
 @RequestMapping("/api/materials")
+@SecurityRequirement(name = "bearerAuth")
 public class MaterialController {
 
     @Autowired

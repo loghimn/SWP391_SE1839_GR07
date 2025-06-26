@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/testresults")
+@SecurityRequirement(name = "bearerAuth")
 public class TestResultController {
     @Autowired
     private TestResultService testResultService;

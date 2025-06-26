@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
@@ -9,6 +10,7 @@ import swp391_gr7.hivsystem.service.TreatmentPlanService;
 
 @RestController
 @RequestMapping("/api/treatmentplan")
+@SecurityRequirement(name = "bearerAuth")
 public class TreatmentPlanController {
     @Autowired
     TreatmentPlanService treatmentPlanService;

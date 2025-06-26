@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/consultations")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class ConsultationController {
     @Autowired
     private ConsultationService consultationService;
