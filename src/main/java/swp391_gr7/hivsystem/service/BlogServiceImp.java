@@ -13,6 +13,7 @@ import swp391_gr7.hivsystem.repository.BlogRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,5 +72,10 @@ public class BlogServiceImp implements BlogService{
     public Blogs getBlogById(int id) {
         return blogRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND));
+    }
+
+    @Override
+    public List<Blogs> getAllBlogs() {
+        return blogRepository.findAll();
     }
 }

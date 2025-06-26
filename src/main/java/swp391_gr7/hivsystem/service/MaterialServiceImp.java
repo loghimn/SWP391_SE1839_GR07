@@ -13,6 +13,7 @@ import swp391_gr7.hivsystem.repository.DoctorRepository;
 import swp391_gr7.hivsystem.repository.MaterialRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,5 +75,10 @@ public class MaterialServiceImp implements MaterialService {
     public Materials getMaterialById(int id) {
         return materialRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));
+    }
+
+    @Override
+    public List<Materials> getAllMaterials() {
+        return materialRepository.findAll();
     }
 }

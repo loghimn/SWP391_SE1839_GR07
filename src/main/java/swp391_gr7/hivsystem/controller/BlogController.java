@@ -11,6 +11,8 @@ import swp391_gr7.hivsystem.service.BlogService;
 import swp391_gr7.hivsystem.service.BlogServiceImp;
 import swp391_gr7.hivsystem.service.JWTUtils;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/blogs")
 public class BlogController {
@@ -64,4 +66,15 @@ public class BlogController {
                 .message("Success")
                 .build();
     }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/get/all")
+    public ApiResponse<List<Blogs>> getAllBlogs() {
+        List<Blogs> blogs = blogService.getAllBlogs();
+        return ApiResponse.<List<Blogs>>builder()
+                .result(blogs)
+                .message("Success")
+                .build();
+    }
+
 }
