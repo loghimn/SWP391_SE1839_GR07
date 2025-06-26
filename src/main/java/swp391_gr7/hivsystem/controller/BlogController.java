@@ -40,7 +40,7 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentBlog(@PathVariable int id, @RequestBody Blogs updateContent){
+    public ApiResponse<Boolean> updateContentBlog(@PathVariable int id, @RequestBody Blogs updateContent) {
         blogService.updateInformationBlog(id, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)
@@ -50,7 +50,7 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> deleteBlog(@PathVariable int id){
+    public ApiResponse<Boolean> deleteBlog(@PathVariable int id) {
         blogService.deleteBlog(id);
         return ApiResponse.<Boolean>builder()
                 .result(true)

@@ -10,7 +10,7 @@ import swp391_gr7.hivsystem.model.Users;
 @AllArgsConstructor
 public enum ErrorCode {
 
-     // Unknown error
+    // Unknown error
     UNKNOWN_ERROR(9999, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR), // 500
 
     // Wrong key

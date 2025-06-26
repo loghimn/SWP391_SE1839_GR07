@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReportServiceImp implements ReportService{
+public class ReportServiceImp implements ReportService {
 
     @Autowired
     private UserRepository userRepository;
@@ -102,7 +102,7 @@ public class ReportServiceImp implements ReportService{
 
         // Chạy vòng lặp tìm user
         for (Users user : users) {
-            if(user.getCreatedAt().isAfter(LocalDateTime.now().minusDays(2))) { // Chỉ lấy user được tạo trong 2 ngày qua
+            if (user.getCreatedAt().isAfter(LocalDateTime.now().minusDays(2))) { // Chỉ lấy user được tạo trong 2 ngày qua
                 printWriter.printf("%s,%s,%s,%s,%s%n",
                         escape(user.getUsername()),
                         escape(user.getEmail()),
@@ -120,14 +120,14 @@ public class ReportServiceImp implements ReportService{
         printWriter.println("appointmentID, customerName, doctorName, appointmentDate, status");
 
         // Chạy vòng lặp tìm appointment
-        for(Appointments appointment : appointments) {
-                printWriter.printf("%s,%s,%s,%s,%s%n",
-                        escape(String.valueOf(appointment.getAppointmentId())),
-                        escape(appointment.getCustomers().getUsers().getFullName()),
-                        escape(appointment.getDoctors().getUsers().getFullName()),
-                        escape(String.valueOf(appointment.getAppointmentTime())),
-                        escape(appointment.isStatus() ? "true" : "false")
-                );
+        for (Appointments appointment : appointments) {
+            printWriter.printf("%s,%s,%s,%s,%s%n",
+                    escape(String.valueOf(appointment.getAppointmentId())),
+                    escape(appointment.getCustomers().getUsers().getFullName()),
+                    escape(appointment.getDoctors().getUsers().getFullName()),
+                    escape(String.valueOf(appointment.getAppointmentTime())),
+                    escape(appointment.isStatus() ? "true" : "false")
+            );
         }
         return printWriter;
     }

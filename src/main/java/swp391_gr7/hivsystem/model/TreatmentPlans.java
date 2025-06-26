@@ -37,6 +37,6 @@ public class TreatmentPlans {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "arv_regiment_id", nullable = false)
-    private ArvRegiments arvReqimentID ;
+    private ArvRegiments arvReqimentID;
 
 }

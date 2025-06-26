@@ -67,6 +67,7 @@ public class TestResultServiceImpl implements TestResultService {
     public List<TestResults> getTestResultsByCustomer(int customerId) {
         return testResultRepository.findByCustomers_CustomerId(customerId);
     }
+
     @Override
     public TestResults updateTestResult(int id, TestResultCreateRequest request) {
         TestResults existing = testResultRepository.findById(id).orElse(null);

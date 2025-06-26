@@ -96,4 +96,23 @@ public class ConsultationController {
                     .build();
         }
     }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @PutMapping("/{id}")
+    public ApiResponse<Consultations> update(@PathVariable int id, @RequestBody ConsultationCreateRequest request) {
+        try {
+            Consultations updatedConsultation = consultationService.updateConsultation(id, request);
+            return ApiResponse.<Consultations>builder()
+                    .code(200)
+                    .result(updatedConsultation)
+                    .message("Update successful")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<Consultations>builder()
+                    .code(400)
+                    .result(null)
+                    .message("Update failed: " + e.getMessage())
+                    .build();
+        }
+    }
 }

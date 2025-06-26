@@ -7,8 +7,12 @@ import java.util.List;
 
 public interface TreatmentPlanService {
     Boolean createTreatmentPlan(int doctorId, TreatmentPlansCreateRequest request);
+
     TreatmentPlans getTreatmentPlanById(int id);
+
     TreatmentPlans updateTreatmentPlan(int id, TreatmentPlansCreateRequest request);
+
     List<TreatmentPlans> getAll();
+
     List<TreatmentPlans> getMyTreatmentPlant(int doctorId);
 }

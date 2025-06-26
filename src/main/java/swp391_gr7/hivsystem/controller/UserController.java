@@ -67,6 +67,7 @@ public class UserController {
                 .message(result ? "Success" : "Registration failed")
                 .build();
     }
+
     @PreAuthorize("hasRole('Manager')")
     @PostMapping("/manager/register")
     public ApiResponse<Boolean> registerUserAndManager(@RequestBody @Valid UserAndManagerCreateRequest request) {
@@ -77,6 +78,7 @@ public class UserController {
                 .message(result ? "Success" : "Registration failed")
                 .build();
     }
+
     @PreAuthorize("hasRole('Manager')")
     @PostMapping("/staff/register")
     public ApiResponse<Boolean> registerUserAndStaff(@RequestBody @Valid UserAndStaffCreateRequest request) {
@@ -167,7 +169,7 @@ public class UserController {
     @GetMapping("/getStaffById/{id}")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<Staffs> getStaffById(@PathVariable int id) {
-        Staffs staffs  = staffService.getStaffById(id);
+        Staffs staffs = staffService.getStaffById(id);
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }

@@ -18,7 +18,7 @@ public class Materials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialID;
-//
+    //
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     @JsonIgnore

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 //Cau truc api json reponse
-public class ApiResponse<T>{
+public class ApiResponse<T> {
     private int code;
     private String message;
     private T result;

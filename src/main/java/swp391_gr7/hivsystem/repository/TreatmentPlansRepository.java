@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 
-public interface TreatmentPlansRepository extends JpaRepository<TreatmentPlans, Integer>{
+public interface TreatmentPlansRepository extends JpaRepository<TreatmentPlans, Integer> {
 
     TreatmentPlans getTreatmentPlansByTreatmentPlanID(int treatmentPlanID);
 

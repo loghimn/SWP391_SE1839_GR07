@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,11 +21,11 @@ import org.hibernate.annotations.Nationalized;
 @Builder
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Schedules {
-   // scheduleID (PK)
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "schedule_id")
-   private int scheduleID;
+    // scheduleID (PK)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "schedule_id")
+    private int scheduleID;
 
     //doctorID : int (FK)
     @ManyToOne(fetch = FetchType.LAZY)

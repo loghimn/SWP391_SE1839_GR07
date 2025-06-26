@@ -24,7 +24,8 @@ public class GlobalExceptionHandling {
 //                .body(apiResponse);
 //    }
 
-    @ExceptionHandler(value = AppException.class) // Xử lý ngoại lệ tùy chỉnh AppException
+    @ExceptionHandler(value = AppException.class)
+        // Xử lý ngoại lệ tùy chỉnh AppException
     ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ApiResponse apiResponse = new ApiResponse();
@@ -47,18 +48,20 @@ public class GlobalExceptionHandling {
                         .build());
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class) // Xử lý ngoại lệ khi có lỗi xác thực dữ liệu
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+        // Xử lý ngoại lệ khi có lỗi xác thực dữ liệu
     ResponseEntity<ApiResponse> handlingValidation(MethodArgumentNotValidException exception) {
         String enumKey = exception.getFieldError().getDefaultMessage();
 
         // Sai key thì in ra WRONG_KEY
         ErrorCode errorCode = ErrorCode.WRONG_KEY; // Default error code
 
-        try{
+        try {
             // Chuyển đổi enum key sang ErrorCode
             // Nếu không tìm thấy thì sẽ ném ra IllegalArgumentException
             errorCode = ErrorCode.valueOf(enumKey);
-        } catch (IllegalArgumentException ignored){}
+        } catch (IllegalArgumentException ignored) {
+        }
 
         // Tạo ApiResponse với mã lỗi và thông điệp tương ứng
         ApiResponse apiResponse = new ApiResponse();

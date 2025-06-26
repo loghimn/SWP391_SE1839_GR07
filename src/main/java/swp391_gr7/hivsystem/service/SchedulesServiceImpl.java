@@ -33,7 +33,7 @@ public class SchedulesServiceImpl implements SchedulesService {
         Managers manager = managerRepository.findById(1)
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_MANAGER_NOT_FOUND));
 
-        if(request.getWorkDate().isBefore(LocalDate.now())) {
+        if (request.getWorkDate().isBefore(LocalDate.now())) {
             throw new AppException(ErrorCode.SCHEDULE_INVALID_DATE);
         }
         Schedules schedule = new Schedules();

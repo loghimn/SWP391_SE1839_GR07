@@ -5,7 +5,10 @@ import swp391_gr7.hivsystem.model.Users;
 
 public interface OAuth2Repository extends JpaRepository<Users, Integer> {
     boolean existsByEmail(String email);
+
     boolean existsByPhone(String phone);
+
     boolean existsByUsername(String username);
+
     boolean existsByUserId(int id);
 }

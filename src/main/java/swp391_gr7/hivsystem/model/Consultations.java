@@ -9,34 +9,34 @@ import org.hibernate.annotations.Nationalized;
 import java.time.LocalDate;
 
 
-    @Entity
-    @Table(name = "consultations")
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class Consultations {
+@Entity
+@Table(name = "consultations")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Consultations {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "consultation_id")
-        private int consultationID;
-//
-        @OneToOne(cascade = CascadeType.ALL)
-        @JoinColumn(name = "appointment_id", nullable = false)
-        private Appointments appointments;
-//
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "doctor_id", nullable = false)
-        private Doctors doctors;
-//
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "customer_id", nullable = false)
-        private Customers customers;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "consultation_id")
+    private int consultationID;
+    //
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_id", nullable = false)
+    private Appointments appointments;
+    //
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctors doctors;
+    //
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customers customers;
 
-        @Column(name = "consultation_date", nullable = false)
-        private LocalDate consultationDate;
+    @Column(name = "consultation_date", nullable = false)
+    private LocalDate consultationDate;
 
-        @Nationalized
-        @Column(name = "notes")
-        private String notes;
+    @Nationalized
+    @Column(name = "notes")
+    private String notes;
 }

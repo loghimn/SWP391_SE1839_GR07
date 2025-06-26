@@ -39,7 +39,7 @@ public class MaterialController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent){
+    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent) {
         materialService.updateInformationMaterial(id, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)
@@ -49,7 +49,7 @@ public class MaterialController {
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> deleteMaterial(@PathVariable int id){
+    public ApiResponse<Boolean> deleteMaterial(@PathVariable int id) {
         materialService.deleteMaterial(id);
         return ApiResponse.<Boolean>builder()
                 .result(true)

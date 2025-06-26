@@ -33,7 +33,7 @@ public class TestResults {
     private Doctors doctors;
 
     @Nationalized
-    @Column(name = "test_type" , nullable = false)
+    @Column(name = "test_type", nullable = false)
     private String testType;
 
     @Column(name = "result_value", nullable = false)
@@ -47,10 +47,10 @@ public class TestResults {
     private String notes;
     //
     @OneToOne
-    @JoinColumn(name = "treatment_plan_id" , nullable = false)
+    @JoinColumn(name = "treatment_plan_id", nullable = false)
     private TreatmentPlans treatmentPlan;
     //
-    @Column(name = "re_examination" , nullable = false)
+    @Column(name = "re_examination", nullable = false)
     private boolean re_examination;
     //
     @ManyToOne

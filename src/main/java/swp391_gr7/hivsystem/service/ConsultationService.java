@@ -14,5 +14,6 @@ public interface ConsultationService {
 
     List<Consultations> getConsultationsByDoctor(int doctorId);
 
-    boolean deleteConsultation(int id);
+    Consultations updateConsultation(int id, ConsultationCreateRequest request);
+
 }

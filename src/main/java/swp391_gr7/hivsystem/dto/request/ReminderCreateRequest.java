@@ -23,7 +23,7 @@ public class ReminderCreateRequest {
 //    @NotNull(message = "STATUS_REQUIRED")
 //    private Boolean status;
 
-  //  Cai này có thể không cần thiết, vì staffId có thể được lấy từ thông tin người dùng đã đăng nhập
+    //  Cai này có thể không cần thiết, vì staffId có thể được lấy từ thông tin người dùng đã đăng nhập
 //    @NotNull(message = "STAFF_ID_REQUIRED")
 //    private Integer staffId;
 

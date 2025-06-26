@@ -25,8 +25,8 @@ public class OAuth2ServiceImp implements OAuth2Service {
     private final ManagerRepository managerRepository;
 
     public OAuth2ServiceImp(UserRepository userRepository,
-                           CustomerRepository customerRepository,
-                           PasswordEncoder passwordEncoder,
+                            CustomerRepository customerRepository,
+                            PasswordEncoder passwordEncoder,
                             ManagerRepository managerRepository) {
         this.userRepository = userRepository;
         this.customerRepository = customerRepository;
@@ -36,13 +36,13 @@ public class OAuth2ServiceImp implements OAuth2Service {
 
     @Override
     public boolean registerOAuth2User(OAuth2CreateRequest request) {
-        if(userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.OAUTH2_INVALID_USERNAME_EXIST);
         }
-        if(userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.OAUTH2_INVALID_EMAIL_EXIST);
         }
-        if(userRepository.existsByPhone(request.getPhone())) {
+        if (userRepository.existsByPhone(request.getPhone())) {
             throw new AppException(ErrorCode.OAUTH2_INVALID_PHONE_EXIST);
         }
         Managers manager = managerRepository.findManagerById(1);

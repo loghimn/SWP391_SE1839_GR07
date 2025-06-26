@@ -31,7 +31,7 @@ public class DoctorServiceImp implements DoctorService {
         if (manager == null) {
             return null; // Manager not found
         }
-        if(doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+        if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new AppException(ErrorCode.DOCTOR_INVALID_LICENSE_NUMBER_EXIST);
         }
         Doctors doctor = new Doctors();
@@ -56,7 +56,7 @@ public class DoctorServiceImp implements DoctorService {
     @Override
     public Doctors updateDoctor(UserAndDoctorUpdateRequest request, Users users) {
         Doctors doctoc = doctorRepository.findDoctorByUser_UserId(users.getUserId().toString()).get();
-        if(doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+        if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new AppException(ErrorCode.DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_EXIST);
         }
         doctoc.setUsers(users);

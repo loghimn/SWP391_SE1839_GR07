@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.dto.request;
 
 import lombok.*;
+
 import java.time.LocalDate;
 
 @Data
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 @Builder
 public class SchedulesCreateRequest {
     private Integer doctorId;
- //   private Integer managerId;
+    //   private Integer managerId;
     private LocalDate workDate;
     private String notes;
 }

@@ -21,13 +21,36 @@ public class GoogleRegisterRequest {
     private String gender;
     private String address;
 
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
-    public String getEmail() { return email; }
-    public String getPhone() { return phone; }
-    public String getFullName() { return fullName; }
-    public String getDateOfBirth() { return dateOfBirth; }
-    public String getGender() { return gender; }
-    public String getAddress() { return address; }
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
 
 }

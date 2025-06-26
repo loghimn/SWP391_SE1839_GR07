@@ -36,7 +36,7 @@ public class ManagerController {
     @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/active")
     public ApiResponse<List> DoctorsListActive() {
-        List <Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
+        List<Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
         boolean result = doctorsListActive != null;
         String resultString = result ? "Success" : "Failed";
         return ApiResponse.<List>builder()
@@ -48,7 +48,7 @@ public class ManagerController {
     @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/full")
     public ApiResponse<List> DoctorsListFull() {
-        List <Doctors> doctorsListFull = doctorService.showAllDoctors();
+        List<Doctors> doctorsListFull = doctorService.showAllDoctors();
         boolean result = doctorsListFull != null;
         String resultString = result ? "Success" : "Failed";
         return ApiResponse.<List>builder()

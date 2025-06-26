@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface DoctorService {
     Doctors saveDoctor(UserAndDoctorCreateRequest request, Users users);
+
     List<Doctors> showAllDoctors();
 
     List<Doctors> showAllDoctorsActive();

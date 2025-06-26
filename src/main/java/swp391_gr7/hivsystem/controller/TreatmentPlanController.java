@@ -62,6 +62,7 @@ public class TreatmentPlanController {
                 .message("Success")
                 .build();
     }
+
     @PutMapping("/update/{id}")
     public ApiResponse<?> updateTreatmentPlan(@PathVariable int id, @RequestBody TreatmentPlansCreateRequest request) {
         return ApiResponse.<Object>builder()

@@ -95,8 +95,6 @@ public class DataSeeder implements CommandLineRunner {
         doctorRepository.save(doctors);
 
 
-
-
         ArvRegiments r1 = new ArvRegiments();
         r1.setName("Người lớn tiêu chuẩn");
         r1.setLevel(1);
@@ -149,7 +147,7 @@ public class DataSeeder implements CommandLineRunner {
 
         List<ArvMedications> meds = List.of(
                 // Người lớn
-                new ArvMedications( doctors,"TDF", "Tenofovir disoproxil fumarate", "Viên nén", "300mg", "Mylan", "NRTI người lớn", true, r1),
+                new ArvMedications(doctors, "TDF", "Tenofovir disoproxil fumarate", "Viên nén", "300mg", "Mylan", "NRTI người lớn", true, r1),
                 new ArvMedications(doctors, "3TC", "Lamivudine", "Viên nén", "150mg", "GSK", "NRTI người lớn", true, r1),
                 new ArvMedications(doctors, "EFV", "Efavirenz", "Viên nén", "600mg", "Cipla", "NNRTI người lớn", true, r1),
                 new ArvMedications(doctors, "AZT", "Zidovudine", "Siro", "50mg/5ml", "PharmaWomen", "Thai kỳ người lớn", true, r2),
