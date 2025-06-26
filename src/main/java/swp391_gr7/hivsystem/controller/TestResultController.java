@@ -23,7 +23,7 @@ public class TestResultController {
     private ReExaminationService reExaminationService;
 
     @PreAuthorize("hasRole('Doctor')")
-    @PostMapping("/{appointmentId}/{treatmentPlanId}")
+    @PostMapping("/create")
     public ApiResponse<TestResults> addTestResult(@RequestBody TestResultCreateRequest request) {
         TestResults result = testResultService.addTestResult(request);
 

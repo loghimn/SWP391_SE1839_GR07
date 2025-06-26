@@ -12,10 +12,11 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TreatmentPlansCreateRequest {
-  //  private int doctorId;
-    private String TreatmentPlanDescription;
-    private boolean isForPregnancy;
+    //  private int doctorId;
+    private int appointmentId;
+    private String treatmentPlanDescription;
+    private boolean forPregnancy;
     private LocalTime dosageTime;
-    private int customerId;
-    private boolean isHistory;
+    //  private int customerId;
+    private boolean history;
 }

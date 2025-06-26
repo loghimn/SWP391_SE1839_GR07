@@ -24,6 +24,10 @@ public class TreatmentPlans {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id", nullable = false)
+    private Appointments appointments;
+
     @Nationalized
     @Column(name = "plan_description")
     private String planDescription;

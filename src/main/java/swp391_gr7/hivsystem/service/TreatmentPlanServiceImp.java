@@ -3,13 +3,13 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.TreatmentPlansCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
+import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.model.ArvRegiments;
 import swp391_gr7.hivsystem.model.Customers;
 import swp391_gr7.hivsystem.model.TreatmentPlans;
-import swp391_gr7.hivsystem.repository.ArvRegimentRepository;
-import swp391_gr7.hivsystem.repository.CustomerRepository;
-import swp391_gr7.hivsystem.repository.DoctorRepository;
-import swp391_gr7.hivsystem.repository.TreatmentPlansRepository;
+import swp391_gr7.hivsystem.repository.*;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -27,11 +27,16 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
 
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @Override
     public Boolean createTreatmentPlan(int doctorId, TreatmentPlansCreateRequest request) {
         TreatmentPlans plan = new TreatmentPlans();
-        Customers customers = customerRepository.getCustomersByCustomerId(request.getCustomerId());
+        Appointments appointment = appointmentRepository.findByAppointmentId(request.getAppointmentId())
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
+        plan.setAppointments(appointment);
+        Customers customers = appointment.getCustomers();
         plan.setDoctors(doctorRepository.getDoctorsByDoctorId(doctorId));
         plan.setPlanDescription(request.getTreatmentPlanDescription());
         //System.out.println(arvRegimentRepository.findArvRegimentsByArvRegimentID(request.getArvRegimentId()));
@@ -79,5 +84,40 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public TreatmentPlans getTreatmentPlanById(int id) {
+        return treatmentPlansRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND));
+    }
+
+    @Override
+    public TreatmentPlans updateTreatmentPlan(int id, TreatmentPlansCreateRequest request) {
+        TreatmentPlans existingPlan = treatmentPlansRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND));
+
+        existingPlan.setPlanDescription(request.getTreatmentPlanDescription());
+        existingPlan.setDosageTime(request.getDosageTime());
+
+        return treatmentPlansRepository.save(existingPlan);
+    }
+
+    @Override
+    public List<TreatmentPlans> getAll() {
+        List<TreatmentPlans> treatmentPlans = treatmentPlansRepository.findAll();
+        if (treatmentPlans.isEmpty()) {
+            throw new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND);
+        }
+        return treatmentPlans;
+    }
+
+    @Override
+    public List<TreatmentPlans> getMyTreatmentPlant(int doctorId) {
+        List<TreatmentPlans> treatmentPlans = treatmentPlansRepository.findAllByDoctors_DoctorId(doctorId);
+        if (treatmentPlans.isEmpty()) {
+            throw new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND);
+        }
+        return treatmentPlans;
     }
 }

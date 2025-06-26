@@ -67,4 +67,12 @@ public class MaterialController {
                 .build();
     }
 
+    @GetMapping("/getAll")
+    public ApiResponse<?> getAllMaterials() {
+        return ApiResponse.<Object>builder()
+                .result(materialService.getAll())
+                .message("Success")
+                .build();
+    }
+
 }

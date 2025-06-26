@@ -36,6 +36,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             LocalDate currentDate = originalAppointment.getAppointmentTime().plusDays(7);
             Schedules schedule = originalAppointment.getSchedules();
 
+
             // Lấy ngày bác sĩ làm việc
             List<Schedules> schedules = schedulesRepository.findByDoctors_DoctorId((doctors.getDoctorId()));
             if (schedules == null || schedules.isEmpty()) {
@@ -70,7 +71,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             appointment.setAppointmentTime(finalDate); // ngày tái khám
             appointment.setAnonymous(originalAppointment.isAnonymous());
             appointment.setMedicalRecords(originalAppointment.getMedicalRecords());
-            appointment.setSchedules(schedule);
+            appointment.setSchedules(nextSchedule);
             appointment.setStatus(true); // pending hoặc true nếu là boolean
             appointment.setStaffs(originalAppointment.getStaffs());
 

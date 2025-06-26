@@ -66,4 +66,12 @@ public class BlogController {
                 .message("Success")
                 .build();
     }
+
+    @GetMapping("/getAll")
+    public ApiResponse<?> getAllBlogs() {
+        return ApiResponse.<Object>builder()
+                .result(blogService.getAll())
+                .message("Success")
+                .build();
+    }
 }
