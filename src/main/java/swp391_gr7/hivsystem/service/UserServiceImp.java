@@ -195,6 +195,9 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<Users> findAllUsers() {
+        if (userRepository.findAll() == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
         return userRepository.findAll();
     }
 
@@ -208,6 +211,9 @@ public class UserServiceImp implements UserService {
 
     @Override
     public Users getUserById(int id) {
+        if (userRepository.findByUserId(id) == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
         return userRepository.findByUserId(id);
     }
 }

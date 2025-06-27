@@ -31,7 +31,7 @@ public interface DoctorRepository extends CrudRepository<Doctors, Integer> {
     )
     Optional<Doctors> findDoctorByUser_UserId(@Param("userId") String userId);
 
-    Doctors getDoctorsByDoctorId(int doctorId);
+//    Doctors getDoctorsByDoctorId(int doctorId);
 
     @Query(value = "SELECT d.* FROM doctors d JOIN users u ON d.user_id = u.user_id WHERE u.email = :mail",
             nativeQuery = true)

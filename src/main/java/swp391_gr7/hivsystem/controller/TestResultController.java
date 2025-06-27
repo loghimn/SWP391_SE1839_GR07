@@ -34,7 +34,7 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 400)
                 .result(result)
-                .message(result != null ? "Success" : testResultService.getError())
+                .message(result != null ? "Success" : "Failed to create test result")
                 .build();
     }
 
@@ -60,7 +60,7 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 400)
                 .result(result)
-                .message(result != null ? "Success" : testResultService.getError())
+                .message(result != null ? "Success" : "Failed to update test result")
                 .build();
     }
 
