@@ -3,6 +3,7 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
+import swp391_gr7.hivsystem.dto.response.CustomerReponse;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
@@ -258,5 +259,23 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public List<Appointments> getCustomerAppointment(int currentCustomerId) {
         return appointmentRepository.findByCustomers_CustomerId(currentCustomerId);
+    }
+
+    @Override
+    public CustomerReponse getCustomerAppointmentInDocorView(int appointmentId) {
+        Appointments appointments = getAppointmentById(appointmentId);
+        if (appointments == null) {
+            return null;
+        } else {
+            Customers customers = appointments.getCustomers();
+            CustomerReponse customerReponse = new CustomerReponse();
+            customerReponse.setFullName(customers.getUsers().getFullName());
+            customerReponse.setEmail(customers.getUsers().getEmail());
+            customerReponse.setGender(customers.getUsers().getGender());
+            customerReponse.setPhone(customers.getUsers().getPhone());
+            customerReponse.setAddress(customers.getAddress());
+            return customerReponse;
+        }
+
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportCreateRequest {
-//    private String managerMail;
+    //    private String managerMail;
     private String reportType;
     private LocalDateTime createAt;
 }

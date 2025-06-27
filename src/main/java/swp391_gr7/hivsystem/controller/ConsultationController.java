@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/consultations")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class ConsultationController {
     @Autowired
     private ConsultationService consultationService;
@@ -91,6 +93,25 @@ public class ConsultationController {
                     .code(400)
                     .result(null)
                     .message("Get failed: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @PutMapping("/{id}")
+    public ApiResponse<Consultations> update(@PathVariable int id, @RequestBody ConsultationCreateRequest request) {
+        try {
+            Consultations updatedConsultation = consultationService.updateConsultation(id, request);
+            return ApiResponse.<Consultations>builder()
+                    .code(200)
+                    .result(updatedConsultation)
+                    .message("Update successful")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<Consultations>builder()
+                    .code(400)
+                    .result(null)
+                    .message("Update failed: " + e.getMessage())
                     .build();
         }
     }

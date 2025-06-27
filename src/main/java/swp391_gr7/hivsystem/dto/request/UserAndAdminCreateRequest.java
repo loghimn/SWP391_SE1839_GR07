@@ -11,6 +11,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class UserAndAdminCreateRequest extends CreateUserRequest{
+public class UserAndAdminCreateRequest extends CreateUserRequest {
     private String assignedArea;
 }

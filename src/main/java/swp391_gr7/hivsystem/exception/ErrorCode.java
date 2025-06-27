@@ -10,11 +10,21 @@ import swp391_gr7.hivsystem.model.Users;
 @AllArgsConstructor
 public enum ErrorCode {
 
-     // Unknown error
+    // Unknown error
     UNKNOWN_ERROR(9999, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR), // 500
 
     // Wrong key
     WRONG_KEY(900, "Wrong key provided", HttpStatus.BAD_REQUEST), // 400
+
+    //Treatment plan errors
+    TREATMENT_PLAN_NOT_FOUND(901, "Treatment plan not found", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_ALREADY_EXISTS(902, "Treatment plan already exists", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_INVALID(903, "Invalid treatment plan data", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_DOCTOR_NOT_FOUND(904, "Doctor not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_CUSTOMER_NOT_FOUND(905, "Customer not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_ARV_REGIMENT_NOT_FOUND(906, "ARV regiment not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_APPOINTMENT_NOT_FOUND(907, "Appointment not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_INVALID_DATE(908, "Invalid date for treatment plan", HttpStatus.BAD_REQUEST), // 400
 
     // Common errors
     UNAUTHENTICATED(989, "You are not authenticated", HttpStatus.UNAUTHORIZED), // 401

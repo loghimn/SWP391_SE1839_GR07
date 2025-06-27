@@ -7,6 +7,7 @@ import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 import swp391_gr7.hivsystem.dto.request.ConsultationCreateRequest;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,7 +17,6 @@ public class ConsultationServiceImpl implements ConsultationService {
     private ConsultationRepository consultationRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
-
 
 
     @Override
@@ -56,11 +56,15 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
-    public boolean deleteConsultation(int id) {
+    public Consultations updateConsultation(int id, ConsultationCreateRequest request) {
         Consultations consultation = consultationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_NOT_FOUND_BY_ID));
-        consultationRepository.delete(consultation);
-        return true;
+
+        if (request.getNotes() != null) {
+            consultation.setNotes(request.getNotes());
+        }
+
+        return consultationRepository.save(consultation);
     }
 
 }

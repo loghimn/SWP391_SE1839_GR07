@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/arvregiment")
+@SecurityRequirement(name = "bearerAuth")
 public class ArvRegimentController {
     @Autowired
     private ArvRegimentService arvRegimentService;
@@ -101,7 +103,7 @@ public class ArvRegimentController {
 
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/suggest/medications")
-    public ApiResponse<List<ArvMedications>> suggestMedications(SuggestMedicationRequest request) {
+    public ApiResponse<List<ArvMedications>> suggestMedications(@RequestBody SuggestMedicationRequest request) {
         List<ArvMedications> list = arvRegimentService.suggestArvMedication(request.getTreatmentPlansId());
         if (list == null || list.isEmpty()) {
             return ApiResponse.<List<ArvMedications>>builder()

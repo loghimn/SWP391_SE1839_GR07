@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.*;
+import swp391_gr7.hivsystem.dto.response.CustomerReponse;
 import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.service.AppointmentService;
 import swp391_gr7.hivsystem.service.JWTUtils;
@@ -20,6 +22,7 @@ import java.util.List;
 @RestController
 //CRUD
 @RequestMapping("/api/user/customer")
+@SecurityRequirement(name = "bearerAuth")
 public class CustommerController {
     @Autowired
     public AppointmentService appointmentService;
@@ -170,6 +173,21 @@ public class CustommerController {
         }
         return ApiResponse.<Appointments>builder()
                 .result(updatedAppointment)
+                .message("Success")
+                .build();
+    }
+
+    @GetMapping("/appoint/customer/doctorview/{id}")
+    public ApiResponse<CustomerReponse> getCustomerAppointmentInDoctorView(@PathVariable int id) {
+        System.out.println(id);
+        CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(id);
+        if (customerReponse == null) {
+            return ApiResponse.<CustomerReponse>builder()
+                    .message("Your are not allowed to be viewed")
+                    .build();
+        }
+        return ApiResponse.<CustomerReponse>builder()
+                .result(customerReponse)
                 .message("Success")
                 .build();
     }

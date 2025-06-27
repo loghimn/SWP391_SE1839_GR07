@@ -15,4 +15,6 @@ public interface BlogService {
     Blogs getBlogById(int id);
 
     List<Blogs> getAllBlogs();
+
+    List<Blogs> getAll();
 }

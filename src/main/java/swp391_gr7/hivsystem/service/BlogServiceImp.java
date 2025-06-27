@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class BlogServiceImp implements BlogService{
+public class BlogServiceImp implements BlogService {
 
     @Autowired
     private BlogRepository blogRepository;
@@ -77,5 +77,14 @@ public class BlogServiceImp implements BlogService{
     @Override
     public List<Blogs> getAllBlogs() {
         return blogRepository.findAll();
+    }
+
+    @Override
+    public List<Blogs> getAll() {
+        List<Blogs> blogsList = blogRepository.findAll();
+        if (blogsList.isEmpty()) {
+            throw new AppException(ErrorCode.BLOG_NOT_FOUND);
+        }
+        return blogsList;
     }
 }

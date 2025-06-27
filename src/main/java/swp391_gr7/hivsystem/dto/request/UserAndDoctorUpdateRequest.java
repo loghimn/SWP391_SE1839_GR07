@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAndDoctorUpdateRequest extends UserUpdateRequest{
+public class UserAndDoctorUpdateRequest extends UserUpdateRequest {
 
     @NotBlank(message = "DOCTOR_UPDATE_INVALID_DEPARTMENT_NOTBLANK")
     private String department;

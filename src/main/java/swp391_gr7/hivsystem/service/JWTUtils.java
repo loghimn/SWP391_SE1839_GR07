@@ -9,7 +9,7 @@ public class JWTUtils {
 
     // This method extracts the doctorId from a JWT token.
     public int extractDoctorId(String token) {
-        try{
+        try {
             // Parse the JWT token
             JWSObject jwsObject = JWSObject.parse(token);
 
@@ -25,14 +25,14 @@ public class JWTUtils {
             // Number is used to handle both Integer and Long types
             return ((Number) doctorID).intValue();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Invalid token");
         }
     }
 
     // This method extracts the customerId from a JWT token.
     public int extractCustomerId(String token) {
-        try{
+        try {
 
             // Parse the JWT token
             JWSObject jwsObject = JWSObject.parse(token);
@@ -49,14 +49,14 @@ public class JWTUtils {
             // Number is used to handle both Integer and Long types
             return ((Number) customerID).intValue();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Invalid token");
         }
     }
 
     // This method extracts the managerId from a JWT token.
     public int extractManagerId(String token) {
-        try{
+        try {
 
             // Parse the JWT token
             JWSObject jwsObject = JWSObject.parse(token);
@@ -73,14 +73,14 @@ public class JWTUtils {
             // Number is used to handle both Integer and Long types
             return ((Number) managerID).intValue();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Invalid token");
         }
     }
 
     // This method extracts the staffId from a JWT token.
     public int extractStaffId(String token) {
-        try{
+        try {
 
             // Parse the JWT token
             JWSObject jwsObject = JWSObject.parse(token);
@@ -97,14 +97,14 @@ public class JWTUtils {
             // Number is used to handle both Integer and Long types
             return ((Number) staffID).intValue();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Invalid token");
         }
     }
 
     // This method extracts the adminId from a JWT token.
     public int extractAdminId(String token) {
-        try{
+        try {
 
             // Parse the JWT token
             JWSObject jwsObject = JWSObject.parse(token);
@@ -121,7 +121,7 @@ public class JWTUtils {
             // Number is used to handle both Integer and Long types
             return ((Number) adminID).intValue();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Invalid token");
         }
     }

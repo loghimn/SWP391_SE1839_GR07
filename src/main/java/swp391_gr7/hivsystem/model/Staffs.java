@@ -22,7 +22,7 @@ public class Staffs {
     private int staffId;
 
     @OneToOne
-    @JoinColumn(name = "user_id" , nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Users users;
 
     @Nationalized

@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/medication")
+@SecurityRequirement(name = "bearerAuth")
 public class ArvMedicationController {
     @Autowired
     ArvMedicationService arvMedicationService;
@@ -46,7 +48,7 @@ public class ArvMedicationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @DeleteMapping("/update/{code}")
+    @DeleteMapping("/delete/{code}")
     public ApiResponse<Boolean> deleteMedication(@PathVariable String code) {
         boolean result = arvMedicationService.deleteArvMedication(code);
         return ApiResponse.<Boolean>builder()

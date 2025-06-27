@@ -14,7 +14,7 @@ import swp391_gr7.hivsystem.repository.UserRepository;
 import java.util.List;
 
 @Service
-public class CustomerServiceImp implements CustomerService{
+public class CustomerServiceImp implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -33,10 +33,12 @@ public class CustomerServiceImp implements CustomerService{
         customers.setManagers(manager);
         return customerRepository.save(customers);
     }
+
     @Override
     public Customers getCustomerById(int id) {
         return customerRepository.findById(id).orElse(null);
     }
+
     @Override
     public List<Customers> getAllCustomers() {
         return customerRepository.findAll();

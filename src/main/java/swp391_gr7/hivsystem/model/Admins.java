@@ -17,7 +17,7 @@ public class Admins {
     @Column(name = "admin_id")
     private int adminID;
 
-//Noi 1 voi 1 bang user
+    //Noi 1 voi 1 bang user
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;

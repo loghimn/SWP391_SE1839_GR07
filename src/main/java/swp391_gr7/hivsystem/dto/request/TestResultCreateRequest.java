@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestResultCreateRequest {
-    private int appointmentId;
+    // private int appointmentId;
     private int treatmentPlanId;
     private boolean resultValue;
     private String notes;

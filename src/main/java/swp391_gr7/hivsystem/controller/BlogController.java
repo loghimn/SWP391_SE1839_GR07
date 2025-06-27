@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/blogs")
+@SecurityRequirement(name = "bearerAuth")
 public class BlogController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentBlog(@PathVariable int id, @RequestBody Blogs updateContent){
+    public ApiResponse<Boolean> updateContentBlog(@PathVariable int id, @RequestBody Blogs updateContent) {
         blogService.updateInformationBlog(id, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)
@@ -50,7 +52,7 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> deleteBlog(@PathVariable int id){
+    public ApiResponse<Boolean> deleteBlog(@PathVariable int id) {
         blogService.deleteBlog(id);
         return ApiResponse.<Boolean>builder()
                 .result(true)
@@ -77,4 +79,12 @@ public class BlogController {
                 .build();
     }
 
+
+    @GetMapping("/getAll")
+    public ApiResponse<?> getAllBlogs() {
+        return ApiResponse.<Object>builder()
+                .result(blogService.getAll())
+                .message("Success")
+                .build();
+    }
 }

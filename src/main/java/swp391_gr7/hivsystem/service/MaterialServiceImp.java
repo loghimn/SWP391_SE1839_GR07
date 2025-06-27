@@ -81,4 +81,13 @@ public class MaterialServiceImp implements MaterialService {
     public List<Materials> getAllMaterials() {
         return materialRepository.findAll();
     }
+
+    @Override
+    public List<Materials> getAll() {
+        List<Materials> materialList = materialRepository.findAll();
+        if (materialList.isEmpty()) {
+            throw new AppException(ErrorCode.MATERIAL_NOT_FOUND);
+        }
+        return materialList;
+    }
 }

@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentCreateRequest {
-    @NotNull(message = "APPOINTMENT_REQUEST_CUSTOMER_NOTNULL")
-    private int customerId;
+//    @NotNull(message = "APPOINTMENT_REQUEST_CUSTOMER_NOTNULL")
+//    private int customerId;
 
     @NotNull(message = "APPOINTMENT_REQUEST_DOCTOR_NOTNULL")
     private String doctorName;

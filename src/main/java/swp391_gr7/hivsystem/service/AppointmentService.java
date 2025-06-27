@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.service;
 
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
+import swp391_gr7.hivsystem.dto.response.CustomerReponse;
 import swp391_gr7.hivsystem.model.Appointments;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface AppointmentService {
     List<Appointments> getAppointmentsByCustomerId(int customerId);
 
     List<Appointments> getCustomerAppointment(int currentCustomerId);
+
+    CustomerReponse getCustomerAppointmentInDocorView(int appointmentId);
 }

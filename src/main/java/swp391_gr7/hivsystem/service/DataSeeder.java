@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
@@ -26,13 +27,15 @@ public class DataSeeder implements CommandLineRunner {
     private UserRepository userRepository;
     @Autowired
     private AdminRepository adminRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     void createModel() {
         // Create Users
         Users adminUser = new Users();
         adminUser.setUsername("admin");
-        adminUser.setPassword("adminpass");
+        adminUser.setPassword(passwordEncoder.encode("adminpass"));
         adminUser.setEmail("admin@admin.com");
         adminUser.setPhone("0123456789");
         adminUser.setFullName("admin");
@@ -45,7 +48,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Users managerUser = new Users();
         managerUser.setUsername("manager1");
-        managerUser.setPassword("managerpass");
+        managerUser.setPassword(passwordEncoder.encode("managerpass"));
         managerUser.setEmail("manager1@manager.com");
         managerUser.setPhone("0111111111");
         managerUser.setFullName("Manager One");
@@ -58,7 +61,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Users doctorUser = new Users();
         doctorUser.setUsername("doctor1");
-        doctorUser.setPassword("doctorpass");
+        doctorUser.setPassword(passwordEncoder.encode("doctorpass"));
         doctorUser.setEmail("doctor1@doctor.com");
         doctorUser.setPhone("0222222222");
         doctorUser.setFullName("Doctor One");
@@ -90,8 +93,6 @@ public class DataSeeder implements CommandLineRunner {
         doctors.setYearExperience(5);
         doctors.setManagers(manager);
         doctorRepository.save(doctors);
-
-
 
 
         ArvRegiments r1 = new ArvRegiments();
@@ -146,7 +147,7 @@ public class DataSeeder implements CommandLineRunner {
 
         List<ArvMedications> meds = List.of(
                 // Người lớn
-                new ArvMedications( doctors,"TDF", "Tenofovir disoproxil fumarate", "Viên nén", "300mg", "Mylan", "NRTI người lớn", true, r1),
+                new ArvMedications(doctors, "TDF", "Tenofovir disoproxil fumarate", "Viên nén", "300mg", "Mylan", "NRTI người lớn", true, r1),
                 new ArvMedications(doctors, "3TC", "Lamivudine", "Viên nén", "150mg", "GSK", "NRTI người lớn", true, r1),
                 new ArvMedications(doctors, "EFV", "Efavirenz", "Viên nén", "600mg", "Cipla", "NNRTI người lớn", true, r1),
                 new ArvMedications(doctors, "AZT", "Zidovudine", "Siro", "50mg/5ml", "PharmaWomen", "Thai kỳ người lớn", true, r2),

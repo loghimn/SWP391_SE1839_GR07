@@ -3,7 +3,7 @@ package swp391_gr7.hivsystem.exception;
 import lombok.Data;
 
 @Data
-public class AppException extends RuntimeException{
+public class AppException extends RuntimeException {
 
     public AppException(ErrorCode errorCode) {
         super(errorCode.getMessage());
@@ -11,7 +11,6 @@ public class AppException extends RuntimeException{
     }
 
     private ErrorCode errorCode;
-
 
 
 }

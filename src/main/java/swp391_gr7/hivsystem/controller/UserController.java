@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 import com.nimbusds.jose.JOSEException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -31,6 +32,7 @@ import java.util.List;
 @RestController
 //CRUD
 @RequestMapping("/api/user")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -65,6 +67,7 @@ public class UserController {
                 .message(result ? "Success" : "Registration failed")
                 .build();
     }
+
     @PreAuthorize("hasRole('Manager')")
     @PostMapping("/manager/register")
     public ApiResponse<Boolean> registerUserAndManager(@RequestBody @Valid UserAndManagerCreateRequest request) {
@@ -75,6 +78,7 @@ public class UserController {
                 .message(result ? "Success" : "Registration failed")
                 .build();
     }
+
     @PreAuthorize("hasRole('Manager')")
     @PostMapping("/staff/register")
     public ApiResponse<Boolean> registerUserAndStaff(@RequestBody @Valid UserAndStaffCreateRequest request) {
@@ -165,7 +169,7 @@ public class UserController {
     @GetMapping("/getStaffById/{id}")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<Staffs> getStaffById(@PathVariable int id) {
-        Staffs staffs  = staffService.getStaffById(id);
+        Staffs staffs = staffService.getStaffById(id);
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }

@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/materials")
+@SecurityRequirement(name = "bearerAuth")
 public class MaterialController {
 
     @Autowired
@@ -39,7 +41,7 @@ public class MaterialController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent){
+    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent) {
         materialService.updateInformationMaterial(id, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)
@@ -49,7 +51,7 @@ public class MaterialController {
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> deleteMaterial(@PathVariable int id){
+    public ApiResponse<Boolean> deleteMaterial(@PathVariable int id) {
         materialService.deleteMaterial(id);
         return ApiResponse.<Boolean>builder()
                 .result(true)
@@ -63,6 +65,14 @@ public class MaterialController {
         Materials materials = materialService.getMaterialById(id);
         return ApiResponse.<Materials>builder()
                 .result(materials)
+                .message("Success")
+                .build();
+    }
+
+    @GetMapping("/getAll")
+    public ApiResponse<?> getAllMaterials() {
+        return ApiResponse.<Object>builder()
+                .result(materialService.getAll())
                 .message("Success")
                 .build();
     }

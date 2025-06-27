@@ -28,7 +28,14 @@ public class TestResultServiceImpl implements TestResultService {
     public TestResults addTestResult(TestResultCreateRequest request) {
         error = "";
 
-        Appointments appointment = appointmentRepository.findById(request.getAppointmentId()).orElse(null);
+        TreatmentPlans treatmentPlan = treatmentPlansRepository.findById(request.getTreatmentPlanId()).orElse(null);
+        if (treatmentPlan == null) {
+            error = "Treatment plan not found";
+            return null;
+        }
+
+        Appointments appointment = treatmentPlan.getAppointments();
+        System.out.println("Appointment ID: " + appointment.getAppointmentId());
         if (appointment == null) {
             error = "Appointment not found";
             return null;
@@ -38,11 +45,7 @@ public class TestResultServiceImpl implements TestResultService {
             error = "Appointment is not for HIV testing";
             return null;
         }
-        TreatmentPlans treatmentPlan = treatmentPlansRepository.findById(request.getTreatmentPlanId()).orElse(null);
-        if (treatmentPlan == null) {
-            error = "Treatment plan not found";
-            return null;
-        }
+
 
         TestResults testResult = new TestResults();
         testResult.setAppointments(appointment);
@@ -64,6 +67,7 @@ public class TestResultServiceImpl implements TestResultService {
     public List<TestResults> getTestResultsByCustomer(int customerId) {
         return testResultRepository.findByCustomers_CustomerId(customerId);
     }
+
     @Override
     public TestResults updateTestResult(int id, TestResultCreateRequest request) {
         TestResults existing = testResultRepository.findById(id).orElse(null);
