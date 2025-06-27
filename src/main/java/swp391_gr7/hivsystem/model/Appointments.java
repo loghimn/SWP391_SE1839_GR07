@@ -24,15 +24,15 @@ public class Appointments {
     private Customers customers;
     //
     @ManyToOne
-    @JoinColumn(name = "doctor_id ", nullable = false)
+    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
     //
     @ManyToOne
-    @JoinColumn(name = "staff_id ", nullable = false)
+    @JoinColumn(name = "staff_id", nullable = false)
     private Staffs staffs;
 
     @ManyToOne
-    @JoinColumn(name = "medical_record_id ", nullable = false)
+    @JoinColumn(name = "medical_record_id", nullable = false)
     private MedicalRecords medicalRecords;
 
     @Column(name = "appointment_time", nullable = false)

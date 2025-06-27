@@ -29,7 +29,7 @@ public class Schedules {
 
     //doctorID : int (FK)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id ", nullable = false)
+    @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 
     //

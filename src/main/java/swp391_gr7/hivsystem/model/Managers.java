@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Managers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "manager_id")
+    @Column(name = "manager_id")
     private int managerId;
 
     @OneToOne
