@@ -14,7 +14,5 @@ public interface MaterialService {
 
     Materials getMaterialById(int id);
 
-    List<Materials>  getAllMaterials();
-
     List<Materials> getAll();
 }

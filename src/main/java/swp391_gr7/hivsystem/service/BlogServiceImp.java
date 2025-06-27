@@ -75,11 +75,6 @@ public class BlogServiceImp implements BlogService {
     }
 
     @Override
-    public List<Blogs> getAllBlogs() {
-        return blogRepository.findAll();
-    }
-
-    @Override
     public List<Blogs> getAll() {
         List<Blogs> blogsList = blogRepository.findAll();
         if (blogsList.isEmpty()) {
