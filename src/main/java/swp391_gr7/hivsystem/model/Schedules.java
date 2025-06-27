@@ -28,12 +28,12 @@ public class Schedules {
     private int scheduleID;
 
     //doctorID : int (FK)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 
     //
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "managerID", nullable = false)
     private Managers managers;
 
