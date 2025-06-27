@@ -46,11 +46,17 @@ public class SchedulesServiceImpl implements SchedulesService {
 
     @Override
     public Optional<Schedules> getScheduleById(int id) {
+        if(schedulesRepository.findById(id) == null) {
+            throw new AppException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
         return schedulesRepository.findById(id);
     }
 
     @Override
     public List<Schedules> getAllSchedules() {
+        if(schedulesRepository.findAll() == null) {
+            throw new AppException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
         return schedulesRepository.findAll();
     }
 

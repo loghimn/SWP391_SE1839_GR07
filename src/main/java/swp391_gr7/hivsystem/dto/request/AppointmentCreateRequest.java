@@ -26,7 +26,7 @@ public class AppointmentCreateRequest {
     private LocalDate appointmentTime;
 
 //    private boolean status;
-
+    @NotNull(message = "APPOINTMENT_REQUEST_ANONYMOUS_NOTNULL")
     private boolean anonymous;
 
     @NotBlank(message = "APPOINTMENT_REQUEST_TYPE_NOTBLANK")

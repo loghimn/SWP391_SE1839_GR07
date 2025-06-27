@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +13,28 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 public class GoogleRegisterRequest {
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_USERNAME_NOT_BLANK")
     private String username;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_PASSWORD_NOT_BLANK")
     private String password;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_EMAIL_NOT_BLANK")
     private String email;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_PHONE_NOT_BLANK")
     private String phone;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_FULL_NAME_NOT_BLANK")
     private String fullName;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_DATE_OF_BIRTH_NOT_BLANK")
     private String dateOfBirth;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_GENDER_NOT_BLANK")
     private String gender;
+
+    @NotBlank(message = "GOOGLE_REGISTER_REQUEST_ADDRESS_NOT_BLANK")
     private String address;
 
     public String getUsername() {

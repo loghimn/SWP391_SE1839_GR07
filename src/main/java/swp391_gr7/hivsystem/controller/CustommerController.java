@@ -179,7 +179,6 @@ public class CustommerController {
 
     @GetMapping("/appoint/customer/doctorview/{id}")
     public ApiResponse<CustomerReponse> getCustomerAppointmentInDoctorView(@PathVariable int id) {
-        System.out.println(id);
         CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(id);
         if (customerReponse == null) {
             return ApiResponse.<CustomerReponse>builder()

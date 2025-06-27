@@ -3,7 +3,10 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ArvMedicationCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.ArvMedications;
+import swp391_gr7.hivsystem.model.ArvRegiments;
 import swp391_gr7.hivsystem.model.Doctors;
 import swp391_gr7.hivsystem.repository.ArvMedicationsRepository;
 import swp391_gr7.hivsystem.repository.ArvRegimentRepository;
@@ -22,6 +25,15 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
 
     @Override
     public boolean addArvMedication(ArvMedicationCreateRequest request, int doctorId) {
+        ArvRegiments existingArvRegiment = arvRegimentRepository.findArvRegimentsByNameContaining(request.getArvRegimentName());
+        if (existingArvRegiment == null) {
+            throw new AppException(ErrorCode.ARV_REGIMENT_NOT_FOUND);
+        }
+
+        Doctors doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+
+
         ArvMedications arvMedications = new ArvMedications();
         arvMedications.setCode(request.getCode());
         arvMedications.setName(request.getName());
@@ -30,8 +42,8 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
         arvMedications.setManufacturer(request.getManufacturer());
         arvMedications.setDescription(request.getDescription());
         arvMedications.setActive(true);
-        arvMedications.setArvRegiment(arvRegimentRepository.findArvRegimentsByNameContaining(request.getArvRegimentName()));
-        Doctors doctor = doctorRepository.getDoctorsByDoctorId(doctorId);
+        arvMedications.setArvRegiment(existingArvRegiment);
+
         arvMedications.setDoctor(doctor);
         arvMedicationsRepository.save(arvMedications);
         return true;
@@ -40,13 +52,21 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
     @Override
     public boolean updateArvMedication(ArvMedicationCreateRequest request, String code) {
         ArvMedications arvMedications = arvMedicationsRepository.getArvMedicationsByCode(code);
+        if (arvMedications == null) {
+            throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
+        }
+        ArvRegiments existingArvRegiment = arvRegimentRepository.findArvRegimentsByNameContaining(request.getArvRegimentName());
+        if (existingArvRegiment == null) {
+            throw new AppException(ErrorCode.ARV_REGIMENT_NOT_FOUND);
+        }
+
         arvMedications.setName(request.getName());
         arvMedications.setForm(request.getForm());
         arvMedications.setStrength(request.getStrength());
         arvMedications.setManufacturer(request.getManufacturer());
         arvMedications.setDescription(request.getDescription());
         arvMedications.setActive(true);
-        arvMedications.setArvRegiment(arvRegimentRepository.findArvRegimentsByNameContaining(request.getArvRegimentName()));
+        arvMedications.setArvRegiment(existingArvRegiment);
         arvMedicationsRepository.save(arvMedications);
         return true;
     }
@@ -57,12 +77,18 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
         if (arvMedications != null) {
             arvMedicationsRepository.delete(arvMedications);
             return true;
+        } else if (arvMedications == null) {
+            throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
         }
         return false;
     }
 
     @Override
     public List<ArvMedications> showAllListMedication() {
-        return arvMedicationsRepository.findAll();
+        List<ArvMedications> arvMedications = arvMedicationsRepository.findAll();
+        if (arvMedications.isEmpty()) {
+            throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
+        }
+        return arvMedications;
     }
 }

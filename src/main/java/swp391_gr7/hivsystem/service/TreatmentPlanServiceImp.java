@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.TreatmentPlansCreateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
-import swp391_gr7.hivsystem.model.Appointments;
-import swp391_gr7.hivsystem.model.ArvRegiments;
-import swp391_gr7.hivsystem.model.Customers;
-import swp391_gr7.hivsystem.model.TreatmentPlans;
+import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
 import java.time.LocalDate;
@@ -32,12 +29,17 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
 
     @Override
     public Boolean createTreatmentPlan(int doctorId, TreatmentPlansCreateRequest request) {
-        TreatmentPlans plan = new TreatmentPlans();
+        Doctors doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+
         Appointments appointment = appointmentRepository.findByAppointmentId(request.getAppointmentId())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
+
+        TreatmentPlans plan = new TreatmentPlans();
+
         plan.setAppointments(appointment);
         Customers customers = appointment.getCustomers();
-        plan.setDoctors(doctorRepository.getDoctorsByDoctorId(doctorId));
+        plan.setDoctors(doctor);
         plan.setPlanDescription(request.getTreatmentPlanDescription());
         //System.out.println(arvRegimentRepository.findArvRegimentsByArvRegimentID(request.getArvRegimentId()));
         LocalDate dob = customers.getUsers().getDateOfBirth();

@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReportCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.model.Managers;
 import swp391_gr7.hivsystem.model.Reports;
@@ -30,15 +32,20 @@ public class ReportServiceImp implements ReportService {
     private ManagerRepository managerRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
-    public static String error = "";
 
     @Override
     public void exportUserToCSV(HttpServletResponse response,
                                 ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách User
         List<Users> users = userRepository.findAll();
+        if(users.isEmpty()) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
 
         Managers manager = managerRepository.findManagerById(id);
+        if(manager == null) {
+            throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
+        }
 
         // Xử lý Manager
 //        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());
@@ -71,6 +78,9 @@ public class ReportServiceImp implements ReportService {
     public void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách Appointment
         List<Appointments> appointments = appointmentRepository.findAll();
+        if(appointments.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
 
         // Xử lý Manager
 //        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());

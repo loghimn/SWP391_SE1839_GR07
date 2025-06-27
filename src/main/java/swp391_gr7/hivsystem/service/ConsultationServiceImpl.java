@@ -17,6 +17,8 @@ public class ConsultationServiceImpl implements ConsultationService {
     private ConsultationRepository consultationRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     @Override
@@ -47,11 +49,17 @@ public class ConsultationServiceImpl implements ConsultationService {
 
     @Override
     public List<Consultations> getConsultationsByCustomer(int customerId) {
+        if (customerRepository.existsById(customerId)) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND_BY_ID);
+        }
         return consultationRepository.findByCustomers_CustomerId(customerId);
     }
 
     @Override
     public List<Consultations> getConsultationsByDoctor(int doctorId) {
+        if (!customerRepository.existsById(doctorId)) {
+            throw new AppException(ErrorCode.DOCTOR_NOT_FOUND_BY_ID);
+        }
         return consultationRepository.findByDoctors_DoctorId(doctorId);
     }
 

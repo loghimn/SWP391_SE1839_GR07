@@ -17,5 +17,4 @@ public interface MedicalRecordService {
 
     MedicalRecords getMyMedicalRecord(int customerId);
 
-    String getError();
 }

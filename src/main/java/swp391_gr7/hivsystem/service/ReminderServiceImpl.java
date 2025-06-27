@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
@@ -35,19 +37,33 @@ public class ReminderServiceImpl implements ReminderService {
     public Reminders createReminderDosage(int id, ReminderCreateRequest request) {
         Reminders reminder = new Reminders();
         TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
+        if (testResult == null || testResult.getTreatmentPlan() == null) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
         reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
+        if (reminder.getCustomers() == null) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
+        Staffs staffs = staffsRepository.findById(id).orElse(null);
+        if (staffs == null) {
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+        }
+        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
+        if (appointments == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
         reminder.setReminderType("Dosage Reminder");
         reminder.setMessage(request.getMessage());
         reminder.setStatus(true);
-        reminder.setStaffs(staffsRepository.findById(id).orElse(null));
+        reminder.setStaffs(staffs);
         reminder.setTestResults(testResult);
-        reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
+        reminder.setAppointments(appointments);
         // Set reminderTime based on dosageTime in TreatmentPlans
         if (testResult != null && testResult.getTreatmentPlan() != null && testResult.getTreatmentPlan().getDosageTime() != null) {
             LocalDateTime reminderDateTime = LocalDateTime.of(testResult.getTestDate(), testResult.getTreatmentPlan().getDosageTime());
             reminder.setReminderTime(reminderDateTime);
         } else {
-            reminder.setReminderTime(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_HAVE_DOSAGE_TIME);
         }
         // Set staff if needed (if you have logic to get staff from context)
         return remindersRepository.save(reminder);
@@ -72,6 +88,10 @@ public class ReminderServiceImpl implements ReminderService {
             LocalTime reminderTime = LocalTime.of(8, 0);
             LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
             reminder.setReminderTime(reminderDateTime); // store full datetime
+        } else if (appointments == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        } else {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_HAVE_TIME);
         }
         // Set staff if needed (if you have logic to get staff from context)
         return remindersRepository.save(reminder);
@@ -91,8 +111,8 @@ public class ReminderServiceImpl implements ReminderService {
             if (testResult != null && testResult.getTreatmentPlan() != null && testResult.getTreatmentPlan().getDosageTime() != null) {
                 LocalDateTime reminderDateTime = LocalDateTime.of(LocalDate.now(), testResult.getTreatmentPlan().getDosageTime());
                 existing.setReminderTime(reminderDateTime);
-            } else {
-                existing.setReminderTime(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT));
+            } else if (testResult == null || testResult.getTreatmentPlan() == null || testResult.getTreatmentPlan().getDosageTime() == null) {
+                throw new AppException(ErrorCode.TEST_RESULT_NOT_HAVE_DOSAGE_TIME);
             }
             // Set staff if needed (if you have logic to get staff from context)
             return remindersRepository.save(existing);
@@ -117,6 +137,10 @@ public class ReminderServiceImpl implements ReminderService {
                 LocalTime reminderTime = LocalTime.of(8, 0);
                 LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
                 existing.setReminderTime(reminderDateTime); // store full datetime
+            } else if (appointments == null) {
+                throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+            } else {
+                throw new AppException(ErrorCode.APPOINTMENT_NOT_HAVE_TIME);
             }
             // Set staff if needed (if you have logic to get staff from context)
             return remindersRepository.save(existing);
@@ -147,16 +171,22 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminders getReminderById(int id) {
-        return remindersRepository.findById(id).orElse(null);
+        return remindersRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.REMINDER_NOT_FOUND));
     }
 
     @Override
     public List<Reminders> getAllReminders() {
+        if (remindersRepository.count() == 0) {
+            throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
+        }
         return remindersRepository.findAll();
     }
 
     @Override
     public void deleteReminder(int id) {
+        if (!remindersRepository.existsById(id)) {
+            throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
+        }
         remindersRepository.findById(id).ifPresent(reminder -> {
             reminder.setStatus(false);
             remindersRepository.save(reminder);
@@ -165,6 +195,9 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminders getMyReminderById(int id) {
+        if(!remindersRepository.existsById(id)) {
+            throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
+        }
         return remindersRepository.findRemindersByCustomersCustomerId(id);
     }
 }
