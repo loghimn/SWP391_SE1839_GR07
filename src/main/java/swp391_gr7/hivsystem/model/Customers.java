@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +38,7 @@ public class Customers {
     @JoinColumn(name = "manager_id", nullable = false)
     private Managers managers;
 
-    @OneToMany(mappedBy = "customers", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customers", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<TestResults> testResultsList;
 }

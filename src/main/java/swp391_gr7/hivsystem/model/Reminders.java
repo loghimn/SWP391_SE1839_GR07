@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Reminders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +24,6 @@ public class Reminders {
     private int reminderID; // tên biến đặt chuẩn camel case
     //
     @ManyToOne(fetch = FetchType.LAZY)
-
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
 

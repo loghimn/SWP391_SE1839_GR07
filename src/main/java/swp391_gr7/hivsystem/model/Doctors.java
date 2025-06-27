@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "doctors")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Doctors {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

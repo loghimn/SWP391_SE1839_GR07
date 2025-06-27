@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.Nationalized;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "arv_medications")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ArvMedications {
 
     @Id
@@ -51,7 +53,7 @@ public class ArvMedications {
     @Column(name = "is_active", nullable = false)
     private boolean isActive = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private ArvRegiments arvRegiment;
 

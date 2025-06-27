@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,12 +8,14 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "treatment_plan")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TreatmentPlans {
 
     @Id
@@ -35,7 +38,7 @@ public class TreatmentPlans {
     @Column(name = "dosage_time") // thời gian uống thuốc
     private LocalTime dosageTime;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arv_regiment_id", nullable = false)
     private ArvRegiments arvReqimentID;
 

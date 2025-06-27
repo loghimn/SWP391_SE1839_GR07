@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ArvRegiments {
 
     @Id
@@ -41,6 +43,7 @@ public class ArvRegiments {
     // Optional: Liên kết ngược
     @OneToMany(mappedBy = "arvRegiment", cascade = CascadeType.ALL)
     private List<ArvMedications> medications = new ArrayList<>();
+
 
     public ArvRegiments(String name, Doctors doctor, String description, int level) {
         this.name = name;
