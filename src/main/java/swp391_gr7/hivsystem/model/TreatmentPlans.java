@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -35,7 +36,7 @@ public class TreatmentPlans {
     @Column(name = "dosage_time") // thời gian uống thuốc
     private LocalTime dosageTime;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "arv_regiment_id", nullable = false)
     private ArvRegiments arvReqimentID;
 

@@ -42,6 +42,7 @@ public class ArvRegiments {
     @OneToMany(mappedBy = "arvRegiment", cascade = CascadeType.ALL)
     private List<ArvMedications> medications = new ArrayList<>();
 
+
     public ArvRegiments(String name, Doctors doctor, String description, int level) {
         this.name = name;
         this.doctor = doctor;
