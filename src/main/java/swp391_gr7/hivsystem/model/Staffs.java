@@ -42,7 +42,7 @@ public class Staffs {
     @JoinColumn(name = "manager_id", nullable = false)
     private Managers managers;
 
-    @OneToMany(mappedBy = "staffs", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "staffs", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Appointments> appointments;
 }

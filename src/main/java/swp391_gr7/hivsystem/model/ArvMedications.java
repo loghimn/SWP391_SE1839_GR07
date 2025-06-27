@@ -21,7 +21,7 @@ public class ArvMedications {
     @Column(name = "arv_medication_id")
     private int arvMedicationID;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     @JsonIgnore
     private Doctors doctor;

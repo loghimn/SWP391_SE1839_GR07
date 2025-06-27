@@ -22,7 +22,7 @@ public class MedicalRecords {
     @Column(name = "medical_record_id")
     private int medicalRecordID;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
 

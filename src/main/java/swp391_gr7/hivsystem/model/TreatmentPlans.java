@@ -23,11 +23,11 @@ public class TreatmentPlans {
     @Column(name = "treatment_plan_id")
     private int treatmentPlanID;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointments appointments;
 
@@ -38,7 +38,7 @@ public class TreatmentPlans {
     @Column(name = "dosage_time") // thời gian uống thuốc
     private LocalTime dosageTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arv_regiment_id", nullable = false)
     private ArvRegiments arvReqimentID;
 
