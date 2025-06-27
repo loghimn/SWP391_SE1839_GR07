@@ -34,6 +34,27 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             Customers customers = testResult.getCustomers();
             Doctors doctors = testResult.getDoctors();
             LocalDate currentDate = originalAppointment.getAppointmentTime().plusDays(7);
+
+            // lấy list appointment
+            List<Appointments> listAppointments = appointmentRepository.findAll();
+            if(listAppointments.isEmpty()){
+                throw new AppException(ErrorCode.APPOINTMENT_LIST_NOT_FOUND);
+            }
+            while (true) {
+                boolean duplicate_reExam = false;
+                for(Appointments appointment: listAppointments){
+                    if(appointment.getAppointmentTime().isEqual(currentDate)){
+                        duplicate_reExam = true;
+                        break;
+                    }
+                }
+                if(duplicate_reExam){
+                    currentDate = currentDate.plusDays(1);
+                } else {
+                    break;
+                }
+            }
+
             Schedules schedule = originalAppointment.getSchedules();
 
 
@@ -45,10 +66,11 @@ public class ReExaminationServiceImpl implements ReExaminationService {
 
             LocalDate upperBound = currentDate.plusDays(30);
 
+            LocalDate finalCurrentDate = currentDate;
             Schedules nextSchedule = schedules.stream()
                     .filter(s -> {
                         LocalDate workDate = s.getWorkDate();
-                        return !workDate.isBefore(currentDate) && !workDate.isAfter(upperBound);
+                        return !workDate.isBefore(finalCurrentDate) && !workDate.isAfter(upperBound);
                     })
                     .min(Comparator.comparing(Schedules::getWorkDate))
                     .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE));

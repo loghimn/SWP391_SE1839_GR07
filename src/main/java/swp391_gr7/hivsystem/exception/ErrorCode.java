@@ -241,6 +241,9 @@ public enum ErrorCode {
     REMINDER_NOT_FOUND_CUSTOMER(1109, "Customer not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_STAFF(1110, "Staff not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_APPOINTMENT(1111, "Appointment not found to set reminder", HttpStatus.NOT_FOUND), // 404
+
+    // List Appointment
+    APPOINTMENT_LIST_NOT_FOUND(1120, "Appointment is empty", HttpStatus.NOT_FOUND), // 404
     ;
 
     private int code;
