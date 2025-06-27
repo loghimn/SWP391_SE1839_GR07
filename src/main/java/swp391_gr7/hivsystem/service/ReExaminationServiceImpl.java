@@ -43,32 +43,22 @@ public class ReExaminationServiceImpl implements ReExaminationService {
                 throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
             }
 
+            LocalDate upperBound = currentDate.plusDays(30);
+
             Schedules nextSchedule = schedules.stream()
-                    .filter(s -> s.getWorkDate().isAfter(currentDate))
+                    .filter(s -> {
+                        LocalDate workDate = s.getWorkDate();
+                        return !workDate.isBefore(currentDate) && !workDate.isAfter(upperBound);
+                    })
                     .min(Comparator.comparing(Schedules::getWorkDate))
                     .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE));
-            // Giới hạn 30 ngày tìm kiếm
-            LocalDate finalDate = null;
-            for (int i = 0; i < 30; i++) {
-                LocalDate checkDate = currentDate.plusDays(i);
-                // Nếu đúng ngày bác sĩ làm việc
-                if (checkDate.equals(nextSchedule.getWorkDate())) {
-                    finalDate = checkDate;
-                    break;
-                }
-            }
-
-
-            if (finalDate == null) {
-                throw new AppException(ErrorCode.RE_EXAMINATION_NO_AVAILABLE_RE_EXAM_DATE_IN_NEXT_30_DAYS);
-            }
 
             // Tạo lịch tái khám mới
             Appointments appointment = new Appointments();
             appointment.setCustomers(customers);
             appointment.setDoctors(doctors);
             appointment.setAppointmentType(testResult.getTestType());
-            appointment.setAppointmentTime(finalDate); // ngày tái khám
+            appointment.setAppointmentTime(nextSchedule.getWorkDate()); // ngày tái khám
             appointment.setAnonymous(originalAppointment.isAnonymous());
             appointment.setMedicalRecords(originalAppointment.getMedicalRecords());
             appointment.setSchedules(nextSchedule);
