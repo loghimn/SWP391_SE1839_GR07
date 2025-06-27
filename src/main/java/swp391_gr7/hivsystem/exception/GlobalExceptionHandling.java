@@ -24,8 +24,7 @@ public class GlobalExceptionHandling {
 //                .body(apiResponse);
 //    }
 
-    @ExceptionHandler(value = AppException.class)
-        // Xử lý ngoại lệ tùy chỉnh AppException
+    // Xử lý ngoại lệ tùy chỉnh AppException
 //    @ExceptionHandler(value = Exception.class) // Xử lý ngoại lệ chung RuntimeException
 //    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
 //        ErrorCode errorCode = ErrorCode.UNKNOWN_ERROR; // Mã lỗi mặc định
@@ -40,7 +39,7 @@ public class GlobalExceptionHandling {
 //                .body(apiResponse);
 //    }
 
-    @ExceptionHandler(value = AppException.class) // Xử lý ngoại lệ tùy chỉnh AppException
+    @ExceptionHandler(value = {AppException.class, AppException.class}) // Xử lý ngoại lệ tùy chỉnh AppException
     ResponseEntity<ApiResponse> handlingAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();
         ApiResponse apiResponse = new ApiResponse();

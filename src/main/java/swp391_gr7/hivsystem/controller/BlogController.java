@@ -69,15 +69,15 @@ public class BlogController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/get/all")
-    public ApiResponse<List<Blogs>> getAllBlogs() {
-        List<Blogs> blogs = blogService.getAllBlogs();
-        return ApiResponse.<List<Blogs>>builder()
-                .result(blogs)
-                .message("Success")
-                .build();
-    }
+//    @PreAuthorize("hasRole('Doctor')")
+//    @GetMapping("/get/all")
+//    public ApiResponse<List<Blogs>> getAllBlogs() {
+//        List<Blogs> blogs = blogService.getAllBlogs();
+//        return ApiResponse.<List<Blogs>>builder()
+//                .result(blogs)
+//                .message("Success")
+//                .build();
+//    }
 
 
     @GetMapping("/getAll")

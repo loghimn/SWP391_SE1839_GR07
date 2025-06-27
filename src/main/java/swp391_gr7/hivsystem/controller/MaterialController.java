@@ -77,14 +77,14 @@ public class MaterialController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/get/all")
-    public ApiResponse<List<Materials>> getAllMaterials(){
-        List<Materials> materials = materialService.getAllMaterials();
-        return ApiResponse.<List<Materials>>builder()
-                .result(materials)
-                .message("Success")
-                .build();
-    }
+//    @PreAuthorize("hasRole('Doctor')")
+//    @GetMapping("/get/all")
+//    public ApiResponse<List<Materials>> getAllMaterials(){
+//        List<Materials> materials = materialService.getAllMaterials();
+//        return ApiResponse.<List<Materials>>builder()
+//                .result(materials)
+//                .message("Success")
+//                .build();
+//    }
 
 }
