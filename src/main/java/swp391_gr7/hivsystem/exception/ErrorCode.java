@@ -101,7 +101,7 @@ public enum ErrorCode {
 
     // Add error for date of birth
     USER_DATEOFBIRTH_NOTNULL(1018, "Date of Birth is required", HttpStatus.BAD_REQUEST), // 400
-    USER_INVALID_DATEOFBIRTH(1019, "Date of Birth must be at least 18", HttpStatus.BAD_REQUEST), // 400
+    USER_INVALID_DATEOFBIRTH(1019, "Date of Birth must be at least 1", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for customer
     CUSTOMER_INVALID_ADDRESS_NOTBLANK(1020, "Address is required", HttpStatus.BAD_REQUEST), // 400

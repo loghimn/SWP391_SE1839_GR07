@@ -36,7 +36,7 @@ public class UserUpdateRequest {
     private String fullName;
 
     @NotNull(message = "USER_UPDATE_DATEOFBIRTH_NOTNULL")
-    @DateOfBirthConstraint(minAge = 18, message = "USER_UPDATE_INVALID_DATEOFBIRTH")
+    @DateOfBirthConstraint(minAge = 1, message = "USER_UPDATE_INVALID_DATEOFBIRTH")
     private LocalDate dateOfBirth;
 
     @NotBlank(message = "USER_UPDATE_INVALID_GENDER_NOTBLANK")
