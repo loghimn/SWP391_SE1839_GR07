@@ -2,18 +2,26 @@ package swp391_gr7.hivsystem.service;
 
 
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Date;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.googleapis.auth.oauth2.GooglePublicKeysManager;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +53,9 @@ public class AuthenticationService {
     private ManagerRepository managerRepository;
     @Autowired
     private AdminRepository adminRepository;
+    @Value("${google.clientId}")
+    private String googleClientId;
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest)
             throws JOSEException {
@@ -157,6 +168,56 @@ public class AuthenticationService {
         } catch (JOSEException e) {
             log.error("Error generating token", e);
             throw new JOSEException(e.getMessage());
+        }
+    }
+
+    public AuthenticationResponse authenticateWithGoogle(String googleToken) {
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
+                    GoogleNetHttpTransport.newTrustedTransport(),
+                    JacksonFactory.getDefaultInstance())
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(googleToken);
+
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                String email = payload.getEmail();
+                String name = (String) payload.get("name");
+
+                Users user = userRepository.findByUsername(email).orElse(null);
+                boolean isNewUser = false;
+
+                if (user == null) {
+                    // Create new user with role "Customer"
+                    user = new Users();
+                    user.setUsername(email);
+                    user.setPassword(""); // Password not needed for Google login
+                    user.setRole("Customer");
+                    user = userRepository.save(user);
+
+                    // Create a default Customer record
+                    Customers customer = new Customers();
+                    customer.setUsers(user);
+                    //customer.setFullName(name); // or payload.get("name")
+                    customerRepository.save(customer);
+
+                    isNewUser = true;
+                }
+
+                String token = generateToken(user.getUserId());
+
+                return AuthenticationResponse.builder()
+                        .token(token)
+                        .authenticated(true)
+                        .build();
+            } else {
+                throw new AppException(ErrorCode.UNAUTHENTICATED);
+            }
+        } catch (Exception e) {
+            log.error("Google login failed", e);
+            throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
     }
 

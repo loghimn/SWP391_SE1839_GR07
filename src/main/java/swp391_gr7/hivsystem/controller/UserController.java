@@ -27,6 +27,7 @@ import swp391_gr7.hivsystem.repository.UserRepository;
 import swp391_gr7.hivsystem.service.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -235,5 +236,16 @@ public class UserController {
                 .result(result)
                 .build();
     }
+
+    @PostMapping("/google/register")
+    public ApiResponse<AuthenticationResponse> googleLoginOrRegister(@RequestBody Map<String, String> payload) {
+        String googleToken = payload.get("credential");
+        AuthenticationResponse response = authenticationService.authenticateWithGoogle(googleToken);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(response)
+                .message(response.isAuthenticated() ? "Đăng nhập Google thành công" : "Thất bại")
+                .build();
+    }
+
 }
 
