@@ -30,10 +30,10 @@ public class SchedulesServiceImpl implements SchedulesService {
     public Schedules createSchedule(SchedulesCreateRequest request) {
         Doctors doctor = doctorRepository.findById(request.getDoctorId())
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_DOCTOR_NOT_FOUND));
-        Managers manager = managerRepository.findById(request.getManagerId())
+        Managers manager = managerRepository.findById(1)
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_MANAGER_NOT_FOUND));
 
-        if(request.getWorkDate().isBefore(LocalDate.now())) {
+        if (request.getWorkDate().isBefore(LocalDate.now())) {
             throw new AppException(ErrorCode.SCHEDULE_INVALID_DATE);
         }
         Schedules schedule = new Schedules();
@@ -46,22 +46,33 @@ public class SchedulesServiceImpl implements SchedulesService {
 
     @Override
     public Optional<Schedules> getScheduleById(int id) {
+        if(schedulesRepository.findById(id) == null) {
+            throw new AppException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
         return schedulesRepository.findById(id);
     }
 
     @Override
     public List<Schedules> getAllSchedules() {
+        if(schedulesRepository.findAll() == null) {
+            throw new AppException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
         return schedulesRepository.findAll();
     }
 
     @Override
-    public Schedules updateSchedule(int id, Schedules schedule) {
-        schedule.setScheduleID(id);
-        return schedulesRepository.save(schedule);
+    public Schedules updateSchedule(int id, SchedulesCreateRequest request) {
+        Schedules existingSchedule = schedulesRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        existingSchedule.setWorkDate(request.getWorkDate());
+        return schedulesRepository.save(existingSchedule);
     }
 
     @Override
-    public void deleteSchedule(int id) {
-        schedulesRepository.deleteById(id);
+    public List<Schedules> getMySchedules(int doctorId) {
+        Doctors doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_DOCTOR_NOT_FOUND));
+        return schedulesRepository.findByDoctors(doctor);
     }
 }

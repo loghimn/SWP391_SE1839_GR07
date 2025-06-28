@@ -13,7 +13,7 @@ public class DateOfBirthValidator implements ConstraintValidator<DateOfBirthCons
 
     @Override
     public boolean isValid(LocalDate localDate, ConstraintValidatorContext constraintValidatorContext) {
-        if (Objects.isNull(localDate)){
+        if (Objects.isNull(localDate)) {
             return false; // Date of birth cannot be null
         }
 

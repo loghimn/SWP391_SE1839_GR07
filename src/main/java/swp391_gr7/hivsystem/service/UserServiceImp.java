@@ -46,14 +46,14 @@ public class UserServiceImp implements UserService {
     public Users createUser(CreateUserRequest request) {
         Users users = new Users();
 
-        if(userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             // Nếu tên đăng nhập đã tồn tại, ném ngoại lệ đã được định nghĩa ở ErrorCode
             throw new AppException(ErrorCode.USER_EXIST_USERNAME);
         }
-        if(userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.USER_EXIST_EMAIL);
         }
-        if(userRepository.existsByPhone(request.getPhone())) {
+        if (userRepository.existsByPhone(request.getPhone())) {
             throw new AppException(ErrorCode.USER_EXIST_PHONE);
         }
         users.setUsername(request.getUsername());
@@ -124,13 +124,13 @@ public class UserServiceImp implements UserService {
 
 
     public Users updateUser(UserUpdateRequest request, Users users) {
-        if(userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_USERNAME);
         }
-        if(userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_EMAIL);
         }
-        if(userRepository.existsByPhone(request.getPhone())) {
+        if (userRepository.existsByPhone(request.getPhone())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_PHONE);
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -166,8 +166,38 @@ public class UserServiceImp implements UserService {
         return userRepository.save(users);
     }
 
+    public Users deleteDoctorStaffCus(int userId) {
+        Users users = findUserByUserId(userId);
+        if (users == null && !(users.getRole().equals("Doctor")) && !(users.getRole().equals("Staff")) && !(users.getRole().equals("Customer"))) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        users.setStatus(false);
+        return userRepository.save(users);
+    }
+
+    public Users deleteCustomer(int userId) {
+        Users users = findUserByUserId(userId);
+        if (users == null && !(users.getRole().equals("Customer"))) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        users.setStatus(false);
+        return userRepository.save(users);
+    }
+
+    public Users deleteStaff(int userId) {
+        Users users = findUserByUserId(userId);
+        if (users == null && !(users.getRole().equals("Staff"))) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        users.setStatus(false);
+        return userRepository.save(users);
+    }
+
     @Override
     public List<Users> findAllUsers() {
+        if (userRepository.findAll() == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
         return userRepository.findAll();
     }
 
@@ -177,5 +207,13 @@ public class UserServiceImp implements UserService {
         String name = context.getAuthentication().getName();
         return userRepository.findByUsername(name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    @Override
+    public Users getUserById(int id) {
+        if (userRepository.findByUserId(id) == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        return userRepository.findByUserId(id);
     }
 }

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface AdminRepository extends JpaRepository<Admins, Integer> {
     @Query(value = "SELECT a.* FROM admins a JOIN users u ON a.user_id = u.user_id WHERE u.email = :mail",
-    nativeQuery = true)
+            nativeQuery = true)
     Optional<Admins> findAdminByMail(@Param("mail") String mail);
 
     Admins findByUsers(Users users);

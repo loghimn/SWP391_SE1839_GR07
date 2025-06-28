@@ -1,7 +1,9 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.model.Consultations;
@@ -13,10 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/consultations")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class ConsultationController {
     @Autowired
     private ConsultationService consultationService;
 
+    @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
     public ApiResponse<Boolean> create(@RequestBody @Valid ConsultationCreateRequest request) {
 
@@ -28,6 +32,7 @@ public class ConsultationController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/{id}")
     public ApiResponse<Consultations> getById(@PathVariable int id) {
         try {
@@ -54,6 +59,7 @@ public class ConsultationController {
         }
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/customer/{customerId}")
     public ApiResponse<List<Consultations>> getByCustomer(@PathVariable int customerId) {
         try {
@@ -72,6 +78,7 @@ public class ConsultationController {
         }
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/doctor/{doctorId}")
     public ApiResponse<List<Consultations>> getByDoctor(@PathVariable int doctorId) {
         try {
@@ -90,20 +97,21 @@ public class ConsultationController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> delete(@PathVariable int id) {
+    @PreAuthorize("hasRole('Doctor')")
+    @PutMapping("/{id}")
+    public ApiResponse<Consultations> update(@PathVariable int id, @RequestBody ConsultationCreateRequest request) {
         try {
-            boolean success = consultationService.deleteConsultation(id);
-            return ApiResponse.<Boolean>builder()
-                    .code(success ? 200 : 404)
-                    .result(success)
-                    .message(success ? "Success" : "Consultation not found")
+            Consultations updatedConsultation = consultationService.updateConsultation(id, request);
+            return ApiResponse.<Consultations>builder()
+                    .code(200)
+                    .result(updatedConsultation)
+                    .message("Update successful")
                     .build();
         } catch (Exception e) {
-            return ApiResponse.<Boolean>builder()
+            return ApiResponse.<Consultations>builder()
                     .code(400)
-                    .result(false)
-                    .message("Delete failed: " + e.getMessage())
+                    .result(null)
+                    .message("Update failed: " + e.getMessage())
                     .build();
         }
     }

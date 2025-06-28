@@ -31,7 +31,7 @@ public class DoctorServiceImp implements DoctorService {
         if (manager == null) {
             return null; // Manager not found
         }
-        if(doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+        if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new AppException(ErrorCode.DOCTOR_INVALID_LICENSE_NUMBER_EXIST);
         }
         Doctors doctor = new Doctors();
@@ -45,24 +45,38 @@ public class DoctorServiceImp implements DoctorService {
 
     @Override
     public List<Doctors> showAllDoctors() {
+        if (doctorRepository.count() == 0) {
+            throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+        }
         return doctorRepository.findAllDoctors();
     }
 
     @Override
     public List<Doctors> showAllDoctorsActive() {
+        if (doctorRepository.count() == 0) {
+            throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+        }
         return doctorRepository.findAllDoctorActive();
     }
 
     @Override
     public Doctors updateDoctor(UserAndDoctorUpdateRequest request, Users users) {
-        Doctors doctoc = doctorRepository.findDoctorByUser_UserId(users.getUserId().toString()).get();
-        if(doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+        Doctors doctor = doctorRepository.findDoctorByUser_UserId(users.getUserId().toString()).get();
+        if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new AppException(ErrorCode.DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_EXIST);
         }
-        doctoc.setUsers(users);
-        doctoc.setDepartment(request.getDepartment());
-        doctoc.setYearExperience(request.getYearExperience());
-        doctoc.setLicenseNumber(request.getLicenseNumber());
-        return doctorRepository.save(doctoc);
+        doctor.setUsers(users);
+        doctor.setDepartment(request.getDepartment());
+        doctor.setYearExperience(request.getYearExperience());
+        doctor.setLicenseNumber(request.getLicenseNumber());
+        return doctorRepository.save(doctor);
+    }
+
+    @Override
+    public Doctors findDoctorById(int id) {
+        if (!doctorRepository.existsById(id)) {
+            throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+        }
+        return doctorRepository.findDoctorByDoctorId(id);
     }
 }

@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 //CRUD
 @RequestMapping("/api/user/manager")
+@SecurityRequirement(name = "bearerAuth")
 public class ManagerController {
     @Autowired
     UserService userService;
@@ -31,9 +33,10 @@ public class ManagerController {
         return userService.updateUserAndDoctor(userId, request);
     }
 
+    @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/active")
     public ApiResponse<List> DoctorsListActive() {
-        List <Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
+        List<Doctors> doctorsListActive = doctorService.showAllDoctorsActive();
         boolean result = doctorsListActive != null;
         String resultString = result ? "Success" : "Failed";
         return ApiResponse.<List>builder()
@@ -41,9 +44,11 @@ public class ManagerController {
                 .message(resultString)
                 .build();
     }
+
+    @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/full")
     public ApiResponse<List> DoctorsListFull() {
-        List <Doctors> doctorsListFull = doctorService.showAllDoctors();
+        List<Doctors> doctorsListFull = doctorService.showAllDoctors();
         boolean result = doctorsListFull != null;
         String resultString = result ? "Success" : "Failed";
         return ApiResponse.<List>builder()
@@ -52,10 +57,13 @@ public class ManagerController {
                 .build();
     }
 
+
+    @PreAuthorize("hasRole('Manager')")
     @PutMapping("/delete/{userId}")
-    public Users deleteUser(@PathVariable int userId) {
-        return userService.deleteUser(userId);
+    public Users deleteDoctorStaffCus(@PathVariable int userId) {
+        return userService.deleteDoctorStaffCus(userId);
     }
+
 
     @PreAuthorize("hasRole('Manager')")
     @PutMapping("/update/staff/{userId}")

@@ -5,6 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
+import swp391_gr7.hivsystem.exception.AppException;
+import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Managers;
 import swp391_gr7.hivsystem.model.Staffs;
 import swp391_gr7.hivsystem.model.Users;
@@ -12,6 +14,7 @@ import swp391_gr7.hivsystem.repository.ManagerRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,7 +32,7 @@ public class StaffServiceImp implements StaffService {
     public Staffs saveStaff(UserAndStaffCreateRequest request, Users users) {
         Managers manager = managerRepository.findManagerById(1);
         if (manager == null) {
-            return null; // Manager not found
+            throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
         }
         Staffs staffs = new Staffs();
         staffs.setUsers(users);
@@ -46,7 +49,7 @@ public class StaffServiceImp implements StaffService {
     public Staffs findStaffHasLeastAppointment() {
         List<Staffs> staffs = staffRepository.findAllStaff();
         if (staffs.isEmpty()) {
-            return null;
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
 
         Staffs minStaffs = staffs.get(0);
@@ -71,10 +74,29 @@ public class StaffServiceImp implements StaffService {
     @Override
     public Staffs updateStaff(UserAndStaffUpdateRequest request, Users users) {
         Staffs staff = staffRepository.findStaffByUser_UserId(users.getUserId().toString()).get();
+        if (staff == null) {
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+        }
         staff.setUsers(users);
         staff.setDepartment(request.getDepartment());
         staff.setWorkShift(request.getWorkShift());
         staff.setAssignedArea(request.getAssignedArea());
         return staffRepository.save(staff);
+    }
+
+    @Override
+    public Staffs getStaffById(int id) {
+        return staffRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.STAFF_NOT_FOUND));
+    }
+
+    @Override
+    public List<Staffs> getAllStaffs() {
+        Iterable<Staffs> iterable = staffRepository.findAll(); // iterable là một đối tượng Iterable chứa tất cả các Staffs
+        if(!iterable.iterator().hasNext()) {
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+        }
+        List<Staffs> list = new ArrayList<>();  // iterable là kiểu dữ liệu là cha của mọi kiểu collection như List, Set, Queue..
+        iterable.forEach(list::add);
+        return list;
     }
 }

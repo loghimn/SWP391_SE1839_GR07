@@ -1,0 +1,18 @@
+package swp391_gr7.hivsystem.service;
+
+import swp391_gr7.hivsystem.dto.request.ArvMedicationCreateRequest;
+import swp391_gr7.hivsystem.model.ArvMedications;
+
+import java.util.List;
+
+public interface ArvMedicationService {
+    boolean addArvMedication(ArvMedicationCreateRequest request, int doctorId);
+
+    boolean updateArvMedication(ArvMedicationCreateRequest request, String code);
+
+    boolean deleteArvMedication(String code);
+
+    List<ArvMedications> showAllListMedication();
+
+
+}

@@ -12,7 +12,12 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointments, Integer> {
     @Override
     List<Appointments> findAll();
+
     List<Appointments> findAllByAnonymous(boolean anonymous);
+
     Appointments save(Appointments appointments);
+
     Optional<Appointments> findByAppointmentId(int appointmentId);
+
+    List<Appointments> findByCustomers_CustomerId(int customerId);
 }

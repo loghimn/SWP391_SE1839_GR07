@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 //Get information create request form user
-public class UserAndCustomerCreateRequest extends CreateUserRequest{
+public class UserAndCustomerCreateRequest extends CreateUserRequest {
 
     @NotBlank(message = "CUSTOMER_INVALID_ADDRESS_NOTBLANK")
     @ValidProvinceConstraint(message = "CUSTOMER_INVALID_ADDRESS")

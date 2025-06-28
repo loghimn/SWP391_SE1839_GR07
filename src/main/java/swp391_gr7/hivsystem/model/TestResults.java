@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,36 +17,50 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TestResults {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "test_result_id")
     private int testResultID;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customers customers;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctors doctors;
-    @Column(name = "test_type")
+
+    @Nationalized
+    @Column(name = "test_type", nullable = false)
     private String testType;
-    @Column(name = "result_value")
+
+    @Column(name = "result_value", nullable = false)
     private boolean resultValue;
-    @Column(name = "test_date")
+
+    @Column(name = "test_date", nullable = false)
     private LocalDate testDate;
+
+    @Nationalized
     @Column(name = "notes")
     private String notes;
     //
     @OneToOne
-    @JoinColumn(name = "treatment_plan_id")
+    @JoinColumn(name = "treatment_plan_id", nullable = false)
     private TreatmentPlans treatmentPlan;
     //
-    @Column(name = "re_examination")
+    @Column(name = "re_examination", nullable = false)
     private boolean re_examination;
     //
     @ManyToOne
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointments appointments;
     //
+    @Column(name = "CD4", nullable = false)
+    private int CD4;
+
+    @Column(name = "hiv_viral_load", nullable = false)
+    private int hivViralLoad;
 }

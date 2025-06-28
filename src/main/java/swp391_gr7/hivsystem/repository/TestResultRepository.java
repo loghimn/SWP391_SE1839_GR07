@@ -6,6 +6,7 @@ import swp391_gr7.hivsystem.model.Customers;
 import swp391_gr7.hivsystem.model.TestResults;
 
 import java.util.List;
+
 @Repository
 public interface TestResultRepository extends JpaRepository<TestResults, Integer> {
     List<TestResults> findByCustomers_CustomerId(int customerId);

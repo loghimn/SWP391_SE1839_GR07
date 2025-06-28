@@ -13,20 +13,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AppointmentCreateRequest {
-    @NotNull(message = "APPOINTMENT_REQUEST_CUSTOMER_NOTNULL")
-    private int customerId;
+//    @NotNull(message = "APPOINTMENT_REQUEST_CUSTOMER_NOTNULL")
+//    private int customerId;
 
     @NotNull(message = "APPOINTMENT_REQUEST_DOCTOR_NOTNULL")
-    private int doctorId;
+    private String doctorName;
 
-    @NotNull(message = "APPOINTMENT_REQUEST_STAFF_NOTNULL")
-    private int staffId;
+//    @NotNull(message = "APPOINTMENT_REQUEST_STAFF_NOTNULL")
+//    private int staffId;
 
     @NotNull(message = "APPOINTMENT_REQUEST_TIME_NOTNULL")
     private LocalDate appointmentTime;
 
-    private boolean status;
-
+//    private boolean status;
+    @NotNull(message = "APPOINTMENT_REQUEST_ANONYMOUS_NOTNULL")
     private boolean anonymous;
 
     @NotBlank(message = "APPOINTMENT_REQUEST_TYPE_NOTBLANK")

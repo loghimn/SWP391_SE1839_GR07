@@ -1,10 +1,13 @@
 package swp391_gr7.hivsystem.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.TestResultCreateRequest;
 import swp391_gr7.hivsystem.model.TestResults;
+import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.ReExaminationService;
 import swp391_gr7.hivsystem.service.TestResultService;
 
@@ -12,18 +15,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/testresults")
+@SecurityRequirement(name = "bearerAuth")
 public class TestResultController {
     @Autowired
     private TestResultService testResultService;
     @Autowired
     private ReExaminationService reExaminationService;
 
-    @PostMapping("/{appointmentId}/{treatmentPlanId}")
-    public ApiResponse<TestResults> addTestResult(
-            @PathVariable int appointmentId,
-            @PathVariable int treatmentPlanId,
-            @RequestBody TestResultCreateRequest request) {
-        TestResults result = testResultService.addTestResult(appointmentId, treatmentPlanId, request);
+    @PreAuthorize("hasRole('Doctor')")
+    @PostMapping("/create")
+    public ApiResponse<TestResults> addTestResult(@RequestBody TestResultCreateRequest request) {
+        TestResults result = testResultService.addTestResult(request);
 
         if (result != null && result.isRe_examination()) {
             reExaminationService.handleReExamination(result);
@@ -32,10 +34,11 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 400)
                 .result(result)
-                .message(result != null ? "Success" : testResultService.getError())
+                .message(result != null ? "Success" : "Failed to create test result")
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/{id}")
     public ApiResponse<TestResults> getTestResult(@PathVariable int id) {
         TestResults result = testResultService.getTestResultById(id);
@@ -47,6 +50,7 @@ public class TestResultController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/{id}")
     public ApiResponse<TestResults> updateTestResult(
             @PathVariable int id,
@@ -56,21 +60,12 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 400)
                 .result(result)
-                .message(result != null ? "Success" : testResultService.getError())
+                .message(result != null ? "Success" : "Failed to update test result")
                 .build();
     }
 
-    @DeleteMapping("/{id}")
-    public ApiResponse<Boolean> deleteTestResult(@PathVariable int id) {
-        boolean deleted = testResultService.deleteTestResult(id);
 
-        return ApiResponse.<Boolean>builder()
-                .code(deleted ? 200 : 404)
-                .result(deleted)
-                .message(deleted ? "Success" : "Test result not found")
-                .build();
-    }
-
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/customer/{customerId}")
     public ApiResponse<List<TestResults>> getTestResultsByCustomer(
             @PathVariable int customerId) {
@@ -82,4 +77,21 @@ public class TestResultController {
                 .message(results.isEmpty() ? "No results found" : "Success")
                 .build();
     }
+
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/myresults")
+    public ApiResponse<List<TestResults>> getMyTestResults(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract customerId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+
+        List<TestResults> results = testResultService.getMyTestResults(customerId);
+
+        return ApiResponse.<List<TestResults>>builder()
+                .code(200)
+                .result(results)
+                .message(results.isEmpty() ? "No results found" : "Success")
+                .build();
+    }
+
 }

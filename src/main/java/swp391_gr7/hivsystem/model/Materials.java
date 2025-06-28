@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,11 +15,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Materials {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int materialID;
-//
+    //
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     @JsonIgnore
@@ -36,6 +38,7 @@ public class Materials {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @Nationalized
     @Column(name = "source", nullable = false)
     private String source;
 

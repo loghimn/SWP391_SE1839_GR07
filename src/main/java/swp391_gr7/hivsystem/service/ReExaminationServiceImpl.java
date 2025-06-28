@@ -7,7 +7,7 @@ import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.AppointmentRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
-import swp391_gr7.hivsystem.repository.ScheduleRepository;
+import swp391_gr7.hivsystem.repository.SchedulesRepository;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -22,7 +22,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
     private DoctorRepository doctorRepository;
 
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    private SchedulesRepository schedulesRepository;
 
     @Override
     public void handleReExamination(TestResults testResult) {
@@ -34,43 +34,56 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             Customers customers = testResult.getCustomers();
             Doctors doctors = testResult.getDoctors();
             LocalDate currentDate = originalAppointment.getAppointmentTime().plusDays(7);
-            Schedules schedule = originalAppointment.getSchedules();
 
-            // Lấy ngày bác sĩ làm việc
-            List<Schedules> schedules = scheduleRepository.findByDoctors_DoctorId((doctors.getDoctorId()));
-            if (schedules == null || schedules.isEmpty()) {
-                throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
+            // lấy list appointment
+            List<Appointments> listAppointments = appointmentRepository.findAll();
+            if(listAppointments.isEmpty()){
+                throw new AppException(ErrorCode.APPOINTMENT_LIST_NOT_FOUND);
             }
-
-            Schedules nextSchedule = schedules.stream()
-                    .filter(s -> s.getWorkDate().isAfter(currentDate))
-                    .min(Comparator.comparing(Schedules::getWorkDate))
-                    .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE));
-            // Giới hạn 30 ngày tìm kiếm
-            LocalDate finalDate = null;
-            for (int i = 0; i < 30; i++) {
-                LocalDate checkDate = currentDate.plusDays(i);
-                // Nếu đúng ngày bác sĩ làm việc
-                if (checkDate.equals(nextSchedule.getWorkDate())) {
-                    finalDate = checkDate;
+            while (true) {
+                boolean duplicate_reExam = false;
+                for(Appointments appointment: listAppointments){
+                    if(appointment.getAppointmentTime().isEqual(currentDate)){
+                        duplicate_reExam = true;
+                        break;
+                    }
+                }
+                if(duplicate_reExam){
+                    currentDate = currentDate.plusDays(1);
+                } else {
                     break;
                 }
             }
 
+            Schedules schedule = originalAppointment.getSchedules();
 
-            if (finalDate == null) {
-                throw new AppException(ErrorCode.RE_EXAMINATION_NO_AVAILABLE_RE_EXAM_DATE_IN_NEXT_30_DAYS);
+
+            // Lấy ngày bác sĩ làm việc
+            List<Schedules> schedules = schedulesRepository.findByDoctors_DoctorId((doctors.getDoctorId()));
+            if (schedules == null || schedules.isEmpty()) {
+                throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
             }
+
+            LocalDate upperBound = currentDate.plusDays(30);
+
+            LocalDate finalCurrentDate = currentDate;
+            Schedules nextSchedule = schedules.stream()
+                    .filter(s -> {
+                        LocalDate workDate = s.getWorkDate();
+                        return !workDate.isBefore(finalCurrentDate) && !workDate.isAfter(upperBound);
+                    })
+                    .min(Comparator.comparing(Schedules::getWorkDate))
+                    .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE));
 
             // Tạo lịch tái khám mới
             Appointments appointment = new Appointments();
             appointment.setCustomers(customers);
             appointment.setDoctors(doctors);
             appointment.setAppointmentType(testResult.getTestType());
-            appointment.setAppointmentTime(finalDate); // ngày tái khám
+            appointment.setAppointmentTime(nextSchedule.getWorkDate()); // ngày tái khám
             appointment.setAnonymous(originalAppointment.isAnonymous());
             appointment.setMedicalRecords(originalAppointment.getMedicalRecords());
-            appointment.setSchedules(schedule);
+            appointment.setSchedules(nextSchedule);
             appointment.setStatus(true); // pending hoặc true nếu là boolean
             appointment.setStaffs(originalAppointment.getStaffs());
 

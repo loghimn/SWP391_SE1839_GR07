@@ -8,9 +8,9 @@ import java.lang.annotation.*;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({ FIELD })
-@Retention( RUNTIME )
-@Constraint( validatedBy = { DateOfBirthValidator.class } )
+@Target({FIELD})
+@Retention(RUNTIME)
+@Constraint(validatedBy = {DateOfBirthValidator.class})
 public @interface DateOfBirthConstraint {
 
     String message() default "Invalid date of birth";

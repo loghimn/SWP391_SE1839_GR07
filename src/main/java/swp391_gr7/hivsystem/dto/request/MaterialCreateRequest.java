@@ -29,5 +29,5 @@ public class MaterialCreateRequest {
     @NotBlank(message = "MATERIAL_SOURCE_NOTBLANK")
     private String source;
 
-    private LocalDate createAt;
+//    private LocalDate createAt;
 }

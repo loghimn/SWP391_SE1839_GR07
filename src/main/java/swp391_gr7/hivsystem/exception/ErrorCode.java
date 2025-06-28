@@ -10,11 +10,55 @@ import swp391_gr7.hivsystem.model.Users;
 @AllArgsConstructor
 public enum ErrorCode {
 
-     // Unknown error
+    // Unknown error
     UNKNOWN_ERROR(9999, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR), // 500
 
     // Wrong key
     WRONG_KEY(900, "Wrong key provided", HttpStatus.BAD_REQUEST), // 400
+
+    // Reminder errors
+    REMINDER_NOT_FOUND( 900, "Reminder not found", HttpStatus.NOT_FOUND), // 404
+
+    // Test result errors
+    TEST_RESULT_NOT_FOUND( 901, "Test result not found", HttpStatus.NOT_FOUND), // 404
+    TEST_RESULT_NOT_HAVE_DOSAGE_TIME( 902, "Test result does not have dosage time", HttpStatus.BAD_REQUEST), // 400
+
+    // Medical record errors
+    MEDICAL_RECORD_NOT_FOUND(901, "Medical record not found", HttpStatus.NOT_FOUND), // 404
+    MEDICAL_RECORD_ALREADY_EXISTS(902, "Medical record already exists", HttpStatus.BAD_REQUEST), // 400
+    MEDICAL_RECORD_INVALID(903, "Invalid medical record data", HttpStatus.BAD_REQUEST), // 400
+    MEDICAL_RECORD_DOCTOR_NOT_FOUND(904, "Doctor not found for medical record", HttpStatus.NOT_FOUND), // 404
+    MEDICAL_RECORD_CUSTOMER_NOT_FOUND(905, "Customer not found for medical record", HttpStatus.NOT_FOUND), // 404
+
+    // ARV medication errors
+    ARV_MEDICATION_NOT_FOUND(901, "ARV medication not found", HttpStatus.NOT_FOUND), // 404
+    ARV_MEDICATION_ALREADY_EXISTS(902, "ARV medication already exists", HttpStatus.BAD_REQUEST), // 400
+    ARV_MEDICATION_INVALID(903, "Invalid ARV medication data", HttpStatus.BAD_REQUEST), // 400
+    ARV_MEDICATION_DOCTOR_NOT_FOUND(904, "Doctor not found for ARV medication", HttpStatus.NOT_FOUND), // 404
+    ARV_MEDICATION_CUSTOMER_NOT_FOUND(905, "Customer not found for ARV medication", HttpStatus.NOT_FOUND), // 404
+    ARV_MEDICATION_ARV_REGIMENT_NOT_FOUND(906, "ARV regiment not found for ARV medication", HttpStatus.NOT_FOUND), // 404
+
+    // ARV regiment errors
+    ARV_REGIMENT_NOT_FOUND(901, "ARV regiment not found", HttpStatus.NOT_FOUND), // 404
+    ARV_REGIMENT_ALREADY_EXISTS(902, "ARV regiment already exists", HttpStatus.BAD_REQUEST), // 400
+    ARV_REGIMENT_INVALID(903, "Invalid ARV regiment data", HttpStatus.BAD_REQUEST), // 400
+    ARV_REGIMENT_DOCTOR_NOT_FOUND(904, "Doctor not found for ARV regiment", HttpStatus.NOT_FOUND), // 404
+    ARV_REGIMENT_CUSTOMER_NOT_FOUND(905, "Customer not found for ARV regiment", HttpStatus.NOT_FOUND), // 404
+
+
+    //Treatment plan errors
+    TREATMENT_PLAN_NOT_FOUND(901, "Treatment plan not found", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_ALREADY_EXISTS(902, "Treatment plan already exists", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_INVALID(903, "Invalid treatment plan data", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_DOCTOR_NOT_FOUND(904, "Doctor not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_CUSTOMER_NOT_FOUND(905, "Customer not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_ARV_REGIMENT_NOT_FOUND(906, "ARV regiment not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_APPOINTMENT_NOT_FOUND(907, "Appointment not found for treatment plan", HttpStatus.NOT_FOUND), // 404
+    TREATMENT_PLAN_INVALID_DATE(908, "Invalid date for treatment plan", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_INVALID_TIME(909, "Invalid time for treatment plan", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_INVALID_DOSAGE(910, "Invalid dosage for treatment plan", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_INVALID_FREQUENCY(911, "Invalid frequency for treatment plan", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_INVALID_DURATION(912, "Invalid duration for treatment plan", HttpStatus.BAD_REQUEST), // 400
 
     // Common errors
     UNAUTHENTICATED(989, "You are not authenticated", HttpStatus.UNAUTHORIZED), // 401
@@ -24,10 +68,14 @@ public enum ErrorCode {
     USER_EXIST_USERNAME(1001, "Username already exists", HttpStatus.BAD_REQUEST), // 400
     USER_EXIST_PHONE(1002, "Phone number already exists", HttpStatus.BAD_REQUEST), // 400
     USER_EXIST_EMAIL(1003, "Email already exists", HttpStatus.BAD_REQUEST), // 400
+    USER_EXIST(1004, "User already exists", HttpStatus.BAD_REQUEST), // 400
+    USER_NOT_FOUND_BY_ID(1005, "User not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for username
     USER_INVALID_USERNAME_SIZE(1004, "Username must be at least 5 characters", HttpStatus.BAD_REQUEST), // 400
     USER_INVALID_USERNAME_NOTBLANK(1005, "Username is required", HttpStatus.BAD_REQUEST), // 400
+    USER_INVALID_USERNAME_FORMAT(1006, "Username must contain only letters, digits, and underscores", HttpStatus.BAD_REQUEST), // 400
+    USER_INVALID_USERNAME_EXIST(1007, "Username already exists", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for password
     USER_INVALID_PASSWORD_SIZE(1006, "Password must be at least 8 characters", HttpStatus.BAD_REQUEST), // 400
@@ -58,17 +106,21 @@ public enum ErrorCode {
     // Add error for customer
     CUSTOMER_INVALID_ADDRESS_NOTBLANK(1020, "Address is required", HttpStatus.BAD_REQUEST), // 400
     CUSTOMER_INVALID_ADDRESS(1021, "Address must be the name of a province/city in Vietnam", HttpStatus.BAD_REQUEST), // 400
+    CUSTOMER_NOT_FOUND(1022, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
+    CUSTOMER_NOT_FOUND_BY_ID(1023, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for staff
     STAFF_INVALID_DEPARTMENT_NOTBLANK(1022, "Department is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_WORKSHIFT_NOTNULL(1023, "Work shift is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_WORKSHIFT(1024, "Work shift include 1, 2, 3", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_ASSIGNED_AREA_NOTBLANK(1025, "Assigned area is required", HttpStatus.BAD_REQUEST), // 400
+    STAFF_NOT_FOUND(1026, "Staff not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for manager
     MANAGER_INVALID_DEPARTMENT_NOTBLANK(1026, "Department is required", HttpStatus.BAD_REQUEST), // 400
     MANAGER_INVALID_OFFICE_PHONE_NOTBLANK(1027, "Office phone is required", HttpStatus.BAD_REQUEST), // 400
     MANAGER_INVALID_OFFICE_PHONE_FORMAT(1028, "Office phone must start with 0 and be followed by 9 digits", HttpStatus.BAD_REQUEST), // 400
+    MANAGER_NOT_FOUND(1029, "Manager not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for doctor
     DOCTOR_INVALID_DEPARTMENT_NOTBLANK(1029, "Department is required", HttpStatus.BAD_REQUEST), // 400
@@ -77,6 +129,8 @@ public enum ErrorCode {
     DOCTOR_INVALID_LICENSE_NUMBER_NOTBLANK(1033, "License number is required", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_FORMAT(1034, "License number must follow the format DC-{4 number}", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_EXIST(1035, "License number already exists", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_NOT_FOUND(1036, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
+    DOCTOR_NOT_FOUND_BY_ID(1037, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for appointment
     APPOINTMENT_CUSTOMER_NOT_FOUND(1036, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
@@ -86,11 +140,17 @@ public enum ErrorCode {
     APPOINTMENT_DUPLICATE_CUSTOMER(1040, "Appointment time with this customer already exists", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_DUPLICATE_DOCTOR(1041, "Appointment time with this doctor already exists", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_TIME_PAST(1042, "Appointment time must be today or later", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_INVALID_TYPE(1042, "Appointment type must be either 'Test HIV' or 'Consultation'", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_NOT_FOUND(1042, "Appointment not found with ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_ALREADY_DELETED(1042, "Appointment has already been deleted", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_NOT_HAVE_TIME(1042, "Appointment does not have a time set", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_TYPE_IS_NOT_HIV_TEST(1042, "Appointment is not for HIV test", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for schedule
     SCHEDULE_DOCTOR_NOT_FOUND(1043, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_MANAGER_NOT_FOUND(1044, "Manager not found with ID", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_INVALID_DATE(1045, "Schedule date must be today or later", HttpStatus.BAD_REQUEST), // 400
+    SCHEDULE_NOT_FOUND(1046, "Schedule not found with ID", HttpStatus.NOT_FOUND), // 404
 
     // Add error for OAuth2
     OAUTH2_INVALID_USERNAME_EXIST(1046, "Username already exists", HttpStatus.BAD_REQUEST), // 400
@@ -181,6 +241,9 @@ public enum ErrorCode {
     REMINDER_NOT_FOUND_CUSTOMER(1109, "Customer not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_STAFF(1110, "Staff not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_APPOINTMENT(1111, "Appointment not found to set reminder", HttpStatus.NOT_FOUND), // 404
+
+    // List Appointment
+    APPOINTMENT_LIST_NOT_FOUND(1120, "Appointment is empty", HttpStatus.NOT_FOUND), // 404
     ;
 
     private int code;
