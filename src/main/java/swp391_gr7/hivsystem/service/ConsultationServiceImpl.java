@@ -35,7 +35,7 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.setAppointments(appointment);
         consultation.setDoctors(appointment.getDoctors());
         consultation.setCustomers(appointment.getCustomers());
-        consultation.setConsultationDate(LocalDate.now());
+        consultation.setConsultationDate(appointment.getAppointmentTime());
         consultation.setNotes(request.getNotes());
 
         return consultationRepository.save(consultation);

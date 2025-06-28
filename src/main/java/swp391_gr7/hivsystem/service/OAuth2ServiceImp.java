@@ -47,7 +47,7 @@ public class OAuth2ServiceImp implements OAuth2Service {
         }
         Managers manager = managerRepository.findManagerById(1);
         if (manager == null) {
-            return false; // Manager not found
+            throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
         }
 
         Users user = new Users();

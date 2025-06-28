@@ -12,6 +12,8 @@ import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.MaterialService;
 import swp391_gr7.hivsystem.service.MaterialServiceImp;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/materials")
 @SecurityRequirement(name = "bearerAuth")
@@ -74,5 +76,15 @@ public class MaterialController {
                 .message("Success")
                 .build();
     }
+
+//    @PreAuthorize("hasRole('Doctor')")
+//    @GetMapping("/get/all")
+//    public ApiResponse<List<Materials>> getAllMaterials(){
+//        List<Materials> materials = materialService.getAllMaterials();
+//        return ApiResponse.<List<Materials>>builder()
+//                .result(materials)
+//                .message("Success")
+//                .build();
+//    }
 
 }

@@ -244,7 +244,6 @@ public class AppointmentServiceImp implements AppointmentService {
         } else if (appointment != null && !appointment.isStatus()) {
             // If the appointment is deleted, return null
             return null;
-            
         }
         return null;
     }
