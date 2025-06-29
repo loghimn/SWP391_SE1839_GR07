@@ -78,7 +78,7 @@ public class ArvRegimentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/my")
+    @GetMapping("/myregiments")
     public ApiResponse<List<ArvRegiments>> getMyArvRegiments(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -92,7 +92,7 @@ public class ArvRegimentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/by-doctor/{doctorId}")
+    @GetMapping("/getbydoctorid/{doctorId}")
     public ApiResponse<List<ArvRegiments>> getArvRegimentsByDoctorId(@PathVariable int doctorId) {
         List<ArvRegiments> list = arvRegimentService.getArvRegimentsByDoctorId(doctorId);
         return ApiResponse.<List<ArvRegiments>>builder()

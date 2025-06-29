@@ -101,20 +101,20 @@ public class UserController {
                 .build();
     }
 
-    //Get user by id
-    //http://localhost:8080/user/userId  id tu phat sinh
-    @GetMapping("/{userId}")
-    @PostAuthorize("returnObject.username == authentication.name") // Only the user can access their own information
-    public Users getUser(@PathVariable int userId) {
-        if (userService.findUserByUserId(userId) == null) {
-            throw new AppException(ErrorCode.USER_NOT_FOUND);
-        }
-        return userService.findUserByUserId(userId);
-    }
+//    //Get user by id
+//    //http://localhost:8080/user/userId  id tu phat sinh
+//    @GetMapping("/{userId}")
+//    @PostAuthorize("returnObject.username == authentication.name") // Only the user can access their own information
+//    public Users getUser(@PathVariable int userId) {
+//        if (userService.findUserByUserId(userId) == null) {
+//            throw new AppException(ErrorCode.USER_NOT_FOUND);
+//        }
+//        return userService.findUserByUserId(userId);
+//    }
 
     // Get my info
     @GetMapping("/myInfo")
-    @PostAuthorize("returnObject.result.username == authentication.name")
+    @PostAuthorize("returnObject.username == authentication.name")
     // Only the user can access their own information
     public Users getMyInfo() {
         Users user = userService.getMyInfo();

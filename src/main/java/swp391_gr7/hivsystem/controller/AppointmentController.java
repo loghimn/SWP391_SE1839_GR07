@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 //CRUD
-@RequestMapping("/api/user/customer")
+@RequestMapping("/api")
 @SecurityRequirement(name = "bearerAuth")
 public class AppointmentController {
     @Autowired

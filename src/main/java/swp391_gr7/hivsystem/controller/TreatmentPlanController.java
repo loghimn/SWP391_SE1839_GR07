@@ -72,7 +72,7 @@ public class TreatmentPlanController {
     @GetMapping("/getmytreatmentplan_customer")
     public ApiResponse<?> getMyTreatmentPlanCustomer(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
-        int customerId = new JWTUtils().extractDoctorId(token);
+        int customerId = new JWTUtils().extractCustomerId(token);
 
         return ApiResponse.<Object>builder()
                 .result(treatmentPlanService.getMyTreatmentPlantCus(customerId))

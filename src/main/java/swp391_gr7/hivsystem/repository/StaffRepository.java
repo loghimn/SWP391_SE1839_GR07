@@ -26,4 +26,6 @@ public interface StaffRepository extends CrudRepository<Staffs, Integer> {
     Optional<Staffs> findStaffByUser_UserId(@Param("userId") String userId);
 
     Staffs getStaffsByStaffId(int staffId);
+
+    Staffs findByStaffId(int staffId);
 }

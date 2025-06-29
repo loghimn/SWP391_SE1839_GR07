@@ -11,6 +11,7 @@ import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.ManagerRepository;
+import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -19,27 +20,29 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService {
 
+
     private final UserRepository userRepository;
-    private final CustomerServiceImp customerService;
+    private final CustomerService customerService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final DoctorServiceImp doctorService;
-    private final ManagerServiceImp managerService;
-    private final StaffServiceImp staffService;
-    private final AdminServiceImp adminService;
+    private final DoctorService doctorService;
+    private final ManagerService managerService;
+    private final StaffService staffService;
+    private final AdminService adminService;
     private final ManagerRepository managerRepository;
-
     private final CustomerRepository customerRepository;
+    private final StaffRepository staffRepository;
 
-    @Autowired
-    public UserServiceImp(UserRepository userRepository, CustomerServiceImp customerService, DoctorServiceImp doctorService, ManagerServiceImp managerService, StaffServiceImp staffService, AdminServiceImp adminService, CustomerRepository customerRepository, ManagerRepository managerRepository) {
+
+    public UserServiceImp(UserRepository userRepository, CustomerService customerService, DoctorService doctorService, ManagerService managerService, StaffService staffService, AdminService adminService, ManagerRepository managerRepository, CustomerRepository customerRepository, StaffRepository staffRepository) {
         this.userRepository = userRepository;
         this.customerService = customerService;
         this.doctorService = doctorService;
         this.managerService = managerService;
         this.staffService = staffService;
         this.adminService = adminService;
-        this.customerRepository = customerRepository;
         this.managerRepository = managerRepository;
+        this.customerRepository = customerRepository;
+        this.staffRepository = staffRepository;
     }
 
     @Override
@@ -145,19 +148,30 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public boolean updateUserAndDoctor(int userId, UserAndDoctorUpdateRequest request) {
-        Users users = findUserByUserId(userId);
+    public boolean updateUserAndDoctor(int doctorid, UserAndDoctorUpdateRequest request) {
+        Doctors doctors = doctorService.findDoctorById(doctorid);
+        Users users = findUserByUserId(doctors.getUsers().getUserId());
         this.updateUser(request, users);
-        Doctors doctors = doctorService.updateDoctor(request, users);
+        doctors = doctorService.updateDoctor(request, users);
         return users != null && doctors != null;
     }
 
     @Override
-    public boolean updateUserAndStaff(int userId, UserAndStaffUpdateRequest request) {
-        Users user = findUserByUserId(userId);
+    public boolean updateUserAndStaff(int staffid, UserAndStaffUpdateRequest request) {
+        Staffs staffs = staffRepository.findByStaffId(staffid);
+        Users user = findUserByUserId(staffs.getUsers().getUserId());
         this.updateUser(request, user);
-        Staffs staffs = staffService.updateStaff(request, user);
+        staffs = staffService.updateStaff(request, user);
         return user != null && staffs != null;
+    }
+
+    @Override
+    public boolean updateUserAndCustomer(int customerid, UserAndCustomerUpdateRequest request) {
+        Customers customers = customerRepository.findByCustomerId(customerid);
+        Users users = findUserByUserId(customers.getUsers().getUserId());
+        this.updateUser(request, users);
+        customers = customerService.updateCustomer(request, users);
+        return users != null && customers != null;
     }
 
     public Users deleteUser(int userId) {

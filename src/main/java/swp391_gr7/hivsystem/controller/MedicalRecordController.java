@@ -22,13 +22,13 @@ public class MedicalRecordController {
     private MedicalRecordService medicalRecordService;
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping
+    @GetMapping("/all")
     public List<MedicalRecords> getAll() {
         return medicalRecordService.getAll();
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public Optional<MedicalRecords> getById(@PathVariable int id) {
         return medicalRecordService.getById(id);
     }
@@ -39,7 +39,9 @@ public class MedicalRecordController {
                                               @RequestBody MedicalRecordCreateRequest request) {
         String token = authorizationHeader.replace("Bearer ", "");
         int customerId = new JWTUtils().extractCustomerId(token);
+
         MedicalRecords record = medicalRecordService.addMedicalRecord(customerId, request);
+
         boolean result = record != null;
         return ApiResponse.<MedicalRecords>builder()
                 .result(record)
@@ -55,7 +57,7 @@ public class MedicalRecordController {
         // request.setId(id);
 
         String token = authorizationHeader.replace("Bearer ", "");
-        int customerId = new JWTUtils().extractDoctorId(token);
+        int customerId = new JWTUtils().extractCustomerId(token);
 
         return medicalRecordService.updateMedicalRecord(customerId, request);
     }
@@ -65,6 +67,7 @@ public class MedicalRecordController {
     public MedicalRecords getMyMedicalRecord(@RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
         int customerId = new JWTUtils().extractCustomerId(token);
+
         return medicalRecordService.getMyMedicalRecord(customerId);
     }
 }

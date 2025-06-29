@@ -28,6 +28,8 @@ public interface UserService {
 
     boolean updateUserAndStaff(int userId, UserAndStaffUpdateRequest request);
 
+    boolean updateUserAndCustomer(int userId, UserAndCustomerUpdateRequest request);
+
     Users deleteUser(int userId);
 
     List<Users> findAllUsers();

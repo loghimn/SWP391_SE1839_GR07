@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.UserAndCustomerUpdateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
@@ -27,11 +28,6 @@ public class ManagerController {
     DoctorService doctorService;
 
 
-    @PreAuthorize("hasRole('Manager')")
-    @PutMapping("/update/doctor/{userId}")
-    public boolean updateDoctor(@PathVariable int userId, @RequestBody @Valid UserAndDoctorUpdateRequest request) {
-        return userService.updateUserAndDoctor(userId, request);
-    }
 
     @PreAuthorize("hasRole('Manager')")
     @GetMapping("/list/active")
@@ -66,8 +62,20 @@ public class ManagerController {
 
 
     @PreAuthorize("hasRole('Manager')")
-    @PutMapping("/update/staff/{userId}")
-    public boolean updateStaff(@PathVariable int userId, @RequestBody @Valid UserAndStaffUpdateRequest request) {
-        return userService.updateUserAndStaff(userId, request);
+    @PutMapping("/update/staff/{staffId}")
+    public boolean updateStaff(@PathVariable int staffId, @RequestBody @Valid UserAndStaffUpdateRequest request) {
+        return userService.updateUserAndStaff(staffId, request);
+    }
+
+    @PreAuthorize("hasRole('Manager')")
+    @PutMapping("/update/doctor/{doctorId}")
+    public boolean updateDoctor(@PathVariable int doctorId, @RequestBody @Valid UserAndDoctorUpdateRequest request) {
+        return userService.updateUserAndDoctor(doctorId, request);
+    }
+
+    @PreAuthorize("hasRole('Manager')")
+    @PutMapping("/update/customer/{customerId}")
+    public boolean updateCustomer(@PathVariable int customerId, @RequestBody @Valid UserAndCustomerUpdateRequest request) {
+        return userService.updateUserAndCustomer(customerId, request);
     }
 }

@@ -47,7 +47,7 @@ public class SchedulesController {
     }
 
     @PreAuthorize("hasRole('Manager')")
-    @GetMapping
+    @GetMapping("/all")
     public List<Schedules> getAll() {
         return schedulesService.getAllSchedules();
     }
@@ -77,7 +77,7 @@ public class SchedulesController {
     public List<Schedules> getMySchedules(@RequestHeader("Authorization") String authorizationHeader) {
 
         String token = authorizationHeader.replace("Bearer ", "");
-        int doctorId = new JWTUtils().extractManagerId(token);
+        int doctorId = new JWTUtils().extractDoctorId(token);
 
         Doctors doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new RuntimeException("Doctor not found"));

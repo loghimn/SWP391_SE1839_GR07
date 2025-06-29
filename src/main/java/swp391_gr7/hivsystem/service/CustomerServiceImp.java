@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
+import swp391_gr7.hivsystem.dto.request.UserAndCustomerUpdateRequest;
+import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Customers;
 import swp391_gr7.hivsystem.model.Managers;
+import swp391_gr7.hivsystem.model.Staffs;
 import swp391_gr7.hivsystem.model.Users;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.ManagerRepository;
@@ -49,5 +52,16 @@ public class CustomerServiceImp implements CustomerService {
         }
         return customerRepository.findAll();
     }
+
+    @Override
+    public Customers updateCustomer(UserAndCustomerUpdateRequest request, Users users) {
+        Customers customer = customerRepository.findByUsers(users);
+        if (customer == null) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
+        customer.setAddress(request.getAddress());
+        return customerRepository.save(customer);
+    }
+
 
 }
