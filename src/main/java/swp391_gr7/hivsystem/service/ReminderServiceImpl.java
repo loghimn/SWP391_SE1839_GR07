@@ -54,7 +54,7 @@ public class ReminderServiceImpl implements ReminderService {
         }
         reminder.setReminderType("Dosage Reminder");
         reminder.setMessage(request.getMessage());
-        reminder.setStatus(true);
+        reminder.setStatus(false);
         reminder.setStaffs(staffs);
         reminder.setTestResults(testResult);
         reminder.setAppointments(appointments);
@@ -76,7 +76,7 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
-        reminder.setStatus(true);
+        reminder.setStatus(false);
         reminder.setStaffs(staffsRepository.findById(id).orElse(null));
         reminder.setTestResults(testResult);
         Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);

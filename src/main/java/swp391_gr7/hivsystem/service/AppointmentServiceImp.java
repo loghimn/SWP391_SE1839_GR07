@@ -123,14 +123,14 @@ public class AppointmentServiceImp implements AppointmentService {
 
         // Check for duplicate appointment time for customer
         for (Appointments a : customers.getAppointments()) {
-            if (request.getAppointmentTime().equals(a.getAppointmentTime())) {
+            if (request.getAppointmentTime().equals(a.getAppointmentTime()) && a.isStatus()) {
                 throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
             }
         }
 
         // Check for duplicate appointment time for doctor
         for (Appointments a : doctors.getAppointments()) {
-            if (request.getAppointmentTime().equals(a.getAppointmentTime())) {
+            if (request.getAppointmentTime().equals(a.getAppointmentTime()) && a.isStatus()) {
                 throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_DOCTOR);
             }
         }
@@ -174,6 +174,9 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
         Appointments appointments = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
+        if(!appointments.isStatus()){
+            throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
+        }
 
         Customers customers = customerRepository.findById(appointments.getCustomers().getCustomerId())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND));
@@ -241,11 +244,8 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
         if (appointment != null && appointment.isStatus() && !appointment.isAnonymous()) {
             return appointment;
-        } else if (appointment != null && appointment.isStatus() && appointment.isAnonymous()) {
+        } else if (appointment == null || !appointment.isStatus() || appointment.isAnonymous()) {
             // If the appointment is anonymous, return null
-            return null;
-        } else if (appointment != null && !appointment.isStatus()) {
-            // If the appointment is deleted, return null
             return null;
         }
         return null;
@@ -260,14 +260,21 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public List<Appointments> getCustomerAppointment(int currentCustomerId) {
+        Customers customers = customerRepository.findById(currentCustomerId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND));
+
+        // Check if the customer has any appointments
+        if (customers.getAppointments().isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND);
+        }
         return appointmentRepository.findByCustomers_CustomerId(currentCustomerId);
     }
 
     @Override
     public CustomerReponse getCustomerAppointmentInDocorView(int appointmentId) {
         Appointments appointments = getAppointmentById(appointmentId);
-        if (appointments == null) {
-            return null;
+        if (appointments == null ) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         } else {
             Customers customers = appointments.getCustomers();
             CustomerReponse customerReponse = new CustomerReponse();

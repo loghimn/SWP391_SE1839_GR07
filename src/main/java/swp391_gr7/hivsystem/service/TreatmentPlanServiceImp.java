@@ -35,6 +35,10 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
         Appointments appointment = appointmentRepository.findByAppointmentId(request.getAppointmentId())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
 
+        if (!appointment.isStatus()) {
+            throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
+        }
+
         TreatmentPlans plan = new TreatmentPlans();
 
         plan.setAppointments(appointment);

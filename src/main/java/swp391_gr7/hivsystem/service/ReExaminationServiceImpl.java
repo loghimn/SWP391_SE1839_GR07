@@ -43,7 +43,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             while (true) {
                 boolean duplicate_reExam = false;
                 for(Appointments appointment: listAppointments){
-                    if(appointment.getAppointmentTime().isEqual(currentDate)){
+                    if(appointment.getAppointmentTime().isEqual(currentDate) && appointment.isStatus()){
                         duplicate_reExam = true;
                         break;
                     }

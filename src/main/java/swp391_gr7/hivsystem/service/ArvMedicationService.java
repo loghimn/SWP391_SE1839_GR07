@@ -14,5 +14,7 @@ public interface ArvMedicationService {
 
     List<ArvMedications> showAllListMedication();
 
+    List<ArvMedications> getMedicationByArvRegimentId(int arvRegimentId);
+
 
 }

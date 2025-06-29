@@ -3,6 +3,7 @@ package swp391_gr7.hivsystem.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import swp391_gr7.hivsystem.model.ArvMedications;
+import swp391_gr7.hivsystem.model.ArvRegiments;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface ArvMedicationsRepository extends JpaRepository<ArvMedications, 
     ArvMedications getArvMedicationsByCode(String code);
 
 
+    List<ArvMedications> findByArvRegiment(ArvRegiments arvRegiment);
 }

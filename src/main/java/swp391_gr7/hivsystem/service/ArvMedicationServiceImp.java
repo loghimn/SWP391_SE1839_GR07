@@ -91,4 +91,16 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
         }
         return arvMedications;
     }
+
+    @Override
+    public List<ArvMedications> getMedicationByArvRegimentId(int arvRegimentId) {
+        ArvRegiments arvRegiment = arvRegimentRepository.findById(arvRegimentId)
+                .orElseThrow(() -> new AppException(ErrorCode.ARV_REGIMENT_NOT_FOUND));
+
+        List<ArvMedications> arvMedications = arvMedicationsRepository.findByArvRegiment(arvRegiment);
+        if (arvMedications.isEmpty()) {
+            throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
+        }
+        return arvMedications;
+    }
 }

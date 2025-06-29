@@ -230,4 +230,16 @@ public class AppointmentController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Staff')")
+    @GetMapping("/appoint/staff/appointmentListFullInfor")
+    public ApiResponse<List> getappointmentListFullInfor() {
+        List<Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
+        boolean result = appointmentsList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiResponse.<List>builder()
+                .result(appointmentsList)
+                .message(resultString)
+                .build();
+    }
+
 }

@@ -26,6 +26,9 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         Appointments appointment = appointmentRepository.findByAppointmentId((Integer) request.getAppointmentId())
                 .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_APPOINTMENT_NOT_FOUND));
+        if(!appointment.isStatus()){
+            throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
+        }
 
         if (!"Consultation".equals(appointment.getAppointmentType())) {
             throw new AppException(ErrorCode.CONSULTATION_INVALID_APPOINTMENT_TYPE);

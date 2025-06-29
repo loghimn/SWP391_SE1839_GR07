@@ -145,6 +145,7 @@ public enum ErrorCode {
     APPOINTMENT_ALREADY_DELETED(1042, "Appointment has already been deleted", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_NOT_HAVE_TIME(1042, "Appointment does not have a time set", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_TYPE_IS_NOT_HIV_TEST(1042, "Appointment is not for HIV test", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_ALREADY_IS_NOT_ACTIVE(1042, "Appointment is already inactive", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for schedule
     SCHEDULE_DOCTOR_NOT_FOUND(1043, "Doctor not found with ID", HttpStatus.NOT_FOUND), // 404

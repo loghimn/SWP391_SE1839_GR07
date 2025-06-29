@@ -66,4 +66,14 @@ public class ArvMedicationController {
                 .message(result != null ? "Successfully fetched arvmedication" : "Fail fetched arvmedication")
                 .build();
     }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/getbyarvregimentid/{arvRegimentId}")
+    public ApiResponse<List> getMedicationByArvRegimentId(@PathVariable int arvRegimentId) {
+        List result = arvMedicationService.getMedicationByArvRegimentId(arvRegimentId);
+        return ApiResponse.<List>builder()
+                .result(result)
+                .message(result != null ? "Successfully fetched medications for ARV regiment" : "Fail fetched medications for ARV regiment")
+                .build();
+    }
 }

@@ -99,9 +99,9 @@ public class TestResultController {
     public ApiResponse<List<TestResults>> getMyTestResultsDoctor(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
-        int customerId = new JWTUtils().extractCustomerId(token);
+        int doctorId = new JWTUtils().extractDoctorId(token);
 
-        List<TestResults> results = testResultService.getMyTestResultsDoc(customerId);
+        List<TestResults> results = testResultService.getMyTestResultsDoc(doctorId);
 
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)

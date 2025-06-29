@@ -36,7 +36,7 @@ public class TestResultServiceImpl implements TestResultService {
 
         Appointments appointment = treatmentPlan.getAppointments();
         System.out.println("Appointment ID: " + appointment.getAppointmentId());
-        if (appointment == null) {
+        if (appointment == null || !appointment.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
 
@@ -57,6 +57,7 @@ public class TestResultServiceImpl implements TestResultService {
         testResult.setTreatmentPlan(treatmentPlan);
         testResult.setCD4(request.getCD4());
         testResult.setHivViralLoad(request.getHivViralLoad());
+        appointment.setStatus(false);
 
         return testResultRepository.save(testResult);
     }
