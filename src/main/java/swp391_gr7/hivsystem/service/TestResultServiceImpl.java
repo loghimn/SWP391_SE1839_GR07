@@ -103,10 +103,10 @@ public class TestResultServiceImpl implements TestResultService {
 
     @Override
     public List<TestResults> getMyTestResultsDoc(int doctorId) {
-    if (testResultRepository.findByDoctor_DoctorId(doctorId) == null) {
+    if (testResultRepository.findByDoctors_DoctorId(doctorId) == null) {
         throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
     }
-        return testResultRepository.findByDoctor_DoctorId(doctorId);
+        return testResultRepository.findByDoctors_DoctorId(doctorId);
     }
 
 }

@@ -12,13 +12,9 @@ import java.util.List;
 public interface TestResultRepository extends JpaRepository<TestResults, Integer> {
     List<TestResults> findByCustomers_CustomerId(int customerId);
 
-    List<TestResults> findByAppointments_AppointmentId(int appointmentId);
-
     TestResults save(TestResults testResults);
 
     Customers findByCustomersOrderByTestResultID(Customers customers);
 
-    TestResults findTestResultsByTestResultID(int testResultID);
-
-    List<TestResults> findByDoctor_DoctorId(int doctorsDoctorId);
+    List<TestResults> findByDoctors_DoctorId(int doctorId);
 }

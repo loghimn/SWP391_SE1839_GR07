@@ -55,10 +55,10 @@ public class TreatmentPlanController {
                 .build();
     }
 
+
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/getmytreatmentplan_doctor")
     public ApiResponse<?> getMyTreatmentPlanDoctor(@RequestHeader("Authorization") String authorizationHeader) {
-        // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int doctorId = new JWTUtils().extractDoctorId(token);
 
@@ -69,14 +69,13 @@ public class TreatmentPlanController {
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/getmytreatmentplan_doctor")
+    @GetMapping("/getmytreatmentplan_customer")
     public ApiResponse<?> getMyTreatmentPlanCustomer(@RequestHeader("Authorization") String authorizationHeader) {
-        // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
-        int doctorId = new JWTUtils().extractDoctorId(token);
+        int customerId = new JWTUtils().extractDoctorId(token);
 
         return ApiResponse.<Object>builder()
-                .result(treatmentPlanService.getMyTreatmentPlantCus(doctorId))
+                .result(treatmentPlanService.getMyTreatmentPlantCus(customerId))
                 .message("Success")
                 .build();
     }
