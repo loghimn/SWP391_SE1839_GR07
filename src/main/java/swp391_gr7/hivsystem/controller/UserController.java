@@ -106,18 +106,22 @@ public class UserController {
     @GetMapping("/{userId}")
     @PostAuthorize("returnObject.username == authentication.name") // Only the user can access their own information
     public Users getUser(@PathVariable int userId) {
+        if (userService.findUserByUserId(userId) == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
         return userService.findUserByUserId(userId);
     }
 
     // Get my info
     @GetMapping("/myInfo")
-    @PostAuthorize("returnObject.result.username == authentication.name") // Only the user can access their own information
-    public ApiResponse<Users> getMyInfo() {
+    @PostAuthorize("returnObject.result.username == authentication.name")
+    // Only the user can access their own information
+    public Users getMyInfo() {
         Users user = userService.getMyInfo();
-        return ApiResponse.<Users>builder()
-                .result(user)
-                .message("Success")
-                .build();
+        if (user == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
+        }
+        return user;
     }
 
     // Get all users
