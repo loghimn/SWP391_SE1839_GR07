@@ -158,11 +158,12 @@ public class AppointmentServiceImp implements AppointmentService {
     public List<Appointments> getAllAppointmentsEcceptAnonymous() {
         return appointmentRepository.findAllByAnonymous(false);
     }
+
     @Override
     public List<Appointments> getAllAppointmentsAnonymous() {
         return appointmentRepository.findAllByAnonymous(true);
     }
-    
+
 
     @Override
     public String getErrorMessage() {
@@ -173,39 +174,39 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
         Appointments appointments = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
-    
+
         Customers customers = customerRepository.findById(appointments.getCustomers().getCustomerId())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND));
-    
+
         Doctors doctors = doctorRepository.findDoctorByFullName(request.getDoctorName())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
-    
+
         Staffs staffs = staffService.findStaffHasLeastAppointment();
-    
+
         Schedules schedules = schedulesRepository.findById(request.getScheduleId())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND));
-    
+
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
                 .orElse(null);
-    
+
         if (!schedules.getWorkDate().equals(request.getAppointmentTime())) {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
         }
-    
+
         // Check for duplicate appointment time for customer (exclude current)
         for (Appointments a : customers.getAppointments()) {
-            if (a.getAppointmentId() != id  && request.getAppointmentTime().equals(a.getAppointmentTime())) {
+            if (a.getAppointmentId() != id && request.getAppointmentTime().equals(a.getAppointmentTime())) {
                 throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
             }
         }
-    
+
         // Check for duplicate appointment time for doctor (exclude current)
         for (Appointments a : doctors.getAppointments()) {
             if (a.getAppointmentId() != id && request.getAppointmentTime().equals(a.getAppointmentTime())) {
                 throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_DOCTOR);
             }
         }
-    
+
         appointments.setDoctors(doctors);
         appointments.setStaffs(staffs);
         appointments.setMedicalRecords(medicalRecord);
@@ -214,9 +215,10 @@ public class AppointmentServiceImp implements AppointmentService {
         appointments.setAnonymous(request.isAnonymous());
         appointments.setAppointmentType(request.getAppointmentType());
         appointments.setSchedules(schedules);
-    
+
         return appointmentRepository.save(appointments);
     }
+
     @Override
     public Appointments deleteAppointment(int id) {
         Appointments appointments = appointmentRepository.findById(id)
@@ -232,13 +234,14 @@ public class AppointmentServiceImp implements AppointmentService {
 
         return appointmentRepository.save(appointments);
     }
+
     @Override
     public Appointments getAppointmentById(int id) {
         Appointments appointment = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
-        if(appointment != null && appointment.isStatus() && !appointment.isAnonymous()) {
+        if (appointment != null && appointment.isStatus() && !appointment.isAnonymous()) {
             return appointment;
-        } else if (appointment != null && appointment.isStatus() && appointment.isAnonymous()){
+        } else if (appointment != null && appointment.isStatus() && appointment.isAnonymous()) {
             // If the appointment is anonymous, return null
             return null;
         } else if (appointment != null && !appointment.isStatus()) {
@@ -276,5 +279,19 @@ public class AppointmentServiceImp implements AppointmentService {
             return customerReponse;
         }
 
+    }
+
+    @Override
+    public List<Appointments> getMyAppointmentsCus(int customerId) {
+        Customers customers = customerRepository.findById(customerId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND));
+        return appointmentRepository.findByCustomers_CustomerId(customers.getCustomerId());
+    }
+
+    @Override
+    public List<Appointments> getMyAppointmentsDoc(int doctorId) {
+        Doctors doctors = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctors_DoctorId(doctors.getDoctorId());
     }
 }

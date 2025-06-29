@@ -16,4 +16,8 @@ public interface ConsultationService {
 
     Consultations updateConsultation(int id, ConsultationCreateRequest request);
 
+    List<Consultations> getMyConsultationsCus(int Id);
+
+    List<Consultations> getMyConsultationsDoc(int Id);
+
 }

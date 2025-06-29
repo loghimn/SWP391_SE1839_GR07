@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.TreatmentPlansCreateRequest;
@@ -15,6 +16,7 @@ public class TreatmentPlanController {
     @Autowired
     TreatmentPlanService treatmentPlanService;
 
+    @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
     public ApiResponse<Boolean> createTreatmentPlan(@RequestBody TreatmentPlansCreateRequest request,
                                                     @RequestHeader("Authorization") String authorizationHeader) {
@@ -35,6 +37,7 @@ public class TreatmentPlanController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/get/{id}")
     public ApiResponse<?> getTreatmentPlanById(@PathVariable int id) {
         return ApiResponse.<Object>builder()
@@ -43,6 +46,7 @@ public class TreatmentPlanController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/getall")
     public ApiResponse<?> getAllTreatmentPlans() {
         return ApiResponse.<Object>builder()
@@ -51,18 +55,34 @@ public class TreatmentPlanController {
                 .build();
     }
 
-    @GetMapping("/getmytreatmentplan")
-    public ApiResponse<?> getMyTreatmentPlan(@RequestHeader("Authorization") String authorizationHeader) {
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/getmytreatmentplan_doctor")
+    public ApiResponse<?> getMyTreatmentPlanDoctor(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int doctorId = new JWTUtils().extractDoctorId(token);
 
         return ApiResponse.<Object>builder()
-                .result(treatmentPlanService.getMyTreatmentPlant(doctorId))
+                .result(treatmentPlanService.getMyTreatmentPlantDoc(doctorId))
                 .message("Success")
                 .build();
     }
 
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/getmytreatmentplan_doctor")
+    public ApiResponse<?> getMyTreatmentPlanCustomer(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        return ApiResponse.<Object>builder()
+                .result(treatmentPlanService.getMyTreatmentPlantCus(doctorId))
+                .message("Success")
+                .build();
+    }
+
+
+    @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
     public ApiResponse<?> updateTreatmentPlan(@PathVariable int id, @RequestBody TreatmentPlansCreateRequest request) {
         return ApiResponse.<Object>builder()

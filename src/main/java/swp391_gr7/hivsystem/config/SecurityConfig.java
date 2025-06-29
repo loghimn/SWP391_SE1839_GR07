@@ -58,6 +58,11 @@ public class SecurityConfig {
                                 response.sendRedirect("http://localhost:3000/loginSuccess?token=" + token);
                             }
                         })
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwt -> jwt
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 );
 
         return http.build();

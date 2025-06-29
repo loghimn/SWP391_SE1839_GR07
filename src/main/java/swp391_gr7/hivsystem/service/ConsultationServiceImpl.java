@@ -75,4 +75,20 @@ public class ConsultationServiceImpl implements ConsultationService {
         return consultationRepository.save(consultation);
     }
 
+    @Override
+    public List<Consultations> getMyConsultationsCus(int Id) {
+        if (!customerRepository.existsById(Id)) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND_BY_ID);
+        }
+        return consultationRepository.findByCustomers_CustomerId(Id);
+    }
+
+    @Override
+    public List<Consultations> getMyConsultationsDoc(int Id) {
+        if (!customerRepository.existsById(Id)) {
+            throw new AppException(ErrorCode.DOCTOR_NOT_FOUND_BY_ID);
+        }
+        return consultationRepository.findByDoctors_DoctorId(Id);
+    }
+
 }

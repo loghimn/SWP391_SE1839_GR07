@@ -72,11 +72,20 @@ public class ReminderController {
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/my-reminder")
-    public Reminders getMyReminderById(@RequestHeader("Authorization") String authorizationHeader) {
+    @GetMapping("/myreminder-customer")
+    public Reminders getMyReminderCustomer(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int customerId = new JWTUtils().extractCustomerId(token);
-        return reminderService.getMyReminderById(customerId);
+        return reminderService.getMyReminderByIdCus(customerId);
+    }
+
+    @PreAuthorize("hasRole('Staff')")
+    @GetMapping("/myreminder-staff")
+    public Reminders getMyReminderStaff(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract customerId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+        return reminderService.getMyReminderByIdStaff(customerId);
     }
 }

@@ -9,6 +9,7 @@ import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.model.Consultations;
 import swp391_gr7.hivsystem.service.ConsultationService;
 import swp391_gr7.hivsystem.dto.request.ConsultationCreateRequest;
+import swp391_gr7.hivsystem.service.JWTUtils;
 
 import java.util.List;
 
@@ -115,4 +116,52 @@ public class ConsultationController {
                     .build();
         }
     }
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/myconsultations-cus")
+    public ApiResponse<List<Consultations>> getMyConsultationsCus(@RequestHeader("Authorization") String authorizationHeader) {
+
+        // Extract the customer ID from the authorization header
+        String token = authorizationHeader.replace("Bearer ", "");
+        int currentCustomerId = new JWTUtils().extractCustomerId(token);
+
+        try {
+            List<Consultations> consultations = consultationService.getMyConsultationsCus(currentCustomerId);
+            return ApiResponse.<List<Consultations>>builder()
+                    .code(200)
+                    .result(consultations)
+                    .message(consultations.isEmpty() ? "No consultations found" : "Success")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<List<Consultations>>builder()
+                    .code(400)
+                    .result(null)
+                    .message("Get failed: " + e.getMessage())
+                    .build();
+        }
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/myconsultations-doc")
+    public ApiResponse<List<Consultations>> getMyConsultationsDoc(@RequestHeader("Authorization") String authorizationHeader) {
+
+        // Extract the doctor ID from the authorization header
+        String token = authorizationHeader.replace("Bearer ", "");
+        int currentDoctorId = new JWTUtils().extractDoctorId(token);
+
+        try {
+            List<Consultations> consultations = consultationService.getMyConsultationsDoc(currentDoctorId);
+            return ApiResponse.<List<Consultations>>builder()
+                    .code(200)
+                    .result(consultations)
+                    .message(consultations.isEmpty() ? "No consultations found" : "Success")
+                    .build();
+        } catch (Exception e) {
+            return ApiResponse.<List<Consultations>>builder()
+                    .code(400)
+                    .result(null)
+                    .message("Get failed: " + e.getMessage())
+                    .build();
+        }
+    }
+
 }

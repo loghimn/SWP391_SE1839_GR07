@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import swp391_gr7.hivsystem.model.Customers;
@@ -18,4 +19,6 @@ public interface TestResultRepository extends JpaRepository<TestResults, Integer
     Customers findByCustomersOrderByTestResultID(Customers customers);
 
     TestResults findTestResultsByTestResultID(int testResultID);
+
+    List<TestResults> findByDoctor_DoctorId(int doctorsDoctorId);
 }

@@ -20,4 +20,6 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     Optional<Appointments> findByAppointmentId(int appointmentId);
 
     List<Appointments> findByCustomers_CustomerId(int customerId);
+
+    List<Appointments> findByDoctors_DoctorId(int doctorsDoctorId);
 }

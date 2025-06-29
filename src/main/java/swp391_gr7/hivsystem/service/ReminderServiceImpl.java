@@ -194,10 +194,18 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public Reminders getMyReminderById(int id) {
+    public Reminders getMyReminderByIdCus(int id) {
         if(!remindersRepository.existsById(id)) {
             throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
         }
         return remindersRepository.findRemindersByCustomersCustomerId(id);
+    }
+
+    @Override
+    public Reminders getMyReminderByIdStaff(int id) {
+        if(!remindersRepository.existsById(id)) {
+            throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
+        }
+        return remindersRepository.findRemindersByStaffsStaffId(id);
     }
 }

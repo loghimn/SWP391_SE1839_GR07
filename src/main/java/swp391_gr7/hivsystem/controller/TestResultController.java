@@ -79,13 +79,29 @@ public class TestResultController {
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/myresults")
-    public ApiResponse<List<TestResults>> getMyTestResults(@RequestHeader("Authorization") String authorizationHeader) {
+    @GetMapping("/myresults-customer")
+    public ApiResponse<List<TestResults>> getMyTestResultsCustomer(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int customerId = new JWTUtils().extractCustomerId(token);
 
-        List<TestResults> results = testResultService.getMyTestResults(customerId);
+        List<TestResults> results = testResultService.getMyTestResultsCus(customerId);
+
+        return ApiResponse.<List<TestResults>>builder()
+                .code(200)
+                .result(results)
+                .message(results.isEmpty() ? "No results found" : "Success")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/myresults-doctor")
+    public ApiResponse<List<TestResults>> getMyTestResultsDoctor(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract customerId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+
+        List<TestResults> results = testResultService.getMyTestResultsDoc(customerId);
 
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)

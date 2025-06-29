@@ -14,5 +14,7 @@ public interface TreatmentPlanService {
 
     List<TreatmentPlans> getAll();
 
-    List<TreatmentPlans> getMyTreatmentPlant(int doctorId);
+    List<TreatmentPlans> getMyTreatmentPlantDoc(int doctorId);
+
+    List<TreatmentPlans> getMyTreatmentPlantCus(int doctorId);
 }

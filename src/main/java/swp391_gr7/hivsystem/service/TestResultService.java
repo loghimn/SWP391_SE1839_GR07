@@ -14,5 +14,7 @@ public interface TestResultService {
 
     List<TestResults> getTestResultsByCustomer(int customerId);
 
-    List<TestResults> getMyTestResults(int customerId);
+    List<TestResults> getMyTestResultsCus(int customerId);
+
+    List<TestResults> getMyTestResultsDoc(int doctorId);
 }

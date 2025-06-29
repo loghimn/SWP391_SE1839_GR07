@@ -22,5 +22,7 @@ public interface ReminderService {
 
     void sendDueReminderReExam();
 
-    Reminders getMyReminderById(int id);
+    Reminders getMyReminderByIdCus(int id);
+
+    Reminders getMyReminderByIdStaff(int id);
 }

@@ -94,8 +94,19 @@ public class TestResultServiceImpl implements TestResultService {
     }
 
     @Override
-    public List<TestResults> getMyTestResults(int customerId) {
+    public List<TestResults> getMyTestResultsCus(int customerId) {
+    if (testResultRepository.findByCustomers_CustomerId(customerId) == null) {
+        throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+    }
         return testResultRepository.findByCustomers_CustomerId(customerId);
+    }
+
+    @Override
+    public List<TestResults> getMyTestResultsDoc(int doctorId) {
+    if (testResultRepository.findByDoctor_DoctorId(doctorId) == null) {
+        throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+    }
+        return testResultRepository.findByDoctor_DoctorId(doctorId);
     }
 
 }

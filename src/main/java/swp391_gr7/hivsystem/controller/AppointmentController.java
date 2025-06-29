@@ -23,7 +23,7 @@ import java.util.List;
 //CRUD
 @RequestMapping("/api/user/customer")
 @SecurityRequirement(name = "bearerAuth")
-public class CustommerController {
+public class AppointmentController {
     @Autowired
     public AppointmentService appointmentService;
 
@@ -177,6 +177,7 @@ public class CustommerController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/appoint/customer/doctorview/{id}")
     public ApiResponse<CustomerReponse> getCustomerAppointmentInDoctorView(@PathVariable int id) {
         CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(id);
@@ -190,4 +191,43 @@ public class CustommerController {
                 .message("Success")
                 .build();
     }
+
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/appoint/myAppointmentsCus")
+    public ApiResponse<List<Appointments>> getMyAppointmentsCus(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract customerId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+
+        List<Appointments> appointments = appointmentService.getMyAppointmentsCus(customerId);
+        if (appointments == null || appointments.isEmpty()) {
+            return ApiResponse.<List<Appointments>>builder()
+                    .message("No appointments found for this customer")
+                    .build();
+        }
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointments)
+                .message("Success")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/appoint/myAppointmentsDoc")
+    public ApiResponse<List<Appointments>> getMyAppointmentsDoc(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        List<Appointments> appointments = appointmentService.getMyAppointmentsDoc(doctorId);
+        if (appointments == null || appointments.isEmpty()) {
+            return ApiResponse.<List<Appointments>>builder()
+                    .message("No appointments found for this doctor")
+                    .build();
+        }
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointments)
+                .message("Success")
+                .build();
+    }
+
 }

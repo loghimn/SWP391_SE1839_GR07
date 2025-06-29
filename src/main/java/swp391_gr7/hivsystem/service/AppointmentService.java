@@ -31,4 +31,8 @@ public interface AppointmentService {
     List<Appointments> getCustomerAppointment(int currentCustomerId);
 
     CustomerReponse getCustomerAppointmentInDocorView(int appointmentId);
+
+    List<Appointments> getMyAppointmentsCus(int customerId);
+
+    List<Appointments> getMyAppointmentsDoc(int doctorId);
 }

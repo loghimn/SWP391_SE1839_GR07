@@ -111,6 +111,7 @@ public class UserController {
 
     // Get my info
     @GetMapping("/myInfo")
+    @PostAuthorize("returnObject.result.username == authentication.name") // Only the user can access their own information
     public ApiResponse<Users> getMyInfo() {
         Users user = userService.getMyInfo();
         return ApiResponse.<Users>builder()
