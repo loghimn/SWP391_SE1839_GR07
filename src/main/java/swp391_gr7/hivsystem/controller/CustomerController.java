@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,9 @@ import swp391_gr7.hivsystem.service.CustomerService;
 import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.UserService;
 
-@Controller
+@RestController
 @RequestMapping("/api/customer")
+@SecurityRequirement(name = "bearerAuth")
 public class CustomerController {
 
     private final CustomerService customerService;
