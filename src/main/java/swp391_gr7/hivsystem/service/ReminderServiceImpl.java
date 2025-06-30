@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
+import swp391_gr7.hivsystem.dto.request.ReminderUpdateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
@@ -98,51 +99,17 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public Reminders updateReminderDosage(int id, ReminderCreateRequest request) {
+    public Reminders updateReminderDosage(int id, ReminderUpdateRequest request) {
         return remindersRepository.findById(id).map(existing -> {
-            TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
-            existing.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
             existing.setMessage(request.getMessage());
-//            existing.setStatus(request.getStatus());
-//            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
-            existing.setTestResults(testResult);
-            existing.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
-            // Set reminderTime based on dosageTime in TreatmentPlans
-            if (testResult != null && testResult.getTreatmentPlan() != null && testResult.getTreatmentPlan().getDosageTime() != null) {
-                LocalDateTime reminderDateTime = LocalDateTime.of(LocalDate.now(), testResult.getTreatmentPlan().getDosageTime());
-                existing.setReminderTime(reminderDateTime);
-            } else if (testResult == null || testResult.getTreatmentPlan() == null || testResult.getTreatmentPlan().getDosageTime() == null) {
-                throw new AppException(ErrorCode.TEST_RESULT_NOT_HAVE_DOSAGE_TIME);
-            }
-            // Set staff if needed (if you have logic to get staff from context)
             return remindersRepository.save(existing);
         }).orElse(null);
     }
 
     @Override
-    public Reminders updateReminderReExam(int id, ReminderCreateRequest request) {
+    public Reminders updateReminderReExam(int id, ReminderUpdateRequest request) {
         return remindersRepository.findById(id).map(existing -> {
-            TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
-            existing.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
             existing.setMessage(request.getMessage());
-//            existing.setStatus(request.getStatus());
-//            existing.setStaffs(staffsRepository.findById(request.getStaffId()).orElse(null));
-            existing.setTestResults(testResult);
-            Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
-            existing.setAppointments(appointments);
-            // Set reminderTime based on dosageTime in TreatmentPlans
-            if (appointments != null && appointments.getAppointmentTime() != null) {
-                LocalDate appointmentDay = appointments.getAppointmentTime();
-                LocalDate reminderDay = appointmentDay.minusDays(1);
-                LocalTime reminderTime = LocalTime.of(8, 0);
-                LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
-                existing.setReminderTime(reminderDateTime); // store full datetime
-            } else if (appointments == null) {
-                throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
-            } else {
-                throw new AppException(ErrorCode.APPOINTMENT_NOT_HAVE_TIME);
-            }
-            // Set staff if needed (if you have logic to get staff from context)
             return remindersRepository.save(existing);
         }).orElse(null);
     }

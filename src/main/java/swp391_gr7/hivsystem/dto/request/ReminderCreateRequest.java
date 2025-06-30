@@ -1,12 +1,16 @@
 package swp391_gr7.hivsystem.dto.request;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ReminderCreateRequest {
     @NotNull(message = "CUSTOMER_ID_REQUIRED")
     private Integer customerId;
@@ -14,8 +18,8 @@ public class ReminderCreateRequest {
 //    @NotBlank(message = "REMINDER_TYPE_REQUIRED")
 //    private String reminderType;
 
-    @NotNull(message = "REMINDER_TIME_REQUIRED")
-    private LocalDateTime reminderTime;
+//    @NotNull(message = "REMINDER_TIME_REQUIRED")
+//    private LocalDateTime reminderTime;
 
     @NotBlank(message = "MESSAGE_REQUIRED")
     private String message;
