@@ -82,10 +82,11 @@ public class ReminderController {
 
     @PreAuthorize("hasRole('Staff')")
     @GetMapping("/myreminder-staff")
-    public Reminders getMyReminderStaff(@RequestHeader("Authorization") String authorizationHeader) {
+    public List<Reminders> getMyReminderStaff(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
-        int customerId = new JWTUtils().extractCustomerId(token);
-        return reminderService.getMyReminderByIdStaff(customerId);
+        int staffId = new JWTUtils().extractStaffId(token);
+
+        return reminderService.getMyReminderByIdStaff(staffId);
     }
 }

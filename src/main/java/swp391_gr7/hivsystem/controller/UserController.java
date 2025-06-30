@@ -136,20 +136,20 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/getUserById/{id}")
+    @GetMapping("/user/get/{userid}")
     @PreAuthorize("hasRole('Admin')")
-    public ApiResponse<Users> getUserById(@PathVariable int id) {
-        Users user = userService.getUserById(id);
+    public ApiResponse<Users> getUserById(@PathVariable int userid) {
+        Users user = userService.getUserById(userid);
         return ApiResponse.<Users>builder()
                 .result(user)
                 .message("Success")
                 .build();
     }
 
-    @GetMapping("getCustomerById/{id}")
+    @GetMapping("/customer/get/{customerid}")
     @PreAuthorize("hasRole('Manager')")
-    public ApiResponse<Customers> getCustomerById(@PathVariable int id) {
-        Customers customers = customerService.getCustomerById(id);
+    public ApiResponse<Customers> getCustomerById(@PathVariable int customerid) {
+        Customers customers = customerService.getCustomerById(customerid);
         if (customers == null) {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
@@ -159,10 +159,10 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/getDoctorById/{id}")
+    @GetMapping("/doctor/get/{doctorid}")
     @PreAuthorize("hasRole('Manager')")
-    public ApiResponse<Doctors> getDoctorById(@PathVariable int id) {
-        Doctors doctors = doctorService.findDoctorById(id);
+    public ApiResponse<Doctors> getDoctorById(@PathVariable int doctorid) {
+        Doctors doctors = doctorService.findDoctorById(doctorid);
         if (doctors == null) {
             throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
         }
@@ -172,10 +172,10 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/getStaffById/{id}")
+    @GetMapping("/staff/get/{staffid}")
     @PreAuthorize("hasRole('Manager')")
-    public ApiResponse<Staffs> getStaffById(@PathVariable int id) {
-        Staffs staffs = staffService.getStaffById(id);
+    public ApiResponse<Staffs> getStaffById(@PathVariable int staffid) {
+        Staffs staffs = staffService.getStaffById(staffid);
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
@@ -185,7 +185,7 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/getAllCustomers")
+    @GetMapping("/customer/get/list")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<List<Customers>> getAllCustomers() {
         List<Customers> customers = customerService.getAllCustomers();
@@ -195,7 +195,7 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/getAllDoctors")
+    @GetMapping("/doctor/get/list")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<List<Doctors>> getAllDoctors() {
         List<Doctors> doctors = doctorService.showAllDoctors();
@@ -205,7 +205,7 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/getAllStaffs")
+    @GetMapping("/staff/get/list")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<List<Staffs>> getAllStaffs() {
         List<Staffs> staffs = staffService.getAllStaffs();

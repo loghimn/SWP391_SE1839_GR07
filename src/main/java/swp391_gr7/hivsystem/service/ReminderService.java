@@ -24,5 +24,5 @@ public interface ReminderService {
 
     Reminders getMyReminderByIdCus(int id);
 
-    Reminders getMyReminderByIdStaff(int id);
+    List<Reminders> getMyReminderByIdStaff(int id);
 }

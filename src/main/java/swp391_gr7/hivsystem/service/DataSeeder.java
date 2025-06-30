@@ -29,6 +29,12 @@ public class DataSeeder implements CommandLineRunner {
     private AdminRepository adminRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private BlogRepository blogRepository;
+    @Autowired
+    private MaterialRepository materialRepository;
+    @Autowired
+    private StaffRepository staffRepository;
 
 
     void createModel() {
@@ -47,7 +53,7 @@ public class DataSeeder implements CommandLineRunner {
         userRepository.save(adminUser);
 
         Users managerUser = new Users();
-        managerUser.setUsername("manager1");
+        managerUser.setUsername("manager");
         managerUser.setPassword(passwordEncoder.encode("managerpass"));
         managerUser.setEmail("manager1@manager.com");
         managerUser.setPhone("0111111111");
@@ -60,7 +66,7 @@ public class DataSeeder implements CommandLineRunner {
         userRepository.save(managerUser);
 
         Users doctorUser = new Users();
-        doctorUser.setUsername("doctor1");
+        doctorUser.setUsername("doctor");
         doctorUser.setPassword(passwordEncoder.encode("doctorpass"));
         doctorUser.setEmail("doctor1@doctor.com");
         doctorUser.setPhone("0222222222");
@@ -71,6 +77,21 @@ public class DataSeeder implements CommandLineRunner {
         doctorUser.setCreatedAt(LocalDateTime.now());
         doctorUser.setStatus(true);
         userRepository.save(doctorUser);
+
+        // Add a staff user
+        Users staffUser = new Users();
+        staffUser.setUsername("staff");
+        staffUser.setPassword(passwordEncoder.encode("staffpass"));
+        staffUser.setEmail("staff1@staff.com");
+        staffUser.setPhone("0444444444");
+        staffUser.setFullName("Staff One");
+        staffUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        staffUser.setGender("female");
+        staffUser.setRole("Staff");
+        staffUser.setCreatedAt(LocalDateTime.now());
+        staffUser.setStatus(true);
+        userRepository.save(staffUser);
+
 
         // Create Admin
         Admins admin = new Admins();
@@ -84,6 +105,15 @@ public class DataSeeder implements CommandLineRunner {
         manager.setDepartment("Department 1");
         manager.setOfficePhone("0123456789");
         managerRepository.save(manager);
+
+        // Add a staff
+        Staffs staff = new Staffs();
+        staff.setUsers(staffUser);
+        staff.setDepartment("Department 1");
+        staff.setWorkShift(1);
+        staff.setAssignedArea("Area 1");
+        staff.setManagers(manager);
+        staffRepository.save(staff);
 
         // Create Doctor
         Doctors doctors = new Doctors();
@@ -180,6 +210,110 @@ public class DataSeeder implements CommandLineRunner {
         );
 
         medicationRepo.saveAll(meds);
+
+
+        // Create Blogs
+        Blogs blog1 = new Blogs();
+        blog1.setDoctors(doctors);
+        blog1.setTitle("Thế giới có thể kết thúc đại dịch AIDS vào năm 2030");
+        blog1.setContent("Theo UNAIDS, với cam kết chính trị mạnh mẽ và đầu tư tài chính đủ, "
+                + "đích đến chấm dứt AIDS vào năm 2030 là khả thi, đặc biệt ở các khu vực Đông – Nam châu Phi.");
+        blog1.setImageUrl("https://i.imgur.com/zlgjYkN.jpg"); // minh họa xét nghiệm HIV
+        blog1.setSource("VAAC (dịch từ UNAIDS)");
+        blog1.setCreateAt(LocalDate.now());
+        blogRepository.save(blog1);
+
+
+        Blogs blog2 = new Blogs();
+        blog2.setDoctors(doctors);
+        blog2.setTitle("Hội nghị tổng kết hoạt động phòng, chống HIV/AIDS năm 2024");
+        blog2.setContent("VAAC đã tổ chức hội nghị tại Đà Nẵng tổng kết năm 2024, đánh giá thành tựu "
+                + "và xây dựng kế hoạch tới năm 2025, với nhiều văn bản như Nghị định 141/2024/NĐ-CP và Thông tư 26/2024.");
+        blog2.setImageUrl("https://i.imgur.com/6KukPxL.jpg"); // minh họa hội nghị y tế
+        blog2.setSource("VAAC");
+        blog2.setCreateAt(LocalDate.now());
+        blogRepository.save(blog2);
+
+
+        Blogs blog3 = new Blogs();
+        blog3.setDoctors(doctors);
+        blog3.setTitle("Hành trình 21 năm chăm sóc, điều trị HIV/AIDS tại Việt Nam");
+        blog3.setContent("Dự án HAIVN/BIDMC đã hỗ trợ kỹ thuật từ 2003, đào tạo hơn 10.000 nhân viên y tế "
+                + "và mở rộng điều trị HIV từ 1.000 lên 170.000 bệnh nhân vào năm 2023.");
+        blog3.setImageUrl("https://i.imgur.com/sRA3aZq.jpg"); // minh họa hỗ trợ kỹ thuật y tế
+        blog3.setSource("VAAC");
+        blog3.setCreateAt(LocalDate.now());
+        blogRepository.save(blog3);
+
+
+        Blogs blog4 = new Blogs();
+        blog4.setDoctors(doctors);
+        blog4.setTitle("K=K: Không phát hiện = Không lây truyền");
+        blog4.setContent("Chiến dịch K=K khẳng định: người có tải lượng HIV <200 bản sao/ml "
+                + "và uống ARV đều đặn không thể lây truyền HIV qua đường tình dục.");
+        blog4.setImageUrl("https://i.imgur.com/Bxfu4qG.jpg"); // minh họa thông điệp y tế
+        blog4.setSource("VAAC");
+        blog4.setCreateAt(LocalDate.now());
+        blogRepository.save(blog4);
+
+
+        Blogs blog5 = new Blogs();
+        blog5.setDoctors(doctors);
+        blog5.setTitle("Vai trò của người sống chung với HIV");
+        blog5.setContent("Người nhiễm HIV có thể đóng góp hiệu quả vào công tác phòng chống HIV/AIDS, "
+                + "giúp giảm kỳ thị và hỗ trợ cộng đồng tiếp cận điều trị.");
+        blog5.setImageUrl("https://i.imgur.com/E91d0oE.jpg"); // minh họa cộng đồng hỗ trợ
+        blog5.setSource("VAAC");
+        blog5.setCreateAt(LocalDate.now());
+        blogRepository.save(blog5);
+
+
+        Materials material1 = new Materials();
+        material1.setDoctor(doctors);
+        material1.setTitle("Kiến thức cơ bản về HIV/AIDS");
+        material1.setContent("Phân biệt HIV và AIDS, đường lây truyền, triệu chứng, và cách phòng tránh chủ yếu.");
+        material1.setImageUrl("https://i.imgur.com/zlgjYkN.jpg");
+        material1.setSource("VAAC - Cục Phòng chống HIV/AIDS");
+        material1.setCreateAt(LocalDate.now());
+        materialRepository.save(material1);
+
+        Materials material2 = new Materials();
+        material2.setDoctor(doctors);
+        material2.setTitle("Đào tạo kỹ thuật xét nghiệm HIV");
+        material2.setContent("Hướng dẫn kỹ thuật thực hiện xét nghiệm; đảm bảo an toàn sinh học và chất lượng phòng xét nghiệm.");
+        material2.setImageUrl("https://i.imgur.com/sRA3aZq.jpg");
+        material2.setSource("VAAC - Cục Phòng chống HIV/AIDS");
+        material2.setCreateAt(LocalDate.now());
+        materialRepository.save(material2);
+
+        Materials material3 = new Materials();
+        material3.setDoctor(doctors);
+        material3.setTitle("HIV kháng thuốc: Sổ tay chuyên môn");
+        material3.setContent("Hướng dẫn quản lý và điều trị người nhiễm HIV có kháng thuốc, theo dõi, và can thiệp y tế kịp thời.");
+        material3.setImageUrl("https://i.imgur.com/Bxfu4qG.jpg");
+        material3.setSource("VAAC - Cục Phòng chống HIV/AIDS");
+        material3.setCreateAt(LocalDate.now());
+        materialRepository.save(material3);
+
+        Materials material4 = new Materials();
+        material4.setDoctor(doctors);
+        material4.setTitle("Hướng dẫn triển khai BHYT cho người nhiễm HIV");
+        material4.setContent("Giúp đảm bảo tài chính cho người nhiễm HIV trong tiếp cận thuốc ARV, xét nghiệm và điều trị lâu dài.");
+        material4.setImageUrl("https://i.imgur.com/6KukPxL.jpg");
+        material4.setSource("VAAC - Cục Phòng chống HIV/AIDS");
+        material4.setCreateAt(LocalDate.now());
+        materialRepository.save(material4);
+
+        Materials material5 = new Materials();
+        material5.setDoctor(doctors);
+        material5.setTitle("Thuốc kháng HIV (ARV)");
+        material5.setContent("Giới thiệu các loại thuốc ARV, cơ chế hoạt động, lợi ích và hướng dẫn sử dụng cơ bản.");
+        material5.setImageUrl("https://i.imgur.com/E91d0oE.jpg");
+        material5.setSource("VAAC - Cục Phòng chống HIV/AIDS");
+        material5.setCreateAt(LocalDate.now());
+        materialRepository.save(material5);
+
+
     }
 
     @Override
