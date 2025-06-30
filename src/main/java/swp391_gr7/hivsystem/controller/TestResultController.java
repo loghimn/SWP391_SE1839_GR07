@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class TestResultController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<TestResults> addTestResult(@RequestBody TestResultCreateRequest request) {
+    public ApiResponse<TestResults> addTestResult(@RequestBody @Valid TestResultCreateRequest request) {
         TestResults result = testResultService.addTestResult(request);
 
         if (result != null && result.isRe_examination()) {

@@ -8,7 +8,7 @@ import java.util.List;
 public interface BlogService {
     Blogs addBlog(BlogCreateRequest request, int doctorId);
 
-    Blogs updateInformationBlog(int id, Blogs updateContent);
+    Blogs updateInformationBlog(int id, BlogCreateRequest updateContent);
 
     void deleteBlog(int id);
 

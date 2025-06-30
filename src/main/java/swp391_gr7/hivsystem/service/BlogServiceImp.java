@@ -45,7 +45,7 @@ public class BlogServiceImp implements BlogService {
     }
 
     @Override
-    public Blogs updateInformationBlog(int id, Blogs updateContent) {
+    public Blogs updateInformationBlog(int id, BlogCreateRequest updateContent) {
         // tìm blog bằng id
         Blogs blogs = blogRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BLOG_NOT_FOUND));

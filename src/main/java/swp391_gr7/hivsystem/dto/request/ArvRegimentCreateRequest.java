@@ -12,13 +12,13 @@ import swp391_gr7.hivsystem.model.TestResults;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArvRegimentCreateRequest {
-    @NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "ARV_REGIMENT_NAME_NOT_BLANK")
     private String name;
 
-    @NotNull(message = "ARV regiment type is mandatory")
+    @NotNull(message = "ARV_REGIMENT_LEVEL_NOT_NULL")
     private int level;
 
-    @NotBlank(message = "Description is mandatory")
+    @NotBlank(message = "ARV_REGIMENT_DESCRIPTION_NOT_BLANK")
     private String description;
     //private int testResultId;
 }

@@ -42,7 +42,7 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{blogid}")
-    public ApiResponse<Boolean> updateContentBlog(@PathVariable int blogid, @RequestBody Blogs updateContent) {
+    public ApiResponse<Boolean> updateContentBlog(@PathVariable int blogid, @RequestBody @Valid BlogCreateRequest updateContent) {
         blogService.updateInformationBlog(blogid, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)

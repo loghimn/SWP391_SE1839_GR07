@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 public class UserAndAdminCreateRequest extends UserCreateRequest {
 
-    @NotBlank(message = "USER_AND_ADMIN_REQUEST_ASSIGNED_AREA_NOT_BLANK")
+    @NotBlank(message = "USER_AND_ADMIN_UPDATE_REQUEST_ASSIGNED_AREA_NOT_BLANK")
     private String assignedArea;
 }
