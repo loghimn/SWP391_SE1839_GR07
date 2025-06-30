@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
+import swp391_gr7.hivsystem.dto.request.ReminderUpdateRequest;
 import swp391_gr7.hivsystem.model.Reminders;
 import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.ReminderService;
@@ -55,13 +56,13 @@ public class ReminderController {
 
     @PreAuthorize("hasRole('Staff')")
     @PutMapping("/dosage/update/{id}")
-    public Reminders updateReminderDosage(@PathVariable int id, @RequestBody ReminderCreateRequest request) {
+    public Reminders updateReminderDosage(@PathVariable int id, @RequestBody ReminderUpdateRequest request) {
         return reminderService.updateReminderDosage(id, request);
     }
 
     @PreAuthorize("hasRole('Staff')")
     @PutMapping("/re-exam/update/{id}")
-    public Reminders updateReminderReExam(@PathVariable int id, @RequestBody ReminderCreateRequest request) {
+    public Reminders updateReminderReExam(@PathVariable int id, @RequestBody ReminderUpdateRequest request) {
         return reminderService.updateReminderReExam(id, request);
     }
 
