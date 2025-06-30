@@ -28,9 +28,9 @@ public class ReportController {
                                              @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         // Extract userId from the token
         String token = authorizationHeader.replace("Bearer ", "");
-        int id = new JWTUtils().extractManagerId(token);
+        int managerId = new JWTUtils().extractManagerId(token);
 
-        reportService.exportUserToCSV(response, request, id);
+        reportService.exportUserToCSV(response, request, managerId);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
@@ -45,10 +45,9 @@ public class ReportController {
                                                         @RequestHeader("Authorization") String authorizationHeader) throws IOException {
         // Extract userId from the token
         String token = authorizationHeader.replace("Bearer ", "");
-        int id = new JWTUtils().extractManagerId(token);
+        int managerId = new JWTUtils().extractManagerId(token);
 
-        reportService.exportUserToCSV(response, request, id);
-        reportService.exportAppointmentToCSV(response, request, id);
+        reportService.exportAppointmentToCSV(response, request, managerId);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")

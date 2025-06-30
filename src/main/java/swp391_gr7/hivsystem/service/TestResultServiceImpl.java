@@ -36,8 +36,11 @@ public class TestResultServiceImpl implements TestResultService {
 
         Appointments appointment = treatmentPlan.getAppointments();
         System.out.println("Appointment ID: " + appointment.getAppointmentId());
-        if (appointment == null || !appointment.isStatus()) {
+        if (appointment == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
+        if (!appointment.isStatus()) {
+            throw new AppException(ErrorCode.APPOINTMENT_TEST_RESULT_INACTIVE);
         }
 
         if (!"Test HIV".equals(appointment.getAppointmentType())) {
@@ -96,17 +99,17 @@ public class TestResultServiceImpl implements TestResultService {
 
     @Override
     public List<TestResults> getMyTestResultsCus(int customerId) {
-    if (testResultRepository.findByCustomers_CustomerId(customerId) == null) {
-        throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
-    }
+        if (testResultRepository.findByCustomers_CustomerId(customerId) == null) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
         return testResultRepository.findByCustomers_CustomerId(customerId);
     }
 
     @Override
     public List<TestResults> getMyTestResultsDoc(int doctorId) {
-    if (testResultRepository.findByDoctors_DoctorId(doctorId) == null) {
-        throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
-    }
+        if (testResultRepository.findByDoctors_DoctorId(doctorId) == null) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
         return testResultRepository.findByDoctors_DoctorId(doctorId);
     }
 

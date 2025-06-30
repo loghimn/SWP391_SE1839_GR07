@@ -17,11 +17,11 @@ public enum ErrorCode {
     WRONG_KEY(900, "Wrong key provided", HttpStatus.BAD_REQUEST), // 400
 
     // Reminder errors
-    REMINDER_NOT_FOUND( 900, "Reminder not found", HttpStatus.NOT_FOUND), // 404
+    REMINDER_NOT_FOUND(900, "Reminder not found", HttpStatus.NOT_FOUND), // 404
 
     // Test result errors
-    TEST_RESULT_NOT_FOUND( 901, "Test result not found", HttpStatus.NOT_FOUND), // 404
-    TEST_RESULT_NOT_HAVE_DOSAGE_TIME( 902, "Test result does not have dosage time", HttpStatus.BAD_REQUEST), // 400
+    TEST_RESULT_NOT_FOUND(901, "Test result not found", HttpStatus.NOT_FOUND), // 404
+    TEST_RESULT_NOT_HAVE_DOSAGE_TIME(902, "Test result does not have dosage time", HttpStatus.BAD_REQUEST), // 400
 
     // Medical record errors
     MEDICAL_RECORD_NOT_FOUND(901, "Medical record not found", HttpStatus.NOT_FOUND), // 404
@@ -242,6 +242,12 @@ public enum ErrorCode {
     REMINDER_NOT_FOUND_CUSTOMER(1109, "Customer not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_STAFF(1110, "Staff not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_APPOINTMENT(1111, "Appointment not found to set reminder", HttpStatus.NOT_FOUND), // 404
+
+    // Login
+    USER_WAS_DELETED(1121, "The account is not exist", HttpStatus.NOT_FOUND), //404
+
+    // appointment inactive
+    APPOINTMENT_TEST_RESULT_INACTIVE(1122, "The appointment is inactive", HttpStatus.NOT_FOUND),
 
     // List Appointment
     APPOINTMENT_LIST_NOT_FOUND(1120, "Appointment is empty", HttpStatus.NOT_FOUND), // 404

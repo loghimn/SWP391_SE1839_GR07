@@ -62,6 +62,9 @@ public class AuthenticationService {
         var user = userRepository.findByUsername(authenticationRequest.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.WRONG_USERNAME_PASSWORD)); // nếu không tìm thấy người dùng, in ra lỗi được định nghĩa trong ErrorCode
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!user.isStatus()) {
+            throw new AppException(ErrorCode.USER_WAS_DELETED);
+        }
         boolean result = passwordEncoder.matches(authenticationRequest.getPassword(),
                 user.getPassword()); // xác định xem user có đăng nhập thành công hay không
         if (!result) {
@@ -119,7 +122,7 @@ public class AuthenticationService {
                 .subject(users.getUsername())
                 .issuer("gr7")
                 .issueTime(new Date())
-                .expirationTime(new Date(new Date().getTime() + 1000 * 60 * 60 * 24))
+                .expirationTime(new Date(new Date().getTime() + 1000 * 60 * 60 * 24)) // 24 hours from now
                 .claim("role", role);
 
         // Thêm ID tương ứng tùy theo role
