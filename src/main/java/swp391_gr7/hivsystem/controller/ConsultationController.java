@@ -34,10 +34,10 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/{id}")
-    public ApiResponse<Consultations> getById(@PathVariable int id) {
+    @GetMapping("/{consultationsid}")
+    public ApiResponse<Consultations> getById(@PathVariable int consultationsid) {
         try {
-            Consultations consultation = consultationService.getConsultationById(id);
+            Consultations consultation = consultationService.getConsultationById(consultationsid);
             if (consultation == null) {
                 return ApiResponse.<Consultations>builder()
                         .code(404)
@@ -61,7 +61,7 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/customer/{customerid}")
     public ApiResponse<List<Consultations>> getByCustomer(@PathVariable int customerId) {
         try {
             List<Consultations> consultations = consultationService.getConsultationsByCustomer(customerId);
@@ -80,7 +80,7 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/doctor/{doctorId}")
+    @GetMapping("/doctor/{doctorid}")
     public ApiResponse<List<Consultations>> getByDoctor(@PathVariable int doctorId) {
         try {
             List<Consultations> consultations = consultationService.getConsultationsByDoctor(doctorId);
@@ -117,7 +117,7 @@ public class ConsultationController {
         }
     }
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/myconsultations-cus")
+    @GetMapping("/customer/get/my-consultations")
     public ApiResponse<List<Consultations>> getMyConsultationsCus(@RequestHeader("Authorization") String authorizationHeader) {
 
         // Extract the customer ID from the authorization header
@@ -141,7 +141,7 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/myconsultations-doc")
+    @GetMapping("/doctor/get/my-consultations")
     public ApiResponse<List<Consultations>> getMyConsultationsDoc(@RequestHeader("Authorization") String authorizationHeader) {
 
         // Extract the doctor ID from the authorization header

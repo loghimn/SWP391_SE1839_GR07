@@ -49,7 +49,7 @@ public class AppointmentController {
 
 
     @PreAuthorize("hasRole('Customer')")
-    @PostMapping("/appoint/book")
+    @PostMapping("/appointment/book")
     public ApiResponse<Boolean> appointmentRequest(@RequestBody @Valid AppointmentCreateRequest request,
                                                    @RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
@@ -65,7 +65,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/anonymous")
+    @GetMapping("/appointment/anonymous/list")
     public ApiResponse<List> appointmentList() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsAnonymous();// gọi từ service
         boolean result = appointmentsList != null;
@@ -77,7 +77,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/ecceptAnonymous")
+    @GetMapping("/appointment/ecceptAnonymous/list")
     public ApiResponse<List> appointmentListEcceptAnonymous() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
         boolean result = appointmentsList != null;
@@ -89,7 +89,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/fullInfor")
+    @GetMapping("/appointment/fullInfor")
     public ApiResponse<List> appointmentListFullInfor() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
         boolean result = appointmentsList != null;
@@ -101,9 +101,9 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/{id}")
-    public ApiResponse<Appointments> getAppointmentById(@PathVariable int id) {
-        Appointments appointment = appointmentService.getAppointmentById(id);
+    @GetMapping("/appointment/{appointmentid}")
+    public ApiResponse<Appointments> getAppointmentById(@PathVariable int appointmentid) {
+        Appointments appointment = appointmentService.getAppointmentById(appointmentid);
         boolean result = appointment != null;
         String resultString = result ? "Success" : "Failed";
         return ApiResponse.<Appointments>builder()
@@ -114,9 +114,9 @@ public class AppointmentController {
 
     // Changed to DELETE mapping and unique path
     @PreAuthorize("hasRole('Doctor')")
-    @DeleteMapping("/appoint/delete/{id}")
-    public ApiResponse<Appointments> deleteAppointment(@PathVariable int id) {
-        Appointments appointment = appointmentService.deleteAppointment(id);
+    @DeleteMapping("/appointment/delete/{appointmentid}")
+    public ApiResponse<Appointments> deleteAppointment(@PathVariable int appointmentid) {
+        Appointments appointment = appointmentService.deleteAppointment(appointmentid);
         if (appointment == null) {
             return ApiResponse.<Appointments>builder()
                     .message("Failed to delete appointment")
@@ -129,9 +129,9 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/getAppointmentByCustomerId/{id}")
-    public ApiResponse<List<Appointments>> getAppointmentByCustomerId(@PathVariable int id) {
-        List<Appointments> appointments = appointmentService.getAppointmentsByCustomerId(id);
+    @GetMapping("/appointment/get/{customerid}")
+    public ApiResponse<List<Appointments>> getAppointmentByCustomerId(@PathVariable int customerid) {
+        List<Appointments> appointments = appointmentService.getAppointmentsByCustomerId(customerid);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
                     .message("No appointments found for this customer")
@@ -144,7 +144,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/appoint/getCustomerAppointment")
+    @GetMapping("/customer/appointment/get/my-appointment")
     public ApiResponse<List<Appointments>> getCustomerAppointment(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -163,9 +163,9 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @PutMapping("/appoint/update/{id}")
-    public ApiResponse<Appointments> updateAppointment(@PathVariable int id, @RequestBody @Valid AppointmentCreateRequest request) {
-        Appointments updatedAppointment = appointmentService.updateAppointment(id, request);
+    @PutMapping("/appointment/update/{appointmentid}")
+    public ApiResponse<Appointments> updateAppointment(@PathVariable int appointmentid, @RequestBody @Valid AppointmentCreateRequest request) {
+        Appointments updatedAppointment = appointmentService.updateAppointment(appointmentid, request);
         if (updatedAppointment == null) {
             return ApiResponse.<Appointments>builder()
                     .message("Failed to update appointment")
@@ -178,9 +178,9 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/customer/doctorview/{id}")
-    public ApiResponse<CustomerReponse> getCustomerAppointmentInDoctorView(@PathVariable int id) {
-        CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(id);
+    @GetMapping("/customer/appointment/doctorview/{appointmentid}")
+    public ApiResponse<CustomerReponse> getCustomerAppointmentInDoctorView(@PathVariable int appointmentid) {
+        CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(appointmentid);
         if (customerReponse == null) {
             return ApiResponse.<CustomerReponse>builder()
                     .message("Your are not allowed to be viewed")
@@ -192,27 +192,8 @@ public class AppointmentController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/appoint/myAppointmentsCus")
-    public ApiResponse<List<Appointments>> getMyAppointmentsCus(@RequestHeader("Authorization") String authorizationHeader) {
-        // Extract customerId from the token
-        String token = authorizationHeader.replace("Bearer ", "");
-        int customerId = new JWTUtils().extractCustomerId(token);
-
-        List<Appointments> appointments = appointmentService.getMyAppointmentsCus(customerId);
-        if (appointments == null || appointments.isEmpty()) {
-            return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this customer")
-                    .build();
-        }
-        return ApiResponse.<List<Appointments>>builder()
-                .result(appointments)
-                .message("Success")
-                .build();
-    }
-
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/appoint/myAppointmentsDoc")
+    @GetMapping("/doctor/appointment/get/my-appointment")
     public ApiResponse<List<Appointments>> getMyAppointmentsDoc(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -231,7 +212,7 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @GetMapping("/appoint/staff/appointmentListFullInfor")
+    @GetMapping("/staff/appointment/list")
     public ApiResponse<List> getappointmentListFullInfor() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
         boolean result = appointmentsList != null;

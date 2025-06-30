@@ -79,7 +79,7 @@ public class TestResultController {
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/myresults-customer")
+    @GetMapping("/customer/get/my-results")
     public ApiResponse<List<TestResults>> getMyTestResultsCustomer(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -95,7 +95,7 @@ public class TestResultController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/myresults-doctor")
+    @GetMapping("/doctor/get/my-results")
     public ApiResponse<List<TestResults>> getMyTestResultsDoctor(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");

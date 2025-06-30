@@ -41,9 +41,9 @@ public class BlogController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentBlog(@PathVariable int id, @RequestBody Blogs updateContent) {
-        blogService.updateInformationBlog(id, updateContent);
+    @PutMapping("/update/{blogid}")
+    public ApiResponse<Boolean> updateContentBlog(@PathVariable int blogid, @RequestBody Blogs updateContent) {
+        blogService.updateInformationBlog(blogid, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
@@ -51,18 +51,18 @@ public class BlogController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> deleteBlog(@PathVariable int id) {
-        blogService.deleteBlog(id);
+    @DeleteMapping("/delete/{blogid}")
+    public ApiResponse<Boolean> deleteBlog(@PathVariable int blogid) {
+        blogService.deleteBlog(blogid);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
                 .build();
     }
 
-    @GetMapping("/get/{id}")
-    public ApiResponse<Blogs> getBlogById(@PathVariable int id) {
-        Blogs blog = blogService.getBlogById(id);
+    @GetMapping("/get/{blogid}")
+    public ApiResponse<Blogs> getBlogById(@PathVariable int blogid) {
+        Blogs blog = blogService.getBlogById(blogid);
         return ApiResponse.<Blogs>builder()
                 .result(blog)
                 .message("Success")

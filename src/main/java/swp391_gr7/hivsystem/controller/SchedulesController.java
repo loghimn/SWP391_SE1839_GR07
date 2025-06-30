@@ -73,7 +73,7 @@ public class SchedulesController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/my-schedules")
+    @GetMapping("/doctor/get/my-schedules")
     public List<Schedules> getMySchedules(@RequestHeader("Authorization") String authorizationHeader) {
 
         String token = authorizationHeader.replace("Bearer ", "");

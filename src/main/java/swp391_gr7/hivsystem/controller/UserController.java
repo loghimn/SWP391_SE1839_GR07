@@ -195,9 +195,20 @@ public class UserController {
                 .build();
     }
 
+
     @GetMapping("/doctor/get/list")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<List<Doctors>> getAllDoctors() {
+        List<Doctors> doctors = doctorService.showAllDoctors();
+        return ApiResponse.<List<Doctors>>builder()
+                .result(doctors)
+                .message("Success")
+                .build();
+    }
+
+    @GetMapping("/doctor/getforcus/list")
+    @PreAuthorize("hasRole('Customer')")
+    public ApiResponse<List<Doctors>> getAllDoctorsforCus() {
         List<Doctors> doctors = doctorService.showAllDoctors();
         return ApiResponse.<List<Doctors>>builder()
                 .result(doctors)

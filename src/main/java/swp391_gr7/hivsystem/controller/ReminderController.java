@@ -20,7 +20,7 @@ public class ReminderController {
     private ReminderService reminderService;
 
     @PreAuthorize("hasRole('Staff')")
-    @PostMapping("/create-dosage")
+    @PostMapping("/dosage/create")
     public Reminders createReminderDosage(@RequestBody ReminderCreateRequest request,
                                           @RequestHeader("Authorization") String authorizationHeader) {
         // Extract staffId from the token
@@ -31,7 +31,7 @@ public class ReminderController {
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PostMapping("/create-re-exam")
+    @PostMapping("/re-exam/create")
     public Reminders createReminderReExam(@RequestBody ReminderCreateRequest request,
                                           @RequestHeader("Authorization") String authorizationHeader) {
         // Extract staffId from the token
@@ -48,31 +48,31 @@ public class ReminderController {
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @GetMapping
+    @GetMapping("/get/all")
     public List<Reminders> getAll() {
         return reminderService.getAllReminders();
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PutMapping("/updateReminderDosage/{id}")
+    @PutMapping("reminder/dosage/update/{id}")
     public Reminders updateReminderDosage(@PathVariable int id, @RequestBody ReminderCreateRequest request) {
         return reminderService.updateReminderDosage(id, request);
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PutMapping("/updateReminderReExam/{id}")
+    @PutMapping("/reminder/re-exam/update/{id}")
     public Reminders updateReminderReExam(@PathVariable int id, @RequestBody ReminderCreateRequest request) {
         return reminderService.updateReminderReExam(id, request);
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PutMapping("/deleteReminder/{id}")
+    @PutMapping("/reminder/delete/{id}")
     public void deleteReminder(@PathVariable int id) {
         reminderService.deleteReminder(id);
     }
 
     @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/myreminder-customer")
+    @GetMapping("/customer/get/my-reminder")
     public Reminders getMyReminderCustomer(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -81,7 +81,7 @@ public class ReminderController {
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @GetMapping("/myreminder-staff")
+    @GetMapping("/staff/get/my-reminder")
     public List<Reminders> getMyReminderStaff(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");

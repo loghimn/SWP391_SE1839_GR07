@@ -33,14 +33,14 @@ public class ArvMedicationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @PutMapping("/update/{code}")
+    @PutMapping("/update/{arvmedicationid}")
     public ApiResponse<Boolean> updateMedication(@RequestBody ArvMedicationCreateRequest request,
-                                                 @PathVariable String code,
+                                                 @PathVariable String arvmedicationid,
                                                  @RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
         int doctorId = new JWTUtils().extractDoctorId(token);
 
-        boolean result = arvMedicationService.updateArvMedication(request, code);
+        boolean result = arvMedicationService.updateArvMedication(request, arvmedicationid);
         return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message(result ? "Successfully updated arvmedication" : "Fail updated arvmedication")
@@ -48,9 +48,9 @@ public class ArvMedicationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @DeleteMapping("/delete/{code}")
-    public ApiResponse<Boolean> deleteMedication(@PathVariable String code) {
-        boolean result = arvMedicationService.deleteArvMedication(code);
+    @DeleteMapping("/delete/{arvmedicationid}")
+    public ApiResponse<Boolean> deleteMedication(@PathVariable String arvmedicationid) {
+        boolean result = arvMedicationService.deleteArvMedication(arvmedicationid);
         return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message(result ? "Successfully delete arvmedication" : "Fail delete arvmedication")
@@ -58,7 +58,7 @@ public class ArvMedicationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping
+    @GetMapping("/list")
     public ApiResponse<List> listMedication() {
         List result = arvMedicationService.showAllListMedication();
         return ApiResponse.<List>builder()
@@ -68,9 +68,9 @@ public class ArvMedicationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/getbyarvregimentid/{arvRegimentId}")
-    public ApiResponse<List> getMedicationByArvRegimentId(@PathVariable int arvRegimentId) {
-        List result = arvMedicationService.getMedicationByArvRegimentId(arvRegimentId);
+    @GetMapping("/get/{arvregimentid}")
+    public ApiResponse<List> getMedicationByArvRegimentId(@PathVariable int arvregimentid) {
+        List result = arvMedicationService.getMedicationByArvRegimentId(arvregimentid);
         return ApiResponse.<List>builder()
                 .result(result)
                 .message(result != null ? "Successfully fetched medications for ARV regiment" : "Fail fetched medications for ARV regiment")
