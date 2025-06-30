@@ -2,6 +2,7 @@
 package swp391_gr7.hivsystem.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class SchedulesController {
 
     @PreAuthorize("hasRole('Manager')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> create(@RequestBody SchedulesCreateRequest request) {
+    public ApiResponse<Boolean> create(@RequestBody @Valid SchedulesCreateRequest request) {
         Schedules schedule = schedulesService.createSchedule(request);
         boolean result = schedule != null;
         return ApiResponse.<Boolean>builder()

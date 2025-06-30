@@ -17,7 +17,7 @@ public class TestResultCreateRequest {
     @NotNull(message = "TEST_RESULT_CREATE_REQUEST_RESULT_VALUE_NOT_NULL")
     private boolean resultValue;
 
-    @NotBlank(message = "TEST_RESULT_CREATE_REQUEST_TEST_DATE_NOT_NULL")
+    @NotBlank(message = "TEST_RESULT_CREATE_REQUEST_NOTES_NOT_BLANK")
     private String notes;
 
     @NotNull(message = "TEST_RESULT_CREATE_REQUEST_RE_EXAMINATION_NOT_NULL")

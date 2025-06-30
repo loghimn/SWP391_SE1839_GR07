@@ -12,11 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportCreateRequest {
-    //    private String managerMail;
 
-    @NotBlank(message = "REPORT_CREATE_REQUEST_TITLE_NOT_BLANK")
+    @NotBlank(message = "REPORT_CREATE_REQUEST_TYPE_NOT_BLANK")
     private String reportType;
 
-    @NotNull(message = "REPORT_CREATE_REQUEST_CONTENT_NOT_BLANK")
-    private LocalDateTime createAt;
 }

@@ -245,6 +245,46 @@ public enum ErrorCode {
 
     // List Appointment
     APPOINTMENT_LIST_NOT_FOUND(1120, "Appointment is empty", HttpStatus.NOT_FOUND), // 404
+
+    // ARV Regiment request
+    ARV_REGIMENT_NAME_NOT_BLANK(1123, "Name is mandatory", HttpStatus.BAD_REQUEST),
+    ARV_REGIMENT_LEVEL_NOT_NULL(1124, "ARV regiment type is mandatory", HttpStatus.BAD_REQUEST),
+    ARV_REGIMENT_DESCRIPTION_NOT_BLANK(1125, "Description is mandatory", HttpStatus.BAD_REQUEST),
+
+    // Report request
+    REPORT_CREATE_REQUEST_TYPE_NOT_BLANK(1126, "Report type is not blank", HttpStatus.BAD_REQUEST),
+
+    // Schedule request
+    SCHEDULES_CREATE_REQUEST_DOCTOR_ID_NOT_NULL(1127, "Schedule is required", HttpStatus.BAD_REQUEST),
+    SCHEDULES_CREATE_REQUEST_WORK_DATE_NOT_NULL(1128, "Work date is required", HttpStatus.BAD_REQUEST),
+    SCHEDULES_CREATE_REQUEST_NOTES_NOT_BLANK(1129, "Note is not null", HttpStatus.BAD_REQUEST),
+
+    // Suggest medication request
+    SUGGEST_MEDICATION_REQUEST_TEST_RESULT_ID_NOT_NULL(1130, "Test result is required", HttpStatus.BAD_REQUEST),
+    SUGGEST_MEDICATION_REQUEST_TREATMENT_PLANS_ID_NOT_NULL(1131, "Treatment plan is required", HttpStatus.BAD_REQUEST),
+
+    // Test Result request
+    TEST_RESULT_CREATE_REQUEST_TREATMENT_PLAN_ID_NOT_NULL(1132, "Treatment plan is required", HttpStatus.BAD_REQUEST),
+    TEST_RESULT_CREATE_REQUEST_RESULT_VALUE_NOT_NULL(1133, "Result value is required", HttpStatus.BAD_REQUEST),
+    TEST_RESULT_CREATE_REQUEST_NOTES_NOT_BLANK(1134, "Notes is required", HttpStatus.BAD_REQUEST),
+    TEST_RESULT_CREATE_REQUEST_RE_EXAMINATION_NOT_NULL(1135, "Re_examination is required", HttpStatus.BAD_REQUEST),
+    TEST_RESULT_CREATE_REQUEST_CD4_NOT_NULL(1136, "CD4 is required", HttpStatus.BAD_REQUEST),
+    TEST_RESULT_CREATE_REQUEST_HIV_VIRAL_LOAD_NOT_NULL(1137, "HIV viral load is required", HttpStatus.BAD_REQUEST),
+
+    // Treatment plan request
+    TREATMENT_PLAN_REQUEST_APPOINTMENT_NOT_NULL(1138, "Appointment is required", HttpStatus.BAD_REQUEST),
+    TREATMENT_PLAN_REQUEST_DESCRIPTION_NOT_BLANK(1139, "Description is required", HttpStatus.BAD_REQUEST),
+    TREATMENT_PLAN_REQUEST_PREGNANCY_NOT_NULL(1140, "Pregnancy is required", HttpStatus.BAD_REQUEST),
+    TREATMENT_PLAN_REQUEST_DOSAGE_TIME_NOT_NULL(1141, "Dosage time is required", HttpStatus.BAD_REQUEST),
+    TREATMENT_PLAN_REQUEST_HISTORY_NOT_NULL(1142, "History is required", HttpStatus.BAD_REQUEST),
+
+    // Update Admin
+    USER_AND_ADMIN_UPDATE_REQUEST_ASSIGNED_AREA_NOT_BLANK(1143, "Assigned area update is required", HttpStatus.BAD_REQUEST),
+
+    // Update Customer
+    CUSTOMER_UPDATE_INVALID_ADDRESS_NOTBLANK(1144, "Address update is required", HttpStatus.BAD_REQUEST),
+    CUSTOMER_UPDATE_INVALID_ADDRESS(1145, "Address update must be in Viet Nam", HttpStatus.BAD_REQUEST),
+
     ;
 
     private int code;

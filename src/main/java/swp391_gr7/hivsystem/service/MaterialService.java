@@ -8,7 +8,7 @@ import java.util.List;
 public interface MaterialService {
     Materials addMaterial(MaterialCreateRequest request, int doctorId);
 
-    Materials updateInformationMaterial(int id, Materials updateContent);
+    Materials updateInformationMaterial(int id, MaterialCreateRequest updateContent);
 
     void deleteMaterial(int id);
 

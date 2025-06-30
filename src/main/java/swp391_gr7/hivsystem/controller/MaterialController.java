@@ -41,7 +41,7 @@ public class MaterialController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody Materials updateContent) {
+    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody @Valid MaterialCreateRequest updateContent) {
         materialService.updateInformationMaterial(id, updateContent);
         return ApiResponse.<Boolean>builder()
                 .result(true)

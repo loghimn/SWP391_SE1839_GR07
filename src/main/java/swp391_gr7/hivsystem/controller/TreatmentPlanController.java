@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class TreatmentPlanController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> createTreatmentPlan(@RequestBody TreatmentPlansCreateRequest request,
+    public ApiResponse<Boolean> createTreatmentPlan(@RequestBody @Valid TreatmentPlansCreateRequest request,
                                                     @RequestHeader("Authorization") String authorizationHeader) {
         // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -80,10 +81,9 @@ public class TreatmentPlanController {
                 .build();
     }
 
-
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<?> updateTreatmentPlan(@PathVariable int id, @RequestBody TreatmentPlansCreateRequest request) {
+    public ApiResponse<?> updateTreatmentPlan(@PathVariable int id, @RequestBody @Valid TreatmentPlansCreateRequest request) {
         return ApiResponse.<Object>builder()
                 .result(treatmentPlanService.updateTreatmentPlan(id, request))
                 .message("Success")

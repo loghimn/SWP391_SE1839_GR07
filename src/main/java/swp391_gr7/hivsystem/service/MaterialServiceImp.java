@@ -45,7 +45,7 @@ public class MaterialServiceImp implements MaterialService {
     }
 
     @Override
-    public Materials updateInformationMaterial(int id, Materials updateMaterials) {
+    public Materials updateInformationMaterial(int id, MaterialCreateRequest updateMaterials) {
         // Tìm ID material
         Materials materials = materialRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.MATERIAL_NOT_FOUND));

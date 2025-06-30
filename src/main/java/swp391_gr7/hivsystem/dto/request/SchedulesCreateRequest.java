@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class SchedulesCreateRequest {
+
     @NotNull(message = "SCHEDULES_CREATE_REQUEST_DOCTOR_ID_NOT_NULL")
     private Integer doctorId;
 

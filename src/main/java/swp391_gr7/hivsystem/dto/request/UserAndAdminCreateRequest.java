@@ -14,6 +14,6 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = false)
 public class UserAndAdminCreateRequest extends CreateUserRequest {
 
-    @NotBlank(message = "USER_AND_ADMIN_REQUEST_ASSIGNED_AREA_NOT_BLANK")
+    @NotBlank(message = "USER_AND_ADMIN_UPDATE_REQUEST_ASSIGNED_AREA_NOT_BLANK")
     private String assignedArea;
 }

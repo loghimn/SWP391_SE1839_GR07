@@ -19,16 +19,16 @@ public class TreatmentPlansCreateRequest {
     @NotNull(message = "TREATMENT_PLAN_REQUEST_APPOINTMENT_NOT_NULL")
     private int appointmentId;
 
-    @NotBlank(message = "TREATMENT_PLAN_REQUEST_START_DATE_NOT_NULL")
+    @NotBlank(message = "TREATMENT_PLAN_REQUEST_DESCRIPTION_NOT_BLANK")
     private String treatmentPlanDescription;
 
-    @NotNull(message = "TREATMENT_PLAN_REQUEST_START_DATE_NOT_NULL")
+    @NotNull(message = "TREATMENT_PLAN_REQUEST_PREGNANCY_NOT_NULL")
     private boolean forPregnancy;
 
-    @NotNull(message = "TREATMENT_PLAN_REQUEST_START_DATE_NOT_NULL")
+    @NotNull(message = "TREATMENT_PLAN_REQUEST_DOSAGE_TIME_NOT_NULL")
     private LocalTime dosageTime;
     //  private int customerId;
 
-    @NotNull(message = "TREATMENT_PLAN_REQUEST_START_DATE_NOT_NULL")
+    @NotNull(message = "TREATMENT_PLAN_REQUEST_HISTORY_NOT_NULL")
     private boolean history;
 }
