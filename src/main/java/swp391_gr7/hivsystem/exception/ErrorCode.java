@@ -108,6 +108,7 @@ public enum ErrorCode {
     CUSTOMER_INVALID_ADDRESS(1021, "Address must be the name of a province/city in Vietnam", HttpStatus.BAD_REQUEST), // 400
     CUSTOMER_NOT_FOUND(1022, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
     CUSTOMER_NOT_FOUND_BY_ID(1023, "Customer not found with ID", HttpStatus.NOT_FOUND), // 404
+    CUSTOMER_NOT_FOUND_GET_ALL_NULL(1024, "No customers found", HttpStatus.NOT_FOUND), // 404
 
     // Add error for staff
     STAFF_INVALID_DEPARTMENT_NOTBLANK(1022, "Department is required", HttpStatus.BAD_REQUEST), // 400
@@ -152,6 +153,7 @@ public enum ErrorCode {
     SCHEDULE_MANAGER_NOT_FOUND(1044, "Manager not found with ID", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_INVALID_DATE(1045, "Schedule date must be today or later", HttpStatus.BAD_REQUEST), // 400
     SCHEDULE_NOT_FOUND(1046, "Schedule not found with ID", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_NOT_FOUND_GET_ALL_NULL(1047, "No schedules found", HttpStatus.NOT_FOUND), // 404
 
     // Add error for OAuth2
     OAUTH2_INVALID_USERNAME_EXIST(1046, "Username already exists", HttpStatus.BAD_REQUEST), // 400

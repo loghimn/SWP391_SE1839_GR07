@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateUserRequest {
+public class UserCreateRequest {
 
     @NotBlank(message = "USER_INVALID_USERNAME_NOTBLANK")
     @Size(min = 5, message = "USER_INVALID_USERNAME_SIZE")
@@ -36,7 +36,7 @@ public class CreateUserRequest {
     private String fullName;
 
     @NotNull(message = "USER_DATEOFBIRTH_NOTNULL")
-    @DateOfBirthConstraint(minAge = 18, message = "USER_INVALID_DATEOFBIRTH")
+    @DateOfBirthConstraint(minAge = 1, message = "USER_INVALID_DATEOFBIRTH")
     private LocalDate dateOfBirth;
 
     @NotBlank(message = "USER_UPDATE_INVALID_GENDER_NOTBLANK")

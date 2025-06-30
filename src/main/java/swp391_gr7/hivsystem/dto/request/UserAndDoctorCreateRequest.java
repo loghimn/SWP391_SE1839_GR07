@@ -8,12 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAndDoctorCreateRequest extends CreateUserRequest {
+public class UserAndDoctorCreateRequest extends UserCreateRequest {
 
     @NotBlank(message = "DOCTOR_INVALID_DEPARTMENT_NOTBLANK")
     private String department;

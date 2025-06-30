@@ -9,6 +9,7 @@ import swp391_gr7.hivsystem.repository.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -35,6 +36,20 @@ public class DataSeeder implements CommandLineRunner {
     private MaterialRepository materialRepository;
     @Autowired
     private StaffRepository staffRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private SchedulesRepository schedulesRepository;
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+    @Autowired
+    private ReminderRepository reminderRepository;
+    @Autowired
+    private TestResultRepository testResultRepository;
+    @Autowired
+    private TreatmentPlansRepository treatmentPlansRepository;
 
 
     void createModel() {
@@ -92,6 +107,20 @@ public class DataSeeder implements CommandLineRunner {
         staffUser.setStatus(true);
         userRepository.save(staffUser);
 
+        // Add a customer user
+        Users customerUser = new Users();
+        customerUser.setUsername("customer");
+        customerUser.setPassword(passwordEncoder.encode("customerpass"));
+        customerUser.setEmail("customer1@staff.com");
+        customerUser.setPhone("0555555555");
+        customerUser.setFullName("Customer One");
+        customerUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        customerUser.setGender("female");
+        customerUser.setRole("Customer");
+        customerUser.setCreatedAt(LocalDateTime.now());
+        customerUser.setStatus(true);
+        userRepository.save(customerUser);
+
 
         // Create Admin
         Admins admin = new Admins();
@@ -114,6 +143,13 @@ public class DataSeeder implements CommandLineRunner {
         staff.setAssignedArea("Area 1");
         staff.setManagers(manager);
         staffRepository.save(staff);
+
+        //Create Customer
+        Customers customers = new Customers();
+        customers.setUsers(customerUser);
+        customers.setAddress("Tran Duy Hung");
+        customers.setManagers(manager);
+        customerRepository.save(customers);
 
         // Create Doctor
         Doctors doctors = new Doctors();
@@ -312,6 +348,252 @@ public class DataSeeder implements CommandLineRunner {
         material5.setSource("VAAC - Cục Phòng chống HIV/AIDS");
         material5.setCreateAt(LocalDate.now());
         materialRepository.save(material5);
+
+        //Create ScheduleAdd commentMore actions
+        Schedules schedules = null;
+        for (int i = 0; i < 25; i++) {
+            schedules = new Schedules();
+            schedules.setManagers(manager);
+            schedules.setDoctors(doctors);
+            schedules.setNotes("Ngày đi làm");
+            schedules.setWorkDate(LocalDate.of(2025, 7, 1 + i));
+            schedulesRepository.save(schedules);
+        }
+
+        //Create Medical RecordAdd commentMore actions
+        MedicalRecords medicalRecords = new MedicalRecords();
+        medicalRecords.setCustomers(customers);
+        medicalRecords.setRecordDate(LocalDate.now());
+        medicalRecords.setDiagnosis("HIV/AIDS");
+        medicalRecords.setTreatment("NOT");
+        medicalRecordRepository.save(medicalRecords);
+
+        //Create AppointmentAdd commentMore actions
+        Appointments appointments1 = new Appointments();
+        appointments1.setDoctors(doctors);
+        appointments1.setMedicalRecords(medicalRecords);
+        appointments1.setCustomers(customers);
+        appointments1.setStatus(true);
+        appointments1.setAppointmentTime(LocalDate.of(2025, 7, 1));
+        appointments1.setAnonymous(true);
+        appointments1.setSchedules(schedules);
+        appointments1.setStaffs(staff);
+        appointments1.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments1);
+
+        Appointments appointments2 = new Appointments();
+        appointments2.setDoctors(doctors);
+        appointments2.setMedicalRecords(medicalRecords);
+        appointments2.setCustomers(customers);
+        appointments2.setStatus(true);
+        appointments2.setAppointmentTime(LocalDate.of(2025, 7, 2));
+        appointments2.setAnonymous(false);
+        appointments2.setSchedules(schedules);
+        appointments2.setStaffs(staff);
+        appointments2.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments2);
+
+        Appointments appointments3 = new Appointments();
+        appointments3.setDoctors(doctors);
+        appointments3.setMedicalRecords(medicalRecords);
+        appointments3.setCustomers(customers);
+        appointments3.setStatus(true);
+        appointments3.setAppointmentTime(LocalDate.of(2025, 7, 3));
+        appointments3.setAnonymous(true);
+        appointments3.setSchedules(schedules);
+        appointments3.setStaffs(staff);
+        appointments3.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments3);
+
+        Appointments appointments4 = new Appointments();
+        appointments4.setDoctors(doctors);
+        appointments4.setMedicalRecords(medicalRecords);
+        appointments4.setCustomers(customers);
+        appointments4.setStatus(true);
+        appointments4.setAppointmentTime(LocalDate.of(2025, 7, 3));
+        appointments4.setAnonymous(true);
+        appointments4.setSchedules(schedules);
+        appointments4.setStaffs(staff);
+        appointments4.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments4);
+
+        Appointments appointments5 = new Appointments();
+        appointments5.setDoctors(doctors);
+        appointments5.setMedicalRecords(medicalRecords);
+        appointments5.setCustomers(customers);
+        appointments5.setStatus(true);
+        appointments5.setAppointmentTime(LocalDate.of(2025, 7, 4));
+        appointments5.setAnonymous(false);
+        appointments5.setSchedules(schedules);
+        appointments5.setStaffs(staff);
+        appointments5.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments5);
+
+        //Create TreatmentAdd commentMore actions
+        TreatmentPlans treatmentPlans = new TreatmentPlans();
+        treatmentPlans.setDoctors(doctors);
+        treatmentPlans.setArvReqimentID(r1);
+        treatmentPlans.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans.setDosageTime(LocalTime.of(8, 0));
+        treatmentPlans.setAppointments(appointments1);
+        treatmentPlansRepository.save(treatmentPlans);
+
+        TreatmentPlans treatmentPlans1 = new TreatmentPlans();
+        treatmentPlans1.setDoctors(doctors);
+        treatmentPlans1.setArvReqimentID(r2);
+        treatmentPlans1.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans1.setDosageTime(LocalTime.of(10, 0));
+        treatmentPlans1.setAppointments(appointments2);
+        treatmentPlansRepository.save(treatmentPlans1);
+
+        TreatmentPlans treatmentPlans2 = new TreatmentPlans();
+        treatmentPlans2.setDoctors(doctors);
+        treatmentPlans2.setArvReqimentID(r3);
+        treatmentPlans2.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans2.setDosageTime(LocalTime.of(12, 0));
+        treatmentPlans2.setAppointments(appointments3);
+        treatmentPlansRepository.save(treatmentPlans2);
+
+        TreatmentPlans treatmentPlans3 = new TreatmentPlans();
+        treatmentPlans3.setDoctors(doctors);
+        treatmentPlans3.setArvReqimentID(r1);
+        treatmentPlans3.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans3.setDosageTime(LocalTime.of(14, 0));
+        treatmentPlans3.setAppointments(appointments4);
+        treatmentPlansRepository.save(treatmentPlans3);
+
+        TreatmentPlans treatmentPlans4 = new TreatmentPlans();
+        treatmentPlans4.setDoctors(doctors);
+        treatmentPlans4.setArvReqimentID(r1);
+        treatmentPlans4.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans4.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans4.setAppointments(appointments5);
+        treatmentPlansRepository.save(treatmentPlans4);
+
+
+        //Create Test Result
+        TestResults testResults = new TestResults();
+        testResults.setDoctors(doctors);
+        testResults.setCustomers(customers);
+        testResults.setAppointments(appointments1);
+        testResults.setTreatmentPlan(treatmentPlans);
+        testResults.setResultValue(false);
+        testResults.setNotes("Notes");
+        testResults.setRe_examination(true);
+        testResults.setHivViralLoad(69);
+        testResults.setCD4(96);
+        testResults.setTestType("HIV");
+        testResults.setTestDate(appointments1.getAppointmentTime());
+        testResultRepository.save(testResults);
+
+        TestResults testResults1 = new TestResults();
+        testResults1.setDoctors(doctors);
+        testResults1.setCustomers(customers);
+        testResults1.setAppointments(appointments2);
+        testResults1.setTreatmentPlan(treatmentPlans1);
+        testResults1.setResultValue(true);
+        testResults1.setNotes("Notes");
+        testResults1.setRe_examination(false);
+        testResults1.setHivViralLoad(69);
+        testResults1.setCD4(96);
+        testResults1.setTestType("HIV");
+        testResults1.setTestDate(appointments2.getAppointmentTime());
+        testResultRepository.save(testResults1);
+
+        TestResults testResults2 = new TestResults();
+        testResults2.setDoctors(doctors);
+        testResults2.setCustomers(customers);
+        testResults2.setAppointments(appointments3);
+        testResults2.setTreatmentPlan(treatmentPlans2);
+        testResults2.setResultValue(true);
+        testResults2.setNotes("Notes");
+        testResults2.setRe_examination(true);
+        testResults2.setHivViralLoad(69);
+        testResults2.setCD4(96);
+        testResults2.setTestType("HIV");
+        testResults2.setTestDate(appointments3.getAppointmentTime());
+        testResultRepository.save(testResults2);
+
+        TestResults testResults3 = new TestResults();
+        testResults3.setDoctors(doctors);
+        testResults3.setCustomers(customers);
+        testResults3.setAppointments(appointments4);
+        testResults3.setTreatmentPlan(treatmentPlans3);
+        testResults3.setResultValue(false);
+        testResults3.setNotes("Notes");
+        testResults3.setRe_examination(false);
+        testResults3.setHivViralLoad(69);
+        testResults3.setCD4(96);
+        testResults3.setTestType("HIV");
+        testResults3.setTestDate(appointments4.getAppointmentTime());
+        testResultRepository.save(testResults3);
+
+        TestResults testResults4 = new TestResults();
+        testResults4.setDoctors(doctors);
+        testResults4.setCustomers(customers);
+        testResults4.setAppointments(appointments5);
+        testResults4.setTreatmentPlan(treatmentPlans4);
+        testResults4.setResultValue(true);
+        testResults4.setNotes("Notes");
+        testResults4.setRe_examination(true);
+        testResults4.setHivViralLoad(69);
+        testResults4.setCD4(96);
+        testResults4.setTestType("HIV");
+        testResults4.setTestDate(appointments5.getAppointmentTime());
+        testResultRepository.save(testResults4);
+
+
+
+        //Create Reminder Dosage
+        Reminders remindersDosage = new Reminders();
+        remindersDosage.setCustomers(customers);
+        remindersDosage.setReminderTime(treatmentPlans.getDosageTime().atDate(LocalDate.now()));
+        remindersDosage.setMessage("uống thuốc");
+        remindersDosage.setTestResults(testResults);
+        remindersDosage.setAppointments(appointments1);
+        remindersDosage.setStaffs(staff);
+        remindersDosage.setReminderType("Dosage Reminder");
+        reminderRepository.save(remindersDosage);
+
+        Reminders remindersDosage1 = new Reminders();
+        remindersDosage1.setCustomers(customers);
+        remindersDosage1.setReminderTime(treatmentPlans1.getDosageTime().atDate(LocalDate.now()));
+        remindersDosage1.setMessage("uống thuốc");
+        remindersDosage1.setTestResults(testResults1);
+        remindersDosage1.setAppointments(appointments2);
+        remindersDosage1.setStaffs(staff);
+        remindersDosage1.setReminderType("Dosage Reminder");
+        reminderRepository.save(remindersDosage1);
+
+        Reminders remindersDosage2 = new Reminders();
+        remindersDosage2.setCustomers(customers);
+        remindersDosage2.setReminderTime(treatmentPlans2.getDosageTime().atDate(LocalDate.now()));
+        remindersDosage2.setMessage("uống thuốc");
+        remindersDosage2.setTestResults(testResults2);
+        remindersDosage2.setAppointments(appointments3);
+        remindersDosage2.setStaffs(staff);
+        remindersDosage2.setReminderType("Dosage Reminder");
+        reminderRepository.save(remindersDosage2);
+
+        Reminders remindersDosage3 = new Reminders();
+        remindersDosage3.setCustomers(customers);
+        remindersDosage3.setReminderTime(treatmentPlans3.getDosageTime().atDate(LocalDate.now()));
+        remindersDosage3.setMessage("uống thuốc");
+        remindersDosage3.setTestResults(testResults3);
+        remindersDosage3.setAppointments(appointments4);
+        remindersDosage3.setStaffs(staff);
+        remindersDosage3.setReminderType("Dosage Reminder");
+        reminderRepository.save(remindersDosage3);
+
+        Reminders remindersDosage4 = new Reminders();
+        remindersDosage4.setCustomers(customers);
+        remindersDosage4.setReminderTime(treatmentPlans4.getDosageTime().atDate(LocalDate.now()));
+        remindersDosage4.setMessage("uống thuốc");
+        remindersDosage4.setTestResults(testResults4);
+        remindersDosage4.setAppointments(appointments5);
+        remindersDosage4.setStaffs(staff);
+        remindersDosage4.setReminderType("Dosage Reminder");
+        reminderRepository.save(remindersDosage4);
 
 
     }

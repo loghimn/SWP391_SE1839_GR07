@@ -6,13 +6,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class UserAndAdminCreateRequest extends CreateUserRequest {
+public class UserAndAdminCreateRequest extends UserCreateRequest {
 
     @NotBlank(message = "USER_AND_ADMIN_REQUEST_ASSIGNED_AREA_NOT_BLANK")
     private String assignedArea;

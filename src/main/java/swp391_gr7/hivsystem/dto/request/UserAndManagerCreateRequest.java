@@ -6,12 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAndManagerCreateRequest extends CreateUserRequest {
+public class UserAndManagerCreateRequest extends UserCreateRequest {
 
     @NotBlank(message = "MANAGER_INVALID_DEPARTMENT_NOTBLANK")
     private String department;

@@ -55,7 +55,7 @@ public class SchedulesServiceImpl implements SchedulesService {
     @Override
     public List<Schedules> getAllSchedules() {
         if(schedulesRepository.findAll() == null) {
-            throw new AppException(ErrorCode.SCHEDULE_NOT_FOUND);
+            throw new AppException(ErrorCode.SCHEDULE_NOT_FOUND_GET_ALL_NULL);
         }
         return schedulesRepository.findAll();
     }
@@ -66,6 +66,7 @@ public class SchedulesServiceImpl implements SchedulesService {
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         existingSchedule.setWorkDate(request.getWorkDate());
+        existingSchedule.setNotes(request.getNotes());
         return schedulesRepository.save(existingSchedule);
     }
 

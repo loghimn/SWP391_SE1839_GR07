@@ -1,6 +1,5 @@
 package swp391_gr7.hivsystem.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +13,6 @@ import swp391_gr7.hivsystem.repository.ManagerRepository;
 import swp391_gr7.hivsystem.repository.StaffRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -46,7 +44,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Users createUser(CreateUserRequest request) {
+    public Users createUser(UserCreateRequest request) {
         Users users = new Users();
 
         if (userRepository.existsByUsername(request.getUsername())) {

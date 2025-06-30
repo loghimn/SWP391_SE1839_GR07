@@ -48,7 +48,7 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     public List<Customers> getAllCustomers() {
         if (customerRepository.count() == 0) {
-            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND_GET_ALL_NULL);
         }
         return customerRepository.findAll();
     }

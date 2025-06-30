@@ -54,19 +54,19 @@ public class ReminderController {
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PutMapping("reminder/dosage/update/{id}")
+    @PutMapping("/dosage/update/{id}")
     public Reminders updateReminderDosage(@PathVariable int id, @RequestBody ReminderCreateRequest request) {
         return reminderService.updateReminderDosage(id, request);
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PutMapping("/reminder/re-exam/update/{id}")
+    @PutMapping("/re-exam/update/{id}")
     public Reminders updateReminderReExam(@PathVariable int id, @RequestBody ReminderCreateRequest request) {
         return reminderService.updateReminderReExam(id, request);
     }
 
     @PreAuthorize("hasRole('Staff')")
-    @PutMapping("/reminder/delete/{id}")
+    @PutMapping("/delete/{id}")
     public void deleteReminder(@PathVariable int id) {
         reminderService.deleteReminder(id);
     }

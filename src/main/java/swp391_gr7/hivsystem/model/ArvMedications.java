@@ -27,7 +27,7 @@ public class ArvMedications {
     private Doctors doctor;
 
     @Nationalized
-    @Column(name = "code", nullable = false, unique = true, length = 10)
+    @Column(name = "code", nullable = false, length = 10)
     private String code;
 
     @Nationalized

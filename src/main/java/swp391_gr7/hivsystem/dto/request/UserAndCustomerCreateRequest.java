@@ -6,13 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import swp391_gr7.hivsystem.validator.ValidProvinceConstraint;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 //Get information create request form user
-public class UserAndCustomerCreateRequest extends CreateUserRequest {
+public class UserAndCustomerCreateRequest extends UserCreateRequest {
 
     @NotBlank(message = "CUSTOMER_INVALID_ADDRESS_NOTBLANK")
     @ValidProvinceConstraint(message = "CUSTOMER_INVALID_ADDRESS")
