@@ -55,7 +55,7 @@ public class ReminderServiceImpl implements ReminderService {
         }
         reminder.setReminderType("Dosage Reminder");
         reminder.setMessage(request.getMessage());
-        reminder.setStatus(false);
+        reminder.setStatus(true);
         reminder.setStaffs(staffs);
         reminder.setTestResults(testResult);
         reminder.setAppointments(appointments);
@@ -77,7 +77,7 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
-        reminder.setStatus(false);
+        reminder.setStatus(true);
         reminder.setStaffs(staffsRepository.findById(id).orElse(null));
         reminder.setTestResults(testResult);
         Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
@@ -128,7 +128,7 @@ public class ReminderServiceImpl implements ReminderService {
                 helper.setText(reminders.getMessage());
                 helper.setFrom(reminders.getStaffs().getUsers().getEmail());
                 mailSender.send(message);
-                reminders.setStatus(true);
+                reminders.setStatus(false);
                 remindersRepository.save(reminders);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -155,6 +155,9 @@ public class ReminderServiceImpl implements ReminderService {
             throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
         }
         remindersRepository.findById(id).ifPresent(reminder -> {
+            if(!reminder.isStatus()) {
+                throw new AppException(ErrorCode.REMINDER_ALREADY_DELETED);
+            }
             reminder.setStatus(false);
             remindersRepository.save(reminder);
         });
