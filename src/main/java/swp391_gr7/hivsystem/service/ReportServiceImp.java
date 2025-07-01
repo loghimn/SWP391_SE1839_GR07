@@ -82,6 +82,11 @@ public class ReportServiceImp implements ReportService {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
 
+        Managers manager = managerRepository.findManagerById(id);
+        if(manager == null) {
+            throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
+        }
+
         // Xử lý Manager
 //        Optional<Managers> managerOpt = managerRepository.findManagerByMail(request.getManagerMail());
 //        Managers manager = null;
@@ -99,7 +104,7 @@ public class ReportServiceImp implements ReportService {
         printWriter.flush();
         // Ghi báo cáo vào bảng report, tạo mới nếu ko có lỗi
         Reports report = new Reports();
-//        report.setManagers(manager);
+        report.setManagers(manager);
         report.setReportType(request.getReportType());
         report.setCreatedAt(LocalDateTime.now());
         // Lưu thông tin vào bảng report
