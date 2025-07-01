@@ -64,7 +64,7 @@ public class AppointmentController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
+    @PreAuthorize("hasAnyRole('Doctor', 'Staff')")
     @GetMapping("/appointment/anonymous/list")
     public ApiResponse<List> appointmentList() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsAnonymous();// gọi từ service
@@ -76,7 +76,7 @@ public class AppointmentController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
+    @PreAuthorize("hasAnyRole('Doctor' , 'Staff')")
     @GetMapping("/appointment/ecceptAnonymous/list")
     public ApiResponse<List> appointmentListEcceptAnonymous() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsEcceptAnonymous();// gọi từ service
@@ -177,7 +177,7 @@ public class AppointmentController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
+    @PreAuthorize("hasAnyRole('Doctor' , 'Staff')")
     @GetMapping("/customer/appointment/doctorview/{appointmentid}")
     public ApiResponse<CustomerReponse> getCustomerAppointmentInDoctorView(@PathVariable int appointmentid) {
         CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(appointmentid);
