@@ -59,7 +59,6 @@ public class MaterialController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/get/{id}")
     public ApiResponse<Materials> getMaterialById(@PathVariable int id) {
         Materials materials = materialService.getMaterialById(id);
