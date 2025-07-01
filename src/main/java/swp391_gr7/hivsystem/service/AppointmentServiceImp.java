@@ -211,7 +211,7 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Schedules schedules = null;
         for (Schedules s : schedulesList) {
-            if (s.getWorkDate() == request.getAppointmentTime()) {
+            if (s.getWorkDate().equals(request.getAppointmentTime())) {
                 schedules = s;
                 break;
             }
