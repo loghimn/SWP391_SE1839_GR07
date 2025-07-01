@@ -20,4 +20,6 @@ public interface ReminderRepository extends JpaRepository<Reminders, Integer> {
     Reminders findRemindersByCustomersCustomerId(int customersCustomerId);
 
     List<Reminders> findRemindersByStaffsStaffId(int staffsStaffId);
+
+    List<Reminders> findAllByStatus(boolean status);
 }

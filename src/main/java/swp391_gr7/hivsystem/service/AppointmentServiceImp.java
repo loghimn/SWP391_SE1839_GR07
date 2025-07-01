@@ -100,8 +100,24 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Staffs staffs = staffService.findStaffHasLeastAppointment();
 
-        Schedules schedules = schedulesRepository.findById(request.getScheduleId())
-                .orElse(null);
+        List<Schedules> schedulesList = schedulesRepository.findByDoctors_DoctorId(doctors.getDoctorId());
+
+        if (schedulesList.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
+        }
+
+
+        Schedules schedules = null;
+        for (Schedules s : schedulesList) {
+            if (s.getWorkDate() == request.getAppointmentTime()) {
+                schedules = s;
+                break;
+            }
+
+        }
+        if (schedules == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
+        }
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
                 .orElse(null);
@@ -174,7 +190,7 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
         Appointments appointments = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
-        if(!appointments.isStatus()){
+        if (!appointments.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
 
@@ -186,8 +202,24 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Staffs staffs = staffService.findStaffHasLeastAppointment();
 
-        Schedules schedules = schedulesRepository.findById(request.getScheduleId())
-                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND));
+        List<Schedules> schedulesList = schedulesRepository.findByDoctors_DoctorId(doctors.getDoctorId());
+
+        if (schedulesList.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
+        }
+
+
+        Schedules schedules = null;
+        for (Schedules s : schedulesList) {
+            if (s.getWorkDate() == request.getAppointmentTime()) {
+                schedules = s;
+                break;
+            }
+
+        }
+        if (schedules == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
+        }
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
                 .orElse(null);
@@ -273,7 +305,7 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public CustomerReponse getCustomerAppointmentInDocorView(int appointmentId) {
         Appointments appointments = getAppointmentById(appointmentId);
-        if (appointments == null ) {
+        if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         } else {
             Customers customers = appointments.getCustomers();

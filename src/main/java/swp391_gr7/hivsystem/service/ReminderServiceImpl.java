@@ -6,7 +6,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
+import swp391_gr7.hivsystem.dto.request.ReminderDosageCreateRequest;
+import swp391_gr7.hivsystem.dto.request.ReminderReExamCreateRequest;
 import swp391_gr7.hivsystem.dto.request.ReminderUpdateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
@@ -35,7 +36,7 @@ public class ReminderServiceImpl implements ReminderService {
     private JavaMailSenderImpl mailSender;
 
     @Override
-    public Reminders createReminderDosage(int id, ReminderCreateRequest request) {
+    public Reminders createReminderDosage(int id, ReminderDosageCreateRequest request) {
         Reminders reminder = new Reminders();
         TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
         if (testResult == null || testResult.getTreatmentPlan() == null) {
@@ -49,7 +50,7 @@ public class ReminderServiceImpl implements ReminderService {
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
-        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
+        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId()).orElse(null);
         if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
@@ -71,10 +72,12 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public Reminders createReminderReExam(int id, ReminderCreateRequest request) {
+    public Reminders createReminderReExam(int id, ReminderReExamCreateRequest request) {
         Reminders reminder = new Reminders();
-        TestResults testResult = testResultsRepository.findById(request.getTestResultId()).orElse(null);
-        reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
+        Customers customer = customersRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+        reminder.setCustomers(customer);
+        TestResults testResult = testResultsRepository.findById(1).orElseThrow(() -> new AppException(ErrorCode.TEST_RESULT_NOT_FOUND));
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
         reminder.setStatus(true);
@@ -150,12 +153,22 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    public List<Reminders> getAllRemindersActive() {
+        if (remindersRepository.count() == 0) {
+            throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
+        }
+        List<Reminders> activeReminders = remindersRepository.findAllByStatus(true);
+        return activeReminders;
+    }
+
+
+    @Override
     public void deleteReminder(int id) {
         if (!remindersRepository.existsById(id)) {
             throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
         }
         remindersRepository.findById(id).ifPresent(reminder -> {
-            if(!reminder.isStatus()) {
+            if (!reminder.isStatus()) {
                 throw new AppException(ErrorCode.REMINDER_ALREADY_DELETED);
             }
             reminder.setStatus(false);
@@ -165,7 +178,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminders getMyReminderByIdCus(int id) {
-        if(!remindersRepository.existsById(id)) {
+        if (!remindersRepository.existsById(id)) {
             throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
         }
         return remindersRepository.findRemindersByCustomersCustomerId(id);
@@ -173,7 +186,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public List<Reminders> getMyReminderByIdStaff(int id) {
-        if(!remindersRepository.existsById(id)) {
+        if (!remindersRepository.existsById(id)) {
             throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
         }
         return remindersRepository.findRemindersByStaffsStaffId(id);

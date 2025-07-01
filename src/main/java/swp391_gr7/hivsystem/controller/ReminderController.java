@@ -4,7 +4,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import swp391_gr7.hivsystem.dto.request.ReminderCreateRequest;
+import swp391_gr7.hivsystem.dto.request.ReminderDosageCreateRequest;
+import swp391_gr7.hivsystem.dto.request.ReminderReExamCreateRequest;
 import swp391_gr7.hivsystem.dto.request.ReminderUpdateRequest;
 import swp391_gr7.hivsystem.model.Reminders;
 import swp391_gr7.hivsystem.service.JWTUtils;
@@ -22,7 +23,7 @@ public class ReminderController {
 
     @PreAuthorize("hasRole('Staff')")
     @PostMapping("/dosage/create")
-    public Reminders createReminderDosage(@RequestBody ReminderCreateRequest request,
+    public Reminders createReminderDosage(@RequestBody ReminderDosageCreateRequest request,
                                           @RequestHeader("Authorization") String authorizationHeader) {
         // Extract staffId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -33,7 +34,7 @@ public class ReminderController {
 
     @PreAuthorize("hasRole('Staff')")
     @PostMapping("/re-exam/create")
-    public Reminders createReminderReExam(@RequestBody ReminderCreateRequest request,
+    public Reminders createReminderReExam(@RequestBody ReminderReExamCreateRequest request,
                                           @RequestHeader("Authorization") String authorizationHeader) {
         // Extract staffId from the token
         String token = authorizationHeader.replace("Bearer ", "");
@@ -52,6 +53,12 @@ public class ReminderController {
     @GetMapping("/get/all")
     public List<Reminders> getAll() {
         return reminderService.getAllReminders();
+    }
+
+    @PreAuthorize("hasRole('Staff')")
+    @GetMapping("/get/all-active")
+    public List<Reminders> getAllActive() {
+        return reminderService.getAllRemindersActive();
     }
 
     @PreAuthorize("hasRole('Staff')")
