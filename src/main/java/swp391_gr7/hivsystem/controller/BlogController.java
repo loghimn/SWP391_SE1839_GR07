@@ -24,47 +24,48 @@ public class BlogController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> blogCreate(@RequestBody @Valid BlogCreateRequest request,
+    public ApiResponse<Blogs> blogCreate(@RequestBody @Valid BlogCreateRequest request,
                                            @RequestHeader("Authorization") String authorizationHeader) {
 
         // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int doctorId = new JWTUtils().extractDoctorId(token);
 
-
-        Blogs blogs = blogService.addBlog(request, doctorId);
-        boolean result = blogs != null;
-        return ApiResponse.<Boolean>builder()
-                .result(result)
-                .message("Success")
-                .build();
+        //Blogs blogs = blogService.addBlog(request, doctorId);
+        //boolean result = blogs != null;
+            return ApiResponse.<Blogs>builder()
+                    .result(blogService.addBlog(request, doctorId))
+                    .message("Success")
+                    .build();
     }
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{blogid}")
-    public ApiResponse<Boolean> updateContentBlog(@PathVariable int blogid, @RequestBody @Valid BlogCreateRequest updateContent) {
-        blogService.updateInformationBlog(blogid, updateContent);
-        return ApiResponse.<Boolean>builder()
-                .result(true)
+    public ApiResponse<Blogs> updateContentBlog(@PathVariable int blogid, @RequestBody @Valid BlogCreateRequest updateContent) {
+        return ApiResponse.<Blogs>builder()
+                .result(blogService.updateInformationBlog(blogid, updateContent))
                 .message("Success")
                 .build();
     }
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{blogid}")
-    public ApiResponse<Boolean> deleteBlog(@PathVariable int blogid) {
-        blogService.deleteBlog(blogid);
-        return ApiResponse.<Boolean>builder()
-                .result(true)
-                .message("Success")
+    public ApiResponse<Blogs> deleteBlog(@PathVariable int blogid) {
+        Blogs blog = blogService.getBlogById(blogid);
+        if(blog != null) {
+            blogService.deleteBlog(blogid);
+        }
+        return ApiResponse.<Blogs>builder()
+                .result(blog)
+                .message("Delete Successfully")
                 .build();
     }
 
     @GetMapping("/get/{blogid}")
     public ApiResponse<Blogs> getBlogById(@PathVariable int blogid) {
-        Blogs blog = blogService.getBlogById(blogid);
+        Blogs blogs = blogService.getBlogById(blogid);
         return ApiResponse.<Blogs>builder()
-                .result(blog)
+                .result(blogs)
                 .message("Success")
                 .build();
     }
@@ -78,6 +79,7 @@ public class BlogController {
 //                .message("Success")
 //                .build();
 //    }
+
 
 
     @GetMapping("/getAll")

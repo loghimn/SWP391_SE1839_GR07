@@ -294,6 +294,9 @@ public enum ErrorCode {
     CUSTOMER_UPDATE_INVALID_ADDRESS_NOTBLANK(1144, "Address update is required", HttpStatus.BAD_REQUEST),
     CUSTOMER_UPDATE_INVALID_ADDRESS(1145, "Address update must be in Viet Nam", HttpStatus.BAD_REQUEST),
 
+    // Medical record of customer
+    MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER(1146, "Medical record of this customer is not found", HttpStatus.NOT_FOUND),
+
     ;
 
     private int code;

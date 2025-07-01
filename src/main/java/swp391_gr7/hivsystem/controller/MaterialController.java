@@ -24,37 +24,37 @@ public class MaterialController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PostMapping("/create")
-    public ApiResponse<Boolean> createMaterial(@RequestBody @Valid MaterialCreateRequest request,
+    public ApiResponse<Materials> createMaterial(@RequestBody @Valid MaterialCreateRequest request,
                                                @RequestHeader("Authorization") String authorizationHeader) {
 
         // Extract doctorId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int doctorId = new JWTUtils().extractDoctorId(token);
 
-        Materials materials = materialService.addMaterial(request, doctorId);
-        boolean result = materials != null;
-        return ApiResponse.<Boolean>builder()
-                .result(result)
+        return ApiResponse.<Materials>builder()
+                .result(materialService.addMaterial(request, doctorId))
                 .message("Success")
                 .build();
     }
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{id}")
-    public ApiResponse<Boolean> updateContentMaterial(@PathVariable int id, @RequestBody @Valid MaterialCreateRequest updateContent) {
-        materialService.updateInformationMaterial(id, updateContent);
-        return ApiResponse.<Boolean>builder()
-                .result(true)
+    public ApiResponse<Materials> updateContentMaterial(@PathVariable int id, @RequestBody @Valid MaterialCreateRequest updateContent) {
+        return ApiResponse.<Materials>builder()
+                .result(materialService.updateInformationMaterial(id, updateContent))
                 .message("Success")
                 .build();
     }
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<Boolean> deleteMaterial(@PathVariable int id) {
-        materialService.deleteMaterial(id);
-        return ApiResponse.<Boolean>builder()
-                .result(true)
+    public ApiResponse<Materials> deleteMaterial(@PathVariable int id) {
+        Materials materials = materialService.getMaterialById(id);
+        if (materials != null) {
+            materialService.deleteMaterial(id);
+        }
+        return ApiResponse.<Materials>builder()
+                .result(materials)
                 .message("Success")
                 .build();
     }
@@ -76,15 +76,5 @@ public class MaterialController {
                 .message("Success")
                 .build();
     }
-
-//    @PreAuthorize("hasRole('Doctor')")
-//    @GetMapping("/get/all")
-//    public ApiResponse<List<Materials>> getAllMaterials(){
-//        List<Materials> materials = materialService.getAllMaterials();
-//        return ApiResponse.<List<Materials>>builder()
-//                .result(materials)
-//                .message("Success")
-//                .build();
-//    }
 
 }

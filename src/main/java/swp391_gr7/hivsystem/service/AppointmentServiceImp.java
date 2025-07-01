@@ -88,7 +88,7 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
 
         Customers customers = customerRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
 
         Optional<Doctors> doctorsOpt = doctorRepository.findDoctorByFullName(request.getDoctorName());
         Doctors doctors = null;
@@ -120,7 +120,7 @@ public class AppointmentServiceImp implements AppointmentService {
         }
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
-                .orElse(null);
+                .orElseThrow(() -> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
 
 //        if (customers == null) {
 //            throw new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND);
@@ -190,7 +190,7 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
         Appointments appointments = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
-        if (!appointments.isStatus()) {
+        if(!appointments.isStatus()){
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
 
@@ -222,7 +222,7 @@ public class AppointmentServiceImp implements AppointmentService {
         }
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
-                .orElse(null);
+                .orElseThrow(()-> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
 
         if (!schedules.getWorkDate().equals(request.getAppointmentTime())) {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
