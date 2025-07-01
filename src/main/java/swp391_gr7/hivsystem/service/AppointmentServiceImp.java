@@ -88,7 +88,7 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
 
         Customers customers = customerRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
 
         Optional<Doctors> doctorsOpt = doctorRepository.findDoctorByFullName(request.getDoctorName());
         Doctors doctors = null;
@@ -101,10 +101,10 @@ public class AppointmentServiceImp implements AppointmentService {
         Staffs staffs = staffService.findStaffHasLeastAppointment();
 
         Schedules schedules = schedulesRepository.findById(request.getScheduleId())
-                .orElse(null);
+                .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
-                .orElse(null);
+                .orElseThrow(() -> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
 
 //        if (customers == null) {
 //            throw new AppException(ErrorCode.APPOINTMENT_CUSTOMER_NOT_FOUND);
@@ -190,7 +190,7 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND));
 
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
-                .orElse(null);
+                .orElseThrow(()-> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
 
         if (!schedules.getWorkDate().equals(request.getAppointmentTime())) {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
