@@ -244,6 +244,7 @@ public enum ErrorCode {
     REMINDER_NOT_FOUND_CUSTOMER(1109, "Customer not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_STAFF(1110, "Staff not found to set reminder", HttpStatus.NOT_FOUND), // 404
     REMINDER_NOT_FOUND_APPOINTMENT(1111, "Appointment not found to set reminder", HttpStatus.NOT_FOUND), // 404
+    REMINDER_ALREADY_DELETED(1112, "Reminder has already been deleted", HttpStatus.BAD_REQUEST), // 400
 
     // Login
     USER_WAS_DELETED(1121, "The account is not exist", HttpStatus.NOT_FOUND), //404
@@ -295,6 +296,9 @@ public enum ErrorCode {
 
     // Medical record of customer
     MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER(1146, "Medical record of this customer is not found", HttpStatus.NOT_FOUND),
+
+    // doctor not schedule
+    SCHEDULE_DOCTOR_NOT(1147, "Doctor is not schedule", HttpStatus.NOT_FOUND),
 
     ;
 

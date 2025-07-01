@@ -42,7 +42,7 @@ public class ReportServiceImp implements ReportService {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
 
-        Managers manager = managerRepository.findManagerById(id);
+        Managers manager = managerRepository.findManagerById(1);
         if(manager == null) {
             throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
         }
@@ -95,6 +95,10 @@ public class ReportServiceImp implements ReportService {
 //        } else {
 //            manager = managerOpt.get();
 //        }
+        Managers manager = managerRepository.findManagerById(1);
+        if(manager == null) {
+            throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
+        }
 
         // Ghi ra file CSV
         response.setContentType("text/csv");

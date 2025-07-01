@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface MedicalRecordService {
     List<MedicalRecords> getAll();
 
-    Optional<MedicalRecords> getById(int id);
+    MedicalRecords getById(int id);
 
     MedicalRecords addMedicalRecord(int id, MedicalRecordCreateRequest request);
 

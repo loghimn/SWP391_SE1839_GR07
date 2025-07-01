@@ -410,7 +410,7 @@ public class DataSeeder implements CommandLineRunner {
         appointments4.setMedicalRecords(medicalRecords);
         appointments4.setCustomers(customers);
         appointments4.setStatus(true);
-        appointments4.setAppointmentTime(LocalDate.of(2025, 7, 3));
+        appointments4.setAppointmentTime(LocalDate.of(2025, 7, 4));
         appointments4.setAnonymous(true);
         appointments4.setSchedules(schedules);
         appointments4.setStaffs(staff);
@@ -422,7 +422,7 @@ public class DataSeeder implements CommandLineRunner {
         appointments5.setMedicalRecords(medicalRecords);
         appointments5.setCustomers(customers);
         appointments5.setStatus(true);
-        appointments5.setAppointmentTime(LocalDate.of(2025, 7, 4));
+        appointments5.setAppointmentTime(LocalDate.of(2025, 7, 5));
         appointments5.setAnonymous(false);
         appointments5.setSchedules(schedules);
         appointments5.setStaffs(staff);

@@ -33,6 +33,6 @@ public class AppointmentCreateRequest {
     @Pattern(regexp = "^(Test HIV|Consultation)$", message = "APPOINTMENT_REQUEST_TYPE_INVALID_FORMAT")
     private String appointmentType;
 
-    @NotNull(message = " APPOINTMENT_REQUEST_SCHEDULE_NOTNULL")
-    private int scheduleId;
+//    @NotNull(message = " APPOINTMENT_REQUEST_SCHEDULE_NOTNULL")
+//    private int scheduleId;
 }

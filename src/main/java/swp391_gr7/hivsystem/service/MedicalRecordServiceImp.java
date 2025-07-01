@@ -34,8 +34,9 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
     }
 
     @Override
-    public Optional<MedicalRecords> getById(int id) {
-        return medicalRecordRepository.findById(id);
+    public MedicalRecords getById(int id) {
+        return medicalRecordRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND));
     }
 
     @Override
@@ -66,8 +67,6 @@ public class MedicalRecordServiceImp implements MedicalRecordService {
 
     @Override
     public MedicalRecords updateMedicalRecord(int cusId, MedicalRecordCreateRequest request) {
-
-
         // Check if customer exists
         Customers customer = customerRepository.findById(cusId)
                 .orElse(null);

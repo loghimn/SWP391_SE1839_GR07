@@ -14,10 +14,12 @@ public interface ReminderRepository extends JpaRepository<Reminders, Integer> {
             "JOIN FETCH c.users u " +
             "JOIN FETCH r.staffs s " +
             "JOIN FETCH s.users su " +
-            "WHERE r.status = false AND r.reminderTime <= :reminderTime AND r.reminderType = 'Re-Exam Reminder'")
+            "WHERE r.status = true AND r.reminderTime <= :reminderTime AND r.reminderType = 'Re-Exam Reminder'")
     List<Reminders> findReminderStatusFalseAndReminderTimeBefore(@Param("reminderTime") LocalDateTime reminderTime);
 
     Reminders findRemindersByCustomersCustomerId(int customersCustomerId);
 
     List<Reminders> findRemindersByStaffsStaffId(int staffsStaffId);
+
+    List<Reminders> findAllByStatus(boolean status);
 }
