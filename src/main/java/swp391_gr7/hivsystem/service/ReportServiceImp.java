@@ -42,7 +42,7 @@ public class ReportServiceImp implements ReportService {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
 
-        Managers manager = managerRepository.findManagerById(id);
+        Managers manager = managerRepository.findManagerById(1);
         if(manager == null) {
             throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
         }
@@ -90,6 +90,10 @@ public class ReportServiceImp implements ReportService {
 //        } else {
 //            manager = managerOpt.get();
 //        }
+        Managers manager = managerRepository.findManagerById(1);
+        if(manager == null) {
+            throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
+        }
 
         // Ghi ra file CSV
         response.setContentType("text/csv");
@@ -99,7 +103,7 @@ public class ReportServiceImp implements ReportService {
         printWriter.flush();
         // Ghi báo cáo vào bảng report, tạo mới nếu ko có lỗi
         Reports report = new Reports();
-//        report.setManagers(manager);
+        report.setManagers(manager);
         report.setReportType(request.getReportType());
         report.setCreatedAt(LocalDateTime.now());
         // Lưu thông tin vào bảng report

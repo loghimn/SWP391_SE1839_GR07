@@ -61,7 +61,7 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/customer/{customerid}")
+    @GetMapping("/customer/{customerId}")
     public ApiResponse<List<Consultations>> getByCustomer(@PathVariable int customerId) {
         try {
             List<Consultations> consultations = consultationService.getConsultationsByCustomer(customerId);
@@ -80,7 +80,7 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/doctor/{doctorid}")
+    @GetMapping("/doctor/{doctorId}")
     public ApiResponse<List<Consultations>> getByDoctor(@PathVariable int doctorId) {
         try {
             List<Consultations> consultations = consultationService.getConsultationsByDoctor(doctorId);

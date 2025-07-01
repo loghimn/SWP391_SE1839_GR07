@@ -19,7 +19,4 @@ public class MedicalRecordCreateRequest {
 
     @NotBlank(message = "MEDICAL_RECORD_TREATMENT_NOTBLANK")
     private String treatment;
-
-    @NotNull(message = "MEDICAL_RECORD_NOTES_NOTBLANK")
-    private LocalDate recordDate;
 }

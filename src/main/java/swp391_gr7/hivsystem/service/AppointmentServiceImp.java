@@ -215,7 +215,6 @@ public class AppointmentServiceImp implements AppointmentService {
                 schedules = s;
                 break;
             }
-
         }
         if (schedules == null) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);

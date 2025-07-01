@@ -29,8 +29,11 @@ public class MedicalRecordController {
 
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/get/{id}")
-    public Optional<MedicalRecords> getById(@PathVariable int id) {
-        return medicalRecordService.getById(id);
+    public ApiResponse<MedicalRecords> getById(@PathVariable int id) {
+        return ApiResponse.<MedicalRecords>builder()
+                .result(medicalRecordService.getById(id))
+                .message("Success")
+                .build();
     }
 
     @PreAuthorize("hasRole('Customer')")

@@ -297,6 +297,9 @@ public enum ErrorCode {
     // Medical record of customer
     MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER(1146, "Medical record of this customer is not found", HttpStatus.NOT_FOUND),
 
+    // doctor not schedule
+    SCHEDULE_DOCTOR_NOT(1147, "Doctor is not schedule", HttpStatus.NOT_FOUND),
+
     ;
 
     private int code;
