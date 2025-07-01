@@ -10,7 +10,7 @@ public interface ArvMedicationService {
 
     boolean updateArvMedication(ArvMedicationCreateRequest request, String code);
 
-    boolean deleteArvMedication(String code);
+    boolean deleteArvMedication(int code);
 
     List<ArvMedications> showAllListMedication();
 

@@ -49,7 +49,7 @@ public class ArvMedicationController {
 
     @PreAuthorize("hasRole('Doctor')")
     @DeleteMapping("/delete/{arvmedicationid}")
-    public ApiResponse<Boolean> deleteMedication(@PathVariable String arvmedicationid) {
+    public ApiResponse<Boolean> deleteMedication(@PathVariable int arvmedicationid) {
         boolean result = arvMedicationService.deleteArvMedication(arvmedicationid);
         return ApiResponse.<Boolean>builder()
                 .result(result)

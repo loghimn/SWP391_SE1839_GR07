@@ -72,8 +72,8 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
     }
 
     @Override
-    public boolean deleteArvMedication(String code) {
-        ArvMedications arvMedications = arvMedicationsRepository.getArvMedicationsByCode(code);
+    public boolean deleteArvMedication(int code) {
+        ArvMedications arvMedications = arvMedicationsRepository.findById(code).orElseThrow(() ->  new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND));
         if (arvMedications != null) {
             arvMedicationsRepository.delete(arvMedications);
             return true;
