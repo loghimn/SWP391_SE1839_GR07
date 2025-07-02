@@ -36,6 +36,12 @@ public class SchedulesServiceImpl implements SchedulesService {
         if (request.getWorkDate().isBefore(LocalDate.now())) {
             throw new AppException(ErrorCode.SCHEDULE_INVALID_DATE);
         }
+        List<Schedules> existingSchedules = schedulesRepository.findByDoctors_DoctorId(doctor.getDoctorId());
+        for (Schedules schedule : existingSchedules) {
+            if (schedule.getWorkDate().equals(request.getWorkDate())) {
+                throw new AppException(ErrorCode.SCHEDULE_ALREADY_EXISTS);
+            }
+        }
         Schedules schedule = new Schedules();
         schedule.setDoctors(doctor);
         schedule.setManagers(manager);

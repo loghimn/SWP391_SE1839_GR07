@@ -154,6 +154,7 @@ public enum ErrorCode {
     SCHEDULE_INVALID_DATE(1045, "Schedule date must be today or later", HttpStatus.BAD_REQUEST), // 400
     SCHEDULE_NOT_FOUND(1046, "Schedule not found with ID", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_NOT_FOUND_GET_ALL_NULL(1047, "No schedules found", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_ALREADY_EXISTS(1048, "Schedule already exists for this doctor on the selected date", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for OAuth2
     OAUTH2_INVALID_USERNAME_EXIST(1046, "Username already exists", HttpStatus.BAD_REQUEST), // 400
