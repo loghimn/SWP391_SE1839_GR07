@@ -131,18 +131,24 @@ public class UserServiceImp implements UserService {
             users.setUsername(request.getUsername());
         } else if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_USERNAME);
+        } else {
+            users.setUsername(request.getUsername());
         }
 
         if (existingUser.getEmail().equals(request.getEmail())) {
             users.setEmail(request.getEmail());
         } else if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_EMAIL);
+        } else {
+            users.setEmail(request.getEmail());
         }
 
         if (existingUser.getPhone().equals(request.getPhone())) {
             users.setPhone(request.getPhone());
         } else if (userRepository.existsByPhone(request.getPhone())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_PHONE);
+        } else {
+            users.setPhone(request.getPhone());
         }
 //        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

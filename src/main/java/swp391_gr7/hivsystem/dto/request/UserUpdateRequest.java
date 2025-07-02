@@ -24,7 +24,7 @@ public class UserUpdateRequest {
 //    private String password;
 
     @NotBlank(message = "USER_UPDATE_INVALID_EMAIL_NOTBLANK")
-    @Email(regexp = "^[A-Za-z0-9+_.-]+@(gmail|example)\\.(com|vn|org)$", message = "USER_UPDATE_INVALID_EMAIL_FORMAT")
+    @Email(regexp = "^[A-Za-z0-9+_.-]+@(gmail|example|fpt.edu)\\.(com|vn|org|vn)$", message = "USER_INVALID_EMAIL_FORMAT")
     private String email;
 
     @NotBlank(message = "USER_UPDATE_INVALID_PHONE_NOTBLANK")
