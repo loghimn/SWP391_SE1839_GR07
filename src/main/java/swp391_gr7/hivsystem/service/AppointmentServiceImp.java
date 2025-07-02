@@ -332,4 +332,18 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
         return appointmentRepository.findByDoctors_DoctorId(doctors.getDoctorId());
     }
+
+    @Override
+    public List<Appointments> getMyAppointmentsConsultationDoc(int doctorId) {
+        Doctors doctors = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Consultation");
+    }
+
+    @Override
+    public List<Appointments> getMyAppointmentsTestHIVDoc(int doctorId) {
+        Doctors doctors = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Test HIV");
+    }
 }

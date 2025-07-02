@@ -35,4 +35,8 @@ public interface AppointmentService {
     List<Appointments> getMyAppointmentsCus(int customerId);
 
     List<Appointments> getMyAppointmentsDoc(int doctorId);
+
+    List<Appointments> getMyAppointmentsConsultationDoc(int doctorId);
+
+    List<Appointments> getMyAppointmentsTestHIVDoc(int doctorId);
 }
