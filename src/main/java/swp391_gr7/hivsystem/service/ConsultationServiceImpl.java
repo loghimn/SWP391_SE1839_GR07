@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import swp391_gr7.hivsystem.dto.request.ConsultationUpdateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
@@ -26,7 +27,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 
         Appointments appointment = appointmentRepository.findByAppointmentId((Integer) request.getAppointmentId())
                 .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_APPOINTMENT_NOT_FOUND));
-        if(!appointment.isStatus()){
+        if (!appointment.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
 
@@ -67,7 +68,7 @@ public class ConsultationServiceImpl implements ConsultationService {
     }
 
     @Override
-    public Consultations updateConsultation(int id, ConsultationCreateRequest request) {
+    public Consultations updateConsultation(int id, ConsultationUpdateRequest request) {
         Consultations consultation = consultationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CONSULTATION_NOT_FOUND_BY_ID));
 

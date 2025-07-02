@@ -113,4 +113,13 @@ public class TestResultServiceImpl implements TestResultService {
         return testResultRepository.findByDoctors_DoctorId(doctorId);
     }
 
+    @Override
+    public List<TestResults> getAllTestResults() {
+        List<TestResults> results = testResultRepository.findAll();
+        if (results.isEmpty()) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
+        return results;
+    }
+
 }

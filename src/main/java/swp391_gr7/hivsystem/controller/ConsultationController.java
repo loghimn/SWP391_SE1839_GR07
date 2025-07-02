@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.ConsultationUpdateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.model.Consultations;
 import swp391_gr7.hivsystem.service.ConsultationService;
@@ -100,7 +101,7 @@ public class ConsultationController {
 
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/api/consultations/update/{id}")
-    public ApiResponse<Consultations> update(@PathVariable int id, @RequestBody ConsultationCreateRequest request) {
+    public ApiResponse<Consultations> update(@PathVariable int id, @RequestBody ConsultationUpdateRequest request) {
         try {
             Consultations updatedConsultation = consultationService.updateConsultation(id, request);
             return ApiResponse.<Consultations>builder()

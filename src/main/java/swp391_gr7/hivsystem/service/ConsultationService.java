@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.service;
 
 import java.util.List;
 
+import swp391_gr7.hivsystem.dto.request.ConsultationUpdateRequest;
 import swp391_gr7.hivsystem.model.Consultations;
 import swp391_gr7.hivsystem.dto.request.ConsultationCreateRequest;
 
@@ -14,7 +15,7 @@ public interface ConsultationService {
 
     List<Consultations> getConsultationsByDoctor(int doctorId);
 
-    Consultations updateConsultation(int id, ConsultationCreateRequest request);
+    Consultations updateConsultation(int id, ConsultationUpdateRequest request);
 
     List<Consultations> getMyConsultationsCus(int Id);
 

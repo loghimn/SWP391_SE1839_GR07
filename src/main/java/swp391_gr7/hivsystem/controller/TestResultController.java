@@ -111,4 +111,16 @@ public class TestResultController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/get/all")
+    public ApiResponse<List<TestResults>> getAllTestResults() {
+        List<TestResults> results = testResultService.getAllTestResults();
+
+        return ApiResponse.<List<TestResults>>builder()
+                .code(200)
+                .result(results)
+                .message(results.isEmpty() ? "No results found" : "Success")
+                .build();
+    }
+
 }

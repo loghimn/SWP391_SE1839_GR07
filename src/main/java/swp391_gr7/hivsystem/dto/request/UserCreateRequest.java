@@ -40,6 +40,6 @@ public class UserCreateRequest {
     private LocalDate dateOfBirth;
 
     @NotBlank(message = "USER_UPDATE_INVALID_GENDER_NOTBLANK")
-    @Pattern(regexp = "^(male|female)$", message = "USER_UPDATE_INVALID_GENDER_FORMAT")
+    @Pattern(regexp = "^(male|female)$", message = "USER_INVALID_GENDER_FORMAT")
     private String gender;
 }
