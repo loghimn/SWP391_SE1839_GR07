@@ -50,6 +50,8 @@ public class DataSeeder implements CommandLineRunner {
     private TestResultRepository testResultRepository;
     @Autowired
     private TreatmentPlansRepository treatmentPlansRepository;
+    @Autowired
+    private ConsultationRepository consultationRepository;
 
 
     void createModel() {
@@ -595,6 +597,47 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage4.setReminderType("Dosage Reminder");
         reminderRepository.save(remindersDosage4);
 
+        // Example: Add in your createModel() after appointments, doctors, customers are created and saved
+
+        Consultations consultation1 = new Consultations();
+        consultation1.setAppointments(appointments1);
+        consultation1.setDoctors(doctors);
+        consultation1.setCustomers(customers);
+        consultation1.setConsultationDate(LocalDate.of(2025, 7, 1));
+        consultation1.setNotes("Initial consultation and HIV test.");
+        consultationRepository.save(consultation1);
+
+        Consultations consultation2 = new Consultations();
+        consultation2.setAppointments(appointments2);
+        consultation2.setDoctors(doctors);
+        consultation2.setCustomers(customers);
+        consultation2.setConsultationDate(LocalDate.of(2025, 7, 2));
+        consultation2.setNotes("Follow-up consultation, discussed test results.");
+        consultationRepository.save(consultation2);
+
+        Consultations consultation3 = new Consultations();
+        consultation3.setAppointments(appointments3);
+        consultation3.setDoctors(doctors);
+        consultation3.setCustomers(customers);
+        consultation3.setConsultationDate(LocalDate.of(2025, 7, 3));
+        consultation3.setNotes("Consultation for treatment plan.");
+        consultationRepository.save(consultation3);
+
+        Consultations consultation4 = new Consultations();
+        consultation4.setAppointments(appointments4);
+        consultation4.setDoctors(doctors);
+        consultation4.setCustomers(customers);
+        consultation4.setConsultationDate(LocalDate.of(2025, 7, 4));
+        consultation4.setNotes("Routine check-up and medication review.");
+        consultationRepository.save(consultation4);
+
+        Consultations consultation5 = new Consultations();
+        consultation5.setAppointments(appointments5);
+        consultation5.setDoctors(doctors);
+        consultation5.setCustomers(customers);
+        consultation5.setConsultationDate(LocalDate.of(2025, 7, 5));
+        consultation5.setNotes("Final consultation for this cycle.");
+        consultationRepository.save(consultation5);
 
     }
 

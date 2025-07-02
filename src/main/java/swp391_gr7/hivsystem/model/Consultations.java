@@ -23,7 +23,7 @@ public class Consultations {
     @Column(name = "consultation_id")
     private int consultationID;
     //
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointments appointments;
     //
