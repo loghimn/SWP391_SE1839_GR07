@@ -40,7 +40,7 @@ public class TestResultController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/{id}")
+    @GetMapping("get/{id}")
     public ApiResponse<TestResults> getTestResult(@PathVariable int id) {
         TestResults result = testResultService.getTestResultById(id);
 
@@ -52,7 +52,7 @@ public class TestResultController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ApiResponse<TestResults> updateTestResult(
             @PathVariable int id,
             @RequestBody TestResultCreateRequest request) {

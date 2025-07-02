@@ -100,7 +100,7 @@ public class ConsultationController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @PutMapping("/api/consultations/update/{id}")
+    @PutMapping("/update/{id}")
     public ApiResponse<Consultations> update(@PathVariable int id, @RequestBody ConsultationUpdateRequest request) {
         try {
             Consultations updatedConsultation = consultationService.updateConsultation(id, request);
