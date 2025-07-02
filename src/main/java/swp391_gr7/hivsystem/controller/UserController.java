@@ -124,6 +124,7 @@ public class UserController {
         return user;
     }
 
+
     // Get all users
     //http://localhost:8080/user/all
     @PreAuthorize("hasRole('Admin')")

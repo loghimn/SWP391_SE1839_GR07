@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
@@ -25,6 +26,8 @@ public class CustomerServiceImp implements CustomerService {
     private CustomerRepository customerRepository;
     @Autowired
     private ManagerRepository managerRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Customers saveCustomer(UserAndCustomerCreateRequest userAndCustomerCreateRequest, Users users) {
@@ -61,6 +64,18 @@ public class CustomerServiceImp implements CustomerService {
         }
         customer.setAddress(request.getAddress());
         return customerRepository.save(customer);
+    }
+
+    public Customers getMyCustomerInfo() {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Customers customer = customerRepository.findByUsers(user);
+        if (customer == null) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
+        return customer;
     }
 
 

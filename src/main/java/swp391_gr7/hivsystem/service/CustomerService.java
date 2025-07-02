@@ -16,4 +16,6 @@ public interface CustomerService {
     List<Customers> getAllCustomers();
 
     Customers updateCustomer( UserAndCustomerUpdateRequest request, Users users);
+
+    Customers getMyCustomerInfo();
 }

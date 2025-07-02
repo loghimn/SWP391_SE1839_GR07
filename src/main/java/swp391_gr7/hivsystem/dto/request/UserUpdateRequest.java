@@ -18,10 +18,10 @@ public class UserUpdateRequest {
     @Size(min = 5, message = "USER_UPDATE_INVALID_USERNAME_NOTBLANK")
     private String username;
 
-    @NotBlank(message = "USER_UPDATE_INVALID_PASSWORD_NOTBLANK")
-    @Size(min = 8, message = "USER_UPDATE_INVALID_PASSWORD_SIZE")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[^a-z\\d]).+$", message = "USER_UPDATE_INVALID_PASSWORD_FORMAT")
-    private String password;
+//    @NotBlank(message = "USER_UPDATE_INVALID_PASSWORD_NOTBLANK")
+//    @Size(min = 8, message = "USER_UPDATE_INVALID_PASSWORD_SIZE")
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[^a-z\\d]).+$", message = "USER_UPDATE_INVALID_PASSWORD_FORMAT")
+//    private String password;
 
     @NotBlank(message = "USER_UPDATE_INVALID_EMAIL_NOTBLANK")
     @Email(regexp = "^[A-Za-z0-9+_.-]+@(gmail|example)\\.(com|vn|org)$", message = "USER_UPDATE_INVALID_EMAIL_FORMAT")

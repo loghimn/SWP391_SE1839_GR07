@@ -136,7 +136,7 @@ public class UserServiceImp implements UserService {
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         users.setUsername(request.getUsername());
-        users.setPassword(passwordEncoder.encode(request.getPassword()));
+//        users.setPassword(passwordEncoder.encode(request.getPassword()));
         users.setEmail(request.getEmail());
         users.setPhone(request.getPhone());
         users.setFullName(request.getFullName());
