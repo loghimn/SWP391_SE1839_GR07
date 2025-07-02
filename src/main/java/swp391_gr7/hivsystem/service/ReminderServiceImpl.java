@@ -83,7 +83,22 @@ public class ReminderServiceImpl implements ReminderService {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
         reminder.setCustomers(customer);
-        TestResults testResult = testResultsRepository.findById(1).orElseThrow(() -> new AppException(ErrorCode.TEST_RESULT_NOT_FOUND));
+        List<TestResults> testResultsList = testResultsRepository.findByCustomers_CustomerId(customer.getCustomerId());
+        if (testResultsList.isEmpty()) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
+
+        TestResults testResult = null;
+        for(int i = testResultsList.size() - 1; i >= 0; i--) {
+            if (testResultsList.get(i).isRe_examination()) {
+                testResult = testResultsList.get(i);
+                break;
+            }
+        }
+        if (testResult == null) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
+
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
         reminder.setStatus(true);

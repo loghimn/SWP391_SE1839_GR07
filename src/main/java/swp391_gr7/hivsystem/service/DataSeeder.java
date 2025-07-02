@@ -99,7 +99,7 @@ public class DataSeeder implements CommandLineRunner {
         Users staffUser = new Users();
         staffUser.setUsername("staff");
         staffUser.setPassword(passwordEncoder.encode("staffpass"));
-        staffUser.setEmail("staff1@staff.com");
+        staffUser.setEmail("staff1@fpt.edu.vn");
         staffUser.setPhone("0444444444");
         staffUser.setFullName("Staff One");
         staffUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
@@ -113,7 +113,7 @@ public class DataSeeder implements CommandLineRunner {
         Users customerUser = new Users();
         customerUser.setUsername("customer");
         customerUser.setPassword(passwordEncoder.encode("customerpass"));
-        customerUser.setEmail("customer1@staff.com");
+        customerUser.setEmail("customer1@gmail.com");
         customerUser.setPhone("0555555555");
         customerUser.setFullName("Customer One");
         customerUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
