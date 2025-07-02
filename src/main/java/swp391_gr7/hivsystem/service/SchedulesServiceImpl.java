@@ -30,6 +30,9 @@ public class SchedulesServiceImpl implements SchedulesService {
     public Schedules createSchedule(SchedulesCreateRequest request) {
         Doctors doctor = doctorRepository.findById(request.getDoctorId())
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_DOCTOR_NOT_FOUND));
+        if (!doctor.getUsers().isStatus()) {
+            throw new AppException(ErrorCode.DOCTOR_IS_NOT_ACTIVE);
+        }
         Managers manager = managerRepository.findById(1)
                 .orElseThrow(() -> new AppException(ErrorCode.SCHEDULE_MANAGER_NOT_FOUND));
 

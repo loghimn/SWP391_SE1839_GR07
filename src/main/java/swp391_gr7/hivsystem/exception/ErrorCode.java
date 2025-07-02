@@ -227,6 +227,7 @@ public enum ErrorCode {
     DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_NOTBLANK(1097, "License number update is required", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_FORMAT(1098, "License number update must follow the format DC-{4 number}", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_EXIST(1099, "License number update already exists", HttpStatus.BAD_REQUEST), // 400
+    DOCTOR_IS_NOT_ACTIVE(1100, "Doctor is not active", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for user exists with email, phone, username, not found
     USER_UPDATE_EXIST_USERNAME(1100, "Username update already exists", HttpStatus.BAD_REQUEST), // 400
