@@ -40,7 +40,7 @@ public class StaffController {
                 .message(result ? "Update successful" : "Update failed")
                 .build();
     }
-    @PreAuthorize("hasRole('Staff')")
+    @PreAuthorize("hasRole('Manager')")
     @PostMapping("/update-password/{staffId}")
     public ApiResponse<Boolean> updatePasswordStaff(@PathVariable int staffId,
                                                     @RequestBody @Valid UpdatePasswordRequest request) {

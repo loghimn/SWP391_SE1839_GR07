@@ -40,7 +40,7 @@ public class DoctorController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
+    @PreAuthorize("hasRole('Manager')")
     @PostMapping("/update-password/{doctorid}")
     public ApiResponse<Boolean> updatePassword(@RequestParam @Valid UpdatePasswordRequest request,
                                                @PathVariable int doctorid) {
