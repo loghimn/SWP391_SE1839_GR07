@@ -38,12 +38,12 @@ public class ReportServiceImp implements ReportService {
                                 ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách User
         List<Users> users = userRepository.findAll();
-        if(users.isEmpty()) {
+        if (users.isEmpty()) {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
 
         Managers manager = managerRepository.findManagerById(1);
-        if(manager == null) {
+        if (manager == null) {
             throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
         }
 
@@ -58,7 +58,9 @@ public class ReportServiceImp implements ReportService {
 
         // Ghi ra file CSV
         response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=report.csv");
+//        response.setHeader("Content-Disposition", "attachment; filename=report.csv");
+        response.setHeader("Content-Disposition", "attachment; filename=user_report_" +
+                LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + ".csv");
 
         PrintWriter printWriter = getPrintWriterUser(response, users);
 
@@ -78,12 +80,12 @@ public class ReportServiceImp implements ReportService {
     public void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách Appointment
         List<Appointments> appointments = appointmentRepository.findAll();
-        if(appointments.isEmpty()) {
+        if (appointments.isEmpty()) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
 
         Managers manager = managerRepository.findManagerById(1);
-        if(manager == null) {
+        if (manager == null) {
             throw new AppException(ErrorCode.MANAGER_NOT_FOUND);
         }
 
@@ -98,8 +100,9 @@ public class ReportServiceImp implements ReportService {
 
         // Ghi ra file CSV
         response.setContentType("text/csv");
-        response.setHeader("Content-Disposition", "attachment; filename=appointment_report.csv");
-
+//        response.setHeader("Content-Disposition", "attachment; filename=appointment_report.csv");
+        response.setHeader("Content-Disposition", "attachment; filename=appointment_report_" +
+                LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss")) + ".csv");
         PrintWriter printWriter = getPrintWriterAppointment(response, appointments);
         printWriter.flush();
         // Ghi báo cáo vào bảng report, tạo mới nếu ko có lỗi
