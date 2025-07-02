@@ -378,7 +378,7 @@ public class DataSeeder implements CommandLineRunner {
         appointments1.setStatus(true);
         appointments1.setAppointmentTime(LocalDate.of(2025, 7, 1));
         appointments1.setAnonymous(true);
-        appointments1.setSchedules(schedules);
+        appointments1.setSchedules(schedulesRepository.findById(1).orElse(null));
         appointments1.setStaffs(staff);
         appointments1.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments1);
@@ -390,7 +390,7 @@ public class DataSeeder implements CommandLineRunner {
         appointments2.setStatus(true);
         appointments2.setAppointmentTime(LocalDate.of(2025, 7, 2));
         appointments2.setAnonymous(false);
-        appointments2.setSchedules(schedules);
+        appointments2.setSchedules(schedulesRepository.findById(2).orElse(null));
         appointments2.setStaffs(staff);
         appointments2.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments2);
@@ -402,7 +402,7 @@ public class DataSeeder implements CommandLineRunner {
         appointments3.setStatus(true);
         appointments3.setAppointmentTime(LocalDate.of(2025, 7, 3));
         appointments3.setAnonymous(true);
-        appointments3.setSchedules(schedules);
+        appointments3.setSchedules(schedulesRepository.findById(3).orElse(null));
         appointments3.setStaffs(staff);
         appointments3.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments3);
@@ -414,9 +414,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments4.setStatus(true);
         appointments4.setAppointmentTime(LocalDate.of(2025, 7, 4));
         appointments4.setAnonymous(true);
-        appointments4.setSchedules(schedules);
+        appointments4.setSchedules(schedulesRepository.findById(4).orElse(null));
         appointments4.setStaffs(staff);
-        appointments4.setAppointmentType("Consultation");
+        appointments4.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments4);
 
         Appointments appointments5 = new Appointments();
@@ -426,10 +426,70 @@ public class DataSeeder implements CommandLineRunner {
         appointments5.setStatus(true);
         appointments5.setAppointmentTime(LocalDate.of(2025, 7, 5));
         appointments5.setAnonymous(false);
-        appointments5.setSchedules(schedules);
+        appointments5.setSchedules(schedulesRepository.findById(5).orElse(null));
         appointments5.setStaffs(staff);
-        appointments5.setAppointmentType("Consultation");
+        appointments5.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments5);
+
+        Appointments appointments6 = new Appointments();
+        appointments6.setDoctors(doctors);
+        appointments6.setMedicalRecords(medicalRecords);
+        appointments6.setCustomers(customers);
+        appointments6.setStatus(true);
+        appointments6.setAppointmentTime(LocalDate.of(2025, 7, 6));
+        appointments6.setAnonymous(false);
+        appointments6.setSchedules(schedulesRepository.findById(6).orElse(null));
+        appointments6.setStaffs(staff);
+        appointments6.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments6);
+
+        Appointments appointments7 = new Appointments();
+        appointments7.setDoctors(doctors);
+        appointments7.setMedicalRecords(medicalRecords);
+        appointments7.setCustomers(customers);
+        appointments7.setStatus(true);
+        appointments7.setAppointmentTime(LocalDate.of(2025, 7, 7));
+        appointments7.setAnonymous(true);
+        appointments7.setSchedules(schedulesRepository.findById(7).orElse(null));
+        appointments7.setStaffs(staff);
+        appointments7.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments7);
+
+        Appointments appointments8 = new Appointments();
+        appointments8.setDoctors(doctors);
+        appointments8.setMedicalRecords(medicalRecords);
+        appointments8.setCustomers(customers);
+        appointments8.setStatus(true);
+        appointments8.setAppointmentTime(LocalDate.of(2025, 7, 8));
+        appointments8.setAnonymous(false);
+        appointments8.setSchedules(schedulesRepository.findById(8).orElse(null));
+        appointments8.setStaffs(staff);
+        appointments8.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments8);
+
+        Appointments appointments9 = new Appointments();
+        appointments9.setDoctors(doctors);
+        appointments9.setMedicalRecords(medicalRecords);
+        appointments9.setCustomers(customers);
+        appointments9.setStatus(true);
+        appointments9.setAppointmentTime(LocalDate.of(2025, 7, 9));
+        appointments9.setAnonymous(false);
+        appointments9.setSchedules(schedulesRepository.findById(9).orElse(null));
+        appointments9.setStaffs(staff);
+        appointments9.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments9);
+
+        Appointments appointments10 = new Appointments();
+        appointments10.setDoctors(doctors);
+        appointments10.setMedicalRecords(medicalRecords);
+        appointments10.setCustomers(customers);
+        appointments10.setStatus(true);
+        appointments10.setAppointmentTime(LocalDate.of(2025, 7, 10));
+        appointments10.setAnonymous(true);
+        appointments10.setSchedules(schedulesRepository.findById(10).orElse(null));
+        appointments10.setStaffs(staff);
+        appointments10.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments6);
 
         //Create TreatmentAdd commentMore actions
         TreatmentPlans treatmentPlans = new TreatmentPlans();
@@ -555,6 +615,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage.setAppointments(appointments1);
         remindersDosage.setStaffs(staff);
         remindersDosage.setReminderType("Dosage Reminder");
+        remindersDosage.setStatus(true);
         reminderRepository.save(remindersDosage);
 
         Reminders remindersDosage1 = new Reminders();
@@ -565,6 +626,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage1.setAppointments(appointments2);
         remindersDosage1.setStaffs(staff);
         remindersDosage1.setReminderType("Dosage Reminder");
+        remindersDosage1.setStatus(true);
         reminderRepository.save(remindersDosage1);
 
         Reminders remindersDosage2 = new Reminders();
@@ -575,6 +637,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage2.setAppointments(appointments3);
         remindersDosage2.setStaffs(staff);
         remindersDosage2.setReminderType("Dosage Reminder");
+        remindersDosage2.setStatus(true);
         reminderRepository.save(remindersDosage2);
 
         Reminders remindersDosage3 = new Reminders();
@@ -585,6 +648,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage3.setAppointments(appointments4);
         remindersDosage3.setStaffs(staff);
         remindersDosage3.setReminderType("Dosage Reminder");
+        remindersDosage3.setStatus(true);
         reminderRepository.save(remindersDosage3);
 
         Reminders remindersDosage4 = new Reminders();
@@ -595,47 +659,106 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage4.setAppointments(appointments5);
         remindersDosage4.setStaffs(staff);
         remindersDosage4.setReminderType("Dosage Reminder");
+        remindersDosage4.setStatus(true);
         reminderRepository.save(remindersDosage4);
+
+        Reminders remindersReExam5 = new Reminders();
+        remindersReExam5.setCustomers(customers);
+        remindersReExam5.setReminderTime(appointments6.getAppointmentTime().atTime(8, 0));
+        remindersReExam5.setMessage("tái khám");
+        remindersReExam5.setTestResults(testResults4);
+        remindersReExam5.setAppointments(appointments5);
+        remindersReExam5.setStaffs(staff);
+        remindersReExam5.setReminderType("Re-Exam Reminder");
+        remindersReExam5.setStatus(true);
+        reminderRepository.save(remindersReExam5);
+
+        Reminders remindersReExam6 = new Reminders();
+        remindersReExam6.setCustomers(customers);
+        remindersReExam6.setReminderTime(appointments7.getAppointmentTime().atTime(8, 0));
+        remindersReExam6.setMessage("tái khám");
+        remindersReExam6.setTestResults(testResults4);
+        remindersReExam6.setAppointments(appointments5);
+        remindersReExam6.setStaffs(staff);
+        remindersReExam6.setReminderType("Re-Exam Reminder");
+        remindersReExam6.setStatus(true);
+        reminderRepository.save(remindersReExam6);
+
+        Reminders remindersReExam7 = new Reminders();
+        remindersReExam7.setCustomers(customers);
+        remindersReExam7.setReminderTime(appointments8.getAppointmentTime().atTime(8, 0));
+        remindersReExam7.setMessage("tái khám");
+        remindersReExam7.setTestResults(testResults4);
+        remindersReExam7.setAppointments(appointments5);
+        remindersReExam7.setStaffs(staff);
+        remindersReExam7.setReminderType("Re-Exam Reminder");
+        remindersReExam7.setStatus(true);
+        reminderRepository.save(remindersReExam7);
+
+        Reminders remindersReExam8 = new Reminders();
+        remindersReExam8.setCustomers(customers);
+        remindersReExam8.setReminderTime(appointments9.getAppointmentTime().atTime(8, 0));
+        remindersReExam8.setMessage("tái khám");
+        remindersReExam8.setTestResults(testResults4);
+        remindersReExam8.setAppointments(appointments5);
+        remindersReExam8.setStaffs(staff);
+        remindersReExam8.setReminderType("Re-Exam Reminder");
+        remindersReExam8.setStatus(true);
+        reminderRepository.save(remindersReExam8);
+
+        Reminders remindersReExam9 = new Reminders();
+        remindersReExam9.setCustomers(customers);
+        remindersReExam9.setReminderTime(appointments10.getAppointmentTime().atTime(8, 0));
+        remindersReExam9.setMessage("tái khám");
+        remindersReExam9.setTestResults(testResults4);
+        remindersReExam9.setAppointments(appointments5);
+        remindersReExam9.setStaffs(staff);
+        remindersReExam9.setReminderType("Re-Exam Reminder");
+        remindersReExam9.setStatus(true);
+        reminderRepository.save(remindersReExam9);
+
+
+
 
         // Example: Add in your createModel() after appointments, doctors, customers are created and saved
 
         Consultations consultation1 = new Consultations();
-        consultation1.setAppointments(appointments1);
+        consultation1.setAppointments(appointments6);
         consultation1.setDoctors(doctors);
         consultation1.setCustomers(customers);
-        consultation1.setConsultationDate(LocalDate.of(2025, 7, 1));
+        consultation1.setConsultationDate(LocalDate.of(2025, 7, 6));
         consultation1.setNotes("Initial consultation and HIV test.");
         consultationRepository.save(consultation1);
 
         Consultations consultation2 = new Consultations();
-        consultation2.setAppointments(appointments2);
+        consultation2.setAppointments(appointments7);
         consultation2.setDoctors(doctors);
         consultation2.setCustomers(customers);
-        consultation2.setConsultationDate(LocalDate.of(2025, 7, 2));
+        consultation2.setConsultationDate(LocalDate.of(2025, 7, 7));
         consultation2.setNotes("Follow-up consultation, discussed test results.");
         consultationRepository.save(consultation2);
 
         Consultations consultation3 = new Consultations();
-        consultation3.setAppointments(appointments3);
+        consultation3.setAppointments(appointments8);
         consultation3.setDoctors(doctors);
         consultation3.setCustomers(customers);
-        consultation3.setConsultationDate(LocalDate.of(2025, 7, 3));
+        consultation3.setConsultationDate(LocalDate.of(2025, 7, 8));
         consultation3.setNotes("Consultation for treatment plan.");
         consultationRepository.save(consultation3);
 
         Consultations consultation4 = new Consultations();
-        consultation4.setAppointments(appointments4);
+        consultation4.setAppointments(appointments9);
         consultation4.setDoctors(doctors);
         consultation4.setCustomers(customers);
-        consultation4.setConsultationDate(LocalDate.of(2025, 7, 4));
+        consultation4.setConsultationDate(LocalDate.of(2025, 7, 9));
         consultation4.setNotes("Routine check-up and medication review.");
         consultationRepository.save(consultation4);
 
         Consultations consultation5 = new Consultations();
-        consultation5.setAppointments(appointments5);
+        consultation5.setAppointments(appointments10);
         consultation5.setDoctors(doctors);
         consultation5.setCustomers(customers);
-        consultation5.setConsultationDate(LocalDate.of(2025, 7, 5));
+        consultation5.setConsultationDate(LocalDate.of(2025, 7, 10));
         consultation5.setNotes("Final consultation for this cycle.");
         consultationRepository.save(consultation5);
 

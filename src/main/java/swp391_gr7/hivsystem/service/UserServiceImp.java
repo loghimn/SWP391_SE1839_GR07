@@ -154,7 +154,7 @@ public class UserServiceImp implements UserService {
 
 //        users.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        users.setPhone(request.getPhone());
+//        users.setPhone(request.getPhone());
         users.setFullName(request.getFullName());
         users.setDateOfBirth(request.getDateOfBirth());
         users.setGender(request.getGender());
