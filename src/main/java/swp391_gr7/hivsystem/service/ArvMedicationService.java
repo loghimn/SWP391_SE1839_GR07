@@ -8,7 +8,7 @@ import java.util.List;
 public interface ArvMedicationService {
     boolean addArvMedication(ArvMedicationCreateRequest request, int doctorId);
 
-    boolean updateArvMedication(ArvMedicationCreateRequest request, String code);
+    boolean updateArvMedication(ArvMedicationCreateRequest request, int id);
 
     boolean deleteArvMedication(int code);
 
