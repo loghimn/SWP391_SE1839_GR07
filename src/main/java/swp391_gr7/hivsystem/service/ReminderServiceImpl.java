@@ -74,8 +74,14 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public Reminders createReminderReExam(int id, ReminderReExamCreateRequest request) {
         Reminders reminder = new Reminders();
-        Customers customer = customersRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
+        if (appointments == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
+        Customers customer = customersRepository.findById(appointments.getCustomers().getCustomerId()).orElse(null);
+        if (customer == null) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
         reminder.setCustomers(customer);
         TestResults testResult = testResultsRepository.findById(1).orElseThrow(() -> new AppException(ErrorCode.TEST_RESULT_NOT_FOUND));
         reminder.setReminderType("Re-Exam Reminder");
@@ -83,7 +89,6 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setStatus(true);
         reminder.setStaffs(staffsRepository.findById(id).orElse(null));
         reminder.setTestResults(testResult);
-        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
         reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
         // Set reminderTime based on dosageTime in TreatmentPlans
         if (appointments != null && appointments.getAppointmentTime() != null) {
