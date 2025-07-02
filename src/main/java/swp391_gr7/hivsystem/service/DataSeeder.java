@@ -489,7 +489,67 @@ public class DataSeeder implements CommandLineRunner {
         appointments10.setSchedules(schedulesRepository.findById(10).orElse(null));
         appointments10.setStaffs(staff);
         appointments10.setAppointmentType("Consultation");
-        appointmentRepository.save(appointments6);
+        appointmentRepository.save(appointments10);
+
+        Appointments appointments11 = new Appointments();
+        appointments11.setDoctors(doctors);
+        appointments11.setMedicalRecords(medicalRecords);
+        appointments11.setCustomers(customers);
+        appointments11.setStatus(true);
+        appointments11.setAppointmentTime(LocalDate.of(2025, 7, 11));
+        appointments11.setAnonymous(false);
+        appointments11.setSchedules(schedulesRepository.findById(11).orElse(null));
+        appointments11.setStaffs(staff);
+        appointments11.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments11);
+
+        Appointments appointments12 = new Appointments();
+        appointments12.setDoctors(doctors);
+        appointments12.setMedicalRecords(medicalRecords);
+        appointments12.setCustomers(customers);
+        appointments12.setStatus(true);
+        appointments12.setAppointmentTime(LocalDate.of(2025, 7, 12));
+        appointments12.setAnonymous(false);
+        appointments12.setSchedules(schedulesRepository.findById(12).orElse(null));
+        appointments12.setStaffs(staff);
+        appointments12.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments12);
+
+        Appointments appointments13 = new Appointments();
+        appointments13.setDoctors(doctors);
+        appointments13.setMedicalRecords(medicalRecords);
+        appointments13.setCustomers(customers);
+        appointments13.setStatus(true);
+        appointments13.setAppointmentTime(LocalDate.of(2025, 7, 13));
+        appointments13.setAnonymous(false);
+        appointments13.setSchedules(schedulesRepository.findById(13).orElse(null));
+        appointments13.setStaffs(staff);
+        appointments13.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments13);
+
+        Appointments appointments14 = new Appointments();
+        appointments14.setDoctors(doctors);
+        appointments14.setMedicalRecords(medicalRecords);
+        appointments14.setCustomers(customers);
+        appointments14.setStatus(true);
+        appointments14.setAppointmentTime(LocalDate.of(2025, 7, 14));
+        appointments14.setAnonymous(false);
+        appointments14.setSchedules(schedulesRepository.findById(14).orElse(null));
+        appointments14.setStaffs(staff);
+        appointments14.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments14);
+
+        Appointments appointments15 = new Appointments();
+        appointments15.setDoctors(doctors);
+        appointments15.setMedicalRecords(medicalRecords);
+        appointments15.setCustomers(customers);
+        appointments15.setStatus(true);
+        appointments15.setAppointmentTime(LocalDate.of(2025, 7, 15));
+        appointments15.setAnonymous(false);
+        appointments15.setSchedules(schedulesRepository.findById(15).orElse(null));
+        appointments15.setStaffs(staff);
+        appointments15.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments15);
 
         //Create TreatmentAdd commentMore actions
         TreatmentPlans treatmentPlans = new TreatmentPlans();
@@ -531,6 +591,46 @@ public class DataSeeder implements CommandLineRunner {
         treatmentPlans4.setDosageTime(LocalTime.of(16, 0));
         treatmentPlans4.setAppointments(appointments5);
         treatmentPlansRepository.save(treatmentPlans4);
+
+        TreatmentPlans treatmentPlans5 = new TreatmentPlans();
+        treatmentPlans5.setDoctors(doctors);
+        treatmentPlans5.setArvReqimentID(r1);
+        treatmentPlans5.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans5.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans5.setAppointments(appointments11);
+        treatmentPlansRepository.save(treatmentPlans5);
+
+        TreatmentPlans treatmentPlans6 = new TreatmentPlans();
+        treatmentPlans6.setDoctors(doctors);
+        treatmentPlans6.setArvReqimentID(r1);
+        treatmentPlans6.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans6.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans6.setAppointments(appointments12);
+        treatmentPlansRepository.save(treatmentPlans6);
+
+        TreatmentPlans treatmentPlans7 = new TreatmentPlans();
+        treatmentPlans7.setDoctors(doctors);
+        treatmentPlans7.setArvReqimentID(r1);
+        treatmentPlans7.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans7.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans7.setAppointments(appointments13);
+        treatmentPlansRepository.save(treatmentPlans7);
+
+        TreatmentPlans treatmentPlans8 = new TreatmentPlans();
+        treatmentPlans8.setDoctors(doctors);
+        treatmentPlans8.setArvReqimentID(r1);
+        treatmentPlans8.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans8.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans8.setAppointments(appointments14);
+        treatmentPlansRepository.save(treatmentPlans8);
+
+        TreatmentPlans treatmentPlans9 = new TreatmentPlans();
+        treatmentPlans9.setDoctors(doctors);
+        treatmentPlans9.setArvReqimentID(r1);
+        treatmentPlans9.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans9.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans9.setAppointments(appointments15);
+        treatmentPlansRepository.save(treatmentPlans9);
 
 
         //Create Test Result
@@ -604,6 +704,76 @@ public class DataSeeder implements CommandLineRunner {
         testResults4.setTestDate(appointments5.getAppointmentTime());
         testResultRepository.save(testResults4);
 
+        TestResults testResults5 = new TestResults();
+        testResults5.setDoctors(doctors);
+        testResults5.setCustomers(customers);
+        testResults5.setAppointments(appointments5);
+        testResults5.setTreatmentPlan(treatmentPlans5);
+        testResults5.setResultValue(true);
+        testResults5.setNotes("Notes");
+        testResults5.setRe_examination(true);
+        testResults5.setHivViralLoad(69);
+        testResults5.setCD4(96);
+        testResults5.setTestType("HIV");
+        testResults5.setTestDate(appointments5.getAppointmentTime());
+        testResultRepository.save(testResults5);
+
+        TestResults testResults6 = new TestResults();
+        testResults6.setDoctors(doctors);
+        testResults6.setCustomers(customers);
+        testResults6.setAppointments(appointments5);
+        testResults6.setTreatmentPlan(treatmentPlans6);
+        testResults6.setResultValue(true);
+        testResults6.setNotes("Notes");
+        testResults6.setRe_examination(true);
+        testResults6.setHivViralLoad(69);
+        testResults6.setCD4(96);
+        testResults6.setTestType("HIV");
+        testResults6.setTestDate(appointments5.getAppointmentTime());
+        testResultRepository.save(testResults6);
+
+        TestResults testResults7 = new TestResults();
+        testResults7.setDoctors(doctors);
+        testResults7.setCustomers(customers);
+        testResults7.setAppointments(appointments5);
+        testResults7.setTreatmentPlan(treatmentPlans7);
+        testResults7.setResultValue(true);
+        testResults7.setNotes("Notes");
+        testResults7.setRe_examination(true);
+        testResults7.setHivViralLoad(69);
+        testResults7.setCD4(96);
+        testResults7.setTestType("HIV");
+        testResults7.setTestDate(appointments5.getAppointmentTime());
+        testResultRepository.save(testResults7);
+
+        TestResults testResults8 = new TestResults();
+        testResults8.setDoctors(doctors);
+        testResults8.setCustomers(customers);
+        testResults8.setAppointments(appointments5);
+        testResults8.setTreatmentPlan(treatmentPlans8);
+        testResults8.setResultValue(true);
+        testResults8.setNotes("Notes");
+        testResults8.setRe_examination(true);
+        testResults8.setHivViralLoad(69);
+        testResults8.setCD4(96);
+        testResults8.setTestType("HIV");
+        testResults8.setTestDate(appointments5.getAppointmentTime());
+        testResultRepository.save(testResults8);
+
+        TestResults testResults9 = new TestResults();
+        testResults9.setDoctors(doctors);
+        testResults9.setCustomers(customers);
+        testResults9.setAppointments(appointments5);
+        testResults9.setTreatmentPlan(treatmentPlans9);
+        testResults9.setResultValue(true);
+        testResults9.setNotes("Notes");
+        testResults9.setRe_examination(true);
+        testResults9.setHivViralLoad(69);
+        testResults9.setCD4(96);
+        testResults9.setTestType("HIV");
+        testResults9.setTestDate(appointments5.getAppointmentTime());
+        testResultRepository.save(testResults9);
+
 
 
         //Create Reminder Dosage
@@ -666,8 +836,8 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam5.setCustomers(customers);
         remindersReExam5.setReminderTime(appointments6.getAppointmentTime().atTime(8, 0));
         remindersReExam5.setMessage("tái khám");
-        remindersReExam5.setTestResults(testResults4);
-        remindersReExam5.setAppointments(appointments5);
+        remindersReExam5.setTestResults(testResults5);
+        remindersReExam5.setAppointments(appointments6);
         remindersReExam5.setStaffs(staff);
         remindersReExam5.setReminderType("Re-Exam Reminder");
         remindersReExam5.setStatus(true);
@@ -677,8 +847,8 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam6.setCustomers(customers);
         remindersReExam6.setReminderTime(appointments7.getAppointmentTime().atTime(8, 0));
         remindersReExam6.setMessage("tái khám");
-        remindersReExam6.setTestResults(testResults4);
-        remindersReExam6.setAppointments(appointments5);
+        remindersReExam6.setTestResults(testResults6);
+        remindersReExam6.setAppointments(appointments7);
         remindersReExam6.setStaffs(staff);
         remindersReExam6.setReminderType("Re-Exam Reminder");
         remindersReExam6.setStatus(true);
@@ -688,8 +858,8 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam7.setCustomers(customers);
         remindersReExam7.setReminderTime(appointments8.getAppointmentTime().atTime(8, 0));
         remindersReExam7.setMessage("tái khám");
-        remindersReExam7.setTestResults(testResults4);
-        remindersReExam7.setAppointments(appointments5);
+        remindersReExam7.setTestResults(testResults7);
+        remindersReExam7.setAppointments(appointments8);
         remindersReExam7.setStaffs(staff);
         remindersReExam7.setReminderType("Re-Exam Reminder");
         remindersReExam7.setStatus(true);
@@ -699,8 +869,8 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam8.setCustomers(customers);
         remindersReExam8.setReminderTime(appointments9.getAppointmentTime().atTime(8, 0));
         remindersReExam8.setMessage("tái khám");
-        remindersReExam8.setTestResults(testResults4);
-        remindersReExam8.setAppointments(appointments5);
+        remindersReExam8.setTestResults(testResults8);
+        remindersReExam8.setAppointments(appointments9);
         remindersReExam8.setStaffs(staff);
         remindersReExam8.setReminderType("Re-Exam Reminder");
         remindersReExam8.setStatus(true);
@@ -710,8 +880,8 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam9.setCustomers(customers);
         remindersReExam9.setReminderTime(appointments10.getAppointmentTime().atTime(8, 0));
         remindersReExam9.setMessage("tái khám");
-        remindersReExam9.setTestResults(testResults4);
-        remindersReExam9.setAppointments(appointments5);
+        remindersReExam9.setTestResults(testResults9);
+        remindersReExam9.setAppointments(appointments10);
         remindersReExam9.setStaffs(staff);
         remindersReExam9.setReminderType("Re-Exam Reminder");
         remindersReExam9.setStatus(true);
