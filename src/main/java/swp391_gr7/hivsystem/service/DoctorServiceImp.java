@@ -66,8 +66,12 @@ public class DoctorServiceImp implements DoctorService {
     @Override
     public Doctors updateDoctor(UserAndDoctorUpdateRequest request, Users users) {
         Doctors doctor = doctorRepository.findDoctorByUser_UserId(users.getUserId().toString()).get();
-        if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+        if (doctor.getLicenseNumber().equals(request.getLicenseNumber())) {
+            doctor.setLicenseNumber(request.getLicenseNumber());
+        } else if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new AppException(ErrorCode.DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_EXIST);
+        } else {
+            doctor.setLicenseNumber(request.getLicenseNumber());
         }
         doctor.setUsers(users);
         doctor.setDepartment(request.getDepartment());
