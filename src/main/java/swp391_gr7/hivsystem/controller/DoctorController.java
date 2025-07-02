@@ -42,8 +42,7 @@ public class DoctorController {
 
     @PreAuthorize("hasRole('Manager')")
     @PostMapping("/update-password/{doctorid}")
-    public ApiResponse<Boolean> updatePassword(@RequestParam @Valid UpdatePasswordRequest request,
-                                               @PathVariable int doctorid) {
+    public ApiResponse<Boolean> updatePassword(@PathVariable int doctorid, @RequestBody @Valid UpdatePasswordRequest request) {
 
         boolean result = doctorService.updatePasswordDoctor(doctorid, request);
         return ApiResponse.<Boolean>builder()

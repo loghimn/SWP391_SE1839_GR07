@@ -125,19 +125,29 @@ public class UserServiceImp implements UserService {
 
 
     public Users updateUser(UserUpdateRequest request, Users users) {
-        if (userRepository.existsByUsername(request.getUsername())) {
+        Users existingUser = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new AppException(ErrorCode.USER_EXIST_USERNAME));
+
+        if (existingUser.getUsername().equals(request.getUsername())) {
+            users.setUsername(request.getUsername());
+        } else if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_USERNAME);
         }
-        if (userRepository.existsByEmail(request.getEmail())) {
+
+        if (existingUser.getEmail().equals(request.getEmail())) {
+            users.setEmail(request.getEmail());
+        } else if (userRepository.existsByEmail(request.getEmail())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_EMAIL);
         }
-        if (userRepository.existsByPhone(request.getPhone())) {
+
+        if (existingUser.getPhone().equals(request.getPhone())) {
+            users.setPhone(request.getPhone());
+        } else if (userRepository.existsByPhone(request.getPhone())) {
             throw new AppException(ErrorCode.USER_UPDATE_EXIST_PHONE);
         }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        users.setUsername(request.getUsername());
+//        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 //        users.setPassword(passwordEncoder.encode(request.getPassword()));
-        users.setEmail(request.getEmail());
+
         users.setPhone(request.getPhone());
         users.setFullName(request.getFullName());
         users.setDateOfBirth(request.getDateOfBirth());
