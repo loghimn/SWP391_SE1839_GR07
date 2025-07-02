@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.service;
 
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
 import swp391_gr7.hivsystem.model.Doctors;
@@ -17,4 +18,6 @@ public interface DoctorService {
     Doctors updateDoctor(UserAndDoctorUpdateRequest request, Users users);
 
     Doctors findDoctorById(int id);
+
+    boolean updatePasswordDoctor(int doctorId, UpdatePasswordRequest updatePasswordRequest);
 }

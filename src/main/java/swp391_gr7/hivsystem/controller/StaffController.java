@@ -5,10 +5,12 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.service.JWTUtils;
+import swp391_gr7.hivsystem.service.StaffService;
 import swp391_gr7.hivsystem.service.UserService;
 
 @RestController
@@ -17,9 +19,11 @@ import swp391_gr7.hivsystem.service.UserService;
 public class StaffController {
 
     private final UserService userService;
+    private final StaffService staffService;
 
-    public StaffController(UserService userService) {
+    public StaffController(UserService userService, StaffService staffService) {
         this.userService = userService;
+        this.staffService = staffService;
     }
 
     @PreAuthorize("hasRole('Staff')")
@@ -34,6 +38,16 @@ public class StaffController {
         return ApiResponse.<Boolean>builder()
                 .result(result)
                 .message(result ? "Update successful" : "Update failed")
+                .build();
+    }
+    @PreAuthorize("hasRole('Staff')")
+    @PostMapping("/update-password/{staffId}")
+    public ApiResponse<Boolean> updatePasswordStaff(@PathVariable int staffId,
+                                                    @RequestBody @Valid UpdatePasswordRequest request) {
+        boolean result = staffService.updatePasswordStaff(staffId, request);
+        return ApiResponse.<Boolean>builder()
+                .result(result)
+                .message(result ? "Password updated successfully" : "Password update failed")
                 .build();
     }
 }

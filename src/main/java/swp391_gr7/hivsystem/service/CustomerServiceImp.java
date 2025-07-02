@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerUpdateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
@@ -28,6 +29,8 @@ public class CustomerServiceImp implements CustomerService {
     private ManagerRepository managerRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Customers saveCustomer(UserAndCustomerCreateRequest userAndCustomerCreateRequest, Users users) {
@@ -76,6 +79,22 @@ public class CustomerServiceImp implements CustomerService {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
         return customer;
+    }
+
+    @Override
+    public boolean updatePasswordCustomer(UpdatePasswordRequest request) {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.USER_INVALID_OLD_PASSWORD);
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        return true;
     }
 
 

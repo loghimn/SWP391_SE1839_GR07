@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.service;
 
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.model.Staffs;
@@ -18,4 +19,6 @@ public interface StaffService {
     Staffs getStaffById(int id);
 
     List<Staffs> getAllStaffs();
+
+    boolean updatePasswordStaff(int staffId, UpdatePasswordRequest updatePasswordRequest);
 }

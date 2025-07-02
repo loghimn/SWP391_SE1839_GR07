@@ -300,6 +300,8 @@ public enum ErrorCode {
     // doctor not schedule
     SCHEDULE_DOCTOR_NOT(1147, "Doctor is not schedule", HttpStatus.NOT_FOUND),
 
+    USER_INVALID_OLD_PASSWORD(1148, "Old password is not correct", HttpStatus.BAD_REQUEST), // 400
+
     ;
 
     private int code;

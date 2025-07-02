@@ -1,7 +1,9 @@
 package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
@@ -24,6 +26,8 @@ public class DoctorServiceImp implements DoctorService {
     private DoctorRepository doctorRepository;
     @Autowired
     private ManagerRepository managerRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Doctors saveDoctor(UserAndDoctorCreateRequest request, Users users) {
@@ -78,5 +82,20 @@ public class DoctorServiceImp implements DoctorService {
             throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
         }
         return doctorRepository.findDoctorByDoctorId(id);
+    }
+
+    @Override
+    public boolean updatePasswordDoctor(int doctorId, UpdatePasswordRequest request) {
+        Doctors doctor = doctorRepository.findById(doctorId).orElse(null);
+        if (doctor == null) {
+            throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+        }
+        Users user = doctor.getUsers();
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.USER_INVALID_OLD_PASSWORD);
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        return true;
     }
 }

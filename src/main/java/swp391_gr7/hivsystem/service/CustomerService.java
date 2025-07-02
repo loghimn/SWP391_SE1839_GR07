@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.service;
 
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerUpdateRequest;
 import swp391_gr7.hivsystem.model.Customers;
@@ -15,7 +16,9 @@ public interface CustomerService {
 
     List<Customers> getAllCustomers();
 
-    Customers updateCustomer( UserAndCustomerUpdateRequest request, Users users);
+    Customers updateCustomer(UserAndCustomerUpdateRequest request, Users users);
 
     Customers getMyCustomerInfo();
+
+    boolean updatePasswordCustomer(UpdatePasswordRequest request);
 }

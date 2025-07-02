@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndCustomerUpdateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.exception.AppException;
@@ -57,5 +58,14 @@ public class CustomerController {
         return user;
     }
 
+    @PreAuthorize("hasRole('Customer')")
+    @PostMapping("/update-password")
+    public ApiResponse<Boolean> updatePassword(@RequestBody @Valid UpdatePasswordRequest request) {
+        boolean result = customerService.updatePasswordCustomer(request);
+        return ApiResponse.<Boolean>builder()
+                .result(result)
+                .message(result ? "Password updated successfully" : "Password update failed")
+                .build();
+    }
 
 }

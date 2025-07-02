@@ -1,8 +1,10 @@
 package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffCreateRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndStaffUpdateRequest;
 import swp391_gr7.hivsystem.exception.AppException;
@@ -98,5 +100,20 @@ public class StaffServiceImp implements StaffService {
         List<Staffs> list = new ArrayList<>();  // iterable là kiểu dữ liệu là cha của mọi kiểu collection như List, Set, Queue..
         iterable.forEach(list::add);
         return list;
+    }
+    @Override
+    public boolean updatePasswordStaff(int staffId, UpdatePasswordRequest request) {
+        Staffs staff = staffRepository.findById(staffId).orElse(null);
+        if (staff == null) {
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+        }
+        Users user = staff.getUsers();
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.USER_INVALID_OLD_PASSWORD);
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        userRepository.save(staff.getUsers());
+        return true;
     }
 }

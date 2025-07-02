@@ -5,8 +5,10 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import swp391_gr7.hivsystem.dto.request.UpdatePasswordRequest;
 import swp391_gr7.hivsystem.dto.request.UserAndDoctorUpdateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
+import swp391_gr7.hivsystem.service.DoctorService;
 import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.UserService;
 
@@ -16,9 +18,11 @@ import swp391_gr7.hivsystem.service.UserService;
 public class DoctorController {
 
     private final UserService userService;
+    private final DoctorService doctorService;
 
-    public DoctorController(UserService userService) {
+    public DoctorController(UserService userService, DoctorService doctorService) {
         this.userService = userService;
+        this.doctorService = doctorService;
     }
 
     @PreAuthorize("hasRole('Doctor')")
@@ -35,4 +39,17 @@ public class DoctorController {
                 .message(result ? "Update successful" : "Update failed")
                 .build();
     }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @PostMapping("/update-password/{doctorid}")
+    public ApiResponse<Boolean> updatePassword(@RequestParam @Valid UpdatePasswordRequest request,
+                                               @PathVariable int doctorid) {
+
+        boolean result = doctorService.updatePasswordDoctor(doctorid, request);
+        return ApiResponse.<Boolean>builder()
+                .result(result)
+                .message(result ? "Password updated successfully" : "Password update failed")
+                .build();
+    }
+
 }
