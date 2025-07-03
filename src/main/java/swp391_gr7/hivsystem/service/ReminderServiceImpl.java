@@ -50,7 +50,7 @@ public class ReminderServiceImpl implements ReminderService {
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
-        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId()).orElse(null);
+        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId() + 1).orElse(null);
         if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
@@ -77,6 +77,8 @@ public class ReminderServiceImpl implements ReminderService {
         Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
         if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        } else if (!appointments.isStatus()) {
+            throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
         Customers customer = customersRepository.findById(appointments.getCustomers().getCustomerId()).orElse(null);
         if (customer == null) {
@@ -89,7 +91,7 @@ public class ReminderServiceImpl implements ReminderService {
         }
 
         TestResults testResult = null;
-        for(int i = testResultsList.size() - 1; i >= 0; i--) {
+        for (int i = testResultsList.size() - 1; i >= 0; i--) {
             if (testResultsList.get(i).isRe_examination()) {
                 testResult = testResultsList.get(i);
                 break;
