@@ -89,11 +89,11 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
-        if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 0)) ||
-                request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 0)) ||
-                request.getStartTime().toLocalTime().getHour() == 11 ||
-                request.getStartTime().toLocalTime().getHour() == 12 ||
-                request.getStartTime().toLocalTime().getHour() == 13) {
+        if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
+                request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
+                request.getStartTime().toLocalTime().getHour() == 10 ||
+                request.getStartTime().toLocalTime().getHour() == 14 ||
+                request.getStartTime().toLocalTime().getHour() == 16) {
             throw new AppException(ErrorCode.TIME_APPOINTMENT_NOT_FOUND);
         }
 
@@ -120,8 +120,6 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Schedules schedules = null;
         for (Schedules s : schedulesList) {
-            //System.out.println("--------------------------Hi-----------------" + s.getWorkDate());
-            //System.out.println("--------------------------Ho-----------------" + request.getStartTime().toLocalDate());
             if (s.getWorkDate().equals(request.getStartTime().toLocalDate())) {
                 schedules = s;
                 break;
@@ -209,11 +207,11 @@ public class AppointmentServiceImp implements AppointmentService {
     @Override
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
 
-        if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 0)) ||
-                request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 0)) ||
-                request.getStartTime().toLocalTime().getHour() == 11 ||
-                request.getStartTime().toLocalTime().getHour() == 12 ||
-                request.getStartTime().toLocalTime().getHour() == 13) {
+        if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
+                request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
+                request.getStartTime().toLocalTime().getHour() == 10 ||
+                request.getStartTime().toLocalTime().getHour() == 14 ||
+                request.getStartTime().toLocalTime().getHour() == 16) {
             throw new AppException(ErrorCode.TIME_APPOINTMENT_NOT_FOUND);
         }
         Appointments appointments = appointmentRepository.findById(id)

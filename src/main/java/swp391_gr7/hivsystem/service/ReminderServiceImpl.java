@@ -104,16 +104,16 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
         reminder.setStatus(true);
-        reminder.setStaffs(staffsRepository.findById(id).orElse(null));
+        Staffs staffs = staffsRepository.findById(id).orElse(null);
+        if (staffs == null) {
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+        }
+        reminder.setStaffs(staffs);
         reminder.setTestResults(testResult);
         reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
         // Set reminderTime based on dosageTime in TreatmentPlans
         if (appointments != null && appointments.getStartTime() != null) {
-            LocalDate appointmentDay = appointments.getStartTime().toLocalDate();
-            LocalDate reminderDay = appointmentDay.minusDays(1);
-            LocalTime reminderTime = LocalTime.of(8, 0);
-            LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
-            reminder.setReminderTime(reminderDateTime); // store full datetime
+            reminder.setReminderTime(appointments.getStartTime()); // store full datetime
         } else if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         } else {
