@@ -238,7 +238,7 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Schedules schedules = null;
         for (Schedules s : schedulesList) {
-            if (s.getWorkDate().isAfter(request.getStartTime().toLocalDate()) && s.getWorkDate().isBefore(endTime.toLocalDate())) {
+            if (s.getWorkDate().equals(request.getStartTime().toLocalDate())) {
                 schedules = s;
                 break;
             }
@@ -246,7 +246,6 @@ public class AppointmentServiceImp implements AppointmentService {
         if (schedules == null) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
         }
-
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
                 .orElseThrow(() -> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
 

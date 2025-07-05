@@ -11,6 +11,7 @@ import swp391_gr7.hivsystem.repository.SchedulesRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -42,19 +43,32 @@ public class ReExaminationServiceImpl implements ReExaminationService {
                 throw new AppException(ErrorCode.APPOINTMENT_LIST_NOT_FOUND);
             }
             int daysChecked = 0;
-            while (daysChecked < 30) {
-                LocalDateTime current = currentDateTime; // tạo bản sao để dùng trong lambda
+            int maxDays = 30;
+            boolean found = false;
 
-                boolean duplicate = listAppointments.stream()
-                        .anyMatch(a -> a.getStartTime().equals(current) && a.isStatus());
+            while (daysChecked < maxDays) {
+                LocalDate dateToCheck = currentDateTime.toLocalDate();
 
-                if (!duplicate) break;
-                currentDateTime = currentDateTime.plusDays(1);
+                // Kiểm tra các khung giờ trong ngày: 8h, 10h, 12h, 14h, 16h
+                for (int hour = 8; hour <= 16; hour += 2) {
+                    LocalDateTime candidate = dateToCheck.atTime(hour, 0);
+
+                    boolean isDuplicate = listAppointments.stream()
+                            .anyMatch(a -> a.getStartTime().equals(candidate) && a.isStatus());
+
+                    if (!isDuplicate) {
+                        currentDateTime = candidate; // Gán lại thời điểm phù hợp
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) break;
+
+                currentDateTime = currentDateTime.plusDays(1).withHour(8).withMinute(0).withSecond(0).withNano(0);
                 daysChecked++;
             }
-            if (daysChecked >= 30) {
-                throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
-            }
+
 
             Schedules schedule = originalAppointment.getSchedules();
 
@@ -81,7 +95,8 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             appointment.setCustomers(customers);
             appointment.setDoctors(doctors);
             appointment.setAppointmentType(testResult.getTestType());
-            appointment.setStartTime(nextSchedule.getWorkDate().atTime(8, 0));
+            appointment.setStartTime(nextSchedule.getWorkDate().atTime(LocalTime.from(currentDateTime)));
+            appointment.setEndTime(nextSchedule.getWorkDate().atTime(LocalTime.from(currentDateTime)).plusHours(2));
             appointment.setAnonymous(originalAppointment.isAnonymous());
             appointment.setMedicalRecords(originalAppointment.getMedicalRecords());
             appointment.setSchedules(nextSchedule);
