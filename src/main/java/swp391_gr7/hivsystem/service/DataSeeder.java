@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -109,6 +110,19 @@ public class DataSeeder implements CommandLineRunner {
         staffUser.setStatus(true);
         userRepository.save(staffUser);
 
+        Users staffUser2 = new Users();
+        staffUser2.setUsername("staff2");
+        staffUser2.setPassword(passwordEncoder.encode("staff2pass"));
+        staffUser2.setEmail("staff2@fpt.edu.vn");
+        staffUser2.setPhone("0444444445");
+        staffUser2.setFullName("Staff Two");
+        staffUser2.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        staffUser2.setGender("female");
+        staffUser2.setRole("Staff");
+        staffUser2.setCreatedAt(LocalDateTime.now());
+        staffUser2.setStatus(true);
+        userRepository.save(staffUser2);
+
         // Add a customer user
         Users customerUser = new Users();
         customerUser.setUsername("customer");
@@ -145,6 +159,14 @@ public class DataSeeder implements CommandLineRunner {
         staff.setAssignedArea("Area 1");
         staff.setManagers(manager);
         staffRepository.save(staff);
+
+        Staffs staff2 = new Staffs();
+        staff2.setUsers(staffUser2);
+        staff2.setDepartment("Department 2");
+        staff2.setWorkShift(2);
+        staff2.setAssignedArea("Area 2");
+        staff2.setManagers(manager);
+        staffRepository.save(staff2);
 
         //Create Customer
         Customers customers = new Customers();
@@ -371,16 +393,23 @@ public class DataSeeder implements CommandLineRunner {
         medicalRecordRepository.save(medicalRecords);
 
         //Create AppointmentAdd commentMore actions
+        LocalTime fixedStartTime = LocalTime.of(8, 0);
+        Duration duration = Duration.ofHours(2);
         Appointments appointments1 = new Appointments();
         appointments1.setDoctors(doctors);
         appointments1.setMedicalRecords(medicalRecords);
         appointments1.setCustomers(customers);
         appointments1.setStatus(true);
-        appointments1.setAppointmentTime(LocalDate.of(2025, 7, 1));
+
+        LocalDateTime start1 = LocalDateTime.of(LocalDate.of(2025, 7, 1), LocalTime.of(8, 0));
+        appointments1.setStartTime(start1);
+        appointments1.setEndTime(start1.plusHours(2));
+
         appointments1.setAnonymous(true);
         appointments1.setSchedules(schedulesRepository.findById(1).orElse(null));
         appointments1.setStaffs(staff);
         appointments1.setAppointmentType("Test HIV");
+
         appointmentRepository.save(appointments1);
 
         Appointments appointments2 = new Appointments();
@@ -388,7 +417,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments2.setMedicalRecords(medicalRecords);
         appointments2.setCustomers(customers);
         appointments2.setStatus(true);
-        appointments2.setAppointmentTime(LocalDate.of(2025, 7, 2));
+        LocalDateTime start2 = LocalDateTime.of(LocalDate.of(2025, 7, 2), fixedStartTime);
+        appointments2.setStartTime(start2);
+        appointments2.setEndTime(start2.plus(duration));
         appointments2.setAnonymous(false);
         appointments2.setSchedules(schedulesRepository.findById(2).orElse(null));
         appointments2.setStaffs(staff);
@@ -400,7 +431,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments3.setMedicalRecords(medicalRecords);
         appointments3.setCustomers(customers);
         appointments3.setStatus(true);
-        appointments3.setAppointmentTime(LocalDate.of(2025, 7, 3));
+        LocalDateTime start3 = LocalDateTime.of(LocalDate.of(2025, 7, 3), fixedStartTime);
+        appointments3.setStartTime(start3);
+        appointments3.setEndTime(start3.plus(duration));
         appointments3.setAnonymous(true);
         appointments3.setSchedules(schedulesRepository.findById(3).orElse(null));
         appointments3.setStaffs(staff);
@@ -412,7 +445,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments4.setMedicalRecords(medicalRecords);
         appointments4.setCustomers(customers);
         appointments4.setStatus(true);
-        appointments4.setAppointmentTime(LocalDate.of(2025, 7, 4));
+        LocalDateTime start4 = LocalDateTime.of(LocalDate.of(2025, 7, 4), fixedStartTime);
+        appointments4.setStartTime(start4);
+        appointments4.setEndTime(start4.plus(duration));
         appointments4.setAnonymous(true);
         appointments4.setSchedules(schedulesRepository.findById(4).orElse(null));
         appointments4.setStaffs(staff);
@@ -424,7 +459,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments5.setMedicalRecords(medicalRecords);
         appointments5.setCustomers(customers);
         appointments5.setStatus(true);
-        appointments5.setAppointmentTime(LocalDate.of(2025, 7, 5));
+        LocalDateTime start5 = LocalDateTime.of(LocalDate.of(2025, 7, 5), fixedStartTime);
+        appointments5.setStartTime(start5);
+        appointments5.setEndTime(start5.plus(duration));
         appointments5.setAnonymous(false);
         appointments5.setSchedules(schedulesRepository.findById(5).orElse(null));
         appointments5.setStaffs(staff);
@@ -436,7 +473,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments6.setMedicalRecords(medicalRecords);
         appointments6.setCustomers(customers);
         appointments6.setStatus(true);
-        appointments6.setAppointmentTime(LocalDate.of(2025, 7, 6));
+        LocalDateTime start6 = LocalDateTime.of(LocalDate.of(2025, 7, 6), fixedStartTime);
+        appointments6.setStartTime(start6);
+        appointments6.setEndTime(start6.plus(duration));
         appointments6.setAnonymous(false);
         appointments6.setSchedules(schedulesRepository.findById(6).orElse(null));
         appointments6.setStaffs(staff);
@@ -448,7 +487,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments7.setMedicalRecords(medicalRecords);
         appointments7.setCustomers(customers);
         appointments7.setStatus(true);
-        appointments7.setAppointmentTime(LocalDate.of(2025, 7, 7));
+        LocalDateTime start7 = LocalDateTime.of(LocalDate.of(2025, 7, 7), fixedStartTime);
+        appointments7.setStartTime(start7);
+        appointments7.setEndTime(start7.plus(duration));
         appointments7.setAnonymous(true);
         appointments7.setSchedules(schedulesRepository.findById(7).orElse(null));
         appointments7.setStaffs(staff);
@@ -460,7 +501,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments8.setMedicalRecords(medicalRecords);
         appointments8.setCustomers(customers);
         appointments8.setStatus(true);
-        appointments8.setAppointmentTime(LocalDate.of(2025, 7, 8));
+        LocalDateTime start8 = LocalDateTime.of(LocalDate.of(2025, 7, 8), fixedStartTime);
+        appointments8.setStartTime(start8);
+        appointments8.setEndTime(start8.plus(duration));
         appointments8.setAnonymous(false);
         appointments8.setSchedules(schedulesRepository.findById(8).orElse(null));
         appointments8.setStaffs(staff);
@@ -472,7 +515,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments9.setMedicalRecords(medicalRecords);
         appointments9.setCustomers(customers);
         appointments9.setStatus(true);
-        appointments9.setAppointmentTime(LocalDate.of(2025, 7, 9));
+        LocalDateTime start9 = LocalDateTime.of(LocalDate.of(2025, 7, 9), fixedStartTime);
+        appointments9.setStartTime(start9);
+        appointments9.setEndTime(start9.plus(duration));
         appointments9.setAnonymous(false);
         appointments9.setSchedules(schedulesRepository.findById(9).orElse(null));
         appointments9.setStaffs(staff);
@@ -484,7 +529,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments10.setMedicalRecords(medicalRecords);
         appointments10.setCustomers(customers);
         appointments10.setStatus(true);
-        appointments10.setAppointmentTime(LocalDate.of(2025, 7, 10));
+        LocalDateTime start10 = LocalDateTime.of(LocalDate.of(2025, 7, 10), fixedStartTime);
+        appointments10.setStartTime(start10);
+        appointments10.setEndTime(start10.plus(duration));
         appointments10.setAnonymous(true);
         appointments10.setSchedules(schedulesRepository.findById(10).orElse(null));
         appointments10.setStaffs(staff);
@@ -496,7 +543,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments11.setMedicalRecords(medicalRecords);
         appointments11.setCustomers(customers);
         appointments11.setStatus(true);
-        appointments11.setAppointmentTime(LocalDate.of(2025, 7, 11));
+        LocalDateTime start11 = LocalDateTime.of(LocalDate.of(2025, 7, 11), fixedStartTime);
+        appointments11.setStartTime(start11);
+        appointments11.setEndTime(start11.plus(duration));
         appointments11.setAnonymous(false);
         appointments11.setSchedules(schedulesRepository.findById(11).orElse(null));
         appointments11.setStaffs(staff);
@@ -508,7 +557,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments12.setMedicalRecords(medicalRecords);
         appointments12.setCustomers(customers);
         appointments12.setStatus(true);
-        appointments12.setAppointmentTime(LocalDate.of(2025, 7, 12));
+        LocalDateTime start12 = LocalDateTime.of(LocalDate.of(2025, 7, 12), fixedStartTime);
+        appointments12.setStartTime(start12);
+        appointments12.setEndTime(start12.plus(duration));
         appointments12.setAnonymous(false);
         appointments12.setSchedules(schedulesRepository.findById(12).orElse(null));
         appointments12.setStaffs(staff);
@@ -520,7 +571,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments13.setMedicalRecords(medicalRecords);
         appointments13.setCustomers(customers);
         appointments13.setStatus(true);
-        appointments13.setAppointmentTime(LocalDate.of(2025, 7, 13));
+        LocalDateTime start13 = LocalDateTime.of(LocalDate.of(2025, 7, 13), fixedStartTime);
+        appointments13.setStartTime(start13);
+        appointments13.setEndTime(start13.plus(duration));
         appointments13.setAnonymous(false);
         appointments13.setSchedules(schedulesRepository.findById(13).orElse(null));
         appointments13.setStaffs(staff);
@@ -532,7 +585,9 @@ public class DataSeeder implements CommandLineRunner {
         appointments14.setMedicalRecords(medicalRecords);
         appointments14.setCustomers(customers);
         appointments14.setStatus(true);
-        appointments14.setAppointmentTime(LocalDate.of(2025, 7, 14));
+        LocalDateTime start14 = LocalDateTime.of(LocalDate.of(2025, 7, 14), fixedStartTime);
+        appointments14.setStartTime(start14);
+        appointments14.setEndTime(start14.plus(duration));
         appointments14.setAnonymous(false);
         appointments14.setSchedules(schedulesRepository.findById(14).orElse(null));
         appointments14.setStaffs(staff);
@@ -544,12 +599,15 @@ public class DataSeeder implements CommandLineRunner {
         appointments15.setMedicalRecords(medicalRecords);
         appointments15.setCustomers(customers);
         appointments15.setStatus(true);
-        appointments15.setAppointmentTime(LocalDate.of(2025, 7, 15));
+        LocalDateTime start15 = LocalDateTime.of(LocalDate.of(2025, 7, 15), fixedStartTime);
+        appointments15.setStartTime(start15);
+        appointments15.setEndTime(start15.plus(duration));
         appointments15.setAnonymous(false);
         appointments15.setSchedules(schedulesRepository.findById(15).orElse(null));
         appointments15.setStaffs(staff);
         appointments15.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments15);
+
 
         //Create TreatmentAdd commentMore actions
         TreatmentPlans treatmentPlans = new TreatmentPlans();
@@ -645,7 +703,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults.setHivViralLoad(69);
         testResults.setCD4(96);
         testResults.setTestType("HIV");
-        testResults.setTestDate(appointments1.getAppointmentTime());
+        testResults.setTestDate(appointments1.getStartTime().toLocalDate());
         testResultRepository.save(testResults);
 
         TestResults testResults1 = new TestResults();
@@ -659,7 +717,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults1.setHivViralLoad(69);
         testResults1.setCD4(96);
         testResults1.setTestType("HIV");
-        testResults1.setTestDate(appointments2.getAppointmentTime());
+        testResults1.setTestDate(appointments2.getStartTime().toLocalDate());
         testResultRepository.save(testResults1);
 
         TestResults testResults2 = new TestResults();
@@ -673,7 +731,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults2.setHivViralLoad(69);
         testResults2.setCD4(96);
         testResults2.setTestType("HIV");
-        testResults2.setTestDate(appointments3.getAppointmentTime());
+        testResults2.setTestDate(appointments3.getStartTime().toLocalDate());
         testResultRepository.save(testResults2);
 
         TestResults testResults3 = new TestResults();
@@ -687,7 +745,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults3.setHivViralLoad(69);
         testResults3.setCD4(96);
         testResults3.setTestType("HIV");
-        testResults3.setTestDate(appointments4.getAppointmentTime());
+        testResults3.setTestDate(appointments4.getStartTime().toLocalDate());
         testResultRepository.save(testResults3);
 
         TestResults testResults4 = new TestResults();
@@ -701,7 +759,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults4.setHivViralLoad(69);
         testResults4.setCD4(96);
         testResults4.setTestType("HIV");
-        testResults4.setTestDate(appointments5.getAppointmentTime());
+        testResults4.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults4);
 
         TestResults testResults5 = new TestResults();
@@ -715,7 +773,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults5.setHivViralLoad(69);
         testResults5.setCD4(96);
         testResults5.setTestType("HIV");
-        testResults5.setTestDate(appointments5.getAppointmentTime());
+        testResults5.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults5);
 
         TestResults testResults6 = new TestResults();
@@ -729,7 +787,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults6.setHivViralLoad(69);
         testResults6.setCD4(96);
         testResults6.setTestType("HIV");
-        testResults6.setTestDate(appointments5.getAppointmentTime());
+        testResults6.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults6);
 
         TestResults testResults7 = new TestResults();
@@ -743,7 +801,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults7.setHivViralLoad(69);
         testResults7.setCD4(96);
         testResults7.setTestType("HIV");
-        testResults7.setTestDate(appointments5.getAppointmentTime());
+        testResults7.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults7);
 
         TestResults testResults8 = new TestResults();
@@ -757,7 +815,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults8.setHivViralLoad(69);
         testResults8.setCD4(96);
         testResults8.setTestType("HIV");
-        testResults8.setTestDate(appointments5.getAppointmentTime());
+        testResults8.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults8);
 
         TestResults testResults9 = new TestResults();
@@ -771,7 +829,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults9.setHivViralLoad(69);
         testResults9.setCD4(96);
         testResults9.setTestType("HIV");
-        testResults9.setTestDate(appointments5.getAppointmentTime());
+        testResults9.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults9);
 
 
@@ -834,7 +892,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Reminders remindersReExam5 = new Reminders();
         remindersReExam5.setCustomers(customers);
-        remindersReExam5.setReminderTime(appointments6.getAppointmentTime().atTime(8, 0));
+        remindersReExam5.setReminderTime(appointments6.getStartTime().toLocalDate().atTime(8, 0));
         remindersReExam5.setMessage("tái khám");
         remindersReExam5.setTestResults(testResults5);
         remindersReExam5.setAppointments(appointments6);
@@ -845,7 +903,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Reminders remindersReExam6 = new Reminders();
         remindersReExam6.setCustomers(customers);
-        remindersReExam6.setReminderTime(appointments7.getAppointmentTime().atTime(8, 0));
+        remindersReExam6.setReminderTime(appointments7.getStartTime().toLocalDate().atTime(8, 0));
         remindersReExam6.setMessage("tái khám");
         remindersReExam6.setTestResults(testResults6);
         remindersReExam6.setAppointments(appointments7);
@@ -856,7 +914,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Reminders remindersReExam7 = new Reminders();
         remindersReExam7.setCustomers(customers);
-        remindersReExam7.setReminderTime(appointments8.getAppointmentTime().atTime(8, 0));
+        remindersReExam7.setReminderTime(appointments8.getStartTime().toLocalDate().atTime(8, 0));
         remindersReExam7.setMessage("tái khám");
         remindersReExam7.setTestResults(testResults7);
         remindersReExam7.setAppointments(appointments8);
@@ -867,7 +925,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Reminders remindersReExam8 = new Reminders();
         remindersReExam8.setCustomers(customers);
-        remindersReExam8.setReminderTime(appointments9.getAppointmentTime().atTime(8, 0));
+        remindersReExam8.setReminderTime(appointments9.getStartTime().toLocalDate().atTime(8, 0));
         remindersReExam8.setMessage("tái khám");
         remindersReExam8.setTestResults(testResults8);
         remindersReExam8.setAppointments(appointments9);
@@ -878,7 +936,7 @@ public class DataSeeder implements CommandLineRunner {
 
         Reminders remindersReExam9 = new Reminders();
         remindersReExam9.setCustomers(customers);
-        remindersReExam9.setReminderTime(appointments10.getAppointmentTime().atTime(8, 0));
+        remindersReExam9.setReminderTime(appointments10.getStartTime().toLocalDate().atTime(8, 0));
         remindersReExam9.setMessage("tái khám");
         remindersReExam9.setTestResults(testResults9);
         remindersReExam9.setAppointments(appointments10);

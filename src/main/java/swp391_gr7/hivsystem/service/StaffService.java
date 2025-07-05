@@ -12,7 +12,7 @@ import java.util.List;
 public interface StaffService {
     Staffs saveStaff(UserAndStaffCreateRequest request, Users users);
 
-    Staffs findStaffHasLeastAppointment();
+    Staffs findStaffHasLeastAppointment(int workShift);
 
     Staffs updateStaff(UserAndStaffUpdateRequest request, Users users);
 

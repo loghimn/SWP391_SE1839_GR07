@@ -48,30 +48,43 @@ public class StaffServiceImp implements StaffService {
 
     // Tim Staff co lich thap nhat
     @Override
-    public Staffs findStaffHasLeastAppointment() {
+    public Staffs findStaffHasLeastAppointment(int workShift) {
         List<Staffs> staffs = staffRepository.findAllStaff();
-        if (staffs.isEmpty()) {
+
+        // Lọc thủ công: chỉ lấy staff có ca làm việc phù hợp (ví dụ: ca sáng)
+        int targetWorkShift = workShift; // Hoặc 2 tùy nhu cầu, bạn có thể truyền từ controller
+
+        List<Staffs> matchedStaffs = new ArrayList<>();
+        for (Staffs staff : staffs) {
+            if (staff.getWorkShift() == targetWorkShift) {
+                matchedStaffs.add(staff);
+            }
+        }
+
+        if (matchedStaffs.isEmpty()) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
 
-        Staffs minStaffs = staffs.get(0);
-        int minAppointments = minStaffs.getAppointments().size();
+        Staffs minStaff = matchedStaffs.get(0);
+        int minAppointments = minStaff.getAppointments().size();
 
-        for (int i = 1; i < staffs.size(); i++) {
-            Staffs current = staffs.get(i);
+        for (int i = 1; i < matchedStaffs.size(); i++) {
+            Staffs current = matchedStaffs.get(i);
             int currentAppointments = current.getAppointments().size();
 
             if (currentAppointments < minAppointments) {
-                minStaffs = current;
+                minStaff = current;
                 minAppointments = currentAppointments;
 
                 if (minAppointments == 0) {
-                    break; // không cần tìm tiếp
+                    break; // tối ưu: gặp staff chưa có lịch hẹn thì return luôn
                 }
             }
         }
-        return minStaffs;
+
+        return minStaff;
     }
+
 
     @Override
     public Staffs updateStaff(UserAndStaffUpdateRequest request, Users users) {

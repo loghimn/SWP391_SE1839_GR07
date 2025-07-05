@@ -33,7 +33,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
 
             Customers customers = testResult.getCustomers();
             Doctors doctors = testResult.getDoctors();
-            LocalDate currentDate = originalAppointment.getAppointmentTime().plusDays(7);
+            LocalDate currentDate = originalAppointment.getStartTime().toLocalDate().plusDays(7);
 
             // lấy list appointment
             List<Appointments> listAppointments = appointmentRepository.findAll();
@@ -43,7 +43,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             while (true) {
                 boolean duplicate_reExam = false;
                 for(Appointments appointment: listAppointments){
-                    if(appointment.getAppointmentTime().isEqual(currentDate) && appointment.isStatus()){
+                    if(appointment.getStartTime().toLocalDate().isEqual(currentDate) && appointment.isStatus()){
                         duplicate_reExam = true;
                         break;
                     }
@@ -80,7 +80,7 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             appointment.setCustomers(customers);
             appointment.setDoctors(doctors);
             appointment.setAppointmentType(testResult.getTestType());
-            appointment.setAppointmentTime(nextSchedule.getWorkDate()); // ngày tái khám
+            appointment.setStartTime(nextSchedule.getWorkDate().atTime(8, 0));
             appointment.setAnonymous(originalAppointment.isAnonymous());
             appointment.setMedicalRecords(originalAppointment.getMedicalRecords());
             appointment.setSchedules(nextSchedule);

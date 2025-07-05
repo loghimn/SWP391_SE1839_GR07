@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class AppointmentCreateRequest {
 //    private int staffId;
 
     @NotNull(message = "APPOINTMENT_REQUEST_TIME_NOTNULL")
-    private LocalDate appointmentTime;
+    private LocalDateTime startTime;
 
 //    private boolean status;
     @NotNull(message = "APPOINTMENT_REQUEST_ANONYMOUS_NOTNULL")

@@ -108,8 +108,8 @@ public class ReminderServiceImpl implements ReminderService {
         reminder.setTestResults(testResult);
         reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
         // Set reminderTime based on dosageTime in TreatmentPlans
-        if (appointments != null && appointments.getAppointmentTime() != null) {
-            LocalDate appointmentDay = appointments.getAppointmentTime();
+        if (appointments != null && appointments.getStartTime() != null) {
+            LocalDate appointmentDay = appointments.getStartTime().toLocalDate();
             LocalDate reminderDay = appointmentDay.minusDays(1);
             LocalTime reminderTime = LocalTime.of(8, 0);
             LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);

@@ -303,7 +303,8 @@ public enum ErrorCode {
     SCHEDULE_DOCTOR_NOT(1147, "Doctor is not schedule", HttpStatus.NOT_FOUND),
 
     USER_INVALID_OLD_PASSWORD(1148, "Old password is not correct", HttpStatus.BAD_REQUEST), // 400
-
+//Time Apponitment
+    TIME_APPOINTMENT_NOT_FOUND(1149, "Time appointment not valid", HttpStatus.NOT_FOUND),
     ;
 
     private int code;
