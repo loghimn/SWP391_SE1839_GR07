@@ -17,7 +17,11 @@ import swp391_gr7.hivsystem.repository.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 @Service
 public class ReminderServiceImpl implements ReminderService {
@@ -34,6 +38,8 @@ public class ReminderServiceImpl implements ReminderService {
     private AppointmentRepository appointmentsRepository;
     @Autowired
     private JavaMailSenderImpl mailSender;
+    @Autowired
+    private MailContentBuilder mailContentBuilder;
 
     @Override
     public Reminders createReminderDosage(int id, ReminderDosageCreateRequest request) {
@@ -143,18 +149,38 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     @Scheduled(fixedRate = 60000)
     public void sendDueReminderReExam() {
-        List<Reminders> remindersDue = remindersRepository.findReminderStatusFalseAndReminderTimeBefore(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+
+        List<Reminders> remindersDue = remindersRepository.findReminderStatusTrueAndReminderTimeBefore(now);
         for (Reminders reminders : remindersDue) {
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
                 helper.setTo(reminders.getCustomers().getUsers().getEmail());
                 helper.setSubject(reminders.getReminderType());
-                helper.setText(reminders.getMessage());
-                helper.setFrom(reminders.getStaffs().getUsers().getEmail());
-                mailSender.send(message);
-                reminders.setStatus(false);
+
+                // prepare data for template email
+                Map<String, Object> model = new HashMap<>();
+                model.put("customerName", reminders.getCustomers().getUsers().getFullName());
+                model.put("message", reminders.getMessage());
+
+                String htmlContent = mailContentBuilder.build("FormEmail", model);
+                helper.setText(htmlContent, true); // true để gửi html
+
+                helper.setFrom("nd170504@gmail.com"); // ở đây phải điền email được đăng ký ở applicationProperties
+
+                mailSender.send(message); // gửi email
+
+                System.out.println("----------------------------------------------------------");
+                System.out.println("---- Time Debug ----");
+                System.out.println("Now: " + now);
+                System.out.println("ReminderTime: " + reminders.getReminderTime());
+                System.out.println("System TimeZone: " + TimeZone.getDefault().getID());
+                System.out.println("----------------------------------------------------------");
+                reminders.setStatus(false); // sau khi gửi, chuyển status về false
                 remindersRepository.save(reminders);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
