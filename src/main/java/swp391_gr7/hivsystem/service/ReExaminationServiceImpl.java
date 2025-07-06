@@ -71,6 +71,9 @@ public class ReExaminationServiceImpl implements ReExaminationService {
             LocalDate workDate = schedule.getWorkDate();
 
             for (int hour = 8; hour <= 16; hour += 2) {
+                if (hour == 12) {// Bỏ qua giờ nghỉ trưa
+                    continue;
+                }
                 LocalDateTime candidate = workDate.atTime(hour, 0);
 
                 boolean hasConflict = upcomingAppointments.stream()
