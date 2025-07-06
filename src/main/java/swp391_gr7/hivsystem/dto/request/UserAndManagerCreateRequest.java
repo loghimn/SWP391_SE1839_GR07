@@ -11,9 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserAndManagerCreateRequest extends UserCreateRequest {
 
-    @NotBlank(message = "MANAGER_INVALID_DEPARTMENT_NOTBLANK")
-    private String department;
-
     @NotBlank(message = "MANAGER_INVALID_OFFICE_PHONE_NOTBLANK")
     @Pattern(regexp = "^0\\d{9}$", message = "MANAGER_INVALID_OFFICE_PHONE_FORMAT")
     private String officePhone;

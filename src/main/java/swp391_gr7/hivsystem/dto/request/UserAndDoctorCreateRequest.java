@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserAndDoctorCreateRequest extends UserCreateRequest {
 
-    @NotBlank(message = "DOCTOR_INVALID_DEPARTMENT_NOTBLANK")
-    private String department;
+//    @NotBlank(message = "DOCTOR_INVALID_DEPARTMENT_NOTBLANK")
+//    private String department;
 
     @NotNull(message = "DOCTOR_INVALID_YEAR_EXPERIENCE_NOTNULL")
     @Min(value = 0, message = "DOCTOR_INVALID_YEAR_EXPERIENCE")

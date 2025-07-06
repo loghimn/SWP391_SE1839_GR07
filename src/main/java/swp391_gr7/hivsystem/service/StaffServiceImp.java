@@ -38,9 +38,9 @@ public class StaffServiceImp implements StaffService {
         }
         Staffs staffs = new Staffs();
         staffs.setUsers(users);
-        staffs.setDepartment(request.getDepartment());
+//        staffs.setDepartment(request.getDepartment());
         staffs.setWorkShift(request.getWorkShift());
-        staffs.setAssignedArea(request.getAssignedArea());
+//        staffs.setAssignedArea(request.getAssignedArea());
         staffs.setManagers(manager);
         return staffRepository.save(staffs);
 
@@ -93,9 +93,9 @@ public class StaffServiceImp implements StaffService {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
         staff.setUsers(users);
-        staff.setDepartment(request.getDepartment());
+//        staff.setDepartment(request.getDepartment());
         staff.setWorkShift(request.getWorkShift());
-        staff.setAssignedArea(request.getAssignedArea());
+//        staff.setAssignedArea(request.getAssignedArea());
         return staffRepository.save(staff);
     }
 

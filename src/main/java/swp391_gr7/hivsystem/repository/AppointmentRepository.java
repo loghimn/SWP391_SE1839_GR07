@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import swp391_gr7.hivsystem.model.Appointments;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -24,4 +25,6 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     List<Appointments> findByDoctors_DoctorId(int doctorsDoctorId);
 
     List<Appointments> findByDoctors_DoctorIdAndAppointmentType(int doctorsDoctorId, String appointmentType);
+
+    List<Appointments> findByDoctors_DoctorIdAndStartTimeBetween(int doctorsDoctorId, LocalDateTime startTimeAfter, LocalDateTime startTimeBefore);
 }

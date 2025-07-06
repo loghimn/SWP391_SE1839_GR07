@@ -28,83 +28,80 @@ public class ReExaminationServiceImpl implements ReExaminationService {
 
     @Override
     public void handleReExamination(TestResults testResult) {
-        if (testResult.isRe_examination()) {
-            Appointments originalAppointment = appointmentRepository
-                    .findById(testResult.getAppointments().getAppointmentId())
-                    .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_ORIGINAL_APPOINTMENT_NOT_FOUND));
+        if (!testResult.isRe_examination()) return;
 
-            Customers customers = testResult.getCustomers();
-            Doctors doctors = testResult.getDoctors();
-            LocalDateTime currentDateTime = originalAppointment.getStartTime().plusDays(7);
+        Appointments originalAppointment = appointmentRepository
+                .findById(testResult.getAppointments().getAppointmentId())
+                .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_ORIGINAL_APPOINTMENT_NOT_FOUND));
 
-            // lấy list appointment
-            List<Appointments> listAppointments = appointmentRepository.findAll();
-            if (listAppointments.isEmpty()) {
-                throw new AppException(ErrorCode.APPOINTMENT_LIST_NOT_FOUND);
-            }
-            int daysChecked = 0;
-            int maxDays = 30;
-            boolean found = false;
+        Customers customers = testResult.getCustomers();
+        Doctors doctors = testResult.getDoctors();
+        LocalDateTime startSearchDate = originalAppointment.getStartTime().plusDays(7);
 
-            while (daysChecked < maxDays) {
-                LocalDate dateToCheck = currentDateTime.toLocalDate();
-
-                // Kiểm tra các khung giờ trong ngày: 8h, 10h, 12h, 14h, 16h
-                for (int hour = 8; hour <= 16; hour += 2) {
-                    LocalDateTime candidate = dateToCheck.atTime(hour, 0);
-
-                    boolean isDuplicate = listAppointments.stream()
-                            .anyMatch(a -> a.getStartTime().equals(candidate) && a.isStatus());
-
-                    if (!isDuplicate) {
-                        currentDateTime = candidate; // Gán lại thời điểm phù hợp
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (found) break;
-
-                currentDateTime = currentDateTime.plusDays(1).withHour(8).withMinute(0).withSecond(0).withNano(0);
-                daysChecked++;
-            }
+        // Lấy lịch làm việc của bác sĩ sau ngày tái khám dự kiến
+        List<Schedules> availableSchedules = schedulesRepository
+                .findByDoctors_DoctorId(doctors.getDoctorId()).stream()
+                .filter(s -> {
+                    LocalDate workDate = s.getWorkDate();
+                    return !workDate.isBefore(startSearchDate.toLocalDate())
+                            && !workDate.isAfter(startSearchDate.toLocalDate().plusDays(30));
+                })
+                .sorted(Comparator.comparing(Schedules::getWorkDate))
+                .toList();
 
 
-            Schedules schedule = originalAppointment.getSchedules();
-
-
-            // Lấy ngày bác sĩ làm việc
-            List<Schedules> schedules = schedulesRepository.findByDoctors_DoctorId((doctors.getDoctorId()));
-            if (schedules == null || schedules.isEmpty()) {
-                throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
-            }
-
-            LocalDateTime upperBound = currentDateTime.plusDays(30);
-
-            LocalDateTime finalCurrentDate = currentDateTime;
-            Schedules nextSchedule = schedules.stream()
-                    .filter(s -> {
-                        LocalDate workDate = s.getWorkDate();
-                        return !workDate.isBefore(finalCurrentDate.toLocalDate()) && !workDate.isAfter(upperBound.toLocalDate());
-                    })
-                    .min(Comparator.comparing(Schedules::getWorkDate))
-                    .orElseThrow(() -> new AppException(ErrorCode.RE_EXAMINATION_NO_SCHEDULE_DOCTOR_FOUND_AFTER_ORIGINAL_APPOINTMENT_DATE));
-
-            // Tạo lịch tái khám mới
-            Appointments appointment = new Appointments();
-            appointment.setCustomers(customers);
-            appointment.setDoctors(doctors);
-            appointment.setAppointmentType(testResult.getTestType());
-            appointment.setStartTime(nextSchedule.getWorkDate().atTime(LocalTime.from(currentDateTime)));
-            appointment.setEndTime(nextSchedule.getWorkDate().atTime(LocalTime.from(currentDateTime)).plusHours(2));
-            appointment.setAnonymous(originalAppointment.isAnonymous());
-            appointment.setMedicalRecords(originalAppointment.getMedicalRecords());
-            appointment.setSchedules(nextSchedule);
-            appointment.setStatus(true); // pending hoặc true nếu là boolean
-            appointment.setStaffs(originalAppointment.getStaffs());
-
-            appointmentRepository.save(appointment);
+        if (availableSchedules.isEmpty()) {
+            throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
         }
+
+        // Lấy tất cả appointment sắp tới của bác sĩ (trong vòng 30 ngày từ ngày tìm)
+        List<Appointments> upcomingAppointments = appointmentRepository
+                .findByDoctors_DoctorIdAndStartTimeBetween(
+                        doctors.getDoctorId(),
+                        startSearchDate.toLocalDate().atStartOfDay(),
+                        startSearchDate.plusDays(30)
+                );
+
+        // Duyệt từng ngày bác sĩ làm việc và tìm giờ trống
+        LocalDateTime selectedTime = null;
+        Schedules selectedSchedule = null;
+
+        outer:
+        for (Schedules schedule : availableSchedules) {
+            LocalDate workDate = schedule.getWorkDate();
+
+            for (int hour = 8; hour <= 16; hour += 2) {
+                LocalDateTime candidate = workDate.atTime(hour, 0);
+
+                boolean hasConflict = upcomingAppointments.stream()
+                        .anyMatch(a -> a.getStartTime().equals(candidate) && a.isStatus());
+
+                if (!hasConflict) {
+                    selectedTime = candidate;
+                    selectedSchedule = schedule;
+                    break outer;
+                }
+            }
+        }
+
+        if (selectedTime == null) {
+            throw new AppException(ErrorCode.RE_EXAMINATION_SCHEDULE_NOT_FOUND_FOR_DOCTOR);
+        }
+
+        // Tạo lịch tái khám mới
+        Appointments newAppointment = new Appointments();
+        newAppointment.setCustomers(customers);
+        newAppointment.setDoctors(doctors);
+        newAppointment.setAppointmentType(testResult.getTestType());
+        newAppointment.setStartTime(selectedTime);
+        newAppointment.setEndTime(selectedTime.plusHours(2));
+        newAppointment.setAnonymous(originalAppointment.isAnonymous());
+        newAppointment.setMedicalRecords(originalAppointment.getMedicalRecords());
+        newAppointment.setSchedules(selectedSchedule);
+        newAppointment.setStatus(true); // hoặc pending
+        newAppointment.setStaffs(originalAppointment.getStaffs());
+
+        appointmentRepository.save(newAppointment);
     }
 
 

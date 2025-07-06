@@ -91,7 +91,7 @@ public class AppointmentServiceImp implements AppointmentService {
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
         if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
                 request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
-                request.getStartTime().toLocalTime().getHour() == 10 ||
+                request.getStartTime().toLocalTime().getHour() == 12 ||
                 request.getStartTime().toLocalTime().getHour() == 14 ||
                 request.getStartTime().toLocalTime().getHour() == 16) {
             throw new AppException(ErrorCode.TIME_APPOINTMENT_NOT_FOUND);
@@ -209,7 +209,7 @@ public class AppointmentServiceImp implements AppointmentService {
 
         if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
                 request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
-                request.getStartTime().toLocalTime().getHour() == 10 ||
+                request.getStartTime().toLocalTime().getHour() == 12 ||
                 request.getStartTime().toLocalTime().getHour() == 14 ||
                 request.getStartTime().toLocalTime().getHour() == 16) {
             throw new AppException(ErrorCode.TIME_APPOINTMENT_NOT_FOUND);

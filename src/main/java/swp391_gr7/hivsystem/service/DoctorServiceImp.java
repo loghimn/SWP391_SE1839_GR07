@@ -40,7 +40,7 @@ public class DoctorServiceImp implements DoctorService {
         }
         Doctors doctor = new Doctors();
         doctor.setUsers(users);
-        doctor.setDepartment(request.getDepartment());
+//        doctor.setDepartment(request.getDepartment());
         doctor.setYearExperience(request.getYearExperience());
         doctor.setLicenseNumber(request.getLicenseNumber());
         doctor.setManagers(manager); // Associate manager
@@ -74,7 +74,7 @@ public class DoctorServiceImp implements DoctorService {
             doctor.setLicenseNumber(request.getLicenseNumber());
         }
         doctor.setUsers(users);
-        doctor.setDepartment(request.getDepartment());
+//        doctor.setDepartment(request.getDepartment());
         doctor.setYearExperience(request.getYearExperience());
         doctor.setLicenseNumber(request.getLicenseNumber());
         return doctorRepository.save(doctor);

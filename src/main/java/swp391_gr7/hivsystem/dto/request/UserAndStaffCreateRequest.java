@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAndStaffCreateRequest extends UserCreateRequest {
-    @NotBlank(message = "STAFF_INVALID_DEPARTMENT_NOTBLANK")
-    private String department;
+//    @NotBlank(message = "STAFF_INVALID_DEPARTMENT_NOTBLANK")
+//    private String department;
 
     @NotNull(message = "STAFF_INVALID_WORKSHIFT_NOTNULL")
     @Min(value = 1, message = "STAFF_INVALID_WORKSHIFT")
-    @Max(value = 3, message = "STAFF_INVALID_WORKSHIFT")
+    @Max(value = 2, message = "STAFF_INVALID_WORKSHIFT")
     private int workShift;
 
-    @NotBlank(message = "STAFF_INVALID_ASSIGNED_AREA_NOTBLANK")
-    private String assignedArea;
+//    @NotBlank(message = "STAFF_INVALID_ASSIGNED_AREA_NOTBLANK")
+//    private String assignedArea;
 }

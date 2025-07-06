@@ -25,10 +25,10 @@ public class Doctors {
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
-
-    @Nationalized
-    @Column(name = "department", nullable = false)
-    private String department;
+//
+//    @Nationalized
+//    @Column(name = "department", nullable = false)
+//    private String department;
 
     @Column(name = "year_experience", nullable = false)
     private int yearExperience;
