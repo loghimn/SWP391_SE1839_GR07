@@ -27,16 +27,16 @@ public class Staffs {
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
 
-    @Nationalized
-    @Column(name = "department", nullable = false)
-    private String department;
+//    @Nationalized
+//    @Column(name = "department", nullable = false)
+//    private String department;
 
     @Column(name = "work_shift", nullable = false)
     private int workShift;
 
-    @Nationalized
-    @Column(name = "assigned_area", nullable = false)
-    private String assignedArea;
+//    @Nationalized
+//    @Column(name = "assigned_area", nullable = false)
+//    private String assignedArea;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "manager_id", nullable = false)

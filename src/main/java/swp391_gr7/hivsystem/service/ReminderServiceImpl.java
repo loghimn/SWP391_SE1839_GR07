@@ -17,7 +17,11 @@ import swp391_gr7.hivsystem.repository.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 @Service
 public class ReminderServiceImpl implements ReminderService {
@@ -34,6 +38,8 @@ public class ReminderServiceImpl implements ReminderService {
     private AppointmentRepository appointmentsRepository;
     @Autowired
     private JavaMailSenderImpl mailSender;
+    @Autowired
+    private MailContentBuilder mailContentBuilder;
 
     @Override
     public Reminders createReminderDosage(int id, ReminderDosageCreateRequest request) {
@@ -50,7 +56,7 @@ public class ReminderServiceImpl implements ReminderService {
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
-        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId()).orElse(null);
+        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId() + 1).orElse(null);
         if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
@@ -74,24 +80,46 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public Reminders createReminderReExam(int id, ReminderReExamCreateRequest request) {
         Reminders reminder = new Reminders();
-        Customers customer = customersRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
+        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
+        if (appointments == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        } else if (!appointments.isStatus()) {
+            throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
+        }
+        Customers customer = customersRepository.findById(appointments.getCustomers().getCustomerId()).orElse(null);
+        if (customer == null) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
         reminder.setCustomers(customer);
-        TestResults testResult = testResultsRepository.findById(1).orElseThrow(() -> new AppException(ErrorCode.TEST_RESULT_NOT_FOUND));
+        List<TestResults> testResultsList = testResultsRepository.findByCustomers_CustomerId(customer.getCustomerId());
+        if (testResultsList.isEmpty()) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
+
+        TestResults testResult = null;
+        for (int i = testResultsList.size() - 1; i >= 0; i--) {
+            if (testResultsList.get(i).isRe_examination()) {
+                testResult = testResultsList.get(i);
+                break;
+            }
+        }
+        if (testResult == null) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
+
         reminder.setReminderType("Re-Exam Reminder");
         reminder.setMessage(request.getMessage());
         reminder.setStatus(true);
-        reminder.setStaffs(staffsRepository.findById(id).orElse(null));
+        Staffs staffs = staffsRepository.findById(id).orElse(null);
+        if (staffs == null) {
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+        }
+        reminder.setStaffs(staffs);
         reminder.setTestResults(testResult);
-        Appointments appointments = appointmentsRepository.findById(request.getAppointmentId()).orElse(null);
         reminder.setAppointments(appointmentsRepository.findById(request.getAppointmentId()).orElse(null));
         // Set reminderTime based on dosageTime in TreatmentPlans
-        if (appointments != null && appointments.getAppointmentTime() != null) {
-            LocalDate appointmentDay = appointments.getAppointmentTime();
-            LocalDate reminderDay = appointmentDay.minusDays(1);
-            LocalTime reminderTime = LocalTime.of(8, 0);
-            LocalDateTime reminderDateTime = LocalDateTime.of(reminderDay, reminderTime);
-            reminder.setReminderTime(reminderDateTime); // store full datetime
+        if (appointments != null && appointments.getStartTime() != null) {
+            reminder.setReminderTime(appointments.getStartTime()); // store full datetime
         } else if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         } else {
@@ -121,18 +149,38 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     @Scheduled(fixedRate = 60000)
     public void sendDueReminderReExam() {
-        List<Reminders> remindersDue = remindersRepository.findReminderStatusFalseAndReminderTimeBefore(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+
+        List<Reminders> remindersDue = remindersRepository.findReminderStatusTrueAndReminderTimeBefore(now);
         for (Reminders reminders : remindersDue) {
             try {
                 MimeMessage message = mailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
                 helper.setTo(reminders.getCustomers().getUsers().getEmail());
                 helper.setSubject(reminders.getReminderType());
-                helper.setText(reminders.getMessage());
-                helper.setFrom(reminders.getStaffs().getUsers().getEmail());
-                mailSender.send(message);
-                reminders.setStatus(false);
+
+                // prepare data for template email
+                Map<String, Object> model = new HashMap<>();
+                model.put("customerName", reminders.getCustomers().getUsers().getFullName());
+                model.put("message", reminders.getMessage());
+
+                String htmlContent = mailContentBuilder.build("FormEmail", model);
+                helper.setText(htmlContent, true); // true để gửi html
+
+                helper.setFrom("nd170504@gmail.com"); // ở đây phải điền email được đăng ký ở applicationProperties
+
+                mailSender.send(message); // gửi email
+
+                System.out.println("----------------------------------------------------------");
+                System.out.println("---- Time Debug ----");
+                System.out.println("Now: " + now);
+                System.out.println("ReminderTime: " + reminders.getReminderTime());
+                System.out.println("System TimeZone: " + TimeZone.getDefault().getID());
+                System.out.println("----------------------------------------------------------");
+                reminders.setStatus(false); // sau khi gửi, chuyển status về false
                 remindersRepository.save(reminders);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

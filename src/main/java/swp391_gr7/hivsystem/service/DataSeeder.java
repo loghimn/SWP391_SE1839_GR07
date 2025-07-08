@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -99,7 +100,7 @@ public class DataSeeder implements CommandLineRunner {
         Users staffUser = new Users();
         staffUser.setUsername("staff");
         staffUser.setPassword(passwordEncoder.encode("staffpass"));
-        staffUser.setEmail("staff1@staff.com");
+        staffUser.setEmail("staff1@fpt.edu.vn");
         staffUser.setPhone("0444444444");
         staffUser.setFullName("Staff One");
         staffUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
@@ -109,11 +110,24 @@ public class DataSeeder implements CommandLineRunner {
         staffUser.setStatus(true);
         userRepository.save(staffUser);
 
+        Users staffUser2 = new Users();
+        staffUser2.setUsername("staff2");
+        staffUser2.setPassword(passwordEncoder.encode("staff2pass"));
+        staffUser2.setEmail("staff2@fpt.edu.vn");
+        staffUser2.setPhone("0444444445");
+        staffUser2.setFullName("Staff Two");
+        staffUser2.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        staffUser2.setGender("female");
+        staffUser2.setRole("Staff");
+        staffUser2.setCreatedAt(LocalDateTime.now());
+        staffUser2.setStatus(true);
+        userRepository.save(staffUser2);
+
         // Add a customer user
         Users customerUser = new Users();
         customerUser.setUsername("customer");
         customerUser.setPassword(passwordEncoder.encode("customerpass"));
-        customerUser.setEmail("customer1@staff.com");
+        customerUser.setEmail("customer1@gmail.com");
         customerUser.setPhone("0555555555");
         customerUser.setFullName("Customer One");
         customerUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
@@ -133,30 +147,38 @@ public class DataSeeder implements CommandLineRunner {
         // Create Manager
         Managers manager = new Managers();
         manager.setUsers(managerUser);
-        manager.setDepartment("Department 1");
+//        manager.setDepartment("Department 1");
         manager.setOfficePhone("0123456789");
         managerRepository.save(manager);
 
         // Add a staff
         Staffs staff = new Staffs();
         staff.setUsers(staffUser);
-        staff.setDepartment("Department 1");
+//        staff.setDepartment("Department 1");
         staff.setWorkShift(1);
-        staff.setAssignedArea("Area 1");
+//        staff.setAssignedArea("Area 1");
         staff.setManagers(manager);
         staffRepository.save(staff);
+
+        Staffs staff2 = new Staffs();
+        staff2.setUsers(staffUser2);
+//        staff2.setDepartment("Department 2");
+        staff2.setWorkShift(2);
+//        staff2.setAssignedArea("Area 2");
+        staff2.setManagers(manager);
+        staffRepository.save(staff2);
 
         //Create Customer
         Customers customers = new Customers();
         customers.setUsers(customerUser);
-        customers.setAddress("Tran Duy Hung");
+        customers.setAddress("Bien Hoa");
         customers.setManagers(manager);
         customerRepository.save(customers);
 
         // Create Doctor
         Doctors doctors = new Doctors();
         doctors.setUsers(doctorUser);
-        doctors.setDepartment("Department 1");
+//        doctors.setDepartment("Department 1");
         doctors.setLicenseNumber("DOC123456");
         doctors.setYearExperience(5);
         doctors.setManagers(manager);
@@ -358,7 +380,7 @@ public class DataSeeder implements CommandLineRunner {
             schedules.setManagers(manager);
             schedules.setDoctors(doctors);
             schedules.setNotes("Ngày đi làm");
-            schedules.setWorkDate(LocalDate.of(2025, 7, 1 + i));
+            schedules.setWorkDate(LocalDate.of(2025, 8, 1 + i));
             schedulesRepository.save(schedules);
         }
 
@@ -371,38 +393,130 @@ public class DataSeeder implements CommandLineRunner {
         medicalRecordRepository.save(medicalRecords);
 
         //Create AppointmentAdd commentMore actions
+        LocalTime fixedStartTime = LocalTime.of(8, 0);
+        Duration duration = Duration.ofHours(2);
         Appointments appointments1 = new Appointments();
         appointments1.setDoctors(doctors);
         appointments1.setMedicalRecords(medicalRecords);
         appointments1.setCustomers(customers);
         appointments1.setStatus(true);
-        appointments1.setAppointmentTime(LocalDate.of(2025, 7, 1));
+        LocalDateTime start1 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(8, 0));
+        appointments1.setStartTime(start1);
+        appointments1.setEndTime(start1.plusHours(2));
         appointments1.setAnonymous(true);
-        appointments1.setSchedules(schedules);
+        appointments1.setSchedules(schedulesRepository.findById(1).orElse(null));
         appointments1.setStaffs(staff);
         appointments1.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments1);
+
+        Appointments appointments1_1 = new Appointments();
+        appointments1_1.setDoctors(doctors);
+        appointments1_1.setMedicalRecords(medicalRecords);
+        appointments1_1.setCustomers(customers);
+        appointments1_1.setStatus(true);
+        LocalDateTime start1_1 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(10, 0));
+        appointments1_1.setStartTime(start1_1);
+        appointments1_1.setEndTime(start1_1.plusHours(2));
+        appointments1_1.setAnonymous(true);
+        appointments1_1.setSchedules(schedulesRepository.findById(1).orElse(null));
+        appointments1_1.setStaffs(staff);
+        appointments1_1.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments1_1);
+
+        Appointments appointments1_2 = new Appointments();
+        appointments1_2.setDoctors(doctors);
+        appointments1_2.setMedicalRecords(medicalRecords);
+        appointments1_2.setCustomers(customers);
+        appointments1_2.setStatus(true);
+        LocalDateTime start1_2 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(14, 0));
+        appointments1_2.setStartTime(start1_2);
+        appointments1_2.setEndTime(start1_2.plusHours(2));
+        appointments1_2.setAnonymous(true);
+        appointments1_2.setSchedules(schedulesRepository.findById(1).orElse(null));
+        appointments1_2.setStaffs(staff2);
+        appointments1_2.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments1_2);
+
+        Appointments appointments1_3 = new Appointments();
+        appointments1_3.setDoctors(doctors);
+        appointments1_3.setMedicalRecords(medicalRecords);
+        appointments1_3.setCustomers(customers);
+        appointments1_3.setStatus(true);
+        LocalDateTime start1_3 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(16, 0));
+        appointments1_3.setStartTime(start1_3);
+        appointments1_3.setEndTime(start1_3.plusHours(2));
+        appointments1_3.setAnonymous(true);
+        appointments1_3.setSchedules(schedulesRepository.findById(1).orElse(null));
+        appointments1_3.setStaffs(staff2);
+        appointments1_3.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments1_3);
 
         Appointments appointments2 = new Appointments();
         appointments2.setDoctors(doctors);
         appointments2.setMedicalRecords(medicalRecords);
         appointments2.setCustomers(customers);
         appointments2.setStatus(true);
-        appointments2.setAppointmentTime(LocalDate.of(2025, 7, 2));
+        LocalDateTime start2 = LocalDateTime.of(LocalDate.of(2025, 8, 2), fixedStartTime);
+        appointments2.setStartTime(start2);
+        appointments2.setEndTime(start2.plus(duration));
         appointments2.setAnonymous(false);
-        appointments2.setSchedules(schedules);
+        appointments2.setSchedules(schedulesRepository.findById(2).orElse(null));
         appointments2.setStaffs(staff);
         appointments2.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments2);
+
+        Appointments appointments2_1 = new Appointments();
+        appointments2_1.setDoctors(doctors);
+        appointments2_1.setMedicalRecords(medicalRecords);
+        appointments2_1.setCustomers(customers);
+        appointments2_1.setStatus(true);
+        LocalDateTime start2_1 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(10, 0));
+        appointments2_1.setStartTime(start2_1);
+        appointments2_1.setEndTime(start2_1.plus(duration));
+        appointments2_1.setAnonymous(false);
+        appointments2_1.setSchedules(schedulesRepository.findById(2).orElse(null));
+        appointments2_1.setStaffs(staff);
+        appointments2_1.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments2_1);
+
+        Appointments appointments2_2 = new Appointments();
+        appointments2_2.setDoctors(doctors);
+        appointments2_2.setMedicalRecords(medicalRecords);
+        appointments2_2.setCustomers(customers);
+        appointments2_2.setStatus(true);
+        LocalDateTime start2_2 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(14, 0));
+        appointments2_2.setStartTime(start2_2);
+        appointments2_2.setEndTime(start2_2.plus(duration));
+        appointments2_2.setAnonymous(false);
+        appointments2_2.setSchedules(schedulesRepository.findById(2).orElse(null));
+        appointments2_2.setStaffs(staff2);
+        appointments2_2.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments2_2);
+
+        Appointments appointments2_3 = new Appointments();
+        appointments2_3.setDoctors(doctors);
+        appointments2_3.setMedicalRecords(medicalRecords);
+        appointments2_3.setCustomers(customers);
+        appointments2_3.setStatus(true);
+        LocalDateTime start2_3 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(16, 0));
+        appointments2_3.setStartTime(start2_3);
+        appointments2_3.setEndTime(start2_3.plus(duration));
+        appointments2_3.setAnonymous(false);
+        appointments2_3.setSchedules(schedulesRepository.findById(2).orElse(null));
+        appointments2_3.setStaffs(staff2);
+        appointments2_3.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments2_3);
 
         Appointments appointments3 = new Appointments();
         appointments3.setDoctors(doctors);
         appointments3.setMedicalRecords(medicalRecords);
         appointments3.setCustomers(customers);
         appointments3.setStatus(true);
-        appointments3.setAppointmentTime(LocalDate.of(2025, 7, 3));
+        LocalDateTime start3 = LocalDateTime.of(LocalDate.of(2025, 8, 3), fixedStartTime);
+        appointments3.setStartTime(start3);
+        appointments3.setEndTime(start3.plus(duration));
         appointments3.setAnonymous(true);
-        appointments3.setSchedules(schedules);
+        appointments3.setSchedules(schedulesRepository.findById(3).orElse(null));
         appointments3.setStaffs(staff);
         appointments3.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments3);
@@ -412,11 +526,13 @@ public class DataSeeder implements CommandLineRunner {
         appointments4.setMedicalRecords(medicalRecords);
         appointments4.setCustomers(customers);
         appointments4.setStatus(true);
-        appointments4.setAppointmentTime(LocalDate.of(2025, 7, 4));
+        LocalDateTime start4 = LocalDateTime.of(LocalDate.of(2025, 8, 4), fixedStartTime);
+        appointments4.setStartTime(start4);
+        appointments4.setEndTime(start4.plus(duration));
         appointments4.setAnonymous(true);
-        appointments4.setSchedules(schedules);
+        appointments4.setSchedules(schedulesRepository.findById(4).orElse(null));
         appointments4.setStaffs(staff);
-        appointments4.setAppointmentType("Consultation");
+        appointments4.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments4);
 
         Appointments appointments5 = new Appointments();
@@ -424,12 +540,155 @@ public class DataSeeder implements CommandLineRunner {
         appointments5.setMedicalRecords(medicalRecords);
         appointments5.setCustomers(customers);
         appointments5.setStatus(true);
-        appointments5.setAppointmentTime(LocalDate.of(2025, 7, 5));
+        LocalDateTime start5 = LocalDateTime.of(LocalDate.of(2025, 8, 5), fixedStartTime);
+        appointments5.setStartTime(start5);
+        appointments5.setEndTime(start5.plus(duration));
         appointments5.setAnonymous(false);
-        appointments5.setSchedules(schedules);
+        appointments5.setSchedules(schedulesRepository.findById(5).orElse(null));
         appointments5.setStaffs(staff);
-        appointments5.setAppointmentType("Consultation");
+        appointments5.setAppointmentType("Test HIV");
         appointmentRepository.save(appointments5);
+
+        Appointments appointments6 = new Appointments();
+        appointments6.setDoctors(doctors);
+        appointments6.setMedicalRecords(medicalRecords);
+        appointments6.setCustomers(customers);
+        appointments6.setStatus(true);
+        LocalDateTime start6 = LocalDateTime.of(LocalDate.of(2025, 8, 6), fixedStartTime);
+        appointments6.setStartTime(start6);
+        appointments6.setEndTime(start6.plus(duration));
+        appointments6.setAnonymous(false);
+        appointments6.setSchedules(schedulesRepository.findById(6).orElse(null));
+        appointments6.setStaffs(staff);
+        appointments6.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments6);
+
+        Appointments appointments7 = new Appointments();
+        appointments7.setDoctors(doctors);
+        appointments7.setMedicalRecords(medicalRecords);
+        appointments7.setCustomers(customers);
+        appointments7.setStatus(true);
+        LocalDateTime start7 = LocalDateTime.of(LocalDate.of(2025, 8, 7), fixedStartTime);
+        appointments7.setStartTime(start7);
+        appointments7.setEndTime(start7.plus(duration));
+        appointments7.setAnonymous(true);
+        appointments7.setSchedules(schedulesRepository.findById(7).orElse(null));
+        appointments7.setStaffs(staff);
+        appointments7.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments7);
+
+        Appointments appointments8 = new Appointments();
+        appointments8.setDoctors(doctors);
+        appointments8.setMedicalRecords(medicalRecords);
+        appointments8.setCustomers(customers);
+        appointments8.setStatus(true);
+        LocalDateTime start8 = LocalDateTime.of(LocalDate.of(2025, 8, 8), fixedStartTime);
+        appointments8.setStartTime(start8);
+        appointments8.setEndTime(start8.plus(duration));
+        appointments8.setAnonymous(false);
+        appointments8.setSchedules(schedulesRepository.findById(8).orElse(null));
+        appointments8.setStaffs(staff);
+        appointments8.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments8);
+
+        Appointments appointments9 = new Appointments();
+        appointments9.setDoctors(doctors);
+        appointments9.setMedicalRecords(medicalRecords);
+        appointments9.setCustomers(customers);
+        appointments9.setStatus(true);
+        LocalDateTime start9 = LocalDateTime.of(LocalDate.of(2025, 8, 9), fixedStartTime);
+        appointments9.setStartTime(start9);
+        appointments9.setEndTime(start9.plus(duration));
+        appointments9.setAnonymous(false);
+        appointments9.setSchedules(schedulesRepository.findById(9).orElse(null));
+        appointments9.setStaffs(staff);
+        appointments9.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments9);
+
+        Appointments appointments10 = new Appointments();
+        appointments10.setDoctors(doctors);
+        appointments10.setMedicalRecords(medicalRecords);
+        appointments10.setCustomers(customers);
+        appointments10.setStatus(true);
+        LocalDateTime start10 = LocalDateTime.of(LocalDate.of(2025, 8, 10), fixedStartTime);
+        appointments10.setStartTime(start10);
+        appointments10.setEndTime(start10.plus(duration));
+        appointments10.setAnonymous(true);
+        appointments10.setSchedules(schedulesRepository.findById(10).orElse(null));
+        appointments10.setStaffs(staff);
+        appointments10.setAppointmentType("Consultation");
+        appointmentRepository.save(appointments10);
+
+        Appointments appointments11 = new Appointments();
+        appointments11.setDoctors(doctors);
+        appointments11.setMedicalRecords(medicalRecords);
+        appointments11.setCustomers(customers);
+        appointments11.setStatus(true);
+        LocalDateTime start11 = LocalDateTime.of(LocalDate.of(2025, 8, 11), fixedStartTime);
+        appointments11.setStartTime(start11);
+        appointments11.setEndTime(start11.plus(duration));
+        appointments11.setAnonymous(false);
+        appointments11.setSchedules(schedulesRepository.findById(11).orElse(null));
+        appointments11.setStaffs(staff);
+        appointments11.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments11);
+
+        Appointments appointments12 = new Appointments();
+        appointments12.setDoctors(doctors);
+        appointments12.setMedicalRecords(medicalRecords);
+        appointments12.setCustomers(customers);
+        appointments12.setStatus(true);
+        LocalDateTime start12 = LocalDateTime.of(LocalDate.of(2025, 8, 12), fixedStartTime);
+        appointments12.setStartTime(start12);
+        appointments12.setEndTime(start12.plus(duration));
+        appointments12.setAnonymous(false);
+        appointments12.setSchedules(schedulesRepository.findById(12).orElse(null));
+        appointments12.setStaffs(staff);
+        appointments12.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments12);
+
+        Appointments appointments13 = new Appointments();
+        appointments13.setDoctors(doctors);
+        appointments13.setMedicalRecords(medicalRecords);
+        appointments13.setCustomers(customers);
+        appointments13.setStatus(true);
+        LocalDateTime start13 = LocalDateTime.of(LocalDate.of(2025, 8, 13), fixedStartTime);
+        appointments13.setStartTime(start13);
+        appointments13.setEndTime(start13.plus(duration));
+        appointments13.setAnonymous(false);
+        appointments13.setSchedules(schedulesRepository.findById(13).orElse(null));
+        appointments13.setStaffs(staff);
+        appointments13.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments13);
+
+        Appointments appointments14 = new Appointments();
+        appointments14.setDoctors(doctors);
+        appointments14.setMedicalRecords(medicalRecords);
+        appointments14.setCustomers(customers);
+        appointments14.setStatus(true);
+        LocalDateTime start14 = LocalDateTime.of(LocalDate.of(2025, 8, 14), fixedStartTime);
+        appointments14.setStartTime(start14);
+        appointments14.setEndTime(start14.plus(duration));
+        appointments14.setAnonymous(false);
+        appointments14.setSchedules(schedulesRepository.findById(14).orElse(null));
+        appointments14.setStaffs(staff);
+        appointments14.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments14);
+
+        Appointments appointments15 = new Appointments();
+        appointments15.setDoctors(doctors);
+        appointments15.setMedicalRecords(medicalRecords);
+        appointments15.setCustomers(customers);
+        appointments15.setStatus(true);
+        LocalDateTime start15 = LocalDateTime.of(LocalDate.of(2025, 8, 15), fixedStartTime);
+        appointments15.setStartTime(start15);
+        appointments15.setEndTime(start15.plus(duration));
+        appointments15.setAnonymous(false);
+        appointments15.setSchedules(schedulesRepository.findById(15).orElse(null));
+        appointments15.setStaffs(staff);
+        appointments15.setAppointmentType("Test HIV");
+        appointmentRepository.save(appointments15);
+
 
         //Create TreatmentAdd commentMore actions
         TreatmentPlans treatmentPlans = new TreatmentPlans();
@@ -472,6 +731,46 @@ public class DataSeeder implements CommandLineRunner {
         treatmentPlans4.setAppointments(appointments5);
         treatmentPlansRepository.save(treatmentPlans4);
 
+        TreatmentPlans treatmentPlans5 = new TreatmentPlans();
+        treatmentPlans5.setDoctors(doctors);
+        treatmentPlans5.setArvReqimentID(r1);
+        treatmentPlans5.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans5.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans5.setAppointments(appointments11);
+        treatmentPlansRepository.save(treatmentPlans5);
+
+        TreatmentPlans treatmentPlans6 = new TreatmentPlans();
+        treatmentPlans6.setDoctors(doctors);
+        treatmentPlans6.setArvReqimentID(r1);
+        treatmentPlans6.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans6.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans6.setAppointments(appointments12);
+        treatmentPlansRepository.save(treatmentPlans6);
+
+        TreatmentPlans treatmentPlans7 = new TreatmentPlans();
+        treatmentPlans7.setDoctors(doctors);
+        treatmentPlans7.setArvReqimentID(r1);
+        treatmentPlans7.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans7.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans7.setAppointments(appointments13);
+        treatmentPlansRepository.save(treatmentPlans7);
+
+        TreatmentPlans treatmentPlans8 = new TreatmentPlans();
+        treatmentPlans8.setDoctors(doctors);
+        treatmentPlans8.setArvReqimentID(r1);
+        treatmentPlans8.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans8.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans8.setAppointments(appointments14);
+        treatmentPlansRepository.save(treatmentPlans8);
+
+        TreatmentPlans treatmentPlans9 = new TreatmentPlans();
+        treatmentPlans9.setDoctors(doctors);
+        treatmentPlans9.setArvReqimentID(r1);
+        treatmentPlans9.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+        treatmentPlans9.setDosageTime(LocalTime.of(16, 0));
+        treatmentPlans9.setAppointments(appointments15);
+        treatmentPlansRepository.save(treatmentPlans9);
+
 
         //Create Test Result
         TestResults testResults = new TestResults();
@@ -485,7 +784,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults.setHivViralLoad(69);
         testResults.setCD4(96);
         testResults.setTestType("HIV");
-        testResults.setTestDate(appointments1.getAppointmentTime());
+        testResults.setTestDate(appointments1.getStartTime().toLocalDate());
         testResultRepository.save(testResults);
 
         TestResults testResults1 = new TestResults();
@@ -499,7 +798,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults1.setHivViralLoad(69);
         testResults1.setCD4(96);
         testResults1.setTestType("HIV");
-        testResults1.setTestDate(appointments2.getAppointmentTime());
+        testResults1.setTestDate(appointments2.getStartTime().toLocalDate());
         testResultRepository.save(testResults1);
 
         TestResults testResults2 = new TestResults();
@@ -513,7 +812,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults2.setHivViralLoad(69);
         testResults2.setCD4(96);
         testResults2.setTestType("HIV");
-        testResults2.setTestDate(appointments3.getAppointmentTime());
+        testResults2.setTestDate(appointments3.getStartTime().toLocalDate());
         testResultRepository.save(testResults2);
 
         TestResults testResults3 = new TestResults();
@@ -527,7 +826,7 @@ public class DataSeeder implements CommandLineRunner {
         testResults3.setHivViralLoad(69);
         testResults3.setCD4(96);
         testResults3.setTestType("HIV");
-        testResults3.setTestDate(appointments4.getAppointmentTime());
+        testResults3.setTestDate(appointments4.getStartTime().toLocalDate());
         testResultRepository.save(testResults3);
 
         TestResults testResults4 = new TestResults();
@@ -541,8 +840,78 @@ public class DataSeeder implements CommandLineRunner {
         testResults4.setHivViralLoad(69);
         testResults4.setCD4(96);
         testResults4.setTestType("HIV");
-        testResults4.setTestDate(appointments5.getAppointmentTime());
+        testResults4.setTestDate(appointments5.getStartTime().toLocalDate());
         testResultRepository.save(testResults4);
+
+        TestResults testResults5 = new TestResults();
+        testResults5.setDoctors(doctors);
+        testResults5.setCustomers(customers);
+        testResults5.setAppointments(appointments5);
+        testResults5.setTreatmentPlan(treatmentPlans5);
+        testResults5.setResultValue(true);
+        testResults5.setNotes("Notes");
+        testResults5.setRe_examination(true);
+        testResults5.setHivViralLoad(69);
+        testResults5.setCD4(96);
+        testResults5.setTestType("HIV");
+        testResults5.setTestDate(appointments5.getStartTime().toLocalDate());
+        testResultRepository.save(testResults5);
+
+        TestResults testResults6 = new TestResults();
+        testResults6.setDoctors(doctors);
+        testResults6.setCustomers(customers);
+        testResults6.setAppointments(appointments5);
+        testResults6.setTreatmentPlan(treatmentPlans6);
+        testResults6.setResultValue(true);
+        testResults6.setNotes("Notes");
+        testResults6.setRe_examination(true);
+        testResults6.setHivViralLoad(69);
+        testResults6.setCD4(96);
+        testResults6.setTestType("HIV");
+        testResults6.setTestDate(appointments5.getStartTime().toLocalDate());
+        testResultRepository.save(testResults6);
+
+        TestResults testResults7 = new TestResults();
+        testResults7.setDoctors(doctors);
+        testResults7.setCustomers(customers);
+        testResults7.setAppointments(appointments5);
+        testResults7.setTreatmentPlan(treatmentPlans7);
+        testResults7.setResultValue(true);
+        testResults7.setNotes("Notes");
+        testResults7.setRe_examination(true);
+        testResults7.setHivViralLoad(69);
+        testResults7.setCD4(96);
+        testResults7.setTestType("HIV");
+        testResults7.setTestDate(appointments5.getStartTime().toLocalDate());
+        testResultRepository.save(testResults7);
+
+        TestResults testResults8 = new TestResults();
+        testResults8.setDoctors(doctors);
+        testResults8.setCustomers(customers);
+        testResults8.setAppointments(appointments5);
+        testResults8.setTreatmentPlan(treatmentPlans8);
+        testResults8.setResultValue(true);
+        testResults8.setNotes("Notes");
+        testResults8.setRe_examination(true);
+        testResults8.setHivViralLoad(69);
+        testResults8.setCD4(96);
+        testResults8.setTestType("HIV");
+        testResults8.setTestDate(appointments5.getStartTime().toLocalDate());
+        testResultRepository.save(testResults8);
+
+        TestResults testResults9 = new TestResults();
+        testResults9.setDoctors(doctors);
+        testResults9.setCustomers(customers);
+        testResults9.setAppointments(appointments5);
+        testResults9.setTreatmentPlan(treatmentPlans9);
+        testResults9.setResultValue(true);
+        testResults9.setNotes("Notes");
+        testResults9.setRe_examination(true);
+        testResults9.setHivViralLoad(69);
+        testResults9.setCD4(96);
+        testResults9.setTestType("HIV");
+        testResults9.setTestDate(appointments5.getStartTime().toLocalDate());
+        testResultRepository.save(testResults9);
 
 
 
@@ -555,6 +924,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage.setAppointments(appointments1);
         remindersDosage.setStaffs(staff);
         remindersDosage.setReminderType("Dosage Reminder");
+        remindersDosage.setStatus(true);
         reminderRepository.save(remindersDosage);
 
         Reminders remindersDosage1 = new Reminders();
@@ -565,6 +935,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage1.setAppointments(appointments2);
         remindersDosage1.setStaffs(staff);
         remindersDosage1.setReminderType("Dosage Reminder");
+        remindersDosage1.setStatus(true);
         reminderRepository.save(remindersDosage1);
 
         Reminders remindersDosage2 = new Reminders();
@@ -575,6 +946,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage2.setAppointments(appointments3);
         remindersDosage2.setStaffs(staff);
         remindersDosage2.setReminderType("Dosage Reminder");
+        remindersDosage2.setStatus(true);
         reminderRepository.save(remindersDosage2);
 
         Reminders remindersDosage3 = new Reminders();
@@ -585,6 +957,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage3.setAppointments(appointments4);
         remindersDosage3.setStaffs(staff);
         remindersDosage3.setReminderType("Dosage Reminder");
+        remindersDosage3.setStatus(true);
         reminderRepository.save(remindersDosage3);
 
         Reminders remindersDosage4 = new Reminders();
@@ -595,47 +968,106 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage4.setAppointments(appointments5);
         remindersDosage4.setStaffs(staff);
         remindersDosage4.setReminderType("Dosage Reminder");
+        remindersDosage4.setStatus(true);
         reminderRepository.save(remindersDosage4);
+
+        Reminders remindersReExam5 = new Reminders();
+        remindersReExam5.setCustomers(customers);
+        remindersReExam5.setReminderTime(appointments6.getStartTime().toLocalDate().atTime(8, 0));
+        remindersReExam5.setMessage("tái khám");
+        remindersReExam5.setTestResults(testResults5);
+        remindersReExam5.setAppointments(appointments6);
+        remindersReExam5.setStaffs(staff);
+        remindersReExam5.setReminderType("Re-Exam Reminder");
+        remindersReExam5.setStatus(true);
+        reminderRepository.save(remindersReExam5);
+
+        Reminders remindersReExam6 = new Reminders();
+        remindersReExam6.setCustomers(customers);
+        remindersReExam6.setReminderTime(appointments7.getStartTime().toLocalDate().atTime(8, 0));
+        remindersReExam6.setMessage("tái khám");
+        remindersReExam6.setTestResults(testResults6);
+        remindersReExam6.setAppointments(appointments7);
+        remindersReExam6.setStaffs(staff);
+        remindersReExam6.setReminderType("Re-Exam Reminder");
+        remindersReExam6.setStatus(true);
+        reminderRepository.save(remindersReExam6);
+
+        Reminders remindersReExam7 = new Reminders();
+        remindersReExam7.setCustomers(customers);
+        remindersReExam7.setReminderTime(appointments8.getStartTime().toLocalDate().atTime(8, 0));
+        remindersReExam7.setMessage("tái khám");
+        remindersReExam7.setTestResults(testResults7);
+        remindersReExam7.setAppointments(appointments8);
+        remindersReExam7.setStaffs(staff);
+        remindersReExam7.setReminderType("Re-Exam Reminder");
+        remindersReExam7.setStatus(true);
+        reminderRepository.save(remindersReExam7);
+
+        Reminders remindersReExam8 = new Reminders();
+        remindersReExam8.setCustomers(customers);
+        remindersReExam8.setReminderTime(appointments9.getStartTime().toLocalDate().atTime(8, 0));
+        remindersReExam8.setMessage("tái khám");
+        remindersReExam8.setTestResults(testResults8);
+        remindersReExam8.setAppointments(appointments9);
+        remindersReExam8.setStaffs(staff);
+        remindersReExam8.setReminderType("Re-Exam Reminder");
+        remindersReExam8.setStatus(true);
+        reminderRepository.save(remindersReExam8);
+
+        Reminders remindersReExam9 = new Reminders();
+        remindersReExam9.setCustomers(customers);
+        remindersReExam9.setReminderTime(appointments10.getStartTime().toLocalDate().atTime(8, 0));
+        remindersReExam9.setMessage("tái khám");
+        remindersReExam9.setTestResults(testResults9);
+        remindersReExam9.setAppointments(appointments10);
+        remindersReExam9.setStaffs(staff);
+        remindersReExam9.setReminderType("Re-Exam Reminder");
+        remindersReExam9.setStatus(true);
+        reminderRepository.save(remindersReExam9);
+
+
+
 
         // Example: Add in your createModel() after appointments, doctors, customers are created and saved
 
         Consultations consultation1 = new Consultations();
-        consultation1.setAppointments(appointments1);
+        consultation1.setAppointments(appointments6);
         consultation1.setDoctors(doctors);
         consultation1.setCustomers(customers);
-        consultation1.setConsultationDate(LocalDate.of(2025, 7, 1));
+        consultation1.setConsultationDate(LocalDate.of(2025, 7, 6));
         consultation1.setNotes("Initial consultation and HIV test.");
         consultationRepository.save(consultation1);
 
         Consultations consultation2 = new Consultations();
-        consultation2.setAppointments(appointments2);
+        consultation2.setAppointments(appointments7);
         consultation2.setDoctors(doctors);
         consultation2.setCustomers(customers);
-        consultation2.setConsultationDate(LocalDate.of(2025, 7, 2));
+        consultation2.setConsultationDate(LocalDate.of(2025, 7, 7));
         consultation2.setNotes("Follow-up consultation, discussed test results.");
         consultationRepository.save(consultation2);
 
         Consultations consultation3 = new Consultations();
-        consultation3.setAppointments(appointments3);
+        consultation3.setAppointments(appointments8);
         consultation3.setDoctors(doctors);
         consultation3.setCustomers(customers);
-        consultation3.setConsultationDate(LocalDate.of(2025, 7, 3));
+        consultation3.setConsultationDate(LocalDate.of(2025, 7, 8));
         consultation3.setNotes("Consultation for treatment plan.");
         consultationRepository.save(consultation3);
 
         Consultations consultation4 = new Consultations();
-        consultation4.setAppointments(appointments4);
+        consultation4.setAppointments(appointments9);
         consultation4.setDoctors(doctors);
         consultation4.setCustomers(customers);
-        consultation4.setConsultationDate(LocalDate.of(2025, 7, 4));
+        consultation4.setConsultationDate(LocalDate.of(2025, 7, 9));
         consultation4.setNotes("Routine check-up and medication review.");
         consultationRepository.save(consultation4);
 
         Consultations consultation5 = new Consultations();
-        consultation5.setAppointments(appointments5);
+        consultation5.setAppointments(appointments10);
         consultation5.setDoctors(doctors);
         consultation5.setCustomers(customers);
-        consultation5.setConsultationDate(LocalDate.of(2025, 7, 5));
+        consultation5.setConsultationDate(LocalDate.of(2025, 7, 10));
         consultation5.setNotes("Final consultation for this cycle.");
         consultationRepository.save(consultation5);
 

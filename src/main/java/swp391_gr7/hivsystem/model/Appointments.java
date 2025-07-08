@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -37,8 +38,11 @@ public class Appointments {
     @JoinColumn(name = "medical_record_id", nullable = false)
     private MedicalRecords medicalRecords;
 
-    @Column(name = "appointment_time", nullable = false)
-    private LocalDate appointmentTime;  // bỏ length, LocalDate không cần length
+    @Column(name = "start_time", nullable = false)
+    private LocalDateTime startTime;  // bỏ length, LocalDate không cần length
+
+    @Column(name = "end_time", nullable = false)
+    private LocalDateTime endTime;  // bỏ length, LocalDate không cần length
 
     @Column(name = "status", nullable = false)
     private boolean status;  // boolean không cần length

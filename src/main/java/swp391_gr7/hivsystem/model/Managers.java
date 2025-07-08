@@ -22,9 +22,6 @@ public class Managers {
     @JoinColumn(name = "user_id", nullable = false)
     private Users users;
 
-    @Column(name = "department", nullable = false)
-    private String department;
-
     @Column(name = "office_phone", nullable = false)
     private String officePhone;
 

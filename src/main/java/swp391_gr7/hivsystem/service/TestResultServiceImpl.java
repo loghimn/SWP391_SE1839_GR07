@@ -54,7 +54,7 @@ public class TestResultServiceImpl implements TestResultService {
         testResult.setDoctors(appointment.getDoctors());
         testResult.setTestType("Test HIV");
         testResult.setResultValue(request.isResultValue());
-        testResult.setTestDate(appointment.getAppointmentTime());
+        testResult.setTestDate(appointment.getStartTime().toLocalDate());
         testResult.setNotes(request.getNotes());
         testResult.setRe_examination(request.isReExamination());
         testResult.setTreatmentPlan(treatmentPlan);

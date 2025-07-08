@@ -35,10 +35,7 @@ public class ArvMedicationController {
     @PreAuthorize("hasRole('Doctor')")
     @PutMapping("/update/{arvmedicationid}")
     public ApiResponse<Boolean> updateMedication(@RequestBody ArvMedicationCreateRequest request,
-                                                 @PathVariable String arvmedicationid,
-                                                 @RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.replace("Bearer ", "");
-        int doctorId = new JWTUtils().extractDoctorId(token);
+                                                 @PathVariable int arvmedicationid) {
 
         boolean result = arvMedicationService.updateArvMedication(request, arvmedicationid);
         return ApiResponse.<Boolean>builder()

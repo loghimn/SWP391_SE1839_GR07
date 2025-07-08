@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReminderReExamCreateRequest {
-    @NotNull(message = "CUSTOMER_ID_REQUIRED")
-    private Integer customerId;
+//    @NotNull(message = "CUSTOMER_ID_REQUIRED")
+//    private Integer customerId;
 
     @NotBlank(message = "MESSAGE_REQUIRED")
     private String message;

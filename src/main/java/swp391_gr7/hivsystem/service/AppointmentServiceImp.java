@@ -9,6 +9,9 @@ import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,6 +89,16 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
+        if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
+                request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
+                request.getStartTime().toLocalTime().getHour() == 9 ||
+                request.getStartTime().toLocalTime().getHour() == 11 ||
+                request.getStartTime().toLocalTime().getHour() == 12 ||
+                request.getStartTime().toLocalTime().getHour() == 13 ||
+                request.getStartTime().toLocalTime().getHour() == 15) {
+            throw new AppException(ErrorCode.TIME_APPOINTMENT_NOT_FOUND);
+        }
+
 
         Customers customers = customerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CUSTOMER_NOT_FOUND));
@@ -97,11 +110,11 @@ public class AppointmentServiceImp implements AppointmentService {
         } else {
             doctors = doctorsOpt.get();
         }
-
-        Staffs staffs = staffService.findStaffHasLeastAppointment();
+        int workshift = request.getStartTime().getHour() > 12 ? 2 : 1;
+        Staffs staffs = staffService.findStaffHasLeastAppointment(workshift);
 
         List<Schedules> schedulesList = schedulesRepository.findByDoctors_DoctorId(doctors.getDoctorId());
-
+        LocalDateTime endTime = request.getStartTime().plusHours(2);
         if (schedulesList.isEmpty()) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
         }
@@ -109,11 +122,10 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Schedules schedules = null;
         for (Schedules s : schedulesList) {
-            if (s.getWorkDate().equals(request.getAppointmentTime())) {
+            if (s.getWorkDate().equals(request.getStartTime().toLocalDate())) {
                 schedules = s;
                 break;
             }
-
         }
         if (schedules == null) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
@@ -131,23 +143,30 @@ public class AppointmentServiceImp implements AppointmentService {
         if (schedules == null) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
         }
-
+        // LocalDateTime endTime = request.getStartTime().plusHours(2);
         // Check if appointment date matches doctor's working date
-        if (!schedules.getWorkDate().equals(request.getAppointmentTime())) {
+        if (!schedules.getWorkDate().equals(request.getStartTime().toLocalDate())) {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
         }
 
         // Check for duplicate appointment time for customer
         for (Appointments a : customers.getAppointments()) {
-            if (request.getAppointmentTime().equals(a.getAppointmentTime()) && a.isStatus()) {
-                throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+            if (a.isStatus()) {
+                Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
+                if (diff.toHours() < 2) {
+                    throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+                }
             }
         }
 
+
         // Check for duplicate appointment time for doctor
         for (Appointments a : doctors.getAppointments()) {
-            if (request.getAppointmentTime().equals(a.getAppointmentTime()) && a.isStatus()) {
-                throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_DOCTOR);
+            if (a.isStatus()) {
+                Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
+                if (diff.toHours() < 2) {
+                    throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+                }
             }
         }
 
@@ -156,7 +175,8 @@ public class AppointmentServiceImp implements AppointmentService {
         appointments.setDoctors(doctors);
         appointments.setStaffs(staffs);
         appointments.setMedicalRecords(medicalRecord);
-        appointments.setAppointmentTime(request.getAppointmentTime());
+        appointments.setStartTime(request.getStartTime());
+        appointments.setEndTime(endTime);
         appointments.setStatus(true);
         appointments.setAnonymous(request.isAnonymous());
         appointments.setAppointmentType(request.getAppointmentType());
@@ -188,9 +208,19 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
+
+        if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
+                request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
+                request.getStartTime().toLocalTime().getHour() == 9 ||
+                request.getStartTime().toLocalTime().getHour() == 11 ||
+                request.getStartTime().toLocalTime().getHour() == 12 ||
+                request.getStartTime().toLocalTime().getHour() == 13 ||
+                request.getStartTime().toLocalTime().getHour() == 15) {
+            throw new AppException(ErrorCode.TIME_APPOINTMENT_NOT_FOUND);
+        }
         Appointments appointments = appointmentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
-        if(!appointments.isStatus()){
+        if (!appointments.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
 
@@ -200,10 +230,11 @@ public class AppointmentServiceImp implements AppointmentService {
         Doctors doctors = doctorRepository.findDoctorByFullName(request.getDoctorName())
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
 
-        Staffs staffs = staffService.findStaffHasLeastAppointment();
+        int workshift = request.getStartTime().getHour() > 12 ? 2 : 1;
+        Staffs staffs = staffService.findStaffHasLeastAppointment(workshift);
 
         List<Schedules> schedulesList = schedulesRepository.findByDoctors_DoctorId(doctors.getDoctorId());
-
+        LocalDateTime endTime = request.getStartTime().plusHours(2);
         if (schedulesList.isEmpty()) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
         }
@@ -211,7 +242,7 @@ public class AppointmentServiceImp implements AppointmentService {
 
         Schedules schedules = null;
         for (Schedules s : schedulesList) {
-            if (s.getWorkDate().equals(request.getAppointmentTime())) {
+            if (s.getWorkDate().equals(request.getStartTime().toLocalDate())) {
                 schedules = s;
                 break;
             }
@@ -219,36 +250,46 @@ public class AppointmentServiceImp implements AppointmentService {
         if (schedules == null) {
             throw new AppException(ErrorCode.APPOINTMENT_SCHEDULE_NOT_FOUND);
         }
-
         MedicalRecords medicalRecord = medicalRecordRepository.findByCustomers(customers)
-                .orElseThrow(()-> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
+                .orElseThrow(() -> new AppException(ErrorCode.MEDICAL_RECORD_NOT_FOUND_WITH_CUSTOMER));
 
-        if (!schedules.getWorkDate().equals(request.getAppointmentTime())) {
+        if (!schedules.getWorkDate().equals(request.getStartTime().toLocalDate())) {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
         }
 
-        // Check for duplicate appointment time for customer (exclude current)
+        // Check for duplicate appointment time for customer
         for (Appointments a : customers.getAppointments()) {
-            if (a.getAppointmentId() != id && request.getAppointmentTime().equals(a.getAppointmentTime())) {
-                throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+            if (a.isStatus()) {
+                Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
+                if (diff.toHours() < 2) {
+                    throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+                }
             }
         }
 
-        // Check for duplicate appointment time for doctor (exclude current)
+
+        // Check for duplicate appointment time for doctor
         for (Appointments a : doctors.getAppointments()) {
-            if (a.getAppointmentId() != id && request.getAppointmentTime().equals(a.getAppointmentTime())) {
-                throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_DOCTOR);
+            if (a.isStatus()) {
+                Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
+                if (diff.toHours() < 2) {
+                    throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+                }
             }
         }
 
+//        Appointments appointments = new Appointments();
+        appointments.setCustomers(customers);
         appointments.setDoctors(doctors);
         appointments.setStaffs(staffs);
         appointments.setMedicalRecords(medicalRecord);
-        appointments.setAppointmentTime(request.getAppointmentTime());
+        appointments.setStartTime(request.getStartTime());
+        appointments.setEndTime(endTime);
         appointments.setStatus(true);
         appointments.setAnonymous(request.isAnonymous());
         appointments.setAppointmentType(request.getAppointmentType());
         appointments.setSchedules(schedules);
+
 
         return appointmentRepository.save(appointments);
     }
@@ -331,5 +372,19 @@ public class AppointmentServiceImp implements AppointmentService {
         Doctors doctors = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
         return appointmentRepository.findByDoctors_DoctorId(doctors.getDoctorId());
+    }
+
+    @Override
+    public List<Appointments> getMyAppointmentsConsultationDoc(int doctorId) {
+        Doctors doctors = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Consultation");
+    }
+
+    @Override
+    public List<Appointments> getMyAppointmentsTestHIVDoc(int doctorId) {
+        Doctors doctors = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Test HIV");
     }
 }

@@ -143,7 +143,7 @@ public class ReportServiceImp implements ReportService {
                     escape(String.valueOf(appointment.getAppointmentId())),
                     escape(appointment.getCustomers().getUsers().getFullName()),
                     escape(appointment.getDoctors().getUsers().getFullName()),
-                    escape(String.valueOf(appointment.getAppointmentTime())),
+                    escape(String.valueOf(appointment.getStartTime().toLocalDate())),
                     escape(appointment.isStatus() ? "true" : "false")
             );
         }

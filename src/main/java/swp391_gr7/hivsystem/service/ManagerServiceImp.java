@@ -19,7 +19,6 @@ public class ManagerServiceImp implements ManagerService {
     public Managers saveManager(UserAndManagerCreateRequest request, Users users) {
         Managers managers = new Managers();
         managers.setUsers(users);
-        managers.setDepartment(request.getDepartment());
         managers.setOfficePhone(request.getOfficePhone());
         managerRepository.save(managers);
         return managerRepository.save(managers);

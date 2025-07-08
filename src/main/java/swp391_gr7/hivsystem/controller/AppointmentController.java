@@ -211,6 +211,45 @@ public class AppointmentController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/doctor/appointment-consultation/get/my-appointment")
+    public ApiResponse<List<Appointments>> getMyAppointmentsConsultationDoc(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        List<Appointments> appointments = appointmentService.getMyAppointmentsConsultationDoc(doctorId);
+        if (appointments == null || appointments.isEmpty()) {
+            return ApiResponse.<List<Appointments>>builder()
+                    .message("No appointments found for this doctor")
+                    .build();
+        }
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointments)
+                .message("Success")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/doctor/appointment-testhiv/get/my-appointment")
+    public ApiResponse<List<Appointments>> getMyAppointmentsTestHIVDoc(@RequestHeader("Authorization") String authorizationHeader) {
+        // Extract doctorId from the token
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        List<Appointments> appointments = appointmentService.getMyAppointmentsTestHIVDoc(doctorId);
+        if (appointments == null || appointments.isEmpty()) {
+            return ApiResponse.<List<Appointments>>builder()
+                    .message("No appointments found for this doctor")
+                    .build();
+        }
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointments)
+                .message("Success")
+                .build();
+    }
+
+
     @PreAuthorize("hasRole('Staff')")
     @GetMapping("/staff/appointment/list")
     public ApiResponse<List> getappointmentListFullInfor() {

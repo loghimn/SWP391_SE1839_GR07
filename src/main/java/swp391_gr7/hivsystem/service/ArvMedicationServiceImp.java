@@ -50,8 +50,8 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
     }
 
     @Override
-    public boolean updateArvMedication(ArvMedicationCreateRequest request, String code) {
-        ArvMedications arvMedications = arvMedicationsRepository.getArvMedicationsByCode(code);
+    public boolean updateArvMedication(ArvMedicationCreateRequest request, int id) {
+        ArvMedications arvMedications = arvMedicationsRepository.findById(id).orElseThrow(() -> new  AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND));
         if (arvMedications == null) {
             throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
         }
