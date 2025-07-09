@@ -42,6 +42,10 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.setConsultationDate(appointment.getStartTime().toLocalDate());
         consultation.setNotes(request.getNotes());
 
+        // cập nhật appointment về false sau khi đã tư vấn
+        appointment.setStatus(false);
+        appointmentRepository.save(appointment);
+
         return consultationRepository.save(consultation);
     }
 

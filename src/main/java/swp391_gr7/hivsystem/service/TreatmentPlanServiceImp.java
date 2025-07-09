@@ -38,6 +38,9 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
         if (!appointment.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
+        if(appointment.getAppointmentType().equals("Consultation")){
+            throw new AppException(ErrorCode.APPOINTMENT_TYPE_IS_NOT_HIV_TEST);
+        }
 
         TreatmentPlans plan = new TreatmentPlans();
 
