@@ -56,7 +56,7 @@ public class ReminderServiceImpl implements ReminderService {
         if (staffs == null) {
             throw new AppException(ErrorCode.STAFF_NOT_FOUND);
         }
-        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId() + 1).orElse(null);
+        Appointments appointments = appointmentsRepository.findById(testResult.getAppointments().getAppointmentId()).orElse(null);
         if (appointments == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }

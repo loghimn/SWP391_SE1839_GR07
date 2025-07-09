@@ -111,7 +111,7 @@ public class TestResultController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
+    @PreAuthorize("hasAnyRole('Doctor', 'Staff')")
     @GetMapping("/get/all")
     public ApiResponse<List<TestResults>> getAllTestResults() {
         List<TestResults> results = testResultService.getAllTestResults();
