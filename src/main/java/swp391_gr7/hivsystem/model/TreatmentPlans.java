@@ -38,6 +38,9 @@ public class TreatmentPlans {
     @Column(name = "dosage_time") // thời gian uống thuốc
     private LocalTime dosageTime;
 
+    @Column
+    private boolean status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "arv_regiment_id", nullable = false)
     private ArvRegiments arvReqimentID;

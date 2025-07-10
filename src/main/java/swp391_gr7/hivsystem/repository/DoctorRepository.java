@@ -50,4 +50,5 @@ public interface DoctorRepository extends CrudRepository<Doctors, Integer> {
     Doctors findDoctorByDoctorId(int doctorId);
 
 
+    Optional<Doctors> findByUsers_UserId(Integer usersUserId);
 }

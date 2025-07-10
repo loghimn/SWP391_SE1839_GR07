@@ -6,6 +6,7 @@ import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
 import swp391_gr7.hivsystem.dto.response.CustomerReponse;
 import swp391_gr7.hivsystem.model.Appointments;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -44,4 +45,6 @@ public interface AppointmentService {
     List<Appointments> getAppointmentsHaveTypeTestHIVAndActive();
 
     List<Appointments> getAppointmentsHaveTypeConsultationAndActive();
+
+    List<Appointments> getAppointmentsByDay(LocalDate date);
 }

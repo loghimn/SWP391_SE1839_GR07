@@ -41,6 +41,8 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
         if(appointment.getAppointmentType().equals("Consultation")){
             throw new AppException(ErrorCode.APPOINTMENT_TYPE_IS_NOT_HIV_TEST);
         }
+        appointment.setStatus(false);
+        appointmentRepository.save(appointment);
 
         TreatmentPlans plan = new TreatmentPlans();
 
@@ -88,6 +90,8 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
 
         plan.setDosageTime(request.getDosageTime());
 
+        plan.setStatus(true);
+
         plan = treatmentPlansRepository.save(plan);
         if (plan != null) {
             return true;
@@ -123,7 +127,7 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
 
     @Override
     public List<TreatmentPlans> getMyTreatmentPlantDoc(int doctorId) {
-        List<TreatmentPlans> treatmentPlans = treatmentPlansRepository.findAllByDoctors_DoctorId(doctorId);
+        List<TreatmentPlans> treatmentPlans = treatmentPlansRepository.findAllByDoctors_DoctorIdAndStatus(doctorId, true);
         if (treatmentPlans.isEmpty()) {
             throw new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND);
         }

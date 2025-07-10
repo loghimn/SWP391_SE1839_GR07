@@ -1,6 +1,7 @@
 package swp391_gr7.hivsystem.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
 import swp391_gr7.hivsystem.dto.response.CustomerReponse;
@@ -10,8 +11,10 @@ import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +38,8 @@ public class AppointmentServiceImp implements AppointmentService {
 
 
     private final String error = "";
+    @Autowired
+    private UserRepository userRepository;
 
 //    @Override
 //    public Appointments addAppointment(AppointmentCreateRequest request) {
@@ -397,17 +402,38 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public List<Appointments> getAppointmentsHaveTypeTestHIVAndActive() {
-        List<Appointments> appointments = appointmentRepository.findByAppointmentType("Test HIV");
-        return appointments.stream()
-                .filter(Appointments::isStatus)
-                .toList();
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Doctors doctor = doctorRepository.findByUsers_UserId(user.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Test HIV", true);
     }
 
     @Override
     public List<Appointments> getAppointmentsHaveTypeConsultationAndActive() {
-        List<Appointments> appointments = appointmentRepository.findByAppointmentType("Consultation");
-        return appointments.stream()
-                .filter(Appointments::isStatus)
-                .toList();
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Doctors doctor = doctorRepository.findByUsers_UserId(user.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+        return appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Consultation", true);
+    }
+
+    @Override
+    public List<Appointments> getAppointmentsByDay(LocalDate date) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Doctors doctor = doctorRepository.findByUsers_UserId(user.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+
+        LocalDateTime startOfDay = date.atStartOfDay();               // 00:00
+        LocalDateTime endOfDay = date.atTime(LocalTime.MAX);          // 23:59:59.999...
+
+        return appointmentRepository.findAppointmentsByDoctorsAndDateRange(doctor, startOfDay, endOfDay);
     }
 }

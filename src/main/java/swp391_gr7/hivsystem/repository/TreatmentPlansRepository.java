@@ -16,4 +16,7 @@ public interface TreatmentPlansRepository extends JpaRepository<TreatmentPlans, 
     List<TreatmentPlans> findAllByDoctors_DoctorId(int doctorId);
 
     List<TreatmentPlans> findAllByAppointments_AppointmentId(int appointmentId);
+
+    List<TreatmentPlans> findAllByDoctors_DoctorIdAndStatus(int doctorId, boolean status);
+
 }

@@ -16,6 +16,7 @@ import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.service.AppointmentService;
 import swp391_gr7.hivsystem.service.JWTUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -285,4 +286,16 @@ public class AppointmentController {
                 .build();
     }
 
+    // get appointments by day for a specific doctor
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/doctor/appointment/{day}")
+    public ApiResponse<List<Appointments>> getAppointmentsByDay(@PathVariable LocalDate day) {
+        List<Appointments> appointmentsList = appointmentService.getAppointmentsByDay(day);
+        boolean result = appointmentsList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointmentsList)
+                .message(resultString)
+                .build();
+    }
 }

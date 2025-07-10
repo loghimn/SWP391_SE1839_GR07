@@ -1,9 +1,13 @@
 package swp391_gr7.hivsystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import swp391_gr7.hivsystem.model.Appointments;
+import swp391_gr7.hivsystem.model.Doctors;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -31,4 +35,13 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     List<Appointments> findByAppointmentType(String appointmentType);
 
     boolean existsByStartTimeAndDoctors_DoctorIdAndStatus(LocalDateTime startTime, int doctorsDoctorId, boolean status);
+
+    @Query("SELECT a FROM Appointments a WHERE a.doctors = :doctor AND a.startTime BETWEEN :start AND :end")
+    List<Appointments> findAppointmentsByDoctorsAndDateRange(@Param("doctor") Doctors doctor,
+                                                             @Param("start") LocalDateTime start,
+                                                             @Param("end") LocalDateTime end);
+
+    // In AppointmentRepository.java
+    List<Appointments> findByDoctorsAndAppointmentTypeAndStatus(Doctors doctor, String appointmentType, boolean status);
+
 }

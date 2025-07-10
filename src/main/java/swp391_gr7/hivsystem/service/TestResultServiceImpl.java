@@ -60,7 +60,9 @@ public class TestResultServiceImpl implements TestResultService {
         testResult.setTreatmentPlan(treatmentPlan);
         testResult.setCD4(request.getCD4());
         testResult.setHivViralLoad(request.getHivViralLoad());
-        appointment.setStatus(false);
+
+        treatmentPlan.setStatus(false);
+        treatmentPlansRepository.save(treatmentPlan);
 
         return testResultRepository.save(testResult);
     }
