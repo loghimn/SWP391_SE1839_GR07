@@ -27,4 +27,8 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     List<Appointments> findByDoctors_DoctorIdAndAppointmentType(int doctorsDoctorId, String appointmentType);
 
     List<Appointments> findByDoctors_DoctorIdAndStartTimeBetween(int doctorsDoctorId, LocalDateTime startTimeAfter, LocalDateTime startTimeBefore);
+
+    List<Appointments> findByAppointmentType(String appointmentType);
+
+    boolean existsByStartTimeAndDoctors_DoctorIdAndStatus(LocalDateTime startTime, int doctorsDoctorId, boolean status);
 }

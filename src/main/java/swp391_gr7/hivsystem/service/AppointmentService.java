@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.service;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
 import swp391_gr7.hivsystem.dto.response.CustomerReponse;
@@ -39,4 +40,8 @@ public interface AppointmentService {
     List<Appointments> getMyAppointmentsConsultationDoc(int doctorId);
 
     List<Appointments> getMyAppointmentsTestHIVDoc(int doctorId);
+
+    List<Appointments> getAppointmentsHaveTypeTestHIVAndActive();
+
+    List<Appointments> getAppointmentsHaveTypeConsultationAndActive();
 }

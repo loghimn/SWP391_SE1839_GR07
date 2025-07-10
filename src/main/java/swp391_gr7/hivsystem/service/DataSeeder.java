@@ -1077,7 +1077,10 @@ public class DataSeeder implements CommandLineRunner {
     public void run(String... args) throws Exception {
         List<ArvMedications> meds = medicationRepo.findAll();
         List<ArvRegiments> regiments = regimentRepo.findAll();
-        if (meds.size() == 0 && regiments.size() == 0) {
+        List<Appointments> appointments = appointmentRepository.findAll();
+        Managers managers = managerRepository.findById(1).orElse(null);
+        Admins admins = adminRepository.findById(1).orElse(null);
+        if (meds.size() == 0 && regiments.size() == 0 && appointments.size() == 0 && managers == null && admins == null) {
             createModel();
         }
     }

@@ -257,23 +257,30 @@ public class AppointmentServiceImp implements AppointmentService {
             throw new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_WORKING);
         }
 
-        // Check for duplicate appointment time for customer
-        for (Appointments a : customers.getAppointments()) {
-            if (a.isStatus()) {
-                Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
-                if (diff.toHours() < 2) {
-                    throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+//        // Check if the appointment already exists
+//        if (appointmentRepository.existsByStartTimeAndDoctors_DoctorIdAndStatus(request.getStartTime(), doctors.getDoctorId(), true)) {
+//            throw new AppException(ErrorCode.APPOINTMENT_ALREADY_EXISTS);
+//        }
+
+        if (!appointments.getStartTime().equals(request.getStartTime())) {
+            // Check for duplicate appointment time for customer
+            for (Appointments a : customers.getAppointments()) {
+                if (a.isStatus()) {
+                    Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
+                    if (diff.toHours() < 2) {
+                        throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+                    }
                 }
             }
-        }
 
 
-        // Check for duplicate appointment time for doctor
-        for (Appointments a : doctors.getAppointments()) {
-            if (a.isStatus()) {
-                Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
-                if (diff.toHours() < 2) {
-                    throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_CUSTOMER);
+            // Check for duplicate appointment time for doctor
+            for (Appointments a : doctors.getAppointments()) {
+                if (a.isStatus()) {
+                    Duration diff = Duration.between(a.getStartTime(), request.getStartTime()).abs();
+                    if (diff.toHours() < 2) {
+                        throw new AppException(ErrorCode.APPOINTMENT_DUPLICATE_DOCTOR);
+                    }
                 }
             }
         }
@@ -386,5 +393,21 @@ public class AppointmentServiceImp implements AppointmentService {
         Doctors doctors = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
         return appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Test HIV");
+    }
+
+    @Override
+    public List<Appointments> getAppointmentsHaveTypeTestHIVAndActive() {
+        List<Appointments> appointments = appointmentRepository.findByAppointmentType("Test HIV");
+        return appointments.stream()
+                .filter(Appointments::isStatus)
+                .toList();
+    }
+
+    @Override
+    public List<Appointments> getAppointmentsHaveTypeConsultationAndActive() {
+        List<Appointments> appointments = appointmentRepository.findByAppointmentType("Consultation");
+        return appointments.stream()
+                .filter(Appointments::isStatus)
+                .toList();
     }
 }

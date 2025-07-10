@@ -146,6 +146,7 @@ public enum ErrorCode {
     APPOINTMENT_NOT_HAVE_TIME(1042, "Lịch hẹn chưa có thời gian cụ thể", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_TYPE_IS_NOT_HIV_TEST(1042, "Lịch hẹn không phải là xét nghiệm HIV", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_ALREADY_IS_NOT_ACTIVE(1042, "Lịch hẹn hiện không còn hoạt động", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_ALREADY_EXISTS(1042, "Lịch hẹn đã tồn tại", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for schedule
     SCHEDULE_DOCTOR_NOT_FOUND(1043, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
