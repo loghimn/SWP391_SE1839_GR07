@@ -77,15 +77,15 @@ public class SchedulesController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/doctor/appointment/{day}")
-    public ApiResponse<List<Appointments>> getAppointmentsByDay(@PathVariable LocalDate day) {
-        List<Appointments> appointmentsList = appointmentService.getAppointmentsByDay(day);
-        boolean result = appointmentsList != null;
-        String resultString = result ? "Success" : "Failed";
-        return ApiResponse.<List<Appointments>>builder()
-                .result(appointmentsList)
-                .message(resultString)
-                .build();
+    @GetMapping("/doctor/get/my-schedules")
+    public List<Schedules> getMySchedules(@RequestHeader("Authorization") String authorizationHeader) {
+
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        Doctors doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new RuntimeException("Doctor not found"));
+        return schedulesService.getMySchedules(doctor.getDoctorId());
     }
 
 }
