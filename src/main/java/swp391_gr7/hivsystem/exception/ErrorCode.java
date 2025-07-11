@@ -58,6 +58,7 @@ public enum ErrorCode {
     TREATMENT_PLAN_INVALID_DOSAGE(910, "Liều lượng điều trị không hợp lệ", HttpStatus.BAD_REQUEST), // 400
     TREATMENT_PLAN_INVALID_FREQUENCY(911, "Tần suất điều trị không hợp lệ", HttpStatus.BAD_REQUEST), // 400
     TREATMENT_PLAN_INVALID_DURATION(912, "Thời gian điều trị không hợp lệ", HttpStatus.BAD_REQUEST), // 400
+    TREATMENT_PLAN_IS_NOT_ACTIVE(913, "Kế hoạch điều trị đã có kết quả hoặc không hợp lệ", HttpStatus.BAD_REQUEST),
 
     // Common errors
     UNAUTHENTICATED(989, "Bạn chưa xác thực", HttpStatus.UNAUTHORIZED), // 401

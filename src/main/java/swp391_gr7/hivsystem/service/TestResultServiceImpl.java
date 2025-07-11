@@ -33,14 +33,14 @@ public class TestResultServiceImpl implements TestResultService {
         if (treatmentPlan == null) {
             throw new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND);
         }
+        if(!treatmentPlan.isStatus()){
+            throw new AppException(ErrorCode.TREATMENT_PLAN_IS_NOT_ACTIVE);
+        }
 
         Appointments appointment = treatmentPlan.getAppointments();
         System.out.println("Appointment ID: " + appointment.getAppointmentId());
         if (appointment == null) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
-        }
-        if (!appointment.isStatus()) {
-            throw new AppException(ErrorCode.APPOINTMENT_TEST_RESULT_INACTIVE);
         }
 
         if (!"Test HIV".equals(appointment.getAppointmentType())) {
