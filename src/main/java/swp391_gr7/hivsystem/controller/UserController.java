@@ -2,6 +2,7 @@ package swp391_gr7.hivsystem.controller;
 
 import com.nimbusds.jose.JOSEException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -45,6 +46,8 @@ public class UserController {
     private DoctorService doctorService;
     @Autowired
     private StaffService staffService;
+    @Autowired
+    private TokenBlacklistService tokenBlacklistService;
 
     //Create user
     //http://localhost:8080/user/create
@@ -251,6 +254,21 @@ public class UserController {
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(response)
                 .message(response.isAuthenticated() ? "Đăng nhập Google thành công" : "Thất bại")
+                .build();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/logout")
+    public ApiResponse<String> logout(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            tokenBlacklistService.blacklist(token); // Vô hiệu hóa token
+        }
+        return ApiResponse.<String>builder()
+                .code(200)
+                .message("Logout successful")
+                .result("Token has been blacklisted")
                 .build();
     }
 

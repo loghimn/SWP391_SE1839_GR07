@@ -34,11 +34,13 @@ public class SecurityConfig {
 
     private static final String SECRET_KEY = "secret_la_bi_mat_thoi-lam-on-chay-dum-tao";
     private final JWTService jwtService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private UserRepository userRepository;
 
-    public SecurityConfig(JWTService jwtService, UserRepository userRepository) {
+    public SecurityConfig(JWTService jwtService, UserRepository userRepository, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
@@ -49,6 +51,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
+
+
                 )
                 .oauth2Login(oauth -> oauth
                         .successHandler((request, response, authentication) -> {
@@ -66,7 +70,8 @@ public class SecurityConfig {
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                );
+                )
+                .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
