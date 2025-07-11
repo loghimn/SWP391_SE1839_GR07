@@ -69,6 +69,18 @@ public class TreatmentPlanController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/doctor/get/my-treatmentplan/all")
+    public ApiResponse<?> getMyTreatmentPlanDoctorAll(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        return ApiResponse.<Object>builder()
+                .result(treatmentPlanService.getMyTreatmentPlantDocAll(doctorId))
+                .message("Success")
+                .build();
+    }
+
     @PreAuthorize("hasRole('Customer')")
     @GetMapping("/customer/get/my-treatmentplan")
     public ApiResponse<?> getMyTreatmentPlanCustomer(@RequestHeader("Authorization") String authorizationHeader) {

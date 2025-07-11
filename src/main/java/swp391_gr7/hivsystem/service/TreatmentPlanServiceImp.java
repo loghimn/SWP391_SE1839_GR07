@@ -135,6 +135,16 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
     }
 
     @Override
+    public List<TreatmentPlans> getMyTreatmentPlantDocAll(int doctorId) {
+        List<TreatmentPlans> treatmentPlans = treatmentPlansRepository.findAllByDoctors_DoctorId(doctorId);
+        if (treatmentPlans.isEmpty()) {
+            throw new AppException(ErrorCode.TREATMENT_PLAN_NOT_FOUND);
+        }
+        return treatmentPlans;
+    }
+
+
+    @Override
     public List<TreatmentPlans> getMyTreatmentPlantCus(int customerId) {
         List<TreatmentPlans> treatmentPlans = new ArrayList<>();
         Customers customer = customerRepository.findById(customerId)
