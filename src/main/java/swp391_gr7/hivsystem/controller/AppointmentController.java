@@ -286,7 +286,7 @@ public class AppointmentController {
                 .build();
     }
     @PreAuthorize("hasRole('Staff')")
-    @GetMapping("/staff/appointment/consultation/list")
+    @GetMapping("/staff/appointment/testhiv/list")
     public ApiResponse<List<Appointments>> getStaffsAppointmentsHaveTypeConsultation() {
         List<Appointments> appointmentsList = appointmentService.getStaffAppointmentsHaveTypeTestHIVAndActive();
         boolean result = appointmentsList != null;
