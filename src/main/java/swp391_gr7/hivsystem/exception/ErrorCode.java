@@ -101,7 +101,7 @@ public enum ErrorCode {
 
     // Add error for date of birth
     USER_DATEOFBIRTH_NOTNULL(1018, "Ngày sinh là bắt buộc", HttpStatus.BAD_REQUEST), // 400
-    USER_INVALID_DATEOFBIRTH(1019, "Ngày sinh phải lớn hơn hoặc bằng 1", HttpStatus.BAD_REQUEST), // 400
+    USER_INVALID_DATEOFBIRTH(1019, "Tuổi không hợp lệ", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for customer
     CUSTOMER_INVALID_ADDRESS_NOTBLANK(1020, "Địa chỉ là bắt buộc", HttpStatus.BAD_REQUEST), // 400
@@ -113,7 +113,7 @@ public enum ErrorCode {
     // Add error for staff
     STAFF_INVALID_DEPARTMENT_NOTBLANK(1022, "Department is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_WORKSHIFT_NOTNULL(1023, "Ca làm việc là bắt buộc", HttpStatus.BAD_REQUEST), // 400
-    STAFF_INVALID_WORKSHIFT(1024, "Ca làm việc phải là 1, 2 hoặc 3", HttpStatus.BAD_REQUEST), // 400
+    STAFF_INVALID_WORKSHIFT(1024, "Ca làm việc phải là 1 hoặc 2", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_ASSIGNED_AREA_NOTBLANK(1025, "Assigned area is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_NOT_FOUND(1026, "Không tìm thấy nhân viên với ID", HttpStatus.NOT_FOUND), // 404
 
@@ -217,9 +217,9 @@ public enum ErrorCode {
     USER_UPDATE_INVALID_PHONE_FORMAT(1088, "Số điện thoại cập nhật phải bắt đầu bằng 0 và theo sau là 9 chữ số", HttpStatus.BAD_REQUEST), // 400
     USER_UPDATE_INVALID_FULLNAME_NOTBLANK(1089, "Họ và tên cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     USER_UPDATE_DATEOFBIRTH_NOTNULL(1090, "Ngày sinh cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
-    USER_UPDATE_INVALID_DATEOFBIRTH(1091, "Ngày sinh cập nhật phải từ 18 tuổi trở lên", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_DATEOFBIRTH(1091, "Tuổi không hợp lệ", HttpStatus.BAD_REQUEST), // 400
     USER_UPDATE_INVALID_GENDER_NOTBLANK(1092, "Giới tính cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
-    USER_UPDATE_INVALID_GENDER_FORMAT(1093, "Giới tính cập nhật phải là 'male' hoặc 'female'", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_INVALID_GENDER_FORMAT(1093, "Giới tính cập nhật phải là 'nam' hoặc 'nữ'", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for update doctor
     DOCTOR_UPDATE_INVALID_DEPARTMENT_NOTBLANK(1094, "Phòng ban cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
@@ -239,7 +239,7 @@ public enum ErrorCode {
     // Add error fot update staff
     STAFF_UPDATE_INVALID_DEPARTMENT_NOTBLANK(1104, "Phòng ban cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     STAFF_UPDATE_INVALID_WORKSHIFT_NOTNULL(1105, "Ca làm việc cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
-    STAFF_UPDATE_INVALID_WORKSHIFT(1106, "Ca làm việc cập nhật phải là 1, 2 hoặc 3", HttpStatus.BAD_REQUEST), // 400
+    STAFF_UPDATE_INVALID_WORKSHIFT(1106, "Ca làm việc cập nhật phải là 1 hoặc 2", HttpStatus.BAD_REQUEST), // 400
     STAFF_UPDATE_INVALID_ASSIGNED_AREA_NOTBLANK(1107, "Khu vực được phân công cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for reminder
@@ -308,6 +308,9 @@ public enum ErrorCode {
 
     //Time Apponitment
     TIME_APPOINTMENT_NOT_FOUND(1149, "Thời gian hẹn không hợp lệ", HttpStatus.NOT_FOUND),
+
+    AUTHENTICATION_REQUEST_USERNAME_NOT_BLANK(1150, "Tên đăng nhập không được để trống", HttpStatus.BAD_REQUEST), // 400
+    AUTHENTICATION_REQUEST_PASSWORD_NOT_BLANK(1151, "Mật khẩu không được để trống", HttpStatus.BAD_REQUEST) // 400
     ;
 
     private int code;

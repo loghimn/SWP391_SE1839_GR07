@@ -148,7 +148,7 @@ public class DataSeeder implements CommandLineRunner {
         Managers manager = new Managers();
         manager.setUsers(managerUser);
 //        manager.setDepartment("Department 1");
-        manager.setOfficePhone("0123456789");
+        manager.setOfficePhone("0912345678");
         managerRepository.save(manager);
 
         // Add a staff

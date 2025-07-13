@@ -274,7 +274,7 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
-    @PreAuthorize("hasRole('Doctor')")
+    @PreAuthorize("hasAnyRole('Doctor', 'Staff')")
     @GetMapping("/doctor/appointment/consultation/list")
     public ApiResponse<List<Appointments>> getAppointmentsHaveTypeConsultation() {
         List<Appointments> appointmentsList = appointmentService.getAppointmentsHaveTypeConsultationAndActive();
