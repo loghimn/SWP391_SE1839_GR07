@@ -28,4 +28,6 @@ public interface StaffRepository extends CrudRepository<Staffs, Integer> {
     Staffs getStaffsByStaffId(int staffId);
 
     Staffs findByStaffId(int staffId);
+
+    Optional<Staffs> findByUsers_UserId(Integer usersUserId);
 }

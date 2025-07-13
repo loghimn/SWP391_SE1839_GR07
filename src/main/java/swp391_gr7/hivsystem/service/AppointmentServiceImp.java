@@ -412,6 +412,18 @@ public class AppointmentServiceImp implements AppointmentService {
     }
 
     @Override
+    public List<Appointments> getStaffAppointmentsHaveTypeTestHIVAndActive() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Staffs staff = staffRepository.findByUsers_UserId(user.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.STAFF_NOT_FOUND));
+        return appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Test HIV", true);
+    }
+
+
+    @Override
     public List<Appointments> getAppointmentsHaveTypeConsultationAndActive() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();

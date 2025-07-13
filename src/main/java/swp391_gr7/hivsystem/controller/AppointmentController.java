@@ -274,7 +274,7 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
-    @PreAuthorize("hasAnyRole('Doctor', 'Staff')")
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/doctor/appointment/consultation/list")
     public ApiResponse<List<Appointments>> getAppointmentsHaveTypeConsultation() {
         List<Appointments> appointmentsList = appointmentService.getAppointmentsHaveTypeConsultationAndActive();
@@ -285,6 +285,18 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
+    @PreAuthorize("hasRole('Staff')")
+    @GetMapping("/staff/appointment/consultation/list")
+    public ApiResponse<List<Appointments>> getStaffsAppointmentsHaveTypeConsultation() {
+        List<Appointments> appointmentsList = appointmentService.getStaffAppointmentsHaveTypeTestHIVAndActive();
+        boolean result = appointmentsList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointmentsList)
+                .message(resultString)
+                .build();
+    }
+
 
     // get appointments by day for a specific doctor
     @PreAuthorize("hasRole('Doctor')")

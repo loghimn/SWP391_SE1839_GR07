@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.model.Doctors;
+import swp391_gr7.hivsystem.model.Staffs;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -44,4 +45,5 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     // In AppointmentRepository.java
     List<Appointments> findByDoctorsAndAppointmentTypeAndStatus(Doctors doctor, String appointmentType, boolean status);
 
+    List<Appointments> findByStaffsAndAppointmentTypeAndStatus(Staffs staff, String appointmentType, boolean status);
 }
