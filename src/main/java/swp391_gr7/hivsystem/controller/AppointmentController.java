@@ -287,7 +287,7 @@ public class AppointmentController {
     }
     @PreAuthorize("hasRole('Staff')")
     @GetMapping("/staff/appointment/testhiv/list")
-    public ApiResponse<List<Appointments>> getStaffsAppointmentsHaveTypeConsultation() {
+    public ApiResponse<List<Appointments>> getStaffsAppointmentsHaveTypeTestHIV() {
         List<Appointments> appointmentsList = appointmentService.getStaffAppointmentsHaveTypeTestHIVAndActive();
         boolean result = appointmentsList != null;
         String resultString = result ? "Success" : "Failed";

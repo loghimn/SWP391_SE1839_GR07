@@ -35,7 +35,7 @@ public class Materials {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url", nullable = false, columnDefinition = "NVARCHAR(1000)")
     private String imageUrl;
 
     @Nationalized

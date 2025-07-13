@@ -123,4 +123,16 @@ public class TestResultController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('Staff')")
+    @GetMapping("staff/get/testresultnohavereminder")
+    public ApiResponse<List<TestResults>> getAllTestResultsNoHaveRemin() {
+        List<TestResults> results = testResultService.getAllTestResultsNoHaveRemin();
+
+        return ApiResponse.<List<TestResults>>builder()
+                .code(200)
+                .result(results)
+                .message(results.isEmpty() ? "No results found" : "Success")
+                .build();
+    }
+
 }

@@ -19,4 +19,6 @@ public interface TestResultService {
     List<TestResults> getMyTestResultsDoc(int doctorId);
 
     List<TestResults> getAllTestResults();
+
+    List<TestResults> getAllTestResultsNoHaveRemin();
 }

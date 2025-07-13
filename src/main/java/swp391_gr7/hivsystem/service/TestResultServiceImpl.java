@@ -124,4 +124,13 @@ public class TestResultServiceImpl implements TestResultService {
         return results;
     }
 
+    @Override
+    public List<TestResults> getAllTestResultsNoHaveRemin() {
+        List<TestResults> results = testResultRepository.findTestResultsNoHaveReminder();
+        if (results.isEmpty()) {
+            throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
+        }
+        return results;
+    }
+
 }
