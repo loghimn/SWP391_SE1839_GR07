@@ -22,4 +22,5 @@ public interface TestResultRepository extends JpaRepository<TestResults, Integer
     @Query(value = "SELECT * FROM test_result tr WHERE tr.test_result_id NOT IN (SELECT test_result_id FROM reminders)", nativeQuery = true)
     List<TestResults> findTestResultsNoHaveReminder();
 
+    List<TestResults> findTestResultsByCustomers(Customers customers);
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.request.ReminderDosageCreateRequest;
 import swp391_gr7.hivsystem.dto.request.ReminderReExamCreateRequest;
 import swp391_gr7.hivsystem.dto.request.ReminderUpdateRequest;
+import swp391_gr7.hivsystem.dto.response.ApiResponse;
+import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.model.Reminders;
 import swp391_gr7.hivsystem.service.JWTUtils;
 import swp391_gr7.hivsystem.service.ReminderService;
@@ -79,14 +81,22 @@ public class ReminderController {
         reminderService.deleteReminder(id);
     }
 
+
     @PreAuthorize("hasRole('Customer')")
     @GetMapping("/customer/get/my-reminder")
-    public Reminders getMyReminderCustomer(@RequestHeader("Authorization") String authorizationHeader) {
+    public ApiResponse<Reminders> getMyReminderCustomer(@RequestHeader("Authorization") String authorizationHeader) {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int customerId = new JWTUtils().extractCustomerId(token);
-        return reminderService.getMyReminderByIdCus(customerId);
+        Reminders reminder = reminderService.getMyReminderByIdCus(customerId);
+        boolean result = reminder != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiResponse.<Reminders>builder()
+                .result(reminder)
+                .message(resultString)
+                .build();
     }
+
 
     @PreAuthorize("hasRole('Staff')")
     @GetMapping("/staff/get/my-reminder")
@@ -94,7 +104,6 @@ public class ReminderController {
         // Extract customerId from the token
         String token = authorizationHeader.replace("Bearer ", "");
         int staffId = new JWTUtils().extractStaffId(token);
-
         return reminderService.getMyReminderByIdStaff(staffId);
     }
 }

@@ -1279,7 +1279,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage.setAppointments(appointment1);
         remindersDosage.setStaffs(staff);
         remindersDosage.setReminderType("Dosage Reminder");
-        remindersDosage.setStatus(true);
+        remindersDosage.setStatus(false);
         reminderRepository.save(remindersDosage);
 
         Reminders remindersDosage1 = new Reminders();
@@ -1290,7 +1290,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage1.setAppointments(appointment2);
         remindersDosage1.setStaffs(staff);
         remindersDosage1.setReminderType("Dosage Reminder");
-        remindersDosage1.setStatus(true);
+        remindersDosage1.setStatus(false);
         reminderRepository.save(remindersDosage1);
 
         Reminders remindersDosage2 = new Reminders();
@@ -1301,7 +1301,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage2.setAppointments(appointment3);
         remindersDosage2.setStaffs(staff);
         remindersDosage2.setReminderType("Dosage Reminder");
-        remindersDosage2.setStatus(true);
+        remindersDosage2.setStatus(false);
         reminderRepository.save(remindersDosage2);
 
         Reminders remindersDosage3 = new Reminders();
@@ -1312,7 +1312,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersDosage3.setAppointments(appointment4);
         remindersDosage3.setStaffs(staff);
         remindersDosage3.setReminderType("Dosage Reminder");
-        remindersDosage3.setStatus(true);
+        remindersDosage3.setStatus(false);
         reminderRepository.save(remindersDosage3);
 
         Reminders remindersDosage4 = new Reminders();
@@ -1334,7 +1334,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam5.setAppointments(appointment6);
         remindersReExam5.setStaffs(staff);
         remindersReExam5.setReminderType("Re-Exam Reminder");
-        remindersReExam5.setStatus(true);
+        remindersReExam5.setStatus(false);
         reminderRepository.save(remindersReExam5);
 
         Reminders remindersReExam6 = new Reminders();
@@ -1345,7 +1345,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam6.setAppointments(appointment7);
         remindersReExam6.setStaffs(staff);
         remindersReExam6.setReminderType("Re-Exam Reminder");
-        remindersReExam6.setStatus(true);
+        remindersReExam6.setStatus(false);
         reminderRepository.save(remindersReExam6);
 
         Reminders remindersReExam7 = new Reminders();
@@ -1356,7 +1356,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam7.setAppointments(appointment8);
         remindersReExam7.setStaffs(staff);
         remindersReExam7.setReminderType("Re-Exam Reminder");
-        remindersReExam7.setStatus(true);
+        remindersReExam7.setStatus(false);
         reminderRepository.save(remindersReExam7);
 
         Reminders remindersReExam8 = new Reminders();
@@ -1367,7 +1367,7 @@ public class DataSeeder implements CommandLineRunner {
         remindersReExam8.setAppointments(appointment9);
         remindersReExam8.setStaffs(staff);
         remindersReExam8.setReminderType("Re-Exam Reminder");
-        remindersReExam8.setStatus(true);
+        remindersReExam8.setStatus(false);
         reminderRepository.save(remindersReExam8);
 
         Reminders remindersReExam9 = new Reminders();

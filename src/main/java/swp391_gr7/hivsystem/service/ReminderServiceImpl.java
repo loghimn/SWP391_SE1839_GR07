@@ -48,7 +48,8 @@ public class ReminderServiceImpl implements ReminderService {
         if (testResult == null || testResult.getTreatmentPlan() == null) {
             throw new AppException(ErrorCode.TEST_RESULT_NOT_FOUND);
         }
-        reminder.setCustomers(customersRepository.findById(request.getCustomerId()).orElse(null));
+        Customers customers = customersRepository.findById(request.getCustomerId()).orElse(null);
+        reminder.setCustomers(customers);
         if (reminder.getCustomers() == null) {
             throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
@@ -72,6 +73,13 @@ public class ReminderServiceImpl implements ReminderService {
             reminder.setReminderTime(reminderDateTime);
         } else {
             throw new AppException(ErrorCode.TEST_RESULT_NOT_HAVE_DOSAGE_TIME);
+        }
+        List<Reminders> existingReminders = remindersRepository.findByReminderTypeAndStatusAndCustomersCustomerId(
+                "Dosage Reminder", true, customers.getCustomerId());
+        for (Reminders existingReminder : existingReminders) {
+            if (existingReminder.isStatus() && existingReminder.getReminderType().equals("Dosage Reminder")) {
+                existingReminder.setStatus(false);
+            }
         }
         // Set staff if needed (if you have logic to get staff from context)
         return remindersRepository.save(reminder);
@@ -226,10 +234,15 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public Reminders getMyReminderByIdCus(int id) {
-        if (!remindersRepository.existsById(id)) {
-            throw new AppException(ErrorCode.REMINDER_NOT_FOUND);
+        if (!customersRepository.existsById(id)) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
         }
-        return remindersRepository.findRemindersByCustomersCustomerId(id);
+        List<Reminders> lastReminder = remindersRepository
+                .findByReminderTypeAndStatusAndCustomersCustomerId("Dosage Reminder", true, id);
+        if (lastReminder != null && !lastReminder.isEmpty()) {
+            return lastReminder.get(lastReminder.size() - 1);
+        }
+        return null;
     }
 
     @Override
