@@ -27,6 +27,9 @@
         <url/>
     </scm>
     <properties>
+        <sonar.projectKey>HIV_SYSTEM</sonar.projectKey>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.token>sqp_ec9c146cdde00a91711a470905dc20a127bd9943</sonar.token>
         <java.version>21</java.version>
     </properties>
     <dependencies>
@@ -178,6 +181,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>4.0.0.4121</version>
             </plugin>
         </plugins>
     </build>

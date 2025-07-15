@@ -40,6 +40,8 @@ public class AppointmentServiceImp implements AppointmentService {
     private final String error = "";
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ReminderRepository reminderRepository;
 
 //    @Override
 //    public Appointments addAppointment(AppointmentCreateRequest request) {
@@ -419,8 +421,32 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         Staffs staff = staffRepository.findByUsers_UserId(user.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.STAFF_NOT_FOUND));
-        return appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Test HIV", true);
+
+        // Lấy tất cả appointments thỏa điều kiện
+        List<Appointments> appointments = appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Test HIV", true);
+
+        // Lấy danh sách reminders của staff
+        List<Reminders> reminders = reminderRepository.findRemindersByStaffs(staff);
+
+        // Lấy danh sách appointmentId đã được reminder
+        List<Appointments> result = new ArrayList<>();
+        for (Appointments appointment : appointments) {
+            boolean isReminded = false;
+            for (Reminders reminder : reminders) {
+                if (reminder.getAppointments().getAppointmentId() == appointment.getAppointmentId()) {
+                    isReminded = true;
+                    break;
+                }
+            }
+            // Nếu chưa được reminder thì thêm vào kết quả
+            if (!isReminded) {
+                result.add(appointment);
+            }
+        }
+
+        return result;
     }
+
 
 
     @Override

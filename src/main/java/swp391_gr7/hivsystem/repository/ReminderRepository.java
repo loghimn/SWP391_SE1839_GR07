@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import swp391_gr7.hivsystem.model.Reminders;
+import swp391_gr7.hivsystem.model.Staffs;
 import swp391_gr7.hivsystem.model.TestResults;
 
 import java.time.LocalDateTime;
@@ -28,4 +29,5 @@ public interface ReminderRepository extends JpaRepository<Reminders, Integer> {
 
     List<Reminders> findByReminderTypeAndStatusAndCustomersCustomerId(String reminderType, boolean status, int customerId);
 
+    List<Reminders> findRemindersByStaffs(Staffs staffs);
 }
