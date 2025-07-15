@@ -426,7 +426,7 @@ public class AppointmentServiceImp implements AppointmentService {
         List<Appointments> appointments = appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Test HIV", true);
 
         // Lấy danh sách reminders của staff
-        List<Reminders> reminders = reminderRepository.findRemindersByStaffs(staff);
+        List<Reminders> reminders = reminderRepository.findAll();
 
         // Lấy danh sách appointmentId đã được reminder
         List<Appointments> result = new ArrayList<>();
