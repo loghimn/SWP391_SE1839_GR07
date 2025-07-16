@@ -8,17 +8,12 @@ import java.util.Set;
 public class ProvinceValidator implements ConstraintValidator<ValidProvinceConstraint, String> {
 
     private static final Set<String> VALID_PROVINCES = Set.of(
-            "An Giang", "Ba Ria - Vung Tau", "Bac Giang", "Bac Kan", "Bac Lieu",
-            "Bac Ninh", "Ben Tre", "Binh Dinh", "Binh Duong", "Binh Phuoc", "Binh Thuan",
-            "Ca Mau", "Cao Bang", "Can Tho", "Da Nang", "Dak Lak", "Dak Nong",
-            "Dien Bien", "Dong Nai", "Dong Thap", "Gia Lai", "Ha Giang", "Ha Nam",
-            "Ha Noi", "Ha Tinh", "Hai Duong", "Hai Phong", "Hau Giang", "Hoa Binh",
-            "Hung Yen", "Ho Chi Minh", "Khanh Hoa", "Kien Giang", "Kon Tum", "Lai Chau",
-            "Lam Dong", "Lang Son", "Lao Cai", "Long An", "Nam Dinh", "Nghe An",
-            "Ninh Binh", "Ninh Thuan", "Phu Tho", "Phu Yen", "Quang Binh", "Quang Nam",
-            "Quang Ngai", "Quang Ninh", "Quang Tri", "Soc Trang", "Son La", "Tay Ninh",
-            "Thai Binh", "Thai Nguyen", "Thanh Hoa", "Thua Thien Hue", "Tien Giang",
-            "Tra Vinh", "Tuyen Quang", "Vinh Long", "Vinh Phuc", "Yen Bai"
+            "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bạc Liêu", "Bến Tre", "Bình Định",
+            "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Đồng Nai", "Đồng Tháp", "Gia Lai",
+            "Hà Nam", "Hà Tĩnh", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Lâm Đồng", "Long An",
+            "Nam Định", "Nghệ An", "Ninh Bình", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi",
+            "Thanh Hóa", "Thành phố Hà Nội", "Thành phố Hồ Chí Minh", "Thành phố Hải Phòng",
+            "Thành phố Đà Nẵng", "Thành phố Cần Thơ", "Thành phố Huế"
     );
 
     @Override

@@ -36,7 +36,8 @@ public class Blogs {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "image_url", nullable = false, columnDefinition = "NVARCHAR(1000)")
+    @Lob
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
     @Nationalized
