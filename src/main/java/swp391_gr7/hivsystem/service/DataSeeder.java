@@ -186,7 +186,7 @@ public class DataSeeder implements CommandLineRunner {
 
 
         ArvRegiments r1 = new ArvRegiments();
-        r1.setName("Người lớn tiêu chuẩn");
+        r1.setName("Bậc 1 - Người lớn tiêu chuẩn");
         r1.setLevel(1);
         r1.setDescription("Phác đồ ARV bậc 1 dành cho người lớn không mang thai, điều trị lần đầu");
         r1.setDoctor(doctors);
