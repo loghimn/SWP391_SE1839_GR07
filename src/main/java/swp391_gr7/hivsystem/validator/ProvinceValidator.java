@@ -8,12 +8,40 @@ import java.util.Set;
 public class ProvinceValidator implements ConstraintValidator<ValidProvinceConstraint, String> {
 
     private static final Set<String> VALID_PROVINCES = Set.of(
-            "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bạc Liêu", "Bến Tre", "Bình Định",
-            "Bình Dương", "Bình Phước", "Bình Thuận", "Cà Mau", "Đồng Nai", "Đồng Tháp", "Gia Lai",
-            "Hà Nam", "Hà Tĩnh", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Lâm Đồng", "Long An",
-            "Nam Định", "Nghệ An", "Ninh Bình", "Phú Thọ", "Quảng Bình", "Quảng Nam", "Quảng Ngãi",
-            "Thanh Hóa", "Thành phố Hà Nội", "Thành phố Hồ Chí Minh", "Thành phố Hải Phòng",
-            "Thành phố Đà Nẵng", "Thành phố Cần Thơ", "Thành phố Huế"
+            "An Giang",
+            "Bắc Ninh",
+            "Cà Mau",
+            "Cao Bằng",
+            "Đắk Lắk",
+            "Điện Biên",
+            "Đồng Nai",
+            "Đồng Tháp",
+            "Gia Lai",
+            "Hà Tĩnh",
+            "Hưng Yên",
+            "Khánh Hòa",
+            "Lai Châu",
+            "Lạng Sơn",
+            "Lào Cai",
+            "Lâm Đồng",
+            "Nghệ An",
+            "Ninh Bình",
+            "Phú Thọ",
+            "Quảng Ngãi",
+            "Quảng Ninh",
+            "Quảng Trị",
+            "Sơn La",
+            "Tây Ninh",
+            "Thanh Hóa",
+            "Thái Nguyên",
+            "Thành phố Cần Thơ",
+            "Thành phố Hà Nội",
+            "Thành phố Hải Phòng",
+            "Thành phố Hồ Chí Minh",
+            "Thành phố Huế",
+            "Thành phố Đà Nẵng",
+            "Tuyên Quang",
+            "Vĩnh Long"
     );
 
     @Override
