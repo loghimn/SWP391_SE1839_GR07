@@ -57,6 +57,20 @@ public class CustomerController {
         }
         return user;
     }
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/customer-info-google")
+    // Only the user can access their own information
+    public Customers getCusInfo(@RequestHeader("Authorization") String authorizationHeader) {
+
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+
+        Customers user = customerService.getCustomerById(customerId);
+        if (user == null) {
+            throw new AppException(ErrorCode.CUSTOMER_NOT_FOUND);
+        }
+        return user;
+    }
 
     @PreAuthorize("hasRole('Customer')")
     @PostMapping("/update-password")
