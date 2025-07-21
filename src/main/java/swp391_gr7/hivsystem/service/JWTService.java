@@ -36,7 +36,8 @@ public class JWTService {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("iss", "gr7");
-
+        claims.put("sub", email);
+        claims.put("email", email);
         if (registered) {
             Optional<Users> optionalUser = userRepository.findByEmail(email);
             if (optionalUser.isPresent()) {
@@ -49,7 +50,6 @@ public class JWTService {
             claims.put("sub", "customer");
             claims.put("role", "Customer");
         } else {
-            claims.put("sub", "unregistered");
             claims.put("role", "Guest");
         }
 
