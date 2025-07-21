@@ -311,7 +311,17 @@ public enum ErrorCode {
     TIME_APPOINTMENT_NOT_FOUND(1149, "Thời gian hẹn không hợp lệ", HttpStatus.NOT_FOUND),
 
     AUTHENTICATION_REQUEST_USERNAME_NOT_BLANK(1150, "Tên đăng nhập không được để trống", HttpStatus.BAD_REQUEST), // 400
-    AUTHENTICATION_REQUEST_PASSWORD_NOT_BLANK(1151, "Mật khẩu không được để trống", HttpStatus.BAD_REQUEST) // 400
+    AUTHENTICATION_REQUEST_PASSWORD_NOT_BLANK(1151, "Mật khẩu không được để trống", HttpStatus.BAD_REQUEST), // 400
+
+    // request report
+    REPORT_CREATE_REQUEST_MONTH_NOT_NULL(1152, "Tháng không được để trống", HttpStatus.BAD_REQUEST),
+    REPORT_CREATE_REQUEST_MONTH_MIN_1(1153, "Tháng không hợp lệ", HttpStatus.BAD_REQUEST),
+    REPORT_CREATE_REQUEST_MONTH_MAX_12(1154, "Tháng không hợp lệ", HttpStatus.BAD_REQUEST),
+    REPORT_CREATE_REQUEST_YEAR_NOT_NULL(1155, "Năm không được để trống", HttpStatus.BAD_REQUEST),
+
+    // file error
+    FILE_ERROR(1156, "Lỗi khi tạo file", HttpStatus.INTERNAL_SERVER_ERROR),
+
     ;
 
     private int code;

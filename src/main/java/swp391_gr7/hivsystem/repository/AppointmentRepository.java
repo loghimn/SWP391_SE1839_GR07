@@ -46,4 +46,15 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     List<Appointments> findByDoctorsAndAppointmentTypeAndStatus(Doctors doctor, String appointmentType, boolean status);
 
     List<Appointments> findByStaffsAndAppointmentTypeAndStatus(Staffs staff, String appointmentType, boolean status);
+
+    @Query(
+          "select month(s.workDate) as month, " +
+                  "year(s.workDate) as year, " +
+                  "count(a) as totalAppointment " +
+                  "from Appointments a " +
+                  "join a.schedules s " +
+                  "where a.status = false " +
+                  "group by year(s.workDate), month(s.workDate) " +
+                  "order by year(s.workDate), month(s.workDate)")
+    List<Object[]> countAppointmentIsDoneByMonth();
 }

@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class OAuth2CreateRequest {
 
     @NotBlank(message = "USER_INVALID_EMAIL_NOTBLANK")
-    @Email(regexp = "^[A-Za-z0-9+_.-]+@(gmail|example)\\.(com|vn|org)$", message = "USER_INVALID_EMAIL_FORMAT")
+    @Email(regexp = "^[A-Za-z0-9+_.-]+@((gmail)\\.(com)|(example)\\.(com|vn|org)|(fpt\\.edu(\\.vn)?))$", message = "USER_INVALID_EMAIL_FORMAT")
     private String email;
 
     @NotBlank(message = "USER_INVALID_USERNAME_NOTBLANK")
