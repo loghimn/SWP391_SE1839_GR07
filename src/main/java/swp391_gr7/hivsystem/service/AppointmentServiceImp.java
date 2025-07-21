@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.service;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -177,7 +178,14 @@ public class AppointmentServiceImp implements AppointmentService {
             }
         }
 
+
         Appointments appointments = new Appointments();
+        if (request.getAppointmentType().equals("Re-Examination") || request.getAppointmentType().equals("Test HIV")) {
+            appointments.setAnonymous(false);
+        } else if (request.getAppointmentType().equals("Consultation")) {
+            appointments.setAnonymous(request.isAnonymous());
+        }
+
         appointments.setCustomers(customers);
         appointments.setDoctors(doctors);
         appointments.setStaffs(staffs);
@@ -185,7 +193,7 @@ public class AppointmentServiceImp implements AppointmentService {
         appointments.setStartTime(request.getStartTime());
         appointments.setEndTime(endTime);
         appointments.setStatus(true);
-        appointments.setAnonymous(request.isAnonymous());
+//        appointments.setAnonymous(request.getAppointmentType().equals("Re-Examination"));
         appointments.setAppointmentType(request.getAppointmentType());
         appointments.setSchedules(schedules);
 
@@ -215,7 +223,6 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments updateAppointment(int id, AppointmentCreateRequest request) {
-
         if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
                 request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
                 request.getStartTime().toLocalTime().getHour() == 9 ||
@@ -229,6 +236,9 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
         if (!appointments.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
+        }
+        if(appointments.getAppointmentType().equals("Re-Examination")){
+            throw new AppException(ErrorCode.APPOINTMENT_CANNOT_UPDATE_RE_EXAMINATION);
         }
 
         Customers customers = customerRepository.findById(appointments.getCustomers().getCustomerId())
@@ -399,7 +409,12 @@ public class AppointmentServiceImp implements AppointmentService {
     public List<Appointments> getMyAppointmentsTestHIVDoc(int doctorId) {
         Doctors doctors = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_DOCTOR_NOT_FOUND));
-        return appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Test HIV");
+        List<Appointments> appointments = appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Test HIV");
+        appointments.addAll(appointmentRepository.findByDoctors_DoctorIdAndAppointmentType(doctors.getDoctorId(), "Re-Examination"));
+        if (appointments.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
+        return appointments;
     }
 
     @Override
@@ -410,7 +425,14 @@ public class AppointmentServiceImp implements AppointmentService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         Doctors doctor = doctorRepository.findByUsers_UserId(user.getUserId())
                 .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
-        return appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Test HIV", true);
+
+        List<Appointments> appointments = appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Test HIV", true);
+        appointments.addAll(appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Re-Examination", true));
+        if (appointments.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
+
+        return appointments;
     }
 
     @Override
@@ -424,7 +446,7 @@ public class AppointmentServiceImp implements AppointmentService {
 
         // Lấy tất cả appointments thỏa điều kiện
         List<Appointments> appointments = appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Test HIV", true);
-
+        appointments.addAll(appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Re-Examination", true));
         // Lấy danh sách reminders của staff
         List<Reminders> reminders = reminderRepository.findAll();
 

@@ -183,10 +183,10 @@ public void handleReExamination(TestResults testResult) {
     Appointments newAppointment = new Appointments();
     newAppointment.setCustomers(customers);
     newAppointment.setDoctors(doctors);
-    newAppointment.setAppointmentType(testResult.getTestType());
+    newAppointment.setAppointmentType("Re-Examination");
     newAppointment.setStartTime(selectedTime);
     newAppointment.setEndTime(selectedTime.plusHours(2));
-    newAppointment.setAnonymous(originalAppointment.isAnonymous());
+    newAppointment.setAnonymous(false);
     newAppointment.setMedicalRecords(originalAppointment.getMedicalRecords());
     newAppointment.setSchedules(selectedSchedule);
     newAppointment.setStatus(true); // hoặc để pending
