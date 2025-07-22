@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.dto.response.CustomerReponse;
+import swp391_gr7.hivsystem.dto.response.MeetingLinkResponse;
 import swp391_gr7.hivsystem.model.Appointments;
 import swp391_gr7.hivsystem.service.AppointmentService;
 import swp391_gr7.hivsystem.service.JWTUtils;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -310,4 +315,86 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
+
+
+
+
+    @GetMapping("/doctor/appointment/{appointmentId}/meeting")
+    @PreAuthorize("hasRole('Doctor')")
+    public ApiResponse<MeetingLinkResponse> createAppointmentMeeting(@PathVariable int appointmentId) {
+        // Verify appointment exists
+        Appointments appointment = appointmentService.getAppointmentById(appointmentId);
+
+        if (appointment == null) {
+            return ApiResponse.<MeetingLinkResponse>builder()
+                    .message("Appointment not found")
+                    .build();
+        }
+
+        // Generate meeting ID using appointment ID
+        String meetingId = "hiv-appointment-" + appointmentId;
+        String baseLink = "https://meet.jit.si/" + meetingId;
+
+        // Doctor link with host privileges
+        String meetingLink = baseLink + "#" + String.join("&",
+                "config.prejoinPageEnabled=false",
+                "userType=host",
+                "config.startWithAudioMuted=false",
+                "config.startWithVideoMuted=false",
+                "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"closedcaptions\",\"desktop\",\"fullscreen\",\"recording\",\"settings\",\"raisehand\",\"videoquality\",\"filmstrip\",\"chat\",\"tileview\"]"
+        );
+
+        MeetingLinkResponse response = MeetingLinkResponse.builder()
+                .meetingLink(meetingLink)
+                .build();
+
+        return ApiResponse.<MeetingLinkResponse>builder()
+                .result(response)
+                .message("Meeting link created successfully")
+                .build();
+    }
+
+    @GetMapping("/customer/appointment/{appointmentId}/meeting")
+    @PreAuthorize("hasRole('Customer')")
+    public ApiResponse<MeetingLinkResponse> getCustomerMeetingLink(@PathVariable int appointmentId) {
+        // Verify appointment exists
+        Appointments appointment = appointmentService.getAppointmentById(appointmentId);
+        if (appointment == null) {
+            return ApiResponse.<MeetingLinkResponse>builder()
+                    .message("Appointment not found")
+                    .build();
+        }
+
+        // Generate meeting ID using appointment ID
+        String meetingId = "hiv-appointment-" + appointmentId;
+        String baseLink = "https://meet.jit.si/" + meetingId;
+
+        // Patient link with limited privileges
+        String meetingLink = baseLink + "#" + String.join("&",
+                "config.prejoinPageEnabled=true",
+                "userType=participant",
+                "config.startWithAudioMuted=true",
+                "config.startWithVideoMuted=true",
+                "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"raisehand\",\"chat\",\"tileview\"]"
+        );
+
+        MeetingLinkResponse response = MeetingLinkResponse.builder()
+                .meetingLink(meetingLink)
+                .build();
+
+        return ApiResponse.<MeetingLinkResponse>builder()
+                .result(response)
+                .message("Meeting link created successfully")
+                .build();
+    }
+
+
+
+
+
+
+
+
+
+
 }

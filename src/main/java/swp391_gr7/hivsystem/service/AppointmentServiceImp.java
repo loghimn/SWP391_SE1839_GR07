@@ -344,7 +344,7 @@ public class AppointmentServiceImp implements AppointmentService {
             // If the appointment is anonymous, return null
             return null;
         }
-        return null;
+        return appointment;
     }
 
     @Override
