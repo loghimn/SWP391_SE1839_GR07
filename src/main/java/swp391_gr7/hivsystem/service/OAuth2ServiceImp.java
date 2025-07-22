@@ -1,8 +1,11 @@
 package swp391_gr7.hivsystem.service;
 
+import com.nimbusds.jose.JOSEException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import swp391_gr7.hivsystem.dto.request.GoogleRegisterRequest;
 import swp391_gr7.hivsystem.dto.request.OAuth2CreateRequest;
+import swp391_gr7.hivsystem.dto.response.AuthenticationResponse;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.Customers;
@@ -19,6 +22,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class OAuth2ServiceImp implements OAuth2Service {
+    @Autowired
+    private AuthenticationService authenticationService;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
     private final PasswordEncoder passwordEncoder;
@@ -35,7 +40,7 @@ public class OAuth2ServiceImp implements OAuth2Service {
     }
 
     @Override
-    public boolean registerOAuth2User(OAuth2CreateRequest request) {
+    public AuthenticationResponse registerOAuth2User(OAuth2CreateRequest request) throws JOSEException {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new AppException(ErrorCode.OAUTH2_INVALID_USERNAME_EXIST);
         }
@@ -67,6 +72,9 @@ public class OAuth2ServiceImp implements OAuth2Service {
         customer.setAddress(request.getAddress());
         customer.setManagers(manager);
         customerRepository.save(customer);
-        return true;
+        var token = authenticationService.generateToken(user.getUserId());
+        return AuthenticationResponse.builder()
+                .token(token)
+                .build();
     }
 }
