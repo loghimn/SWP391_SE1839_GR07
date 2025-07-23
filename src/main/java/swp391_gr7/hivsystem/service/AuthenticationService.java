@@ -114,7 +114,7 @@ public class AuthenticationService {
 //    }
 
 
-    private String generateToken(int userId) throws JOSEException {
+    public String generateToken(int userId) throws JOSEException {
         Users users = userRepository.findByUserId(userId);
         String role = users.getRole();
 

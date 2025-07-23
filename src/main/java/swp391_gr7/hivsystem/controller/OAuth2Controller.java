@@ -1,5 +1,6 @@
 package swp391_gr7.hivsystem.controller;
 
+import com.nimbusds.jose.JOSEException;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import swp391_gr7.hivsystem.dto.request.OAuth2CreateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
 import swp391_gr7.hivsystem.dto.request.GoogleRegisterRequest;
+import swp391_gr7.hivsystem.dto.response.AuthenticationResponse;
 import swp391_gr7.hivsystem.repository.CustomerRepository;
 import swp391_gr7.hivsystem.repository.UserRepository;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,12 +60,15 @@ public class OAuth2Controller {
     }
 
     @PostMapping("/register")
-    public ApiResponse<Boolean> registerOAuth2User(@RequestBody @Valid OAuth2CreateRequest request) {
-        boolean result = oAuth2Service.registerOAuth2User(request);
-
-        return ApiResponse.<Boolean>builder()
-                .code(result ? 200 : 400)
-                .result(result)
+    public ApiResponse<AuthenticationResponse> registerOAuth2User(@RequestBody @Valid OAuth2CreateRequest request) throws JOSEException {
+        AuthenticationResponse token = oAuth2Service.registerOAuth2User(request);
+        boolean result = false;
+        if (token != null) {
+            result = true;
+        }
+        return ApiResponse.<AuthenticationResponse>builder()
+                .code(result ? 200 : 4000)
+                .result(token)
                 .message(result ? "Registration successful" : "Registration failed")
                 .build();
     }
