@@ -1,11 +1,9 @@
 package swp391_gr7.hivsystem.service;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
-import swp391_gr7.hivsystem.dto.response.ArvMedicationResponse;
 import swp391_gr7.hivsystem.dto.response.CustomerReponse;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
@@ -19,7 +17,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -45,8 +42,6 @@ public class AppointmentServiceImp implements AppointmentService {
     private UserRepository userRepository;
     @Autowired
     private ReminderRepository reminderRepository;
-    @Autowired
-    private ArvMedicationsRepository arvMedicationsRepository;
 
 //    @Override
 //    public Appointments addAppointment(AppointmentCreateRequest request) {
@@ -500,6 +495,14 @@ public class AppointmentServiceImp implements AppointmentService {
 
         return appointmentRepository.findAppointmentsByDoctorsAndDateRange(doctor, startOfDay, endOfDay);
     }
-
+    @Override
+    public Appointments getAppointmentByIdIgnoreAnonymous(int appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
+    }
+    @Override
+    public Appointments saveAppointment(Appointments appointment) {
+        return appointmentRepository.save(appointment);
+    }
 
 }

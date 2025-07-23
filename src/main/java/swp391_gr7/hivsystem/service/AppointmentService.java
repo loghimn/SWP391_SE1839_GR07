@@ -50,4 +50,8 @@ public interface AppointmentService {
     List<Appointments> getAppointmentsHaveTypeConsultationAndActive();
 
     List<Appointments> getAppointmentsByDay(LocalDate date);
+
+    Appointments getAppointmentByIdIgnoreAnonymous(int appointmentId);
+
+    Appointments saveAppointment(Appointments appointment);
 }

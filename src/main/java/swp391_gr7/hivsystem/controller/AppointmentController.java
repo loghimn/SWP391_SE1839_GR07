@@ -323,7 +323,7 @@ public class AppointmentController {
     @PreAuthorize("hasRole('Doctor')")
     public ApiResponse<MeetingLinkResponse> createAppointmentMeeting(@PathVariable int appointmentId) {
         // Verify appointment exists
-        Appointments appointment = appointmentService.getAppointmentById(appointmentId);
+        Appointments appointment = appointmentService.getAppointmentByIdIgnoreAnonymous(appointmentId);
 
         if (appointment == null) {
             return ApiResponse.<MeetingLinkResponse>builder()
@@ -334,13 +334,12 @@ public class AppointmentController {
         // Generate meeting ID using appointment ID
         String meetingId = "hiv-appointment-" + appointmentId;
         String baseLink = "https://meet.jit.si/" + meetingId;
-
+        appointment.setUrlMeeting(baseLink);
+        appointmentService.saveAppointment(appointment);
         // Doctor link with host privileges
         String meetingLink = baseLink + "#" + String.join("&",
                 "config.prejoinPageEnabled=false",
                 "userType=host",
-                "config.startWithAudioMuted=false",
-                "config.startWithVideoMuted=false",
                 "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"closedcaptions\",\"desktop\",\"fullscreen\",\"recording\",\"settings\",\"raisehand\",\"videoquality\",\"filmstrip\",\"chat\",\"tileview\"]"
         );
 
@@ -358,7 +357,7 @@ public class AppointmentController {
     @PreAuthorize("hasRole('Customer')")
     public ApiResponse<MeetingLinkResponse> getCustomerMeetingLink(@PathVariable int appointmentId) {
         // Verify appointment exists
-        Appointments appointment = appointmentService.getAppointmentById(appointmentId);
+        Appointments appointment = appointmentService.getAppointmentByIdIgnoreAnonymous(appointmentId);
         if (appointment == null) {
             return ApiResponse.<MeetingLinkResponse>builder()
                     .message("Appointment not found")
@@ -369,12 +368,12 @@ public class AppointmentController {
         String meetingId = "hiv-appointment-" + appointmentId;
         String baseLink = "https://meet.jit.si/" + meetingId;
 
+        appointment.setUrlMeeting(baseLink);
+        appointmentService.saveAppointment(appointment);
         // Patient link with limited privileges
         String meetingLink = baseLink + "#" + String.join("&",
                 "config.prejoinPageEnabled=true",
                 "userType=participant",
-                "config.startWithAudioMuted=true",
-                "config.startWithVideoMuted=true",
                 "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"raisehand\",\"chat\",\"tileview\"]"
         );
 
