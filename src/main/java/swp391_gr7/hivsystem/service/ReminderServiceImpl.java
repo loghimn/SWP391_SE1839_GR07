@@ -93,6 +93,10 @@ public class ReminderServiceImpl implements ReminderService {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         } else if (!appointments.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
+        } else if (!appointments.getAppointmentType().equals("Re-Examination")) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_RE_EXAMINATION);
+        } else if (appointments.getStartTime() == null) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_HAVE_TIME);
         }
         Customers customer = customersRepository.findById(appointments.getCustomers().getCustomerId()).orElse(null);
         if (customer == null) {
