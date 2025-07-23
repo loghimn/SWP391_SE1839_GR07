@@ -58,6 +58,6 @@ public class Appointments {
     @JoinColumn(name = "schedule_id", nullable = false)
     private Schedules schedules;
 
-
+    private String urlMeeting;
 }
 

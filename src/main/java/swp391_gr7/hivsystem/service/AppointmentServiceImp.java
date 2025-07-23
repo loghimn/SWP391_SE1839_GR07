@@ -1,6 +1,5 @@
 package swp391_gr7.hivsystem.service;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -496,4 +495,14 @@ public class AppointmentServiceImp implements AppointmentService {
 
         return appointmentRepository.findAppointmentsByDoctorsAndDateRange(doctor, startOfDay, endOfDay);
     }
+    @Override
+    public Appointments getAppointmentByIdIgnoreAnonymous(int appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
+    }
+    @Override
+    public Appointments saveAppointment(Appointments appointment) {
+        return appointmentRepository.save(appointment);
+    }
+
 }
