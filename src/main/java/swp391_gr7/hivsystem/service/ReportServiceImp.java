@@ -110,7 +110,9 @@ public class ReportServiceImp implements ReportService {
                                 ? customer.getUsers().getDateOfBirth().format(formatter)
                                 : "",
                         escape(customer.getAddress()),
-                        customer.getUsers().getGender() != null ? customer.getUsers().getGender() : "",
+                        customer.getUsers().getGender() != null
+                                ? customer.getUsers().getGender().equals("male") ? "Nam" : "Nữ"
+                                : "",
                         escape(customer.getUsers().getRole()),
                         customer.getUsers().getCreatedAt() != null
                                 ? customer.getUsers().getCreatedAt().toLocalDate().format(formatter)
@@ -123,7 +125,7 @@ public class ReportServiceImp implements ReportService {
 
     private static void exportCustomerToExcel(HttpServletResponse response, List<Customers> customers, Integer month, Integer year) throws IOException {
         Workbook workbookCustomer = new XSSFWorkbook();
-        Sheet sheet = workbookCustomer.createSheet("Doctors");
+        Sheet sheet = workbookCustomer.createSheet("Customers");
 
         // Header
         // Tạo từng ô cell trong dòng 1 để ghi header
@@ -145,7 +147,9 @@ public class ReportServiceImp implements ReportService {
             row.createCell(4).setCellValue(customer.getUsers().getDateOfBirth() != null
                     ? customer.getUsers().getDateOfBirth().format(dateFormatter) : "");
             row.createCell(5).setCellValue(customer.getAddress());
-            row.createCell(6).setCellValue(customer.getUsers().getGender() != null ? customer.getUsers().getGender() : "");
+            row.createCell(6).setCellValue(customer.getUsers().getGender() != null
+                    ? customer.getUsers().getGender().equals("male") ? "Nam" : "Nữ"
+                    : "");
             row.createCell(7).setCellValue(customer.getUsers().getRole());
             row.createCell(8).setCellValue(customer.getUsers().getCreatedAt() != null
                     ? customer.getUsers().getCreatedAt().toLocalDate().format(dateFormatter) : "");
@@ -237,7 +241,9 @@ public class ReportServiceImp implements ReportService {
                                 ? staff.getUsers().getDateOfBirth().format(formatter)
                                 : "",
                         staff.getWorkShift(),
-                        staff.getUsers().getGender() != null ? staff.getUsers().getGender() : "",
+                        staff.getUsers().getGender() != null
+                                ? staff.getUsers().getGender().equals("male") ? "Nam" : "Nữ"
+                                : "",
                         escape(staff.getUsers().getRole()),
                         staff.getUsers().getCreatedAt() != null
                                 ? staff.getUsers().getCreatedAt().toLocalDate().format(formatter)
@@ -250,7 +256,7 @@ public class ReportServiceImp implements ReportService {
 
     private static void exportStaffToExcel(HttpServletResponse response, List<Staffs> staffs, Integer month, Integer year) throws IOException {
         Workbook workbookStaff = new XSSFWorkbook();
-        Sheet sheet = workbookStaff.createSheet("Doctors");
+        Sheet sheet = workbookStaff.createSheet("Staffs");
 
         // Header
         // Tạo từng ô cell trong dòng 1 để ghi header
@@ -272,7 +278,9 @@ public class ReportServiceImp implements ReportService {
             row.createCell(4).setCellValue(staff.getUsers().getDateOfBirth() != null
                     ? staff.getUsers().getDateOfBirth().format(dateFormatter) : "");
             row.createCell(5).setCellValue(staff.getWorkShift());
-            row.createCell(6).setCellValue(staff.getUsers().getGender() != null ? staff.getUsers().getGender() : "");
+            row.createCell(6).setCellValue(staff.getUsers().getGender() != null
+                    ? staff.getUsers().getGender().equals("male") ? "Nam" : "Nữ"
+                    : "");
             row.createCell(7).setCellValue(staff.getUsers().getRole());
             row.createCell(8).setCellValue(staff.getUsers().getCreatedAt() != null
                     ? staff.getUsers().getCreatedAt().toLocalDate().format(dateFormatter) : "");
@@ -364,7 +372,9 @@ public class ReportServiceImp implements ReportService {
                                 : "",
                         escape(doctor.getLicenseNumber()),
                         doctor.getYearExperience(),
-                        doctor.getUsers().getGender() != null ? doctor.getUsers().getGender() : "",
+                        doctor.getUsers().getGender() != null
+                                ? doctor.getUsers().getGender().equals("male") ? "Nam" : "Nữ"
+                                : "",
                         escape(doctor.getUsers().getRole()),
                         doctor.getUsers().getCreatedAt() != null
                                 ? doctor.getUsers().getCreatedAt().toLocalDate().format(formatter)
@@ -400,7 +410,9 @@ public class ReportServiceImp implements ReportService {
                     ? doctor.getUsers().getDateOfBirth().format(dateFormatter) : "");
             row.createCell(5).setCellValue(doctor.getLicenseNumber());
             row.createCell(6).setCellValue(doctor.getYearExperience());
-            row.createCell(7).setCellValue(doctor.getUsers().getGender() != null ? doctor.getUsers().getGender() : "");
+            row.createCell(7).setCellValue(doctor.getUsers().getGender() != null
+                    ? doctor.getUsers().getGender().equals("male") ? "Nam" : "Nữ"
+                    : "");
             row.createCell(8).setCellValue(doctor.getUsers().getRole());
             row.createCell(9).setCellValue(doctor.getUsers().getCreatedAt() != null
                     ? doctor.getUsers().getCreatedAt().toLocalDate().format(dateFormatter) : "");
@@ -508,7 +520,7 @@ public class ReportServiceImp implements ReportService {
 
     private static void exportAppointmentToExcel(HttpServletResponse response, List<Appointments> appointments, Integer month, Integer year) throws IOException {
         Workbook workbookAppointment = new XSSFWorkbook();
-        Sheet sheet = workbookAppointment.createSheet("Doctors");
+        Sheet sheet = workbookAppointment.createSheet("Appointments");
 
         // Header
         // Tạo từng ô cell trong dòng 1 để ghi header
