@@ -54,7 +54,7 @@ public class ArvMedications {
     private boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
+    @JoinColumn(name = "arv_regiment_id", nullable = false)
     private ArvRegiments arvRegiment;
 
     public ArvMedications(Doctors doctor, String code, String name, String form, String strength, String manufacturer, String description, boolean isActive, ArvRegiments arvRegiment) {
