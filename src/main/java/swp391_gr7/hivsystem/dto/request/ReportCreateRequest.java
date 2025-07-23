@@ -18,6 +18,9 @@ public class ReportCreateRequest {
     @NotBlank(message = "REPORT_CREATE_REQUEST_TYPE_NOT_BLANK")
     private String reportType;
 
+    @NotBlank(message = "REPORT_CREATE_REQUEST_FILE_TYPE_NOT_BLANK")
+    private String fileType;
+
     @NotNull(message = "REPORT_CREATE_REQUEST_MONTH_NOT_NULL")
     @Min(value = 1, message = "REPORT_CREATE_REQUEST_MONTH_MIN_1")
     @Max(value = 12, message = "REPORT_CREATE_REQUEST_MONTH_MAX_12")

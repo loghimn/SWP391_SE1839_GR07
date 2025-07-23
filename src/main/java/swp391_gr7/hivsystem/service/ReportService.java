@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ReportService {
-    void exportCustomerToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
+    void exportCustomer(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
 
-    void exportStaffToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
+    void exportStaff(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
 
-    void exportDoctorToCSV(HttpServletResponse response, ReportCreateRequest request, int id);
+    void exportDoctor(HttpServletResponse response, ReportCreateRequest request, int id);
 
-    void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
+    void exportAppointment(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException;
 
     List<UserRoleStatisticsResponse> getUserStatisticsByMonthAndRole();
 

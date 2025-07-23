@@ -321,6 +321,7 @@ public enum ErrorCode {
 
     // file error
     FILE_ERROR(1156, "Lỗi khi tạo file", HttpStatus.INTERNAL_SERVER_ERROR),
+    REPORT_CREATE_REQUEST_FILE_TYPE_NOT_BLANK(1157, "Loại file không được để trống", HttpStatus.BAD_REQUEST),
 
     ;
 

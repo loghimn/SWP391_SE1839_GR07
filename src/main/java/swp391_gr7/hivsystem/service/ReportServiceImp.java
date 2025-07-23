@@ -1,6 +1,10 @@
 package swp391_gr7.hivsystem.service;
 
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ReportCreateRequest;
@@ -40,7 +44,7 @@ public class ReportServiceImp implements ReportService {
     private DoctorRepository doctorRepository;
 
     @Override
-    public void exportCustomerToCSV(HttpServletResponse response,
+    public void exportCustomer(HttpServletResponse response,
                                     ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách Customer
         List<Customers> allCustomers = customerRepository.findAll();
@@ -62,7 +66,11 @@ public class ReportServiceImp implements ReportService {
             }
         }
 
-        getPrintWriterCustomer(response, filterCustomers, request.getMonth(), request.getYear());
+        if("xlsx".equalsIgnoreCase(request.getFileType())){
+            exportCustomerToExcel(response, filterCustomers, request.getMonth(), request.getYear());
+        } else {
+            exportCustomerToCSV(response, filterCustomers, request.getMonth(), request.getYear());
+        }
 
         // Ghi báo cáo vào bảng report, tạo mới nếu ko có lỗi
         Reports report = new Reports();
@@ -74,7 +82,7 @@ public class ReportServiceImp implements ReportService {
         reportRepository.save(report);
     }
 
-    private static void getPrintWriterCustomer(HttpServletResponse response, List<Customers> customers, int month, int year) throws IOException {
+    private static void exportCustomerToCSV(HttpServletResponse response, List<Customers> customers, int month, int year) throws IOException {
         String fileName = String.format("customer_report_%02d_%d.csv", month, year);
 
         response.setContentType("text/csv; charset=UTF-8");
@@ -113,9 +121,54 @@ public class ReportServiceImp implements ReportService {
         }
     }
 
+    private static void exportCustomerToExcel(HttpServletResponse response, List<Customers> customers, Integer month, Integer year) throws IOException {
+        Workbook workbookCustomer = new XSSFWorkbook();
+        Sheet sheet = workbookCustomer.createSheet("Doctors");
+
+        // Header
+        // Tạo từng ô cell trong dòng 1 để ghi header
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"Tên đăng nhập","Email","Số điện thoại","Họ và tên","Ngày sinh","Địa chỉ","Giới tính","Vai trò","Ngày tạo"};
+        for (int i = 0; i < headers.length; i++) {
+            headerRow.createCell(i).setCellValue(headers[i]);
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        int rowIdx = 1;
+        for (Customers customer : customers) {
+            Row row = sheet.createRow(rowIdx++);
+            row.createCell(0).setCellValue(customer.getUsers().getUsername());
+            row.createCell(1).setCellValue(customer.getUsers().getEmail());
+            row.createCell(2).setCellValue(customer.getUsers().getPhone());
+            row.createCell(3).setCellValue(customer.getUsers().getFullName());
+            row.createCell(4).setCellValue(customer.getUsers().getDateOfBirth() != null
+                    ? customer.getUsers().getDateOfBirth().format(dateFormatter) : "");
+            row.createCell(5).setCellValue(customer.getAddress());
+            row.createCell(6).setCellValue(customer.getUsers().getGender() != null ? customer.getUsers().getGender() : "");
+            row.createCell(7).setCellValue(customer.getUsers().getRole());
+            row.createCell(8).setCellValue(customer.getUsers().getCreatedAt() != null
+                    ? customer.getUsers().getCreatedAt().toLocalDate().format(dateFormatter) : "");
+        }
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // file excel
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        // Content-Disposition tải file thay vì mở trực tiếp
+        String fileName = String.format("customer_report_%02d_%d.xlsx", month, year);
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        workbookCustomer.write(response.getOutputStream());
+        workbookCustomer.close();
+    }
+
 
     @Override
-    public void exportStaffToCSV(HttpServletResponse response, ReportCreateRequest request, int id) {
+    public void exportStaff(HttpServletResponse response, ReportCreateRequest request, int id) {
         // Lấy danh sách Staff
         List<Staffs> allStaffs = staffRepository.findAllStaff();
         if (allStaffs.isEmpty()) {
@@ -137,7 +190,11 @@ public class ReportServiceImp implements ReportService {
         }
 
         try {
-            getPrintWriterStaff(response, filterStaffs, request.getMonth(), request.getYear());
+            if("xlsx".equalsIgnoreCase(request.getReportType())) {
+                exportStaffToExcel(response, filterStaffs, request.getMonth(), request.getYear());
+            } else {
+                exportStaffToCSV(response, filterStaffs, request.getMonth(), request.getYear());
+            }
         } catch (IOException e) {
             throw new AppException(ErrorCode.FILE_ERROR);
         }
@@ -152,7 +209,7 @@ public class ReportServiceImp implements ReportService {
         reportRepository.save(report);
     }
 
-    private static void getPrintWriterStaff(HttpServletResponse response, List<Staffs> staffs, int month, int year) throws IOException {
+    private static void exportStaffToCSV(HttpServletResponse response, List<Staffs> staffs, int month, int year) throws IOException {
         String fileName = String.format("staff_report_%02d_%d.csv", month, year);
 
         response.setContentType("text/csv; charset=UTF-8");
@@ -191,8 +248,53 @@ public class ReportServiceImp implements ReportService {
         }
     }
 
+    private static void exportStaffToExcel(HttpServletResponse response, List<Staffs> staffs, Integer month, Integer year) throws IOException {
+        Workbook workbookStaff = new XSSFWorkbook();
+        Sheet sheet = workbookStaff.createSheet("Doctors");
+
+        // Header
+        // Tạo từng ô cell trong dòng 1 để ghi header
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"Tên đăng nhập","Email","Số điện thoại","Họ và tên","Ngày sinh","Ca làm việc","Giới tính","Vai trò","Ngày tạo"};
+        for (int i = 0; i < headers.length; i++) {
+            headerRow.createCell(i).setCellValue(headers[i]);
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        int rowIdx = 1;
+        for (Staffs staff : staffs) {
+            Row row = sheet.createRow(rowIdx++);
+            row.createCell(0).setCellValue(staff.getUsers().getUsername());
+            row.createCell(1).setCellValue(staff.getUsers().getEmail());
+            row.createCell(2).setCellValue(staff.getUsers().getPhone());
+            row.createCell(3).setCellValue(staff.getUsers().getFullName());
+            row.createCell(4).setCellValue(staff.getUsers().getDateOfBirth() != null
+                    ? staff.getUsers().getDateOfBirth().format(dateFormatter) : "");
+            row.createCell(5).setCellValue(staff.getWorkShift());
+            row.createCell(6).setCellValue(staff.getUsers().getGender() != null ? staff.getUsers().getGender() : "");
+            row.createCell(7).setCellValue(staff.getUsers().getRole());
+            row.createCell(8).setCellValue(staff.getUsers().getCreatedAt() != null
+                    ? staff.getUsers().getCreatedAt().toLocalDate().format(dateFormatter) : "");
+        }
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // file excel
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        // Content-Disposition tải file thay vì mở trực tiếp
+        String fileName = String.format("staff_report_%02d_%d.xlsx", month, year);
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        workbookStaff.write(response.getOutputStream());
+        workbookStaff.close();
+    }
+
     @Override
-    public void exportDoctorToCSV(HttpServletResponse response, ReportCreateRequest request, int id) {
+    public void exportDoctor(HttpServletResponse response, ReportCreateRequest request, int id) {
         // Lấy danh sách doctor
         List<Doctors> allDoctors = doctorRepository.findAllDoctors();
         if (allDoctors.isEmpty()) {
@@ -214,7 +316,11 @@ public class ReportServiceImp implements ReportService {
         }
 
         try {
-            getPrintWriterDoctor(response, filterDoctors, request.getMonth(), request.getYear());
+            if ("xlsx".equalsIgnoreCase(request.getFileType())) {
+                exportDoctorToExcel(response, filterDoctors, request.getMonth(), request.getYear());
+            } else {
+                exportDoctorToCSV(response, filterDoctors, request.getMonth(), request.getYear());
+            }
         } catch (IOException e) {
             throw new AppException(ErrorCode.FILE_ERROR);
         }
@@ -229,7 +335,7 @@ public class ReportServiceImp implements ReportService {
         reportRepository.save(report);
     }
 
-    private static void getPrintWriterDoctor(HttpServletResponse response, List<Doctors> doctors, int month, int year) throws IOException {
+    private static void exportDoctorToCSV(HttpServletResponse response, List<Doctors> doctors, int month, int year) throws IOException {
         String fileName = String.format("doctor_report_%02d_%d.csv", month, year);
 
         response.setContentType("text/csv; charset=UTF-8");
@@ -269,9 +375,54 @@ public class ReportServiceImp implements ReportService {
         }
     }
 
+    private static void exportDoctorToExcel(HttpServletResponse response, List<Doctors> doctors, Integer month, Integer year) throws IOException {
+        Workbook workbookDoctor = new XSSFWorkbook();
+        Sheet sheet = workbookDoctor.createSheet("Doctors");
+
+        // Header
+        // Tạo từng ô cell trong dòng 1 để ghi header
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"Tên đăng nhập","Email","Số điện thoại","Họ và tên","Ngày sinh","Giấy phép hành nghề","Năm kinh nghiệm","Giới tính","Vai trò","Ngày tạo"};
+        for (int i = 0; i < headers.length; i++) {
+            headerRow.createCell(i).setCellValue(headers[i]);
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        int rowIdx = 1;
+        for (Doctors doctor : doctors) {
+            Row row = sheet.createRow(rowIdx++);
+            row.createCell(0).setCellValue(doctor.getUsers().getUsername());
+            row.createCell(1).setCellValue(doctor.getUsers().getEmail());
+            row.createCell(2).setCellValue(doctor.getUsers().getPhone());
+            row.createCell(3).setCellValue(doctor.getUsers().getFullName());
+            row.createCell(4).setCellValue(doctor.getUsers().getDateOfBirth() != null
+                    ? doctor.getUsers().getDateOfBirth().format(dateFormatter) : "");
+            row.createCell(5).setCellValue(doctor.getLicenseNumber());
+            row.createCell(6).setCellValue(doctor.getYearExperience());
+            row.createCell(7).setCellValue(doctor.getUsers().getGender() != null ? doctor.getUsers().getGender() : "");
+            row.createCell(8).setCellValue(doctor.getUsers().getRole());
+            row.createCell(9).setCellValue(doctor.getUsers().getCreatedAt() != null
+                    ? doctor.getUsers().getCreatedAt().toLocalDate().format(dateFormatter) : "");
+        }
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // file excel
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        // Content-Disposition tải file thay vì mở trực tiếp
+        String fileName = String.format("doctor_report_%02d_%d.xlsx", month, year);
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        workbookDoctor.write(response.getOutputStream());
+        workbookDoctor.close();
+    }
 
     @Override
-    public void exportAppointmentToCSV(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException {
+    public void exportAppointment(HttpServletResponse response, ReportCreateRequest request, int id) throws IOException {
         // Lấy danh sách Appointment
         List<Appointments> allAppointments = appointmentRepository.findAll();
         if (allAppointments.isEmpty()) {
@@ -293,7 +444,11 @@ public class ReportServiceImp implements ReportService {
         }
 
         // Ghi ra file CSV
-        getPrintWriterAppointment(response, filterAppointments, request.getMonth(), request.getYear());
+        if("xlsx".equalsIgnoreCase(request.getFileType())){
+            exportAppointmentToExcel(response, filterAppointments, request.getMonth(), request.getYear());
+        } else {
+            exportAppointmentToCSV(response, filterAppointments, request.getMonth(), request.getYear());
+        }
 
         // Ghi báo cáo vào bảng report, tạo mới nếu ko có lỗi
         Reports report = new Reports();
@@ -304,7 +459,7 @@ public class ReportServiceImp implements ReportService {
         reportRepository.save(report);
     }
 
-    private static void getPrintWriterAppointment(HttpServletResponse response, List<Appointments> appointments, int month, int year) throws IOException {
+    private static void exportAppointmentToCSV(HttpServletResponse response, List<Appointments> appointments, int month, int year) throws IOException {
         String fileName = String.format("appointment_report_%02d_%d.csv", month, year);
 
         response.setContentType("text/csv; charset=UTF-8");
@@ -349,6 +504,60 @@ public class ReportServiceImp implements ReportService {
             }
             writer.flush();
         }
+    }
+
+    private static void exportAppointmentToExcel(HttpServletResponse response, List<Appointments> appointments, Integer month, Integer year) throws IOException {
+        Workbook workbookAppointment = new XSSFWorkbook();
+        Sheet sheet = workbookAppointment.createSheet("Doctors");
+
+        // Header
+        // Tạo từng ô cell trong dòng 1 để ghi header
+        Row headerRow = sheet.createRow(0);
+        String[] headers = {"Khách hàng","Bác sĩ","Nhân viên","Hồ sơ y tế","Ngày hẹn","Giờ bắt đầu","Giờ kết thúc","Ẩn danh","Loại lịch hẹn"};
+        for (int i = 0; i < headers.length; i++) {
+            headerRow.createCell(i).setCellValue(headers[i]);
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        int rowIdx = 1;
+        for (Appointments appointment : appointments) {
+            Row row = sheet.createRow(rowIdx++);
+            row.createCell(0).setCellValue(appointment.isAnonymous()
+                    ? "Ẩn danh"
+                    : appointment.getCustomers().getUsers().getFullName());
+            row.createCell(1).setCellValue(appointment.getDoctors().getUsers().getFullName());
+            row.createCell(2).setCellValue(appointment.getStaffs().getUsers().getFullName());
+            row.createCell(3).setCellValue(appointment.getMedicalRecords().getDiagnosis());
+            row.createCell(4).setCellValue(appointment.getSchedules().getWorkDate() != null
+                    ? appointment.getSchedules().getWorkDate().format(dateFormatter)
+                    : "");
+            row.createCell(5).setCellValue(appointment.getStartTime() != null
+                    ? appointment.getStartTime().format(timeFormatter)
+                    : "");
+            row.createCell(6).setCellValue(appointment.getEndTime() != null
+                    ? appointment.getEndTime().format(timeFormatter)
+                    : "");
+            row.createCell(7).setCellValue(appointment.isAnonymous()
+                    ? "Ẩn danh" : "Không ẩn danh");
+            row.createCell(8).setCellValue(appointment.getAppointmentType().equals("Test HIV")
+                    ? "Xét nghiệm HIV" : "Tư vấn");
+        }
+
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // file excel
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+        // Content-Disposition tải file thay vì mở trực tiếp
+        String fileName = String.format("appointment_report_%02d_%d.xlsx", month, year);
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        workbookAppointment.write(response.getOutputStream());
+        workbookAppointment.close();
     }
 
     private static String escape(String value) {

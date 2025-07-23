@@ -32,7 +32,7 @@ public class ReportController {
         String token = authorizationHeader.replace("Bearer ", "");
         int managerId = new JWTUtils().extractManagerId(token);
 
-        reportService.exportCustomerToCSV(response, request, managerId);
+        reportService.exportCustomer(response, request, managerId);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
@@ -47,7 +47,7 @@ public class ReportController {
         String token = authorizationHeader.replace("Bearer ", "");
         int managerId = new JWTUtils().extractManagerId(token);
 
-        reportService.exportStaffToCSV(response, request, managerId);
+        reportService.exportStaff(response, request, managerId);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
@@ -62,7 +62,7 @@ public class ReportController {
         String token = authorizationHeader.replace("Bearer ", "");
         int managerId = new JWTUtils().extractManagerId(token);
 
-        reportService.exportDoctorToCSV(response, request, managerId);
+        reportService.exportDoctor(response, request, managerId);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
@@ -79,7 +79,7 @@ public class ReportController {
         String token = authorizationHeader.replace("Bearer ", "");
         int managerId = new JWTUtils().extractManagerId(token);
 
-        reportService.exportAppointmentToCSV(response, request, managerId);
+        reportService.exportAppointment(response, request, managerId);
         return ApiResponse.<Boolean>builder()
                 .result(true)
                 .message("Success")
