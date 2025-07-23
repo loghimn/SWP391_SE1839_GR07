@@ -54,7 +54,8 @@ public class ArvMedications {
     private boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "arv_regiment_id", nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "arv_regiment_id")
     private ArvRegiments arvRegiment;
 
     public ArvMedications(Doctors doctor, String code, String name, String form, String strength, String manufacturer, String description, boolean isActive, ArvRegiments arvRegiment) {
@@ -66,6 +67,14 @@ public class ArvMedications {
         this.manufacturer = manufacturer;
         this.description = description;
         this.isActive = isActive;
+        this.arvRegiment = arvRegiment;
+    }
+
+    public ArvRegiments getArvRegiment() {
+        return arvRegiment;
+    }
+
+    public void setArvRegiment(ArvRegiments arvRegiment) {
         this.arvRegiment = arvRegiment;
     }
 }

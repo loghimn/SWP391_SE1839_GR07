@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import swp391_gr7.hivsystem.dto.request.ArvMedicationCreateRequest;
 import swp391_gr7.hivsystem.dto.response.ApiResponse;
+import swp391_gr7.hivsystem.dto.response.ArvMedicationResponse;
 import swp391_gr7.hivsystem.service.ArvMedicationService;
 import swp391_gr7.hivsystem.service.JWTUtils;
 
@@ -54,13 +55,24 @@ public class ArvMedicationController {
                 .build();
     }
 
+//    @PreAuthorize("hasRole('Doctor')")
+//    @GetMapping("/list")
+//    public ApiResponse<List> listMedication() {
+//        List result = arvMedicationService.showAllListMedication();
+//        return ApiResponse.<List>builder()
+//                .result(result)
+//                .message(result != null ? "Successfully fetched arvmedication" : "Fail fetched arvmedication")
+//                .build();
+//    }
+
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/list")
-    public ApiResponse<List> listMedication() {
-        List result = arvMedicationService.showAllListMedication();
-        return ApiResponse.<List>builder()
+    public ApiResponse<List<ArvMedicationResponse>> listMedication() {
+        List<ArvMedicationResponse> result = arvMedicationService.showAllListMedication();
+        return ApiResponse.<List<ArvMedicationResponse>>builder()
                 .result(result)
                 .message(result != null ? "Successfully fetched arvmedication" : "Fail fetched arvmedication")
+                .code(0)
                 .build();
     }
 

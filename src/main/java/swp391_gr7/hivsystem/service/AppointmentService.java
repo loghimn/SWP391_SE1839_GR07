@@ -3,6 +3,7 @@ package swp391_gr7.hivsystem.service;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.AppointmentCreateRequest;
+import swp391_gr7.hivsystem.dto.response.ArvMedicationResponse;
 import swp391_gr7.hivsystem.dto.response.CustomerReponse;
 import swp391_gr7.hivsystem.model.Appointments;
 

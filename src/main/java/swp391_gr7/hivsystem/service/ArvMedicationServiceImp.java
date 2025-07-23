@@ -3,6 +3,7 @@ package swp391_gr7.hivsystem.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import swp391_gr7.hivsystem.dto.request.ArvMedicationCreateRequest;
+import swp391_gr7.hivsystem.dto.response.ArvMedicationResponse;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.ArvMedications;
@@ -13,6 +14,7 @@ import swp391_gr7.hivsystem.repository.ArvRegimentRepository;
 import swp391_gr7.hivsystem.repository.DoctorRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ArvMedicationServiceImp implements ArvMedicationService {
@@ -83,14 +85,14 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
         return false;
     }
 
-    @Override
-    public List<ArvMedications> showAllListMedication() {
-        List<ArvMedications> arvMedications = arvMedicationsRepository.findAll();
-        if (arvMedications.isEmpty()) {
-            throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
-        }
-        return arvMedications;
-    }
+//    @Override
+//    public List<ArvMedications> showAllListMedication() {
+//        List<ArvMedications> arvMedications = arvMedicationsRepository.findAll();
+//        if (arvMedications.isEmpty()) {
+//            throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
+//        }
+//        return arvMedications;
+//    }
 
     @Override
     public List<ArvMedications> getMedicationByArvRegimentId(int arvRegimentId) {
@@ -102,5 +104,16 @@ public class ArvMedicationServiceImp implements ArvMedicationService {
             throw new AppException(ErrorCode.ARV_MEDICATION_NOT_FOUND);
         }
         return arvMedications;
+    }
+
+    @Override
+    public List<ArvMedicationResponse> showAllListMedication() {
+        List<ArvMedications> meds = arvMedicationsRepository.findAll();
+        for( ArvMedications m : meds) {
+            System.out.println("Medication: " + m.getName() + ", ARV Regiment: " + (m.getArvRegiment() != null ? m.getArvRegiment().getName() : "None"));
+        }
+        return meds.stream()
+                .map(ArvMedicationResponse::new)
+                .collect(Collectors.toList());
     }
 }
