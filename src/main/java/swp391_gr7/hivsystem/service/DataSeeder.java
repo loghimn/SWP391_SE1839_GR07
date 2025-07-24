@@ -95,7 +95,7 @@ public class DataSeeder implements CommandLineRunner {
         doctorUser.setCreatedAt(LocalDateTime.now());
         doctorUser.setStatus(true);
         userRepository.save(doctorUser);
-//
+
         // Add a staff user
         Users staffUser = new Users();
         staffUser.setUsername("staff");
