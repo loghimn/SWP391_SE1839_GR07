@@ -84,17 +84,69 @@ public class DataSeeder implements CommandLineRunner {
         userRepository.save(managerUser);
 
         Users doctorUser = new Users();
-        doctorUser.setUsername("D0CT0R");
-        doctorUser.setPassword(passwordEncoder.encode("doctorpass"));
-        doctorUser.setEmail("doctor1@doctor.com");
-        doctorUser.setPhone("0222222222");
-        doctorUser.setFullName("Doctor One");
+        doctorUser.setUsername("thanhlong");
+        doctorUser.setPassword(passwordEncoder.encode("thanhlong123@"));
+        doctorUser.setEmail("thanhlong123@doctor.com");
+        doctorUser.setPhone("0909009009");
+        doctorUser.setFullName("Vũ Thành Long");
         doctorUser.setDateOfBirth(LocalDate.of(1988, 8, 20));
         doctorUser.setGender("female");
         doctorUser.setRole("Doctor");
         doctorUser.setCreatedAt(LocalDateTime.now());
         doctorUser.setStatus(true);
         userRepository.save(doctorUser);
+
+        Users doctorUser1 = new Users();
+        doctorUser1.setUsername("badoan");
+        doctorUser1.setPassword(passwordEncoder.encode("badoan123@"));
+        doctorUser1.setEmail("badoan123@doctor.com");
+        doctorUser1.setPhone("0999099909");
+        doctorUser1.setFullName("Nguyễn Bá Đoàn");
+        doctorUser1.setDateOfBirth(LocalDate.of(2000, 1, 22));
+        doctorUser1.setGender("female");
+        doctorUser1.setRole("Doctor");
+        doctorUser1.setCreatedAt(LocalDateTime.now());
+        doctorUser1.setStatus(true);
+        userRepository.save(doctorUser1);
+
+        Users doctorUser2 = new Users();
+        doctorUser2.setUsername("minhquan");
+        doctorUser2.setPassword(passwordEncoder.encode("minhquan123@"));
+        doctorUser2.setEmail("minhquan123@doctor.com");
+        doctorUser2.setPhone("0908070605");
+        doctorUser2.setFullName("Võ Minh Quân");
+        doctorUser2.setDateOfBirth(LocalDate.of(1990, 10, 10));
+        doctorUser2.setGender("male");
+        doctorUser2.setRole("Doctor");
+        doctorUser2.setCreatedAt(LocalDateTime.now());
+        doctorUser2.setStatus(true);
+        userRepository.save(doctorUser2);
+
+        Users doctorUser3 = new Users();
+        doctorUser3.setUsername("thanhan");
+        doctorUser3.setPassword(passwordEncoder.encode("thanhan123@"));
+        doctorUser3.setEmail("thanhan123@doctor.com");
+        doctorUser3.setPhone("0980980987");
+        doctorUser3.setFullName("Quách Thành An");
+        doctorUser3.setDateOfBirth(LocalDate.of(2000, 3, 30));
+        doctorUser3.setGender("female");
+        doctorUser3.setRole("Doctor");
+        doctorUser3.setCreatedAt(LocalDateTime.now());
+        doctorUser3.setStatus(true);
+        userRepository.save(doctorUser3);
+
+        Users doctorUser4 = new Users();
+        doctorUser4.setUsername("ngocanh");
+        doctorUser4.setPassword(passwordEncoder.encode("ngocanh123@"));
+        doctorUser4.setEmail("ngocanh123@doctor.com");
+        doctorUser4.setPhone("0987609876");
+        doctorUser4.setFullName("Ngọc Anh");
+        doctorUser4.setDateOfBirth(LocalDate.of(1999, 8, 20));
+        doctorUser4.setGender("female");
+        doctorUser4.setRole("Doctor");
+        doctorUser4.setCreatedAt(LocalDateTime.now());
+        doctorUser4.setStatus(true);
+        userRepository.save(doctorUser4);
 
 //        // Add a staff user
 //        Users staffUser = new Users();
@@ -179,10 +231,42 @@ public class DataSeeder implements CommandLineRunner {
         Doctors doctors = new Doctors();
         doctors.setUsers(doctorUser);
 //        doctors.setDepartment("Department 1");
-        doctors.setLicenseNumber("DOC123456");
-        doctors.setYearExperience(5);
+        doctors.setLicenseNumber("DC-9999");
+        doctors.setYearExperience(15);
         doctors.setManagers(manager);
         doctorRepository.save(doctors);
+
+        Doctors doctors1 = new Doctors();
+        doctors1.setUsers(doctorUser1);
+//        doctors.setDepartment("Department 1");
+        doctors1.setLicenseNumber("DC-8888");
+        doctors1.setYearExperience(9);
+        doctors1.setManagers(manager);
+        doctorRepository.save(doctors1);
+
+        Doctors doctors2 = new Doctors();
+        doctors2.setUsers(doctorUser2);
+//        doctors.setDepartment("Department 1");
+        doctors2.setLicenseNumber("DC-7777");
+        doctors2.setYearExperience(20);
+        doctors2.setManagers(manager);
+        doctorRepository.save(doctors2);
+
+        Doctors doctors3 = new Doctors();
+        doctors3.setUsers(doctorUser3);
+//        doctors.setDepartment("Department 1");
+        doctors3.setLicenseNumber("DC-6666");
+        doctors3.setYearExperience(10);
+        doctors3.setManagers(manager);
+        doctorRepository.save(doctors3);
+
+        Doctors doctors4 = new Doctors();
+        doctors4.setUsers(doctorUser4);
+//        doctors.setDepartment("Department 1");
+        doctors4.setLicenseNumber("DC-5555");
+        doctors4.setYearExperience(10);
+        doctors4.setManagers(manager);
+        doctorRepository.save(doctors4);
 
 
         ArvRegiments r1 = new ArvRegiments();

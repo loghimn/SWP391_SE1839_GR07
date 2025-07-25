@@ -210,6 +210,18 @@ public class UserController {
                 .build();
     }
 
+    @GetMapping("/doctor/get/five-list")
+    public ApiResponse<List<Doctors>> getAllDoctorsGuest() {
+        List<Doctors> doctors = doctorService.showAllDoctors();
+        if (doctors.size() > 5) {
+            doctors = doctors.subList(0, 5);
+        }
+        return ApiResponse.<List<Doctors>>builder()
+                .result(doctors)
+                .message("Success")
+                .build();
+    }
+
     @GetMapping("/staff/get/list")
     @PreAuthorize("hasRole('Manager')")
     public ApiResponse<List<Staffs>> getAllStaffs() {
