@@ -44,7 +44,6 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultation.setConsultationDate(appointment.getStartTime().toLocalDate());
         consultation.setNotes(request.getNotes());
 
-        appointment.setStatus(request.isStatus());
         appointmentRepository.save(appointment);
 
         return consultationRepository.save(consultation);

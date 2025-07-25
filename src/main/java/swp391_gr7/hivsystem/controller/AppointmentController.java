@@ -189,7 +189,7 @@ public class AppointmentController {
         CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(appointmentid);
         if (customerReponse == null) {
             return ApiResponse.<CustomerReponse>builder()
-                    .message("Your are not allowed to be viewed")
+                    .message("Bạn không có quyền xem thông tin")
                     .build();
         }
         return ApiResponse.<CustomerReponse>builder()
@@ -261,7 +261,7 @@ public class AppointmentController {
     public ApiResponse<List> getappointmentListFullInfor() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
         boolean result = appointmentsList != null;
-        String resultString = result ? "Success" : "Failed";
+        String resultString = result ? "Thành Công" : "Thất Bại";
         return ApiResponse.<List>builder()
                 .result(appointmentsList)
                 .message(resultString)
@@ -349,7 +349,7 @@ public class AppointmentController {
 
         return ApiResponse.<MeetingLinkResponse>builder()
                 .result(response)
-                .message("Meeting link created successfully")
+                .message("Tạo Meeting Link thành công")
                 .build();
     }
 
@@ -383,7 +383,7 @@ public class AppointmentController {
 
         return ApiResponse.<MeetingLinkResponse>builder()
                 .result(response)
-                .message("Meeting link created successfully")
+                .message("Tạo Meeting Link thành công")
                 .build();
     }
 
