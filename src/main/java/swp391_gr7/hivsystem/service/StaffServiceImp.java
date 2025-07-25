@@ -49,11 +49,9 @@ public class StaffServiceImp implements StaffService {
     // Tim Staff co lich thap nhat
     @Override
     public Staffs findStaffHasLeastAppointment(int workShift) {
-        List<Staffs> staffs = staffRepository.findAllStaff();
-
+        List<Staffs> staffs = staffRepository.findAllByUsers_Status(true);
         // Lọc thủ công: chỉ lấy staff có ca làm việc phù hợp (ví dụ: ca sáng)
         int targetWorkShift = workShift; // Hoặc 2 tùy nhu cầu, bạn có thể truyền từ controller
-
         List<Staffs> matchedStaffs = new ArrayList<>();
         for (Staffs staff : staffs) {
             if (staff.getWorkShift() == targetWorkShift) {

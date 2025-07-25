@@ -58,7 +58,7 @@ public enum ErrorCode {
     TREATMENT_PLAN_INVALID_DOSAGE(910, "Liều lượng điều trị không hợp lệ", HttpStatus.BAD_REQUEST), // 400
     TREATMENT_PLAN_INVALID_FREQUENCY(911, "Tần suất điều trị không hợp lệ", HttpStatus.BAD_REQUEST), // 400
     TREATMENT_PLAN_INVALID_DURATION(912, "Thời gian điều trị không hợp lệ", HttpStatus.BAD_REQUEST), // 400
-    TREATMENT_PLAN_IS_NOT_ACTIVE(913, "Kế hoạch điều trị đã có kết quả hoặc không hợp lệ", HttpStatus.BAD_REQUEST),
+    TREATMENT_PLAN_IS_NOT_ACTIVE(913, "Kế hoạch điều trị đã có kết quả", HttpStatus.BAD_REQUEST),
 
     // Common errors
     UNAUTHENTICATED(989, "Bạn chưa xác thực", HttpStatus.UNAUTHORIZED), // 401
@@ -150,6 +150,7 @@ public enum ErrorCode {
     APPOINTMENT_ALREADY_EXISTS(1042, "Lịch hẹn đã tồn tại", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_CANNOT_UPDATE_RE_EXAMINATION(1042, "Không thể cập nhật lịch hẹn tái khám", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_NOT_RE_EXAMINATION(1042, "Lịch hẹn không phải là tái khám", HttpStatus.BAD_REQUEST), // 400
+    APPOINTMENT_NOT_VALID_TIME(1042, "Thời gian đặt lịch đã qua vui lòng chọn thời gian khác ", HttpStatus.BAD_REQUEST),
 
     // Add error for schedule
     SCHEDULE_DOCTOR_NOT_FOUND(1043, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
@@ -203,7 +204,7 @@ public enum ErrorCode {
     CONSULTATION_NOT_FOUND_BY_ID(1076, "Không tìm thấy tư vấn ", HttpStatus.NOT_FOUND), // 404
 
     // Add error for consultation request
-    CONSULTATION_REQUEST_APPOINTMENT_NOT_NULL(1077, "ID lịch hẹn là bắt buộc", HttpStatus.BAD_REQUEST), // 400
+    CONSULTATION_REQUEST_APPOINTMENT_NOT_NULL(1077, "lịch hẹn là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     CONSULTATION_REQUEST_NOTES_NOTBLANK(1078, "Ghi chú không được để trống", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for update user request
@@ -232,11 +233,11 @@ public enum ErrorCode {
     DOCTOR_UPDATE_INVALID_LICENSE_NUMBER_EXIST(1099, "Số giấy phép hành nghề cập nhật đã tồn tại", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_IS_NOT_ACTIVE(1100, "Bác sĩ hiện không hoạt động", HttpStatus.BAD_REQUEST), // 400
 
-    // Add error for user exists with email, phone, username, not found
-    USER_UPDATE_EXIST_USERNAME(1100, "Username update already exists", HttpStatus.BAD_REQUEST), // 400
-    USER_UPDATE_EXIST_EMAIL(1101, "Email update already exists", HttpStatus.BAD_REQUEST), // 400
-    USER_UPDATE_EXIST_PHONE(1102, "Phone number update already exists", HttpStatus.BAD_REQUEST), // 400
-    USER_NEED_UPDATE_NOT_FOUND(1103, "User needs to update not found", HttpStatus.NOT_FOUND), // 404
+    // Lỗi khi cập nhật người dùng - trùng lặp hoặc không tìm thấy
+    USER_UPDATE_EXIST_USERNAME(1100, "Tên đăng nhập đã tồn tại", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_EXIST_EMAIL(1101, "Email đã tồn tại", HttpStatus.BAD_REQUEST), // 400
+    USER_UPDATE_EXIST_PHONE(1102, "Số điện thoại đã tồn tại", HttpStatus.BAD_REQUEST), // 400
+    USER_NEED_UPDATE_NOT_FOUND(1103, "Không tìm thấy người dùng cần cập nhật", HttpStatus.NOT_FOUND), // 404
 
     // Add error fot update staff
     STAFF_UPDATE_INVALID_DEPARTMENT_NOTBLANK(1104, "Phòng ban cập nhật là bắt buộc", HttpStatus.BAD_REQUEST), // 400
