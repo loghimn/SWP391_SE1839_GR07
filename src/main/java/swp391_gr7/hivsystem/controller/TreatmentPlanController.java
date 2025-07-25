@@ -33,7 +33,7 @@ public class TreatmentPlanController {
                     .build();
         }
         return ApiResponse.<Boolean>builder()
-                .message("Failed")
+                .message("Tạo kế hoạch điều trị thất bại")
                 .result(result)
                 .build();
     }
