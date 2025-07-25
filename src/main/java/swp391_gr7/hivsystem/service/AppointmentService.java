@@ -47,6 +47,8 @@ public interface AppointmentService {
 
     List<Appointments> getStaffAppointmentsHaveTypeTestHIVAndActive();
 
+    List<Appointments> getAppointmentsHaveTypeReExamAndActive();
+
     List<Appointments> getAppointmentsHaveTypeConsultationAndActive();
 
     List<Appointments> getAppointmentsByDay(LocalDate date);

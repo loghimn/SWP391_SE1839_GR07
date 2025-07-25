@@ -96,7 +96,7 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
-        if (request.getStartTime().isBefore(LocalDateTime.now())){
+        if (request.getStartTime().isBefore(LocalDateTime.now())) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_VALID_TIME);
         }
         if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
@@ -430,6 +430,23 @@ public class AppointmentServiceImp implements AppointmentService {
 
         List<Appointments> appointments = appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Test HIV", true);
         appointments.addAll(appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Re-Examination", true));
+        if (appointments.isEmpty()) {
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
+        }
+
+        return appointments;
+    }
+
+    @Override
+    public List<Appointments> getAppointmentsHaveTypeReExamAndActive() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Doctors doctor = doctorRepository.findByUsers_UserId(user.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+
+        List<Appointments> appointments = appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Re-Examination", true);
         if (appointments.isEmpty()) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }

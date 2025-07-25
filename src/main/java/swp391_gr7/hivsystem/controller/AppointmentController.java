@@ -281,6 +281,18 @@ public class AppointmentController {
     }
 
     @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/doctor/appointment/re-exam/list")
+    public ApiResponse<List<Appointments>> getAppointmentsHaveTypeReExam() {
+        List<Appointments> appointmentsList = appointmentService.getAppointmentsHaveTypeReExamAndActive();
+        boolean result = appointmentsList != null;
+        String resultString = result ? "Success" : "Failed";
+        return ApiResponse.<List<Appointments>>builder()
+                .result(appointmentsList)
+                .message(resultString)
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/doctor/appointment/consultation/list")
     public ApiResponse<List<Appointments>> getAppointmentsHaveTypeConsultation() {
         List<Appointments> appointmentsList = appointmentService.getAppointmentsHaveTypeConsultationAndActive();
