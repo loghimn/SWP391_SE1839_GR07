@@ -268,6 +268,13 @@ public class DataSeeder implements CommandLineRunner {
         doctors4.setManagers(manager);
         doctorRepository.save(doctors4);
 
+        ArvRegiments r = new ArvRegiments();
+        r.setName("Dự phòng trước phơi nhiễm HIV");
+        r.setLevel(0);
+        r.setDescription("Phác đồ ARV dự phòng trước phơi nhiễm HIV (PrEP) dành cho người có nguy cơ cao, " +
+                "để ngăn ngừa lây nhiễm HIV.");
+        r.setDoctor(doctors);
+
 
         ArvRegiments r1 = new ArvRegiments();
         r1.setName("Bậc 1 - Người lớn tiêu chuẩn");
@@ -317,7 +324,8 @@ public class DataSeeder implements CommandLineRunner {
         r8.setDescription("Phác đồ ARV bậc 2 cho trẻ vị thành niên mang thai sau thất bại điều trị bậc 1");
         r8.setDoctor(doctors);
 
-        regimentRepo.saveAll(List.of(r1, r2, r3, r4, r5, r6, r7, r8));
+
+        regimentRepo.saveAll(List.of(r,r1, r2, r3, r4, r5, r6, r7, r8));
 
         List<ArvMedications> meds = List.of(
                 // Người lớn
@@ -350,7 +358,9 @@ public class DataSeeder implements CommandLineRunner {
                 new ArvMedications(doctors, "ABC-kid", "Abacavir cho trẻ em", "Viên nén", "60mg", "MSD", "NRTI trẻ em", true, r8),
                 new ArvMedications(doctors, "3TC-kid", "Lamivudine cho trẻ em", "Viên nén", "30mg", "GSK", "NRTI trẻ em", true, r8),
                 new ArvMedications(doctors, "LPV/r-kid", "Lopinavir/ritonavir cho trẻ em", "Viên nén", "40/10mg", "AbbVie", "PI trẻ em", true, r8),
-                new ArvMedications(doctors, "AZT-kid", "Zidovudine dạng siro trẻ em", "Siro", "10mg/5ml", "PharmaKids", "Dự phòng thay thế", true, r8)
+                new ArvMedications(doctors, "AZT-kid", "Zidovudine dạng siro trẻ em", "Siro", "10mg/5ml", "PharmaKids", "Dự phòng thay thế", true, r8),
+                // thuốc trước phơi nhiễm
+                new ArvMedications(doctors, "TDF/FTC", "Tenofovir + Emtricitabine", "Viên", "300mg/200mg", "Gilead Sciences", "Dự phòng trước phơi nhiễm (PrEP)", true, r)
         );
 
         medicationRepo.saveAll(meds);

@@ -38,7 +38,7 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
         if (!appointment.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
-        if(appointment.getAppointmentType().equals("Consultation")){
+        if (appointment.getAppointmentType().equals("Consultation")) {
             throw new AppException(ErrorCode.APPOINTMENT_TYPE_IS_NOT_HIV_TEST);
         }
         appointment.setStatus(false);
@@ -54,7 +54,9 @@ public class TreatmentPlanServiceImp implements TreatmentPlanService {
         LocalDate dob = customers.getUsers().getDateOfBirth();
         int age = Period.between(dob, LocalDate.now()).getYears();
         ArvRegiments arvRegiments;
-        if (age < 18) {
+        if (request.getTreatmentPlanDescription().contains("PrEP")) {
+            arvRegiments = arvRegimentRepository.findArvRegimentsByNameContaining("Dự phòng trước phơi nhiễm HIV");
+        } else if (age < 18) {
             // Trẻ em
             if (request.isHistory()) {
                 if (request.isForPregnancy()) {
