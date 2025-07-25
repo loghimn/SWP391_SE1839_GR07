@@ -33,7 +33,7 @@ public class TreatmentPlanController {
                     .build();
         }
         return ApiResponse.<Boolean>builder()
-                .message("Tạo kế hoạch điều trị thất bại")
+                .message("Failed")
                 .result(result)
                 .build();
     }
@@ -66,6 +66,39 @@ public class TreatmentPlanController {
         return ApiResponse.<Object>builder()
                 .result(treatmentPlanService.getMyTreatmentPlantDoc(doctorId))
                 .message("Lấy danh sách kế hoạch điều trị của bác sĩ thành công")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @GetMapping("/doctor/get/my-treatmentplan/all")
+    public ApiResponse<?> getMyTreatmentPlanDoctorAll(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        int doctorId = new JWTUtils().extractDoctorId(token);
+
+        return ApiResponse.<Object>builder()
+                .result(treatmentPlanService.getMyTreatmentPlantDocAll(doctorId))
+                .message("Lấy tất cả kế hoạch điều trị của bác sĩ thành công")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Customer')")
+    @GetMapping("/customer/get/my-treatmentplan")
+    public ApiResponse<?> getMyTreatmentPlanCustomer(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        int customerId = new JWTUtils().extractCustomerId(token);
+
+        return ApiResponse.<Object>builder()
+                .result(treatmentPlanService.getMyTreatmentPlantCus(customerId))
+                .message("Lấy danh sách kế hoạch điều trị của khách hàng thành công")
+                .build();
+    }
+
+    @PreAuthorize("hasRole('Doctor')")
+    @PutMapping("/update/{id}")
+    public ApiResponse<?> updateTreatmentPlan(@PathVariable int id, @RequestBody @Valid TreatmentPlansCreateRequest request) {
+        return ApiResponse.<Object>builder()
+                .result(treatmentPlanService.updateTreatmentPlan(id, request))
+                .message("Cập nhật kế hoạch điều trị thành công")
                 .build();
     }
 }
