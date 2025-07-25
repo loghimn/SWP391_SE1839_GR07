@@ -279,6 +279,7 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
+
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/doctor/appointment/consultation/list")
     public ApiResponse<List<Appointments>> getAppointmentsHaveTypeConsultation() {
@@ -290,6 +291,7 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
+
     @PreAuthorize("hasRole('Staff')")
     @GetMapping("/staff/appointment/testhiv/list")
     public ApiResponse<List<Appointments>> getStaffsAppointmentsHaveTypeTestHIV() {
@@ -317,8 +319,6 @@ public class AppointmentController {
     }
 
 
-
-
     @GetMapping("/doctor/appointment/{appointmentId}/meeting")
     @PreAuthorize("hasRole('Doctor')")
     public ApiResponse<MeetingLinkResponse> createAppointmentMeeting(@PathVariable int appointmentId) {
@@ -332,7 +332,7 @@ public class AppointmentController {
         }
 
         // Generate meeting ID using appointment ID
-        String meetingId = "hiv-appointment-" + appointmentId;
+        String meetingId = "hiv-" + appointment.getDoctors().getUsers().getFullName() + "-" + appointmentId;
         String baseLink = "https://meet.jit.si/" + meetingId;
         appointment.setUrlMeeting(baseLink);
         appointmentService.saveAppointment(appointment);
@@ -365,7 +365,7 @@ public class AppointmentController {
         }
 
         // Generate meeting ID using appointment ID
-        String meetingId = "hiv-appointment-" + appointmentId;
+        String meetingId = "hiv-" + appointment.getDoctors().getUsers().getFullName() + "-" + appointmentId;
         String baseLink = "https://meet.jit.si/" + meetingId;
 
         appointment.setUrlMeeting(baseLink);
@@ -386,14 +386,6 @@ public class AppointmentController {
                 .message("Meeting link created successfully")
                 .build();
     }
-
-
-
-
-
-
-
-
 
 
 }

@@ -107,7 +107,7 @@ public enum ErrorCode {
     CUSTOMER_INVALID_ADDRESS_NOTBLANK(1020, "Địa chỉ là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     CUSTOMER_INVALID_ADDRESS(1021, "Địa chỉ phải là tên tỉnh/thành phố tại Việt Nam", HttpStatus.BAD_REQUEST), // 400
     CUSTOMER_NOT_FOUND(1022, "Không tìm thấy khách hàng", HttpStatus.NOT_FOUND), // 404
-    CUSTOMER_NOT_FOUND_BY_ID(1023, "Không tìm thấy khách hàng với ID", HttpStatus.NOT_FOUND), // 404
+    CUSTOMER_NOT_FOUND_BY_ID(1023, "Không tìm thấy khách hàng ", HttpStatus.NOT_FOUND), // 404
     CUSTOMER_NOT_FOUND_GET_ALL_NULL(1024, "Không tìm thấy khách hàng nào", HttpStatus.NOT_FOUND), // 404
 
     // Add error for staff
@@ -115,7 +115,7 @@ public enum ErrorCode {
     STAFF_INVALID_WORKSHIFT_NOTNULL(1023, "Ca làm việc là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_WORKSHIFT(1024, "Ca làm việc phải là 1 hoặc 2", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_ASSIGNED_AREA_NOTBLANK(1025, "Assigned area is required", HttpStatus.BAD_REQUEST), // 400
-    STAFF_NOT_FOUND(1026, "Không tìm thấy nhân viên với ID", HttpStatus.NOT_FOUND), // 404
+    STAFF_NOT_FOUND(1026, "Không tìm thấy nhân viên ", HttpStatus.NOT_FOUND), // 404
 
     // Add error for manager
     MANAGER_INVALID_DEPARTMENT_NOTBLANK(1026, "Department is required", HttpStatus.BAD_REQUEST), // 400
@@ -130,19 +130,19 @@ public enum ErrorCode {
     DOCTOR_INVALID_LICENSE_NUMBER_NOTBLANK(1033, "Số giấy phép hành nghề là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_FORMAT(1034, "Số giấy phép hành nghề phải theo định dạng DC-{4 chữ số}", HttpStatus.BAD_REQUEST), // 400
     DOCTOR_INVALID_LICENSE_NUMBER_EXIST(1035, "Số giấy phép hành nghề đã tồn tại", HttpStatus.BAD_REQUEST), // 400
-    DOCTOR_NOT_FOUND(1036, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
-    DOCTOR_NOT_FOUND_BY_ID(1037, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
+    DOCTOR_NOT_FOUND(1036, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
+    DOCTOR_NOT_FOUND_BY_ID(1037, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
 
     // Add error for appointment
-    APPOINTMENT_CUSTOMER_NOT_FOUND(1036, "Không tìm thấy khách hàng với ID", HttpStatus.NOT_FOUND), // 404
-    APPOINTMENT_DOCTOR_NOT_FOUND(1037, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
-    APPOINTMENT_SCHEDULE_NOT_FOUND(1038, "Không tìm thấy lịch làm việc với ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_CUSTOMER_NOT_FOUND(1036, "Không tìm thấy khách hàng ", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_DOCTOR_NOT_FOUND(1037, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_SCHEDULE_NOT_FOUND(1038, "Không tìm thấy lịch làm việc ", HttpStatus.NOT_FOUND), // 404
     APPOINTMENT_DOCTOR_NOT_WORKING(1039, "Bác sĩ không làm việc vào ngày hẹn đã chọn", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_DUPLICATE_CUSTOMER(1040, "Đã tồn tại lịch hẹn với khách hàng này vào thời điểm đó", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_DUPLICATE_DOCTOR(1041, "Đã tồn tại lịch hẹn với bác sĩ này vào thời điểm đó", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_TIME_PAST(1042, "Thời gian hẹn phải là hôm nay hoặc sau đó", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_INVALID_TYPE(1042, "Loại lịch hẹn phải là 'Xét nghiệm HIV' hoặc 'Tư vấn'", HttpStatus.BAD_REQUEST), // 400
-    APPOINTMENT_NOT_FOUND(1042, "Không tìm thấy lịch hẹn với ID", HttpStatus.NOT_FOUND), // 404
+    APPOINTMENT_NOT_FOUND(1042, "Không tìm thấy lịch hẹn ", HttpStatus.NOT_FOUND), // 404
     APPOINTMENT_ALREADY_DELETED(1042, "Lịch hẹn đã bị xóa", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_NOT_HAVE_TIME(1042, "Lịch hẹn chưa có thời gian cụ thể", HttpStatus.BAD_REQUEST), // 400
     APPOINTMENT_TYPE_IS_NOT_HIV_TEST(1042, "Lịch hẹn không phải là xét nghiệm HIV", HttpStatus.BAD_REQUEST), // 400
@@ -152,10 +152,10 @@ public enum ErrorCode {
     APPOINTMENT_NOT_RE_EXAMINATION(1042, "Lịch hẹn không phải là tái khám", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for schedule
-    SCHEDULE_DOCTOR_NOT_FOUND(1043, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
-    SCHEDULE_MANAGER_NOT_FOUND(1044, "Không tìm thấy quản lý với ID", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_DOCTOR_NOT_FOUND(1043, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_MANAGER_NOT_FOUND(1044, "Không tìm thấy quản lý ", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_INVALID_DATE(1045, "Ngày làm việc phải là hôm nay hoặc sau đó", HttpStatus.BAD_REQUEST), // 400
-    SCHEDULE_NOT_FOUND(1046, "Không tìm thấy lịch làm việc với ID", HttpStatus.NOT_FOUND), // 404
+    SCHEDULE_NOT_FOUND(1046, "Không tìm thấy lịch làm việc ", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_NOT_FOUND_GET_ALL_NULL(1047, "Không có lịch làm việc nào", HttpStatus.NOT_FOUND), // 404
     SCHEDULE_ALREADY_EXISTS(1048, "Đã tồn tại lịch làm việc cho bác sĩ này vào ngày đã chọn", HttpStatus.BAD_REQUEST), // 400
 
@@ -174,8 +174,8 @@ public enum ErrorCode {
     APPOINTMENT_REQUEST_TYPE_INVALID_FORMAT(1055, "Loại lịch hẹn phải là 'Xét nghiệm HIV' hoặc 'Tư vấn'", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for blogs
-    BLOG_DOCTOR_NOT_FOUND(1056, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
-    BLOG_NOT_FOUND(1057, "Không tìm thấy blog với ID", HttpStatus.NOT_FOUND), // 404
+    BLOG_DOCTOR_NOT_FOUND(1056, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
+    BLOG_NOT_FOUND(1057, "Không tìm thấy blog ", HttpStatus.NOT_FOUND), // 404
     BLOG_DOCTOR_INVALID_MAIL_NOTBLANK(1058, "Email của bác sĩ là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     BLOG_TITLE_NOTBLANK(1059, "Tiêu đề blog là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     BLOG_CONTENT_NOTBLANK(1060, "Nội dung blog là bắt buộc", HttpStatus.BAD_REQUEST), // 400
@@ -183,8 +183,8 @@ public enum ErrorCode {
     BLOG_SOURCE_NOTBLANK(1062, "Nguồn blog là bắt buộc", HttpStatus.BAD_REQUEST), // 400
 
     // Add error for materials
-    MATERIAL_DOCTOR_NOT_FOUND(1063, "Không tìm thấy bác sĩ với ID", HttpStatus.NOT_FOUND), // 404
-    MATERIAL_NOT_FOUND(1064, "Không tìm thấy tài liệu với ID", HttpStatus.NOT_FOUND), // 404
+    MATERIAL_DOCTOR_NOT_FOUND(1063, "Không tìm thấy bác sĩ ", HttpStatus.NOT_FOUND), // 404
+    MATERIAL_NOT_FOUND(1064, "Không tìm thấy tài liệu ", HttpStatus.NOT_FOUND), // 404
     MATERIAL_DOCTOR_INVALID_MAIL_NOTBLANK(1065, "Email của bác sĩ là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     MATERIAL_TITLE_NOTBLANK(1066, "Tiêu đề tài liệu là bắt buộc", HttpStatus.BAD_REQUEST), // 400
     MATERIAL_CONTENT_NOTBLANK(1067, "Nội dung tài liệu là bắt buộc", HttpStatus.BAD_REQUEST), // 400
@@ -198,9 +198,9 @@ public enum ErrorCode {
     RE_EXAMINATION_NO_AVAILABLE_RE_EXAM_DATE_IN_NEXT_30_DAYS(1073, "Không có ngày tái khám khả dụng trong 30 ngày tới", HttpStatus.NOT_FOUND), // 404
 
     // Add error for consultation
-    CONSULTATION_APPOINTMENT_NOT_FOUND(1074, "Không tìm thấy lịch hẹn với ID", HttpStatus.NOT_FOUND), // 404
+    CONSULTATION_APPOINTMENT_NOT_FOUND(1074, "Không tìm thấy lịch hẹn ", HttpStatus.NOT_FOUND), // 404
     CONSULTATION_INVALID_APPOINTMENT_TYPE(1075, "Lịch hẹn không phải cho tư vấn", HttpStatus.BAD_REQUEST), // 400
-    CONSULTATION_NOT_FOUND_BY_ID(1076, "Không tìm thấy tư vấn với ID", HttpStatus.NOT_FOUND), // 404
+    CONSULTATION_NOT_FOUND_BY_ID(1076, "Không tìm thấy tư vấn ", HttpStatus.NOT_FOUND), // 404
 
     // Add error for consultation request
     CONSULTATION_REQUEST_APPOINTMENT_NOT_NULL(1077, "ID lịch hẹn là bắt buộc", HttpStatus.BAD_REQUEST), // 400
