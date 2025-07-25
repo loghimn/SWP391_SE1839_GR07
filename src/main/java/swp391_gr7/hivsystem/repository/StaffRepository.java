@@ -30,4 +30,6 @@ public interface StaffRepository extends CrudRepository<Staffs, Integer> {
     Staffs findByStaffId(int staffId);
 
     Optional<Staffs> findByUsers_UserId(Integer usersUserId);
+
+    List<Staffs> findAllByUsers_Status(boolean status);
 }

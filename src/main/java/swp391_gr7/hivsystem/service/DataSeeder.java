@@ -619,810 +619,810 @@ public class DataSeeder implements CommandLineRunner {
         materialRepository.save(material15);
 
 
-        //Create ScheduleAdd commentMore actions
-        Schedules schedules = null;
-        for (int i = 0; i < 25; i++) {
-            schedules = new Schedules();
-            schedules.setManagers(manager);
-            schedules.setDoctors(doctors);
-            schedules.setNotes("Ngày đi làm");
-            schedules.setWorkDate(LocalDate.of(2025, 8, 1 + i));
-            schedulesRepository.save(schedules);
-        }
-        for (int i = 0; i < 25; i++) {
-            schedules = new Schedules();
-            schedules.setManagers(manager);
-            schedules.setDoctors(doctors);
-            schedules.setNotes("Ngày đi làm");
-            schedules.setWorkDate(LocalDate.of(2025, 9, 1 + i));
-            schedulesRepository.save(schedules);
-        }
-        for (int i = 0; i < 25; i++) {
-            schedules = new Schedules();
-            schedules.setManagers(manager);
-            schedules.setDoctors(doctors);
-            schedules.setNotes("Ngày đi làm");
-            schedules.setWorkDate(LocalDate.of(2025, 10, 1 + i));
-            schedulesRepository.save(schedules);
-        }
-
-
-        //Create Medical RecordAdd commentMore actions
-        MedicalRecords medicalRecords = new MedicalRecords();
-        medicalRecords.setCustomers(customers);
-        medicalRecords.setRecordDate(LocalDate.now());
-        medicalRecords.setDiagnosis("HIV/AIDS");
-        medicalRecords.setTreatment("NOT");
-        medicalRecordRepository.save(medicalRecords);
-
-        //Create AppointmentAdd commentMore actions
-        LocalTime fixedStartTime = LocalTime.of(8, 0);
-        Duration duration = Duration.ofHours(2);
-
-        Appointments appointment1 = new Appointments();
-        appointment1.setDoctors(doctors);
-        appointment1.setMedicalRecords(medicalRecords);
-        appointment1.setCustomers(customers);
-        appointment1.setStatus(false);
-        LocalDateTime start1 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(8, 0));
-        appointment1.setStartTime(start1);
-        appointment1.setEndTime(start1.plusHours(2));
-        appointment1.setAnonymous(true);
-        appointment1.setSchedules(schedulesRepository.findById(1).orElse(null));
-        appointment1.setStaffs(staff);
-        appointment1.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment1);
-
-        Appointments appointment2 = new Appointments();
-        appointment2.setDoctors(doctors);
-        appointment2.setMedicalRecords(medicalRecords);
-        appointment2.setCustomers(customers);
-        appointment2.setStatus(false);
-        LocalDateTime start2 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(10, 0));
-        appointment2.setStartTime(start2);
-        appointment2.setEndTime(start2.plusHours(2));
-        appointment2.setAnonymous(true);
-        appointment2.setSchedules(schedulesRepository.findById(1).orElse(null));
-        appointment2.setStaffs(staff);
-        appointment2.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment2);
-
-        Appointments appointment3 = new Appointments();
-        appointment3.setDoctors(doctors);
-        appointment3.setMedicalRecords(medicalRecords);
-        appointment3.setCustomers(customers);
-        appointment3.setStatus(false);
-        LocalDateTime start3 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(14, 0));
-        appointment3.setStartTime(start3);
-        appointment3.setEndTime(start3.plusHours(2));
-        appointment3.setAnonymous(true);
-        appointment3.setSchedules(schedulesRepository.findById(1).orElse(null));
-        appointment3.setStaffs(staff2);
-        appointment3.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment3);
-
-        Appointments appointment4 = new Appointments();
-        appointment4.setDoctors(doctors);
-        appointment4.setMedicalRecords(medicalRecords);
-        appointment4.setCustomers(customers);
-        appointment4.setStatus(false);
-        LocalDateTime start4 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(16, 0));
-        appointment4.setStartTime(start4);
-        appointment4.setEndTime(start4.plusHours(2));
-        appointment4.setAnonymous(true);
-        appointment4.setSchedules(schedulesRepository.findById(1).orElse(null));
-        appointment4.setStaffs(staff2);
-        appointment4.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment4);
-
-        Appointments appointment5 = new Appointments();
-        appointment5.setDoctors(doctors);
-        appointment5.setMedicalRecords(medicalRecords);
-        appointment5.setCustomers(customers);
-        appointment5.setStatus(false);
-        LocalDateTime start5 = LocalDateTime.of(LocalDate.of(2025, 8, 2), fixedStartTime);
-        appointment5.setStartTime(start5);
-        appointment5.setEndTime(start5.plus(duration));
-        appointment5.setAnonymous(false);
-        appointment5.setSchedules(schedulesRepository.findById(2).orElse(null));
-        appointment5.setStaffs(staff);
-        appointment5.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment5);
-
-        Appointments appointment6 = new Appointments();
-        appointment6.setDoctors(doctors);
-        appointment6.setMedicalRecords(medicalRecords);
-        appointment6.setCustomers(customers);
-        appointment6.setStatus(false);
-        LocalDateTime start6 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(10, 0));
-        appointment6.setStartTime(start6);
-        appointment6.setEndTime(start6.plus(duration));
-        appointment6.setAnonymous(false);
-        appointment6.setSchedules(schedulesRepository.findById(2).orElse(null));
-        appointment6.setStaffs(staff);
-        appointment6.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment6);
-
-        Appointments appointment7 = new Appointments();
-        appointment7.setDoctors(doctors);
-        appointment7.setMedicalRecords(medicalRecords);
-        appointment7.setCustomers(customers);
-        appointment7.setStatus(false);
-        LocalDateTime start7 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(14, 0));
-        appointment7.setStartTime(start7);
-        appointment7.setEndTime(start7.plus(duration));
-        appointment7.setAnonymous(false);
-        appointment7.setSchedules(schedulesRepository.findById(2).orElse(null));
-        appointment7.setStaffs(staff2);
-        appointment7.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment7);
-
-        Appointments appointment8 = new Appointments();
-        appointment8.setDoctors(doctors);
-        appointment8.setMedicalRecords(medicalRecords);
-        appointment8.setCustomers(customers);
-        appointment8.setStatus(false);
-        LocalDateTime start8 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(16, 0));
-        appointment8.setStartTime(start8);
-        appointment8.setEndTime(start8.plus(duration));
-        appointment8.setAnonymous(false);
-        appointment8.setSchedules(schedulesRepository.findById(2).orElse(null));
-        appointment8.setStaffs(staff2);
-        appointment8.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment8);
-
-        Appointments appointment9 = new Appointments();
-        appointment9.setDoctors(doctors);
-        appointment9.setMedicalRecords(medicalRecords);
-        appointment9.setCustomers(customers);
-        appointment9.setStatus(false);
-        LocalDateTime start9 = LocalDateTime.of(LocalDate.of(2025, 8, 3), fixedStartTime);
-        appointment9.setStartTime(start9);
-        appointment9.setEndTime(start9.plus(duration));
-        appointment9.setAnonymous(true);
-        appointment9.setSchedules(schedulesRepository.findById(3).orElse(null));
-        appointment9.setStaffs(staff);
-        appointment9.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment9);
-
-        Appointments appointment10 = new Appointments();
-        appointment10.setDoctors(doctors);
-        appointment10.setMedicalRecords(medicalRecords);
-        appointment10.setCustomers(customers);
-        appointment10.setStatus(false);
-        LocalDateTime start10 = LocalDateTime.of(LocalDate.of(2025, 8, 4), fixedStartTime);
-        appointment10.setStartTime(start10);
-        appointment10.setEndTime(start10.plus(duration));
-        appointment10.setAnonymous(true);
-        appointment10.setSchedules(schedulesRepository.findById(4).orElse(null));
-        appointment10.setStaffs(staff);
-        appointment10.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment10);
-
-        Appointments appointment11 = new Appointments();
-        appointment11.setDoctors(doctors);
-        appointment11.setMedicalRecords(medicalRecords);
-        appointment11.setCustomers(customers);
-        appointment11.setStatus(false);
-        LocalDateTime start11 = LocalDateTime.of(LocalDate.of(2025, 8, 5), fixedStartTime);
-        appointment11.setStartTime(start11);
-        appointment11.setEndTime(start11.plus(duration));
-        appointment11.setAnonymous(false);
-        appointment11.setSchedules(schedulesRepository.findById(5).orElse(null));
-        appointment11.setStaffs(staff);
-        appointment11.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment11);
-
-        Appointments appointment12 = new Appointments();
-        appointment12.setDoctors(doctors);
-        appointment12.setMedicalRecords(medicalRecords);
-        appointment12.setCustomers(customers);
-        appointment12.setStatus(false);
-        LocalDateTime start12 = LocalDateTime.of(LocalDate.of(2025, 8, 6), fixedStartTime);
-        appointment12.setStartTime(start12);
-        appointment12.setEndTime(start12.plus(duration));
-        appointment12.setAnonymous(false);
-        appointment12.setSchedules(schedulesRepository.findById(6).orElse(null));
-        appointment12.setStaffs(staff);
-        appointment12.setAppointmentType("Consultation");
-        appointmentRepository.save(appointment12);
-
-        Appointments appointment13 = new Appointments();
-        appointment13.setDoctors(doctors);
-        appointment13.setMedicalRecords(medicalRecords);
-        appointment13.setCustomers(customers);
-        appointment13.setStatus(false);
-        LocalDateTime start13 = LocalDateTime.of(LocalDate.of(2025, 8, 7), fixedStartTime);
-        appointment13.setStartTime(start13);
-        appointment13.setEndTime(start13.plus(duration));
-        appointment13.setAnonymous(true);
-        appointment13.setSchedules(schedulesRepository.findById(7).orElse(null));
-        appointment13.setStaffs(staff);
-        appointment13.setAppointmentType("Consultation");
-        appointmentRepository.save(appointment13);
-
-        Appointments appointment14 = new Appointments();
-        appointment14.setDoctors(doctors);
-        appointment14.setMedicalRecords(medicalRecords);
-        appointment14.setCustomers(customers);
-        appointment14.setStatus(false);
-        LocalDateTime start14 = LocalDateTime.of(LocalDate.of(2025, 8, 8), fixedStartTime);
-        appointment14.setStartTime(start14);
-        appointment14.setEndTime(start14.plus(duration));
-        appointment14.setAnonymous(false);
-        appointment14.setSchedules(schedulesRepository.findById(8).orElse(null));
-        appointment14.setStaffs(staff);
-        appointment14.setAppointmentType("Consultation");
-        appointmentRepository.save(appointment14);
-
-        Appointments appointment15 = new Appointments();
-        appointment15.setDoctors(doctors);
-        appointment15.setMedicalRecords(medicalRecords);
-        appointment15.setCustomers(customers);
-        appointment15.setStatus(false);
-        LocalDateTime start15 = LocalDateTime.of(LocalDate.of(2025, 8, 9), fixedStartTime);
-        appointment15.setStartTime(start15);
-        appointment15.setEndTime(start15.plus(duration));
-        appointment15.setAnonymous(false);
-        appointment15.setSchedules(schedulesRepository.findById(9).orElse(null));
-        appointment15.setStaffs(staff);
-        appointment15.setAppointmentType("Consultation");
-        appointmentRepository.save(appointment15);
-
-        Appointments appointment16 = new Appointments();
-        appointment16.setDoctors(doctors);
-        appointment16.setMedicalRecords(medicalRecords);
-        appointment16.setCustomers(customers);
-        appointment16.setStatus(false);
-        LocalDateTime start16 = LocalDateTime.of(LocalDate.of(2025, 8, 10), fixedStartTime);
-        appointment16.setStartTime(start16);
-        appointment16.setEndTime(start16.plus(duration));
-        appointment16.setAnonymous(true);
-        appointment16.setSchedules(schedulesRepository.findById(10).orElse(null));
-        appointment16.setStaffs(staff);
-        appointment16.setAppointmentType("Consultation");
-        appointmentRepository.save(appointment16);
-
-        Appointments appointment17 = new Appointments();
-        appointment17.setDoctors(doctors);
-        appointment17.setMedicalRecords(medicalRecords);
-        appointment17.setCustomers(customers);
-        appointment17.setStatus(false);
-        LocalDateTime start17 = LocalDateTime.of(LocalDate.of(2025, 8, 11), fixedStartTime);
-        appointment17.setStartTime(start17);
-        appointment17.setEndTime(start17.plus(duration));
-        appointment17.setAnonymous(false);
-        appointment17.setSchedules(schedulesRepository.findById(11).orElse(null));
-        appointment17.setStaffs(staff);
-        appointment17.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment17);
-
-        Appointments appointment18 = new Appointments();
-        appointment18.setDoctors(doctors);
-        appointment18.setMedicalRecords(medicalRecords);
-        appointment18.setCustomers(customers);
-        appointment18.setStatus(false);
-        LocalDateTime start18 = LocalDateTime.of(LocalDate.of(2025, 8, 12), fixedStartTime);
-        appointment18.setStartTime(start18);
-        appointment18.setEndTime(start18.plus(duration));
-        appointment18.setAnonymous(false);
-        appointment18.setSchedules(schedulesRepository.findById(12).orElse(null));
-        appointment18.setStaffs(staff);
-        appointment18.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment18);
-
-        Appointments appointment19 = new Appointments();
-        appointment19.setDoctors(doctors);
-        appointment19.setMedicalRecords(medicalRecords);
-        appointment19.setCustomers(customers);
-        appointment19.setStatus(false);
-        LocalDateTime start19 = LocalDateTime.of(LocalDate.of(2025, 8, 13), fixedStartTime);
-        appointment19.setStartTime(start19);
-        appointment19.setEndTime(start19.plus(duration));
-        appointment19.setAnonymous(false);
-        appointment19.setSchedules(schedulesRepository.findById(13).orElse(null));
-        appointment19.setStaffs(staff);
-        appointment19.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment19);
-
-        Appointments appointment20 = new Appointments();
-        appointment20.setDoctors(doctors);
-        appointment20.setMedicalRecords(medicalRecords);
-        appointment20.setCustomers(customers);
-        appointment20.setStatus(false);
-        LocalDateTime start20 = LocalDateTime.of(LocalDate.of(2025, 8, 14), fixedStartTime);
-        appointment20.setStartTime(start20);
-        appointment20.setEndTime(start20.plus(duration));
-        appointment20.setAnonymous(false);
-        appointment20.setSchedules(schedulesRepository.findById(14).orElse(null));
-        appointment20.setStaffs(staff);
-        appointment20.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment20);
-
-        Appointments appointment21 = new Appointments();
-        appointment21.setDoctors(doctors);
-        appointment21.setMedicalRecords(medicalRecords);
-        appointment21.setCustomers(customers);
-        appointment21.setStatus(false);
-        LocalDateTime start21 = LocalDateTime.of(LocalDate.of(2025, 8, 15), fixedStartTime);
-        appointment21.setStartTime(start21);
-        appointment21.setEndTime(start21.plus(duration));
-        appointment21.setAnonymous(false);
-        appointment21.setSchedules(schedulesRepository.findById(15).orElse(null));
-        appointment21.setStaffs(staff);
-        appointment21.setAppointmentType("Test HIV");
-        appointmentRepository.save(appointment21);
-
-
-        for (int i = 0; i < 10; i++) {
-            Appointments appointment = new Appointments();
-            appointment.setDoctors(doctors);
-            appointment.setMedicalRecords(medicalRecords);
-            appointment.setCustomers(customers);
-            appointment.setStatus(true);
-
-            // Ngày từ 1/9/2025 đến 10/9/2025
-            LocalDate date = LocalDate.of(2025, 9, 1 + i);
-            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
-            appointment.setStartTime(start);
-            appointment.setEndTime(start.plus(duration));
-
-            appointment.setAnonymous(false);
-            appointment.setSchedules(schedulesRepository.findById(26 + i).orElse(null));
-            appointment.setStaffs(staff);
-            appointment.setAppointmentType("Test HIV");
-
-            appointmentRepository.save(appointment);
-        }
-        for (int i = 0; i < 10; i++) {
-            Appointments appointment = new Appointments();
-            appointment.setDoctors(doctors);
-            appointment.setMedicalRecords(medicalRecords);
-            appointment.setCustomers(customers);
-            appointment.setStatus(true);
-
-            // Ngày từ 1/9/2025 đến 10/9/2025
-            LocalDate date = LocalDate.of(2025, 9, 11 + i);
-            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
-            appointment.setStartTime(start);
-            appointment.setEndTime(start.plus(duration));
-
-            appointment.setAnonymous(true);
-            appointment.setSchedules(schedulesRepository.findById(36 + i).orElse(null));
-            appointment.setStaffs(staff);
-            appointment.setAppointmentType("Test HIV");
-
-            appointmentRepository.save(appointment);
-        }
-        for (int i = 0; i < 10; i++) {
-            Appointments appointment = new Appointments();
-            appointment.setDoctors(doctors);
-            appointment.setMedicalRecords(medicalRecords);
-            appointment.setCustomers(customers);
-            appointment.setStatus(true);
-
-            // Ngày từ 1/9/2025 đến 10/9/2025
-            LocalDate date = LocalDate.of(2025, 10, 1 + i);
-            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
-            appointment.setStartTime(start);
-            appointment.setEndTime(start.plus(duration));
-
-            appointment.setAnonymous(false);
-            appointment.setSchedules(schedulesRepository.findById(51 + i).orElse(null));
-            appointment.setStaffs(staff);
-            appointment.setAppointmentType("Consultation");
-
-            appointmentRepository.save(appointment);
-        }
-        for (int i = 0; i < 10; i++) {
-            Appointments appointment = new Appointments();
-            appointment.setDoctors(doctors);
-            appointment.setMedicalRecords(medicalRecords);
-            appointment.setCustomers(customers);
-            appointment.setStatus(true);
-
-            // Ngày từ 1/9/2025 đến 10/9/2025
-            LocalDate date = LocalDate.of(2025, 10, 11 + i);
-            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
-            appointment.setStartTime(start);
-            appointment.setEndTime(start.plus(duration));
-
-            appointment.setAnonymous(true);
-            appointment.setSchedules(schedulesRepository.findById(61 + i).orElse(null));
-            appointment.setStaffs(staff);
-            appointment.setAppointmentType("Consultation");
-
-            appointmentRepository.save(appointment);
-        }
-
-
-        //Create TreatmentAdd commentMore actions
-        TreatmentPlans treatmentPlans = new TreatmentPlans();
-        treatmentPlans.setDoctors(doctors);
-        treatmentPlans.setArvReqimentID(r1);
-        treatmentPlans.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans.setDosageTime(LocalTime.of(8, 0));
-        treatmentPlans.setAppointments(appointment1);
-        treatmentPlans.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans);
-
-        TreatmentPlans treatmentPlans1 = new TreatmentPlans();
-        treatmentPlans1.setDoctors(doctors);
-        treatmentPlans1.setArvReqimentID(r2);
-        treatmentPlans1.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans1.setDosageTime(LocalTime.of(10, 0));
-        treatmentPlans1.setAppointments(appointment2);
-        treatmentPlans1.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans1);
-
-        TreatmentPlans treatmentPlans2 = new TreatmentPlans();
-        treatmentPlans2.setDoctors(doctors);
-        treatmentPlans2.setArvReqimentID(r3);
-        treatmentPlans2.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans2.setDosageTime(LocalTime.of(12, 0));
-        treatmentPlans2.setAppointments(appointment3);
-        treatmentPlans2.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans2);
-
-        TreatmentPlans treatmentPlans3 = new TreatmentPlans();
-        treatmentPlans3.setDoctors(doctors);
-        treatmentPlans3.setArvReqimentID(r1);
-        treatmentPlans3.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans3.setDosageTime(LocalTime.of(14, 0));
-        treatmentPlans3.setAppointments(appointment4);
-        treatmentPlans3.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans3);
-
-        TreatmentPlans treatmentPlans4 = new TreatmentPlans();
-        treatmentPlans4.setDoctors(doctors);
-        treatmentPlans4.setArvReqimentID(r1);
-        treatmentPlans4.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans4.setDosageTime(LocalTime.of(16, 0));
-        treatmentPlans4.setAppointments(appointment5);
-        treatmentPlans4.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans4);
-
-        TreatmentPlans treatmentPlans5 = new TreatmentPlans();
-        treatmentPlans5.setDoctors(doctors);
-        treatmentPlans5.setArvReqimentID(r1);
-        treatmentPlans5.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans5.setDosageTime(LocalTime.of(16, 0));
-        treatmentPlans5.setAppointments(appointment11);
-        treatmentPlans5.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans5);
-
-        TreatmentPlans treatmentPlans6 = new TreatmentPlans();
-        treatmentPlans6.setDoctors(doctors);
-        treatmentPlans6.setArvReqimentID(r1);
-        treatmentPlans6.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans6.setDosageTime(LocalTime.of(16, 0));
-        treatmentPlans6.setAppointments(appointment12);
-        treatmentPlans6.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans6);
-
-        TreatmentPlans treatmentPlans7 = new TreatmentPlans();
-        treatmentPlans7.setDoctors(doctors);
-        treatmentPlans7.setArvReqimentID(r1);
-        treatmentPlans7.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans7.setDosageTime(LocalTime.of(16, 0));
-        treatmentPlans7.setAppointments(appointment13);
-        treatmentPlans7.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans7);
-
-        TreatmentPlans treatmentPlans8 = new TreatmentPlans();
-        treatmentPlans8.setDoctors(doctors);
-        treatmentPlans8.setArvReqimentID(r1);
-        treatmentPlans8.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans8.setDosageTime(LocalTime.of(16, 0));
-        treatmentPlans8.setAppointments(appointment14);
-        treatmentPlans8.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans8);
-
-        TreatmentPlans treatmentPlans9 = new TreatmentPlans();
-        treatmentPlans9.setDoctors(doctors);
-        treatmentPlans9.setArvReqimentID(r1);
-        treatmentPlans9.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
-        treatmentPlans9.setDosageTime(LocalTime.of(16, 0));
-        treatmentPlans9.setAppointments(appointment15);
-        treatmentPlans9.setStatus(false);
-        treatmentPlansRepository.save(treatmentPlans9);
-
-
-        //Create Test Result
-        TestResults testResults = new TestResults();
-        testResults.setDoctors(doctors);
-        testResults.setCustomers(customers);
-        testResults.setAppointments(appointment1);
-        testResults.setTreatmentPlan(treatmentPlans);
-        testResults.setResultValue(false);
-        testResults.setNotes("Notes");
-        testResults.setRe_examination(true);
-        testResults.setHivViralLoad(69);
-        testResults.setCD4(96);
-        testResults.setTestType("HIV");
-        testResults.setTestDate(appointment1.getStartTime().toLocalDate());
-        testResultRepository.save(testResults);
-
-        TestResults testResults1 = new TestResults();
-        testResults1.setDoctors(doctors);
-        testResults1.setCustomers(customers);
-        testResults1.setAppointments(appointment2);
-        testResults1.setTreatmentPlan(treatmentPlans1);
-        testResults1.setResultValue(true);
-        testResults1.setNotes("Notes");
-        testResults1.setRe_examination(false);
-        testResults1.setHivViralLoad(69);
-        testResults1.setCD4(96);
-        testResults1.setTestType("HIV");
-        testResults1.setTestDate(appointment2.getStartTime().toLocalDate());
-        testResultRepository.save(testResults1);
-
-        TestResults testResults2 = new TestResults();
-        testResults2.setDoctors(doctors);
-        testResults2.setCustomers(customers);
-        testResults2.setAppointments(appointment3);
-        testResults2.setTreatmentPlan(treatmentPlans2);
-        testResults2.setResultValue(true);
-        testResults2.setNotes("Notes");
-        testResults2.setRe_examination(true);
-        testResults2.setHivViralLoad(69);
-        testResults2.setCD4(96);
-        testResults2.setTestType("HIV");
-        testResults2.setTestDate(appointment3.getStartTime().toLocalDate());
-        testResultRepository.save(testResults2);
-
-        TestResults testResults3 = new TestResults();
-        testResults3.setDoctors(doctors);
-        testResults3.setCustomers(customers);
-        testResults3.setAppointments(appointment4);
-        testResults3.setTreatmentPlan(treatmentPlans3);
-        testResults3.setResultValue(false);
-        testResults3.setNotes("Notes");
-        testResults3.setRe_examination(false);
-        testResults3.setHivViralLoad(69);
-        testResults3.setCD4(96);
-        testResults3.setTestType("HIV");
-        testResults3.setTestDate(appointment4.getStartTime().toLocalDate());
-        testResultRepository.save(testResults3);
-
-        TestResults testResults4 = new TestResults();
-        testResults4.setDoctors(doctors);
-        testResults4.setCustomers(customers);
-        testResults4.setAppointments(appointment5);
-        testResults4.setTreatmentPlan(treatmentPlans4);
-        testResults4.setResultValue(true);
-        testResults4.setNotes("Notes");
-        testResults4.setRe_examination(true);
-        testResults4.setHivViralLoad(69);
-        testResults4.setCD4(96);
-        testResults4.setTestType("HIV");
-        testResults4.setTestDate(appointment5.getStartTime().toLocalDate());
-        testResultRepository.save(testResults4);
-
-        TestResults testResults5 = new TestResults();
-        testResults5.setDoctors(doctors);
-        testResults5.setCustomers(customers);
-        testResults5.setAppointments(appointment6);
-        testResults5.setTreatmentPlan(treatmentPlans5);
-        testResults5.setResultValue(true);
-        testResults5.setNotes("Notes");
-        testResults5.setRe_examination(true);
-        testResults5.setHivViralLoad(69);
-        testResults5.setCD4(96);
-        testResults5.setTestType("HIV");
-        testResults5.setTestDate(appointment6.getStartTime().toLocalDate());
-        testResultRepository.save(testResults5);
-
-        TestResults testResults6 = new TestResults();
-        testResults6.setDoctors(doctors);
-        testResults6.setCustomers(customers);
-        testResults6.setAppointments(appointment7);
-        testResults6.setTreatmentPlan(treatmentPlans6);
-        testResults6.setResultValue(true);
-        testResults6.setNotes("Notes");
-        testResults6.setRe_examination(true);
-        testResults6.setHivViralLoad(69);
-        testResults6.setCD4(96);
-        testResults6.setTestType("HIV");
-        testResults6.setTestDate(appointment7.getStartTime().toLocalDate());
-        testResultRepository.save(testResults6);
-
-        TestResults testResults7 = new TestResults();
-        testResults7.setDoctors(doctors);
-        testResults7.setCustomers(customers);
-        testResults7.setAppointments(appointment8);
-        testResults7.setTreatmentPlan(treatmentPlans7);
-        testResults7.setResultValue(true);
-        testResults7.setNotes("Notes");
-        testResults7.setRe_examination(true);
-        testResults7.setHivViralLoad(69);
-        testResults7.setCD4(96);
-        testResults7.setTestType("HIV");
-        testResults7.setTestDate(appointment8.getStartTime().toLocalDate());
-        testResultRepository.save(testResults7);
-
-        TestResults testResults8 = new TestResults();
-        testResults8.setDoctors(doctors);
-        testResults8.setCustomers(customers);
-        testResults8.setAppointments(appointment9);
-        testResults8.setTreatmentPlan(treatmentPlans8);
-        testResults8.setResultValue(true);
-        testResults8.setNotes("Notes");
-        testResults8.setRe_examination(true);
-        testResults8.setHivViralLoad(69);
-        testResults8.setCD4(96);
-        testResults8.setTestType("HIV");
-        testResults8.setTestDate(appointment9.getStartTime().toLocalDate());
-        testResultRepository.save(testResults8);
-
-        TestResults testResults9 = new TestResults();
-        testResults9.setDoctors(doctors);
-        testResults9.setCustomers(customers);
-        testResults9.setAppointments(appointment10);
-        testResults9.setTreatmentPlan(treatmentPlans9);
-        testResults9.setResultValue(true);
-        testResults9.setNotes("Notes");
-        testResults9.setRe_examination(true);
-        testResults9.setHivViralLoad(69);
-        testResults9.setCD4(96);
-        testResults9.setTestType("HIV");
-        testResults9.setTestDate(appointment10.getStartTime().toLocalDate());
-        testResultRepository.save(testResults9);
-
-
-        //Create Reminder Dosage
-        Reminders remindersDosage = new Reminders();
-        remindersDosage.setCustomers(customers);
-        remindersDosage.setReminderTime(treatmentPlans.getDosageTime().atDate(LocalDate.now()));
-        remindersDosage.setMessage("uống thuốc");
-        remindersDosage.setTestResults(testResults);
-        remindersDosage.setAppointments(appointment1);
-        remindersDosage.setStaffs(staff);
-        remindersDosage.setReminderType("Dosage Reminder");
-        remindersDosage.setStatus(false);
-        reminderRepository.save(remindersDosage);
-
-        Reminders remindersDosage1 = new Reminders();
-        remindersDosage1.setCustomers(customers);
-        remindersDosage1.setReminderTime(treatmentPlans1.getDosageTime().atDate(LocalDate.now()));
-        remindersDosage1.setMessage("uống thuốc");
-        remindersDosage1.setTestResults(testResults1);
-        remindersDosage1.setAppointments(appointment2);
-        remindersDosage1.setStaffs(staff);
-        remindersDosage1.setReminderType("Dosage Reminder");
-        remindersDosage1.setStatus(false);
-        reminderRepository.save(remindersDosage1);
-
-        Reminders remindersDosage2 = new Reminders();
-        remindersDosage2.setCustomers(customers);
-        remindersDosage2.setReminderTime(treatmentPlans2.getDosageTime().atDate(LocalDate.now()));
-        remindersDosage2.setMessage("uống thuốc");
-        remindersDosage2.setTestResults(testResults2);
-        remindersDosage2.setAppointments(appointment3);
-        remindersDosage2.setStaffs(staff);
-        remindersDosage2.setReminderType("Dosage Reminder");
-        remindersDosage2.setStatus(false);
-        reminderRepository.save(remindersDosage2);
-
-        Reminders remindersDosage3 = new Reminders();
-        remindersDosage3.setCustomers(customers);
-        remindersDosage3.setReminderTime(treatmentPlans3.getDosageTime().atDate(LocalDate.now()));
-        remindersDosage3.setMessage("uống thuốc");
-        remindersDosage3.setTestResults(testResults3);
-        remindersDosage3.setAppointments(appointment4);
-        remindersDosage3.setStaffs(staff);
-        remindersDosage3.setReminderType("Dosage Reminder");
-        remindersDosage3.setStatus(false);
-        reminderRepository.save(remindersDosage3);
-
-        Reminders remindersDosage4 = new Reminders();
-        remindersDosage4.setCustomers(customers);
-        remindersDosage4.setReminderTime(treatmentPlans4.getDosageTime().atDate(LocalDate.now()));
-        remindersDosage4.setMessage("uống thuốc");
-        remindersDosage4.setTestResults(testResults4);
-        remindersDosage4.setAppointments(appointment5);
-        remindersDosage4.setStaffs(staff);
-        remindersDosage4.setReminderType("Dosage Reminder");
-        remindersDosage4.setStatus(true);
-        reminderRepository.save(remindersDosage4);
-
-        Reminders remindersReExam5 = new Reminders();
-        remindersReExam5.setCustomers(customers);
-        remindersReExam5.setReminderTime(appointment6.getStartTime().toLocalDate().atTime(8, 0));
-        remindersReExam5.setMessage("tái khám");
-        remindersReExam5.setTestResults(testResults5);
-        remindersReExam5.setAppointments(appointment6);
-        remindersReExam5.setStaffs(staff);
-        remindersReExam5.setReminderType("Re-Exam Reminder");
-        remindersReExam5.setStatus(false);
-        reminderRepository.save(remindersReExam5);
-
-        Reminders remindersReExam6 = new Reminders();
-        remindersReExam6.setCustomers(customers);
-        remindersReExam6.setReminderTime(appointment7.getStartTime().toLocalDate().atTime(8, 0));
-        remindersReExam6.setMessage("tái khám");
-        remindersReExam6.setTestResults(testResults6);
-        remindersReExam6.setAppointments(appointment7);
-        remindersReExam6.setStaffs(staff);
-        remindersReExam6.setReminderType("Re-Exam Reminder");
-        remindersReExam6.setStatus(false);
-        reminderRepository.save(remindersReExam6);
-
-        Reminders remindersReExam7 = new Reminders();
-        remindersReExam7.setCustomers(customers);
-        remindersReExam7.setReminderTime(appointment8.getStartTime().toLocalDate().atTime(8, 0));
-        remindersReExam7.setMessage("tái khám");
-        remindersReExam7.setTestResults(testResults7);
-        remindersReExam7.setAppointments(appointment8);
-        remindersReExam7.setStaffs(staff);
-        remindersReExam7.setReminderType("Re-Exam Reminder");
-        remindersReExam7.setStatus(false);
-        reminderRepository.save(remindersReExam7);
-
-        Reminders remindersReExam8 = new Reminders();
-        remindersReExam8.setCustomers(customers);
-        remindersReExam8.setReminderTime(appointment9.getStartTime().toLocalDate().atTime(8, 0));
-        remindersReExam8.setMessage("tái khám");
-        remindersReExam8.setTestResults(testResults8);
-        remindersReExam8.setAppointments(appointment9);
-        remindersReExam8.setStaffs(staff);
-        remindersReExam8.setReminderType("Re-Exam Reminder");
-        remindersReExam8.setStatus(false);
-        reminderRepository.save(remindersReExam8);
-
-        Reminders remindersReExam9 = new Reminders();
-        remindersReExam9.setCustomers(customers);
-        remindersReExam9.setReminderTime(appointment10.getStartTime().toLocalDate().atTime(8, 0));
-        remindersReExam9.setMessage("tái khám");
-        remindersReExam9.setTestResults(testResults9);
-        remindersReExam9.setAppointments(appointment10);
-        remindersReExam9.setStaffs(staff);
-        remindersReExam9.setReminderType("Re-Exam Reminder");
-        remindersReExam9.setStatus(true);
-        reminderRepository.save(remindersReExam9);
-
-
-        // Example: Add in your createModel() after appointments, doctors, customers are created and saved
-
-        Consultations consultation1 = new Consultations();
-        consultation1.setAppointments(appointment12);
-        consultation1.setDoctors(doctors);
-        consultation1.setCustomers(customers);
-        consultation1.setConsultationDate(appointment12.getStartTime().toLocalDate());
-        consultation1.setNotes("Initial consultation and HIV test.");
-        consultationRepository.save(consultation1);
-
-        Consultations consultation2 = new Consultations();
-        consultation2.setAppointments(appointment13);
-        consultation2.setDoctors(doctors);
-        consultation2.setCustomers(customers);
-        consultation2.setConsultationDate(appointment13.getStartTime().toLocalDate());
-        consultation2.setNotes("Follow-up consultation, discussed test results.");
-        consultationRepository.save(consultation2);
-
-        Consultations consultation3 = new Consultations();
-        consultation3.setAppointments(appointment14);
-        consultation3.setDoctors(doctors);
-        consultation3.setCustomers(customers);
-        consultation3.setConsultationDate(appointment14.getStartTime().toLocalDate());
-        consultation3.setNotes("Consultation for treatment plan.");
-        consultationRepository.save(consultation3);
-
-        Consultations consultation4 = new Consultations();
-        consultation4.setAppointments(appointment15);
-        consultation4.setDoctors(doctors);
-        consultation4.setCustomers(customers);
-        consultation4.setConsultationDate(appointment15.getStartTime().toLocalDate());
-        consultation4.setNotes("Routine check-up and medication review.");
-        consultationRepository.save(consultation4);
-
-        Consultations consultation5 = new Consultations();
-        consultation5.setAppointments(appointment16);
-        consultation5.setDoctors(doctors);
-        consultation5.setCustomers(customers);
-        consultation5.setConsultationDate(appointment16.getStartTime().toLocalDate());
-        consultation5.setNotes("Final consultation for this cycle.");
-        consultationRepository.save(consultation5);
+//        //Create ScheduleAdd commentMore actions
+//        Schedules schedules = null;
+//        for (int i = 0; i < 25; i++) {
+//            schedules = new Schedules();
+//            schedules.setManagers(manager);
+//            schedules.setDoctors(doctors);
+//            schedules.setNotes("Ngày đi làm");
+//            schedules.setWorkDate(LocalDate.of(2025, 8, 1 + i));
+//            schedulesRepository.save(schedules);
+//        }
+//        for (int i = 0; i < 25; i++) {
+//            schedules = new Schedules();
+//            schedules.setManagers(manager);
+//            schedules.setDoctors(doctors);
+//            schedules.setNotes("Ngày đi làm");
+//            schedules.setWorkDate(LocalDate.of(2025, 9, 1 + i));
+//            schedulesRepository.save(schedules);
+//        }
+//        for (int i = 0; i < 25; i++) {
+//            schedules = new Schedules();
+//            schedules.setManagers(manager);
+//            schedules.setDoctors(doctors);
+//            schedules.setNotes("Ngày đi làm");
+//            schedules.setWorkDate(LocalDate.of(2025, 10, 1 + i));
+//            schedulesRepository.save(schedules);
+//        }
+//
+//
+//        //Create Medical RecordAdd commentMore actions
+//        MedicalRecords medicalRecords = new MedicalRecords();
+//        medicalRecords.setCustomers(customers);
+//        medicalRecords.setRecordDate(LocalDate.now());
+//        medicalRecords.setDiagnosis("HIV/AIDS");
+//        medicalRecords.setTreatment("NOT");
+//        medicalRecordRepository.save(medicalRecords);
+//
+//        //Create AppointmentAdd commentMore actions
+//        LocalTime fixedStartTime = LocalTime.of(8, 0);
+//        Duration duration = Duration.ofHours(2);
+//
+//        Appointments appointment1 = new Appointments();
+//        appointment1.setDoctors(doctors);
+//        appointment1.setMedicalRecords(medicalRecords);
+//        appointment1.setCustomers(customers);
+//        appointment1.setStatus(false);
+//        LocalDateTime start1 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(8, 0));
+//        appointment1.setStartTime(start1);
+//        appointment1.setEndTime(start1.plusHours(2));
+//        appointment1.setAnonymous(true);
+//        appointment1.setSchedules(schedulesRepository.findById(1).orElse(null));
+//        appointment1.setStaffs(staff);
+//        appointment1.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment1);
+//
+//        Appointments appointment2 = new Appointments();
+//        appointment2.setDoctors(doctors);
+//        appointment2.setMedicalRecords(medicalRecords);
+//        appointment2.setCustomers(customers);
+//        appointment2.setStatus(false);
+//        LocalDateTime start2 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(10, 0));
+//        appointment2.setStartTime(start2);
+//        appointment2.setEndTime(start2.plusHours(2));
+//        appointment2.setAnonymous(true);
+//        appointment2.setSchedules(schedulesRepository.findById(1).orElse(null));
+//        appointment2.setStaffs(staff);
+//        appointment2.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment2);
+//
+//        Appointments appointment3 = new Appointments();
+//        appointment3.setDoctors(doctors);
+//        appointment3.setMedicalRecords(medicalRecords);
+//        appointment3.setCustomers(customers);
+//        appointment3.setStatus(false);
+//        LocalDateTime start3 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(14, 0));
+//        appointment3.setStartTime(start3);
+//        appointment3.setEndTime(start3.plusHours(2));
+//        appointment3.setAnonymous(true);
+//        appointment3.setSchedules(schedulesRepository.findById(1).orElse(null));
+//        appointment3.setStaffs(staff2);
+//        appointment3.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment3);
+//
+//        Appointments appointment4 = new Appointments();
+//        appointment4.setDoctors(doctors);
+//        appointment4.setMedicalRecords(medicalRecords);
+//        appointment4.setCustomers(customers);
+//        appointment4.setStatus(false);
+//        LocalDateTime start4 = LocalDateTime.of(LocalDate.of(2025, 8, 1), LocalTime.of(16, 0));
+//        appointment4.setStartTime(start4);
+//        appointment4.setEndTime(start4.plusHours(2));
+//        appointment4.setAnonymous(true);
+//        appointment4.setSchedules(schedulesRepository.findById(1).orElse(null));
+//        appointment4.setStaffs(staff2);
+//        appointment4.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment4);
+//
+//        Appointments appointment5 = new Appointments();
+//        appointment5.setDoctors(doctors);
+//        appointment5.setMedicalRecords(medicalRecords);
+//        appointment5.setCustomers(customers);
+//        appointment5.setStatus(false);
+//        LocalDateTime start5 = LocalDateTime.of(LocalDate.of(2025, 8, 2), fixedStartTime);
+//        appointment5.setStartTime(start5);
+//        appointment5.setEndTime(start5.plus(duration));
+//        appointment5.setAnonymous(false);
+//        appointment5.setSchedules(schedulesRepository.findById(2).orElse(null));
+//        appointment5.setStaffs(staff);
+//        appointment5.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment5);
+//
+//        Appointments appointment6 = new Appointments();
+//        appointment6.setDoctors(doctors);
+//        appointment6.setMedicalRecords(medicalRecords);
+//        appointment6.setCustomers(customers);
+//        appointment6.setStatus(false);
+//        LocalDateTime start6 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(10, 0));
+//        appointment6.setStartTime(start6);
+//        appointment6.setEndTime(start6.plus(duration));
+//        appointment6.setAnonymous(false);
+//        appointment6.setSchedules(schedulesRepository.findById(2).orElse(null));
+//        appointment6.setStaffs(staff);
+//        appointment6.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment6);
+//
+//        Appointments appointment7 = new Appointments();
+//        appointment7.setDoctors(doctors);
+//        appointment7.setMedicalRecords(medicalRecords);
+//        appointment7.setCustomers(customers);
+//        appointment7.setStatus(false);
+//        LocalDateTime start7 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(14, 0));
+//        appointment7.setStartTime(start7);
+//        appointment7.setEndTime(start7.plus(duration));
+//        appointment7.setAnonymous(false);
+//        appointment7.setSchedules(schedulesRepository.findById(2).orElse(null));
+//        appointment7.setStaffs(staff2);
+//        appointment7.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment7);
+//
+//        Appointments appointment8 = new Appointments();
+//        appointment8.setDoctors(doctors);
+//        appointment8.setMedicalRecords(medicalRecords);
+//        appointment8.setCustomers(customers);
+//        appointment8.setStatus(false);
+//        LocalDateTime start8 = LocalDateTime.of(LocalDate.of(2025, 8, 2), LocalTime.of(16, 0));
+//        appointment8.setStartTime(start8);
+//        appointment8.setEndTime(start8.plus(duration));
+//        appointment8.setAnonymous(false);
+//        appointment8.setSchedules(schedulesRepository.findById(2).orElse(null));
+//        appointment8.setStaffs(staff2);
+//        appointment8.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment8);
+//
+//        Appointments appointment9 = new Appointments();
+//        appointment9.setDoctors(doctors);
+//        appointment9.setMedicalRecords(medicalRecords);
+//        appointment9.setCustomers(customers);
+//        appointment9.setStatus(false);
+//        LocalDateTime start9 = LocalDateTime.of(LocalDate.of(2025, 8, 3), fixedStartTime);
+//        appointment9.setStartTime(start9);
+//        appointment9.setEndTime(start9.plus(duration));
+//        appointment9.setAnonymous(true);
+//        appointment9.setSchedules(schedulesRepository.findById(3).orElse(null));
+//        appointment9.setStaffs(staff);
+//        appointment9.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment9);
+//
+//        Appointments appointment10 = new Appointments();
+//        appointment10.setDoctors(doctors);
+//        appointment10.setMedicalRecords(medicalRecords);
+//        appointment10.setCustomers(customers);
+//        appointment10.setStatus(false);
+//        LocalDateTime start10 = LocalDateTime.of(LocalDate.of(2025, 8, 4), fixedStartTime);
+//        appointment10.setStartTime(start10);
+//        appointment10.setEndTime(start10.plus(duration));
+//        appointment10.setAnonymous(true);
+//        appointment10.setSchedules(schedulesRepository.findById(4).orElse(null));
+//        appointment10.setStaffs(staff);
+//        appointment10.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment10);
+//
+//        Appointments appointment11 = new Appointments();
+//        appointment11.setDoctors(doctors);
+//        appointment11.setMedicalRecords(medicalRecords);
+//        appointment11.setCustomers(customers);
+//        appointment11.setStatus(false);
+//        LocalDateTime start11 = LocalDateTime.of(LocalDate.of(2025, 8, 5), fixedStartTime);
+//        appointment11.setStartTime(start11);
+//        appointment11.setEndTime(start11.plus(duration));
+//        appointment11.setAnonymous(false);
+//        appointment11.setSchedules(schedulesRepository.findById(5).orElse(null));
+//        appointment11.setStaffs(staff);
+//        appointment11.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment11);
+//
+//        Appointments appointment12 = new Appointments();
+//        appointment12.setDoctors(doctors);
+//        appointment12.setMedicalRecords(medicalRecords);
+//        appointment12.setCustomers(customers);
+//        appointment12.setStatus(false);
+//        LocalDateTime start12 = LocalDateTime.of(LocalDate.of(2025, 8, 6), fixedStartTime);
+//        appointment12.setStartTime(start12);
+//        appointment12.setEndTime(start12.plus(duration));
+//        appointment12.setAnonymous(false);
+//        appointment12.setSchedules(schedulesRepository.findById(6).orElse(null));
+//        appointment12.setStaffs(staff);
+//        appointment12.setAppointmentType("Consultation");
+//        appointmentRepository.save(appointment12);
+//
+//        Appointments appointment13 = new Appointments();
+//        appointment13.setDoctors(doctors);
+//        appointment13.setMedicalRecords(medicalRecords);
+//        appointment13.setCustomers(customers);
+//        appointment13.setStatus(false);
+//        LocalDateTime start13 = LocalDateTime.of(LocalDate.of(2025, 8, 7), fixedStartTime);
+//        appointment13.setStartTime(start13);
+//        appointment13.setEndTime(start13.plus(duration));
+//        appointment13.setAnonymous(true);
+//        appointment13.setSchedules(schedulesRepository.findById(7).orElse(null));
+//        appointment13.setStaffs(staff);
+//        appointment13.setAppointmentType("Consultation");
+//        appointmentRepository.save(appointment13);
+//
+//        Appointments appointment14 = new Appointments();
+//        appointment14.setDoctors(doctors);
+//        appointment14.setMedicalRecords(medicalRecords);
+//        appointment14.setCustomers(customers);
+//        appointment14.setStatus(false);
+//        LocalDateTime start14 = LocalDateTime.of(LocalDate.of(2025, 8, 8), fixedStartTime);
+//        appointment14.setStartTime(start14);
+//        appointment14.setEndTime(start14.plus(duration));
+//        appointment14.setAnonymous(false);
+//        appointment14.setSchedules(schedulesRepository.findById(8).orElse(null));
+//        appointment14.setStaffs(staff);
+//        appointment14.setAppointmentType("Consultation");
+//        appointmentRepository.save(appointment14);
+//
+//        Appointments appointment15 = new Appointments();
+//        appointment15.setDoctors(doctors);
+//        appointment15.setMedicalRecords(medicalRecords);
+//        appointment15.setCustomers(customers);
+//        appointment15.setStatus(false);
+//        LocalDateTime start15 = LocalDateTime.of(LocalDate.of(2025, 8, 9), fixedStartTime);
+//        appointment15.setStartTime(start15);
+//        appointment15.setEndTime(start15.plus(duration));
+//        appointment15.setAnonymous(false);
+//        appointment15.setSchedules(schedulesRepository.findById(9).orElse(null));
+//        appointment15.setStaffs(staff);
+//        appointment15.setAppointmentType("Consultation");
+//        appointmentRepository.save(appointment15);
+//
+//        Appointments appointment16 = new Appointments();
+//        appointment16.setDoctors(doctors);
+//        appointment16.setMedicalRecords(medicalRecords);
+//        appointment16.setCustomers(customers);
+//        appointment16.setStatus(false);
+//        LocalDateTime start16 = LocalDateTime.of(LocalDate.of(2025, 8, 10), fixedStartTime);
+//        appointment16.setStartTime(start16);
+//        appointment16.setEndTime(start16.plus(duration));
+//        appointment16.setAnonymous(true);
+//        appointment16.setSchedules(schedulesRepository.findById(10).orElse(null));
+//        appointment16.setStaffs(staff);
+//        appointment16.setAppointmentType("Consultation");
+//        appointmentRepository.save(appointment16);
+//
+//        Appointments appointment17 = new Appointments();
+//        appointment17.setDoctors(doctors);
+//        appointment17.setMedicalRecords(medicalRecords);
+//        appointment17.setCustomers(customers);
+//        appointment17.setStatus(false);
+//        LocalDateTime start17 = LocalDateTime.of(LocalDate.of(2025, 8, 11), fixedStartTime);
+//        appointment17.setStartTime(start17);
+//        appointment17.setEndTime(start17.plus(duration));
+//        appointment17.setAnonymous(false);
+//        appointment17.setSchedules(schedulesRepository.findById(11).orElse(null));
+//        appointment17.setStaffs(staff);
+//        appointment17.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment17);
+//
+//        Appointments appointment18 = new Appointments();
+//        appointment18.setDoctors(doctors);
+//        appointment18.setMedicalRecords(medicalRecords);
+//        appointment18.setCustomers(customers);
+//        appointment18.setStatus(false);
+//        LocalDateTime start18 = LocalDateTime.of(LocalDate.of(2025, 8, 12), fixedStartTime);
+//        appointment18.setStartTime(start18);
+//        appointment18.setEndTime(start18.plus(duration));
+//        appointment18.setAnonymous(false);
+//        appointment18.setSchedules(schedulesRepository.findById(12).orElse(null));
+//        appointment18.setStaffs(staff);
+//        appointment18.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment18);
+//
+//        Appointments appointment19 = new Appointments();
+//        appointment19.setDoctors(doctors);
+//        appointment19.setMedicalRecords(medicalRecords);
+//        appointment19.setCustomers(customers);
+//        appointment19.setStatus(false);
+//        LocalDateTime start19 = LocalDateTime.of(LocalDate.of(2025, 8, 13), fixedStartTime);
+//        appointment19.setStartTime(start19);
+//        appointment19.setEndTime(start19.plus(duration));
+//        appointment19.setAnonymous(false);
+//        appointment19.setSchedules(schedulesRepository.findById(13).orElse(null));
+//        appointment19.setStaffs(staff);
+//        appointment19.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment19);
+//
+//        Appointments appointment20 = new Appointments();
+//        appointment20.setDoctors(doctors);
+//        appointment20.setMedicalRecords(medicalRecords);
+//        appointment20.setCustomers(customers);
+//        appointment20.setStatus(false);
+//        LocalDateTime start20 = LocalDateTime.of(LocalDate.of(2025, 8, 14), fixedStartTime);
+//        appointment20.setStartTime(start20);
+//        appointment20.setEndTime(start20.plus(duration));
+//        appointment20.setAnonymous(false);
+//        appointment20.setSchedules(schedulesRepository.findById(14).orElse(null));
+//        appointment20.setStaffs(staff);
+//        appointment20.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment20);
+//
+//        Appointments appointment21 = new Appointments();
+//        appointment21.setDoctors(doctors);
+//        appointment21.setMedicalRecords(medicalRecords);
+//        appointment21.setCustomers(customers);
+//        appointment21.setStatus(false);
+//        LocalDateTime start21 = LocalDateTime.of(LocalDate.of(2025, 8, 15), fixedStartTime);
+//        appointment21.setStartTime(start21);
+//        appointment21.setEndTime(start21.plus(duration));
+//        appointment21.setAnonymous(false);
+//        appointment21.setSchedules(schedulesRepository.findById(15).orElse(null));
+//        appointment21.setStaffs(staff);
+//        appointment21.setAppointmentType("Test HIV");
+//        appointmentRepository.save(appointment21);
+//
+//
+//        for (int i = 0; i < 10; i++) {
+//            Appointments appointment = new Appointments();
+//            appointment.setDoctors(doctors);
+//            appointment.setMedicalRecords(medicalRecords);
+//            appointment.setCustomers(customers);
+//            appointment.setStatus(true);
+//
+//            // Ngày từ 1/9/2025 đến 10/9/2025
+//            LocalDate date = LocalDate.of(2025, 9, 1 + i);
+//            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
+//            appointment.setStartTime(start);
+//            appointment.setEndTime(start.plus(duration));
+//
+//            appointment.setAnonymous(false);
+//            appointment.setSchedules(schedulesRepository.findById(26 + i).orElse(null));
+//            appointment.setStaffs(staff);
+//            appointment.setAppointmentType("Test HIV");
+//
+//            appointmentRepository.save(appointment);
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            Appointments appointment = new Appointments();
+//            appointment.setDoctors(doctors);
+//            appointment.setMedicalRecords(medicalRecords);
+//            appointment.setCustomers(customers);
+//            appointment.setStatus(true);
+//
+//            // Ngày từ 1/9/2025 đến 10/9/2025
+//            LocalDate date = LocalDate.of(2025, 9, 11 + i);
+//            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
+//            appointment.setStartTime(start);
+//            appointment.setEndTime(start.plus(duration));
+//
+//            appointment.setAnonymous(true);
+//            appointment.setSchedules(schedulesRepository.findById(36 + i).orElse(null));
+//            appointment.setStaffs(staff);
+//            appointment.setAppointmentType("Test HIV");
+//
+//            appointmentRepository.save(appointment);
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            Appointments appointment = new Appointments();
+//            appointment.setDoctors(doctors);
+//            appointment.setMedicalRecords(medicalRecords);
+//            appointment.setCustomers(customers);
+//            appointment.setStatus(true);
+//
+//            // Ngày từ 1/9/2025 đến 10/9/2025
+//            LocalDate date = LocalDate.of(2025, 10, 1 + i);
+//            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
+//            appointment.setStartTime(start);
+//            appointment.setEndTime(start.plus(duration));
+//
+//            appointment.setAnonymous(false);
+//            appointment.setSchedules(schedulesRepository.findById(51 + i).orElse(null));
+//            appointment.setStaffs(staff);
+//            appointment.setAppointmentType("Consultation");
+//
+//            appointmentRepository.save(appointment);
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            Appointments appointment = new Appointments();
+//            appointment.setDoctors(doctors);
+//            appointment.setMedicalRecords(medicalRecords);
+//            appointment.setCustomers(customers);
+//            appointment.setStatus(true);
+//
+//            // Ngày từ 1/9/2025 đến 10/9/2025
+//            LocalDate date = LocalDate.of(2025, 10, 11 + i);
+//            LocalDateTime start = LocalDateTime.of(date, fixedStartTime);
+//            appointment.setStartTime(start);
+//            appointment.setEndTime(start.plus(duration));
+//
+//            appointment.setAnonymous(true);
+//            appointment.setSchedules(schedulesRepository.findById(61 + i).orElse(null));
+//            appointment.setStaffs(staff);
+//            appointment.setAppointmentType("Consultation");
+//
+//            appointmentRepository.save(appointment);
+//        }
+//
+//
+//        //Create TreatmentAdd commentMore actions
+//        TreatmentPlans treatmentPlans = new TreatmentPlans();
+//        treatmentPlans.setDoctors(doctors);
+//        treatmentPlans.setArvReqimentID(r1);
+//        treatmentPlans.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans.setDosageTime(LocalTime.of(8, 0));
+//        treatmentPlans.setAppointments(appointment1);
+//        treatmentPlans.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans);
+//
+//        TreatmentPlans treatmentPlans1 = new TreatmentPlans();
+//        treatmentPlans1.setDoctors(doctors);
+//        treatmentPlans1.setArvReqimentID(r2);
+//        treatmentPlans1.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans1.setDosageTime(LocalTime.of(10, 0));
+//        treatmentPlans1.setAppointments(appointment2);
+//        treatmentPlans1.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans1);
+//
+//        TreatmentPlans treatmentPlans2 = new TreatmentPlans();
+//        treatmentPlans2.setDoctors(doctors);
+//        treatmentPlans2.setArvReqimentID(r3);
+//        treatmentPlans2.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans2.setDosageTime(LocalTime.of(12, 0));
+//        treatmentPlans2.setAppointments(appointment3);
+//        treatmentPlans2.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans2);
+//
+//        TreatmentPlans treatmentPlans3 = new TreatmentPlans();
+//        treatmentPlans3.setDoctors(doctors);
+//        treatmentPlans3.setArvReqimentID(r1);
+//        treatmentPlans3.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans3.setDosageTime(LocalTime.of(14, 0));
+//        treatmentPlans3.setAppointments(appointment4);
+//        treatmentPlans3.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans3);
+//
+//        TreatmentPlans treatmentPlans4 = new TreatmentPlans();
+//        treatmentPlans4.setDoctors(doctors);
+//        treatmentPlans4.setArvReqimentID(r1);
+//        treatmentPlans4.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans4.setDosageTime(LocalTime.of(16, 0));
+//        treatmentPlans4.setAppointments(appointment5);
+//        treatmentPlans4.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans4);
+//
+//        TreatmentPlans treatmentPlans5 = new TreatmentPlans();
+//        treatmentPlans5.setDoctors(doctors);
+//        treatmentPlans5.setArvReqimentID(r1);
+//        treatmentPlans5.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans5.setDosageTime(LocalTime.of(16, 0));
+//        treatmentPlans5.setAppointments(appointment11);
+//        treatmentPlans5.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans5);
+//
+//        TreatmentPlans treatmentPlans6 = new TreatmentPlans();
+//        treatmentPlans6.setDoctors(doctors);
+//        treatmentPlans6.setArvReqimentID(r1);
+//        treatmentPlans6.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans6.setDosageTime(LocalTime.of(16, 0));
+//        treatmentPlans6.setAppointments(appointment12);
+//        treatmentPlans6.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans6);
+//
+//        TreatmentPlans treatmentPlans7 = new TreatmentPlans();
+//        treatmentPlans7.setDoctors(doctors);
+//        treatmentPlans7.setArvReqimentID(r1);
+//        treatmentPlans7.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans7.setDosageTime(LocalTime.of(16, 0));
+//        treatmentPlans7.setAppointments(appointment13);
+//        treatmentPlans7.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans7);
+//
+//        TreatmentPlans treatmentPlans8 = new TreatmentPlans();
+//        treatmentPlans8.setDoctors(doctors);
+//        treatmentPlans8.setArvReqimentID(r1);
+//        treatmentPlans8.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans8.setDosageTime(LocalTime.of(16, 0));
+//        treatmentPlans8.setAppointments(appointment14);
+//        treatmentPlans8.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans8);
+//
+//        TreatmentPlans treatmentPlans9 = new TreatmentPlans();
+//        treatmentPlans9.setDoctors(doctors);
+//        treatmentPlans9.setArvReqimentID(r1);
+//        treatmentPlans9.setPlanDescription("Kế hoạch điều trị HIV cho người lớn");
+//        treatmentPlans9.setDosageTime(LocalTime.of(16, 0));
+//        treatmentPlans9.setAppointments(appointment15);
+//        treatmentPlans9.setStatus(false);
+//        treatmentPlansRepository.save(treatmentPlans9);
+//
+//
+//        //Create Test Result
+//        TestResults testResults = new TestResults();
+//        testResults.setDoctors(doctors);
+//        testResults.setCustomers(customers);
+//        testResults.setAppointments(appointment1);
+//        testResults.setTreatmentPlan(treatmentPlans);
+//        testResults.setResultValue(false);
+//        testResults.setNotes("Notes");
+//        testResults.setRe_examination(true);
+//        testResults.setHivViralLoad(69);
+//        testResults.setCD4(96);
+//        testResults.setTestType("HIV");
+//        testResults.setTestDate(appointment1.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults);
+//
+//        TestResults testResults1 = new TestResults();
+//        testResults1.setDoctors(doctors);
+//        testResults1.setCustomers(customers);
+//        testResults1.setAppointments(appointment2);
+//        testResults1.setTreatmentPlan(treatmentPlans1);
+//        testResults1.setResultValue(true);
+//        testResults1.setNotes("Notes");
+//        testResults1.setRe_examination(false);
+//        testResults1.setHivViralLoad(69);
+//        testResults1.setCD4(96);
+//        testResults1.setTestType("HIV");
+//        testResults1.setTestDate(appointment2.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults1);
+//
+//        TestResults testResults2 = new TestResults();
+//        testResults2.setDoctors(doctors);
+//        testResults2.setCustomers(customers);
+//        testResults2.setAppointments(appointment3);
+//        testResults2.setTreatmentPlan(treatmentPlans2);
+//        testResults2.setResultValue(true);
+//        testResults2.setNotes("Notes");
+//        testResults2.setRe_examination(true);
+//        testResults2.setHivViralLoad(69);
+//        testResults2.setCD4(96);
+//        testResults2.setTestType("HIV");
+//        testResults2.setTestDate(appointment3.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults2);
+//
+//        TestResults testResults3 = new TestResults();
+//        testResults3.setDoctors(doctors);
+//        testResults3.setCustomers(customers);
+//        testResults3.setAppointments(appointment4);
+//        testResults3.setTreatmentPlan(treatmentPlans3);
+//        testResults3.setResultValue(false);
+//        testResults3.setNotes("Notes");
+//        testResults3.setRe_examination(false);
+//        testResults3.setHivViralLoad(69);
+//        testResults3.setCD4(96);
+//        testResults3.setTestType("HIV");
+//        testResults3.setTestDate(appointment4.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults3);
+//
+//        TestResults testResults4 = new TestResults();
+//        testResults4.setDoctors(doctors);
+//        testResults4.setCustomers(customers);
+//        testResults4.setAppointments(appointment5);
+//        testResults4.setTreatmentPlan(treatmentPlans4);
+//        testResults4.setResultValue(true);
+//        testResults4.setNotes("Notes");
+//        testResults4.setRe_examination(true);
+//        testResults4.setHivViralLoad(69);
+//        testResults4.setCD4(96);
+//        testResults4.setTestType("HIV");
+//        testResults4.setTestDate(appointment5.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults4);
+//
+//        TestResults testResults5 = new TestResults();
+//        testResults5.setDoctors(doctors);
+//        testResults5.setCustomers(customers);
+//        testResults5.setAppointments(appointment6);
+//        testResults5.setTreatmentPlan(treatmentPlans5);
+//        testResults5.setResultValue(true);
+//        testResults5.setNotes("Notes");
+//        testResults5.setRe_examination(true);
+//        testResults5.setHivViralLoad(69);
+//        testResults5.setCD4(96);
+//        testResults5.setTestType("HIV");
+//        testResults5.setTestDate(appointment6.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults5);
+//
+//        TestResults testResults6 = new TestResults();
+//        testResults6.setDoctors(doctors);
+//        testResults6.setCustomers(customers);
+//        testResults6.setAppointments(appointment7);
+//        testResults6.setTreatmentPlan(treatmentPlans6);
+//        testResults6.setResultValue(true);
+//        testResults6.setNotes("Notes");
+//        testResults6.setRe_examination(true);
+//        testResults6.setHivViralLoad(69);
+//        testResults6.setCD4(96);
+//        testResults6.setTestType("HIV");
+//        testResults6.setTestDate(appointment7.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults6);
+//
+//        TestResults testResults7 = new TestResults();
+//        testResults7.setDoctors(doctors);
+//        testResults7.setCustomers(customers);
+//        testResults7.setAppointments(appointment8);
+//        testResults7.setTreatmentPlan(treatmentPlans7);
+//        testResults7.setResultValue(true);
+//        testResults7.setNotes("Notes");
+//        testResults7.setRe_examination(true);
+//        testResults7.setHivViralLoad(69);
+//        testResults7.setCD4(96);
+//        testResults7.setTestType("HIV");
+//        testResults7.setTestDate(appointment8.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults7);
+//
+//        TestResults testResults8 = new TestResults();
+//        testResults8.setDoctors(doctors);
+//        testResults8.setCustomers(customers);
+//        testResults8.setAppointments(appointment9);
+//        testResults8.setTreatmentPlan(treatmentPlans8);
+//        testResults8.setResultValue(true);
+//        testResults8.setNotes("Notes");
+//        testResults8.setRe_examination(true);
+//        testResults8.setHivViralLoad(69);
+//        testResults8.setCD4(96);
+//        testResults8.setTestType("HIV");
+//        testResults8.setTestDate(appointment9.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults8);
+//
+//        TestResults testResults9 = new TestResults();
+//        testResults9.setDoctors(doctors);
+//        testResults9.setCustomers(customers);
+//        testResults9.setAppointments(appointment10);
+//        testResults9.setTreatmentPlan(treatmentPlans9);
+//        testResults9.setResultValue(true);
+//        testResults9.setNotes("Notes");
+//        testResults9.setRe_examination(true);
+//        testResults9.setHivViralLoad(69);
+//        testResults9.setCD4(96);
+//        testResults9.setTestType("HIV");
+//        testResults9.setTestDate(appointment10.getStartTime().toLocalDate());
+//        testResultRepository.save(testResults9);
+//
+//
+//        //Create Reminder Dosage
+//        Reminders remindersDosage = new Reminders();
+//        remindersDosage.setCustomers(customers);
+//        remindersDosage.setReminderTime(treatmentPlans.getDosageTime().atDate(LocalDate.now()));
+//        remindersDosage.setMessage("uống thuốc");
+//        remindersDosage.setTestResults(testResults);
+//        remindersDosage.setAppointments(appointment1);
+//        remindersDosage.setStaffs(staff);
+//        remindersDosage.setReminderType("Dosage Reminder");
+//        remindersDosage.setStatus(false);
+//        reminderRepository.save(remindersDosage);
+//
+//        Reminders remindersDosage1 = new Reminders();
+//        remindersDosage1.setCustomers(customers);
+//        remindersDosage1.setReminderTime(treatmentPlans1.getDosageTime().atDate(LocalDate.now()));
+//        remindersDosage1.setMessage("uống thuốc");
+//        remindersDosage1.setTestResults(testResults1);
+//        remindersDosage1.setAppointments(appointment2);
+//        remindersDosage1.setStaffs(staff);
+//        remindersDosage1.setReminderType("Dosage Reminder");
+//        remindersDosage1.setStatus(false);
+//        reminderRepository.save(remindersDosage1);
+//
+//        Reminders remindersDosage2 = new Reminders();
+//        remindersDosage2.setCustomers(customers);
+//        remindersDosage2.setReminderTime(treatmentPlans2.getDosageTime().atDate(LocalDate.now()));
+//        remindersDosage2.setMessage("uống thuốc");
+//        remindersDosage2.setTestResults(testResults2);
+//        remindersDosage2.setAppointments(appointment3);
+//        remindersDosage2.setStaffs(staff);
+//        remindersDosage2.setReminderType("Dosage Reminder");
+//        remindersDosage2.setStatus(false);
+//        reminderRepository.save(remindersDosage2);
+//
+//        Reminders remindersDosage3 = new Reminders();
+//        remindersDosage3.setCustomers(customers);
+//        remindersDosage3.setReminderTime(treatmentPlans3.getDosageTime().atDate(LocalDate.now()));
+//        remindersDosage3.setMessage("uống thuốc");
+//        remindersDosage3.setTestResults(testResults3);
+//        remindersDosage3.setAppointments(appointment4);
+//        remindersDosage3.setStaffs(staff);
+//        remindersDosage3.setReminderType("Dosage Reminder");
+//        remindersDosage3.setStatus(false);
+//        reminderRepository.save(remindersDosage3);
+//
+//        Reminders remindersDosage4 = new Reminders();
+//        remindersDosage4.setCustomers(customers);
+//        remindersDosage4.setReminderTime(treatmentPlans4.getDosageTime().atDate(LocalDate.now()));
+//        remindersDosage4.setMessage("uống thuốc");
+//        remindersDosage4.setTestResults(testResults4);
+//        remindersDosage4.setAppointments(appointment5);
+//        remindersDosage4.setStaffs(staff);
+//        remindersDosage4.setReminderType("Dosage Reminder");
+//        remindersDosage4.setStatus(true);
+//        reminderRepository.save(remindersDosage4);
+//
+//        Reminders remindersReExam5 = new Reminders();
+//        remindersReExam5.setCustomers(customers);
+//        remindersReExam5.setReminderTime(appointment6.getStartTime().toLocalDate().atTime(8, 0));
+//        remindersReExam5.setMessage("tái khám");
+//        remindersReExam5.setTestResults(testResults5);
+//        remindersReExam5.setAppointments(appointment6);
+//        remindersReExam5.setStaffs(staff);
+//        remindersReExam5.setReminderType("Re-Exam Reminder");
+//        remindersReExam5.setStatus(false);
+//        reminderRepository.save(remindersReExam5);
+//
+//        Reminders remindersReExam6 = new Reminders();
+//        remindersReExam6.setCustomers(customers);
+//        remindersReExam6.setReminderTime(appointment7.getStartTime().toLocalDate().atTime(8, 0));
+//        remindersReExam6.setMessage("tái khám");
+//        remindersReExam6.setTestResults(testResults6);
+//        remindersReExam6.setAppointments(appointment7);
+//        remindersReExam6.setStaffs(staff);
+//        remindersReExam6.setReminderType("Re-Exam Reminder");
+//        remindersReExam6.setStatus(false);
+//        reminderRepository.save(remindersReExam6);
+//
+//        Reminders remindersReExam7 = new Reminders();
+//        remindersReExam7.setCustomers(customers);
+//        remindersReExam7.setReminderTime(appointment8.getStartTime().toLocalDate().atTime(8, 0));
+//        remindersReExam7.setMessage("tái khám");
+//        remindersReExam7.setTestResults(testResults7);
+//        remindersReExam7.setAppointments(appointment8);
+//        remindersReExam7.setStaffs(staff);
+//        remindersReExam7.setReminderType("Re-Exam Reminder");
+//        remindersReExam7.setStatus(false);
+//        reminderRepository.save(remindersReExam7);
+//
+//        Reminders remindersReExam8 = new Reminders();
+//        remindersReExam8.setCustomers(customers);
+//        remindersReExam8.setReminderTime(appointment9.getStartTime().toLocalDate().atTime(8, 0));
+//        remindersReExam8.setMessage("tái khám");
+//        remindersReExam8.setTestResults(testResults8);
+//        remindersReExam8.setAppointments(appointment9);
+//        remindersReExam8.setStaffs(staff);
+//        remindersReExam8.setReminderType("Re-Exam Reminder");
+//        remindersReExam8.setStatus(false);
+//        reminderRepository.save(remindersReExam8);
+//
+//        Reminders remindersReExam9 = new Reminders();
+//        remindersReExam9.setCustomers(customers);
+//        remindersReExam9.setReminderTime(appointment10.getStartTime().toLocalDate().atTime(8, 0));
+//        remindersReExam9.setMessage("tái khám");
+//        remindersReExam9.setTestResults(testResults9);
+//        remindersReExam9.setAppointments(appointment10);
+//        remindersReExam9.setStaffs(staff);
+//        remindersReExam9.setReminderType("Re-Exam Reminder");
+//        remindersReExam9.setStatus(true);
+//        reminderRepository.save(remindersReExam9);
+//
+//
+//        // Example: Add in your createModel() after appointments, doctors, customers are created and saved
+//
+//        Consultations consultation1 = new Consultations();
+//        consultation1.setAppointments(appointment12);
+//        consultation1.setDoctors(doctors);
+//        consultation1.setCustomers(customers);
+//        consultation1.setConsultationDate(appointment12.getStartTime().toLocalDate());
+//        consultation1.setNotes("Initial consultation and HIV test.");
+//        consultationRepository.save(consultation1);
+//
+//        Consultations consultation2 = new Consultations();
+//        consultation2.setAppointments(appointment13);
+//        consultation2.setDoctors(doctors);
+//        consultation2.setCustomers(customers);
+//        consultation2.setConsultationDate(appointment13.getStartTime().toLocalDate());
+//        consultation2.setNotes("Follow-up consultation, discussed test results.");
+//        consultationRepository.save(consultation2);
+//
+//        Consultations consultation3 = new Consultations();
+//        consultation3.setAppointments(appointment14);
+//        consultation3.setDoctors(doctors);
+//        consultation3.setCustomers(customers);
+//        consultation3.setConsultationDate(appointment14.getStartTime().toLocalDate());
+//        consultation3.setNotes("Consultation for treatment plan.");
+//        consultationRepository.save(consultation3);
+//
+//        Consultations consultation4 = new Consultations();
+//        consultation4.setAppointments(appointment15);
+//        consultation4.setDoctors(doctors);
+//        consultation4.setCustomers(customers);
+//        consultation4.setConsultationDate(appointment15.getStartTime().toLocalDate());
+//        consultation4.setNotes("Routine check-up and medication review.");
+//        consultationRepository.save(consultation4);
+//
+//        Consultations consultation5 = new Consultations();
+//        consultation5.setAppointments(appointment16);
+//        consultation5.setDoctors(doctors);
+//        consultation5.setCustomers(customers);
+//        consultation5.setConsultationDate(appointment16.getStartTime().toLocalDate());
+//        consultation5.setNotes("Final consultation for this cycle.");
+//        consultationRepository.save(consultation5);
 
     }
 

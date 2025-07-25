@@ -34,6 +34,7 @@ public class ConsultationController {
                 .build();
     }
 
+
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/{consultationsid}")
     public ApiResponse<Consultations> getById(@PathVariable int consultationsid) {
