@@ -28,12 +28,12 @@ public class TreatmentPlanController {
         boolean result = treatmentPlanService.createTreatmentPlan(doctorId, request);
         if (result) {
             return ApiResponse.<Boolean>builder()
-                    .message("Success")
+                    .message("Tạo kế hoạch điều trị thành công")
                     .result(result)
                     .build();
         }
         return ApiResponse.<Boolean>builder()
-                .message("Failed")
+                .message("Tạo kế hoạch điều trị thất bại")
                 .result(result)
                 .build();
     }
@@ -43,7 +43,7 @@ public class TreatmentPlanController {
     public ApiResponse<?> getTreatmentPlanById(@PathVariable int id) {
         return ApiResponse.<Object>builder()
                 .result(treatmentPlanService.getTreatmentPlanById(id))
-                .message("Success")
+                .message("Lấy kế hoạch điều trị thành công")
                 .build();
     }
 
@@ -52,7 +52,7 @@ public class TreatmentPlanController {
     public ApiResponse<?> getAllTreatmentPlans() {
         return ApiResponse.<Object>builder()
                 .result(treatmentPlanService.getAll())
-                .message("Success")
+                .message("Lấy danh sách kế hoạch điều trị thành công")
                 .build();
     }
 
@@ -65,40 +65,7 @@ public class TreatmentPlanController {
 
         return ApiResponse.<Object>builder()
                 .result(treatmentPlanService.getMyTreatmentPlantDoc(doctorId))
-                .message("Success")
-                .build();
-    }
-
-    @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/doctor/get/my-treatmentplan/all")
-    public ApiResponse<?> getMyTreatmentPlanDoctorAll(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.replace("Bearer ", "");
-        int doctorId = new JWTUtils().extractDoctorId(token);
-
-        return ApiResponse.<Object>builder()
-                .result(treatmentPlanService.getMyTreatmentPlantDocAll(doctorId))
-                .message("Success")
-                .build();
-    }
-
-    @PreAuthorize("hasRole('Customer')")
-    @GetMapping("/customer/get/my-treatmentplan")
-    public ApiResponse<?> getMyTreatmentPlanCustomer(@RequestHeader("Authorization") String authorizationHeader) {
-        String token = authorizationHeader.replace("Bearer ", "");
-        int customerId = new JWTUtils().extractCustomerId(token);
-
-        return ApiResponse.<Object>builder()
-                .result(treatmentPlanService.getMyTreatmentPlantCus(customerId))
-                .message("Success")
-                .build();
-    }
-
-    @PreAuthorize("hasRole('Doctor')")
-    @PutMapping("/update/{id}")
-    public ApiResponse<?> updateTreatmentPlan(@PathVariable int id, @RequestBody @Valid TreatmentPlansCreateRequest request) {
-        return ApiResponse.<Object>builder()
-                .result(treatmentPlanService.updateTreatmentPlan(id, request))
-                .message("Success")
+                .message("Lấy danh sách kế hoạch điều trị của bác sĩ thành công")
                 .build();
     }
 }
