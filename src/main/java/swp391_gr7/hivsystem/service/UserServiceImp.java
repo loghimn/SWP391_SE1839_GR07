@@ -80,11 +80,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean registerUserAndDoctor(UserAndDoctorCreateRequest request) {
-        Users users = this.createUser(request);
-        users.setRole("Doctor");
         if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
             throw new AppException(ErrorCode.DOCTOR_INVALID_LICENSE_NUMBER_EXIST);
         }
+        Users users = this.createUser(request);
+        users.setRole("Doctor");
+
         System.out.println(users);
         Doctors doctors = doctorService.saveDoctor(request, users);
         return users != null && doctors != null;

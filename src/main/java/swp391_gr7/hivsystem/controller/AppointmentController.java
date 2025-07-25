@@ -189,7 +189,7 @@ public class AppointmentController {
         CustomerReponse customerReponse = appointmentService.getCustomerAppointmentInDocorView(appointmentid);
         if (customerReponse == null) {
             return ApiResponse.<CustomerReponse>builder()
-                    .message("Your are not allowed to be viewed")
+                    .message("Bạn không có quyền xem thông tin")
                     .build();
         }
         return ApiResponse.<CustomerReponse>builder()
@@ -208,7 +208,7 @@ public class AppointmentController {
         List<Appointments> appointments = appointmentService.getMyAppointmentsDoc(doctorId);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this doctor")
+                    .message("Hiện tại, bác sĩ không có lịch hẹn nào")
                     .build();
         }
         return ApiResponse.<List<Appointments>>builder()
@@ -227,7 +227,7 @@ public class AppointmentController {
         List<Appointments> appointments = appointmentService.getMyAppointmentsConsultationDoc(doctorId);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this doctor")
+                    .message("Hiện tại, bác sĩ không có lịch hẹn nào")
                     .build();
         }
         return ApiResponse.<List<Appointments>>builder()
@@ -246,7 +246,7 @@ public class AppointmentController {
         List<Appointments> appointments = appointmentService.getMyAppointmentsTestHIVDoc(doctorId);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this doctor")
+                    .message("Hiện tại, bác sĩ không có lịch hẹn nào")
                     .build();
         }
         return ApiResponse.<List<Appointments>>builder()
@@ -261,7 +261,7 @@ public class AppointmentController {
     public ApiResponse<List> getappointmentListFullInfor() {
         List<Appointments> appointmentsList = appointmentService.getAllAppointmentsFullInfor();// gọi từ service
         boolean result = appointmentsList != null;
-        String resultString = result ? "Success" : "Failed";
+        String resultString = result ? "Thành Công" : "Thất Bại";
         return ApiResponse.<List>builder()
                 .result(appointmentsList)
                 .message(resultString)
@@ -279,6 +279,7 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
+
     @PreAuthorize("hasRole('Doctor')")
     @GetMapping("/doctor/appointment/consultation/list")
     public ApiResponse<List<Appointments>> getAppointmentsHaveTypeConsultation() {
@@ -290,6 +291,7 @@ public class AppointmentController {
                 .message(resultString)
                 .build();
     }
+
     @PreAuthorize("hasRole('Staff')")
     @GetMapping("/staff/appointment/testhiv/list")
     public ApiResponse<List<Appointments>> getStaffsAppointmentsHaveTypeTestHIV() {
@@ -317,8 +319,6 @@ public class AppointmentController {
     }
 
 
-
-
     @GetMapping("/doctor/appointment/{appointmentId}/meeting")
     @PreAuthorize("hasRole('Doctor')")
     public ApiResponse<MeetingLinkResponse> createAppointmentMeeting(@PathVariable int appointmentId) {
@@ -332,7 +332,7 @@ public class AppointmentController {
         }
 
         // Generate meeting ID using appointment ID
-        String meetingId = "hiv-appointment-" + appointmentId;
+        String meetingId = "hiv-" + appointment.getDoctors().getUsers().getFullName() + "-" + appointmentId;
         String baseLink = "https://meet.jit.si/" + meetingId;
         appointment.setUrlMeeting(baseLink);
         appointmentService.saveAppointment(appointment);
@@ -349,7 +349,7 @@ public class AppointmentController {
 
         return ApiResponse.<MeetingLinkResponse>builder()
                 .result(response)
-                .message("Meeting link created successfully")
+                .message("Tạo Meeting Link thành công")
                 .build();
     }
 
@@ -365,7 +365,7 @@ public class AppointmentController {
         }
 
         // Generate meeting ID using appointment ID
-        String meetingId = "hiv-appointment-" + appointmentId;
+        String meetingId = "hiv-" + appointment.getDoctors().getUsers().getFullName() + "-" + appointmentId;
         String baseLink = "https://meet.jit.si/" + meetingId;
 
         appointment.setUrlMeeting(baseLink);
@@ -383,17 +383,9 @@ public class AppointmentController {
 
         return ApiResponse.<MeetingLinkResponse>builder()
                 .result(response)
-                .message("Meeting link created successfully")
+                .message("Tạo Meeting Link thành công")
                 .build();
     }
-
-
-
-
-
-
-
-
 
 
 }

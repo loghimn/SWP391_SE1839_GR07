@@ -35,7 +35,7 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 400)
                 .result(result)
-                .message(result != null ? "Success" : "Failed to create test result")
+                .message(result != null ? "Kết quả đã được tạo thành công" : "Thất bại kết quá trình tạo kết quả vui lòng thử lại sau")
                 .build();
     }
 
@@ -47,7 +47,7 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 404)
                 .result(result)
-                .message(result != null ? "Success" : "Test result not found")
+                .message(result != null ? "Success" : "Không tìm thấy kết quả  tương ứng")
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class TestResultController {
         return ApiResponse.<TestResults>builder()
                 .code(result != null ? 200 : 400)
                 .result(result)
-                .message(result != null ? "Success" : "Failed to update test result")
+                .message(result != null ? "Thành Công" : "Thất bại kết quá trình tạo kết quả vui lòng thử lại sau")
                 .build();
     }
 
@@ -75,7 +75,7 @@ public class TestResultController {
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)
                 .result(results)
-                .message(results.isEmpty() ? "No results found" : "Success")
+                .message(results.isEmpty() ? "Không tìm thấy kết quả  tương ứng" : "Thành Công")
                 .build();
     }
 
@@ -91,7 +91,7 @@ public class TestResultController {
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)
                 .result(results)
-                .message(results.isEmpty() ? "No results found" : "Success")
+                .message(results.isEmpty() ? "Không tìm thấy kết quả  tương ứng" : "Thành Công")
                 .build();
     }
 
@@ -107,7 +107,7 @@ public class TestResultController {
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)
                 .result(results)
-                .message(results.isEmpty() ? "No results found" : "Success")
+                .message(results.isEmpty() ? "Không tìm thấy kết quả chữa trị tương ứng" : "Thành công")
                 .build();
     }
 
@@ -119,7 +119,7 @@ public class TestResultController {
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)
                 .result(results)
-                .message(results.isEmpty() ? "No results found" : "Success")
+                .message(results.isEmpty() ? "Không tìm thấy kết quả chữa trị tương ứng" : "Thành công")
                 .build();
     }
 
@@ -131,7 +131,7 @@ public class TestResultController {
         return ApiResponse.<List<TestResults>>builder()
                 .code(200)
                 .result(results)
-                .message(results.isEmpty() ? "No results found" : "Success")
+                .message(results.isEmpty() ? "Không tìm thấy kết quả chữa trị tương ứng" : "Thành công")
                 .build();
     }
 

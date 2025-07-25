@@ -96,6 +96,9 @@ public class AppointmentServiceImp implements AppointmentService {
 
     @Override
     public Appointments addAppointment(int id, AppointmentCreateRequest request) {
+        if (request.getStartTime().isBefore(LocalDateTime.now())){
+            throw new AppException(ErrorCode.APPOINTMENT_NOT_VALID_TIME);
+        }
         if (request.getStartTime().toLocalTime().isBefore(LocalTime.of(7, 59)) ||
                 request.getStartTime().toLocalTime().isAfter(LocalTime.of(16, 1)) ||
                 request.getStartTime().toLocalTime().getHour() == 9 ||
@@ -236,7 +239,7 @@ public class AppointmentServiceImp implements AppointmentService {
         if (!appointments.isStatus()) {
             throw new AppException(ErrorCode.APPOINTMENT_ALREADY_IS_NOT_ACTIVE);
         }
-        if(appointments.getAppointmentType().equals("Re-Examination")){
+        if (appointments.getAppointmentType().equals("Re-Examination")) {
             throw new AppException(ErrorCode.APPOINTMENT_CANNOT_UPDATE_RE_EXAMINATION);
         }
 
@@ -469,7 +472,6 @@ public class AppointmentServiceImp implements AppointmentService {
     }
 
 
-
     @Override
     public List<Appointments> getAppointmentsHaveTypeConsultationAndActive() {
         var context = SecurityContextHolder.getContext();
@@ -495,11 +497,13 @@ public class AppointmentServiceImp implements AppointmentService {
 
         return appointmentRepository.findAppointmentsByDoctorsAndDateRange(doctor, startOfDay, endOfDay);
     }
+
     @Override
     public Appointments getAppointmentByIdIgnoreAnonymous(int appointmentId) {
         return appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AppException(ErrorCode.APPOINTMENT_NOT_FOUND));
     }
+
     @Override
     public Appointments saveAppointment(Appointments appointment) {
         return appointmentRepository.save(appointment);
