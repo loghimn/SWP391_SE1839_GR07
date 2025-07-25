@@ -62,7 +62,7 @@ public class StaffServiceImp implements StaffService {
         }
 
         if (matchedStaffs.isEmpty()) {
-            throw new AppException(ErrorCode.STAFF_NOT_FOUND);
+            throw new AppException(ErrorCode.STAFF_NOT_FOUND_APPOINTMENT);
         }
 
         Staffs minStaff = matchedStaffs.get(0);

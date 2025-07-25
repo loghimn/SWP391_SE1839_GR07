@@ -116,7 +116,7 @@ public enum ErrorCode {
     STAFF_INVALID_WORKSHIFT(1024, "Ca làm việc phải là 1 hoặc 2", HttpStatus.BAD_REQUEST), // 400
     STAFF_INVALID_ASSIGNED_AREA_NOTBLANK(1025, "Assigned area is required", HttpStatus.BAD_REQUEST), // 400
     STAFF_NOT_FOUND(1026, "Không tìm thấy nhân viên ", HttpStatus.NOT_FOUND), // 404
-
+    STAFF_NOT_FOUND_APPOINTMENT(1026, "Không có nhân viên túc trực ", HttpStatus.NOT_FOUND),
     // Add error for manager
     MANAGER_INVALID_DEPARTMENT_NOTBLANK(1026, "Department is required", HttpStatus.BAD_REQUEST), // 400
     MANAGER_INVALID_OFFICE_PHONE_NOTBLANK(1027, "Số điện thoại cơ quan là bắt buộc", HttpStatus.BAD_REQUEST), // 400

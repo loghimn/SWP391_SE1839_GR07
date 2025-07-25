@@ -8,10 +8,7 @@ import swp391_gr7.hivsystem.dto.request.*;
 import swp391_gr7.hivsystem.exception.AppException;
 import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
-import swp391_gr7.hivsystem.repository.CustomerRepository;
-import swp391_gr7.hivsystem.repository.ManagerRepository;
-import swp391_gr7.hivsystem.repository.StaffRepository;
-import swp391_gr7.hivsystem.repository.UserRepository;
+import swp391_gr7.hivsystem.repository.*;
 
 import java.util.List;
 
@@ -29,9 +26,10 @@ public class UserServiceImp implements UserService {
     private final ManagerRepository managerRepository;
     private final CustomerRepository customerRepository;
     private final StaffRepository staffRepository;
+    private final DoctorRepository doctorRepository;
 
 
-    public UserServiceImp(UserRepository userRepository, CustomerService customerService, DoctorService doctorService, ManagerService managerService, StaffService staffService, AdminService adminService, ManagerRepository managerRepository, CustomerRepository customerRepository, StaffRepository staffRepository) {
+    public UserServiceImp(UserRepository userRepository, CustomerService customerService, DoctorService doctorService, ManagerService managerService, StaffService staffService, AdminService adminService, ManagerRepository managerRepository, CustomerRepository customerRepository, StaffRepository staffRepository, DoctorRepository doctorRepository) {
         this.userRepository = userRepository;
         this.customerService = customerService;
         this.doctorService = doctorService;
@@ -41,6 +39,7 @@ public class UserServiceImp implements UserService {
         this.managerRepository = managerRepository;
         this.customerRepository = customerRepository;
         this.staffRepository = staffRepository;
+        this.doctorRepository = doctorRepository;
     }
 
     @Override
@@ -83,6 +82,9 @@ public class UserServiceImp implements UserService {
     public boolean registerUserAndDoctor(UserAndDoctorCreateRequest request) {
         Users users = this.createUser(request);
         users.setRole("Doctor");
+        if (doctorRepository.existsByLicenseNumber(request.getLicenseNumber())) {
+            throw new AppException(ErrorCode.DOCTOR_INVALID_LICENSE_NUMBER_EXIST);
+        }
         System.out.println(users);
         Doctors doctors = doctorService.saveDoctor(request, users);
         return users != null && doctors != null;
