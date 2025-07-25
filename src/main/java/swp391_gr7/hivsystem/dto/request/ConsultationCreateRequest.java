@@ -18,4 +18,6 @@ public class ConsultationCreateRequest {
 
     @NotBlank(message = "CONSULTATION_REQUEST_NOTES_NOTBLANK")
     private String notes;
+
+    private boolean status;
 }

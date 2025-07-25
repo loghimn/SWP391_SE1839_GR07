@@ -208,7 +208,7 @@ public class AppointmentController {
         List<Appointments> appointments = appointmentService.getMyAppointmentsDoc(doctorId);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this doctor")
+                    .message("Hiện tại, bác sĩ không có lịch hẹn nào")
                     .build();
         }
         return ApiResponse.<List<Appointments>>builder()
@@ -227,7 +227,7 @@ public class AppointmentController {
         List<Appointments> appointments = appointmentService.getMyAppointmentsConsultationDoc(doctorId);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this doctor")
+                    .message("Hiện tại, bác sĩ không có lịch hẹn nào")
                     .build();
         }
         return ApiResponse.<List<Appointments>>builder()
@@ -246,7 +246,7 @@ public class AppointmentController {
         List<Appointments> appointments = appointmentService.getMyAppointmentsTestHIVDoc(doctorId);
         if (appointments == null || appointments.isEmpty()) {
             return ApiResponse.<List<Appointments>>builder()
-                    .message("No appointments found for this doctor")
+                    .message("Hiện tại, bác sĩ không có lịch hẹn nào")
                     .build();
         }
         return ApiResponse.<List<Appointments>>builder()
