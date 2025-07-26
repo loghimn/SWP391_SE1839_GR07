@@ -45,6 +45,7 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Integ
     // In AppointmentRepository.java
     List<Appointments> findByDoctorsAndAppointmentTypeAndStatus(Doctors doctor, String appointmentType, boolean status);
 
+
     List<Appointments> findByStaffsAndAppointmentTypeAndStatus(Staffs staff, String appointmentType, boolean status);
 
     @Query(

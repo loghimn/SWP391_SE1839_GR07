@@ -443,10 +443,10 @@ public class AppointmentServiceImp implements AppointmentService {
         String name = context.getAuthentication().getName();
         Users user = userRepository.findByUsername(name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        Doctors doctor = doctorRepository.findByUsers_UserId(user.getUserId())
-                .orElseThrow(() -> new AppException(ErrorCode.DOCTOR_NOT_FOUND));
+        Staffs staff  = staffRepository.findByUsers_UserId(user.getUserId())
+                .orElseThrow(() -> new AppException(ErrorCode.STAFF_NOT_FOUND));
 
-        List<Appointments> appointments = appointmentRepository.findByDoctorsAndAppointmentTypeAndStatus(doctor, "Re-Examination", true);
+        List<Appointments> appointments = appointmentRepository.findByStaffsAndAppointmentTypeAndStatus(staff, "Re-Examination", true);
         if (appointments.isEmpty()) {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }

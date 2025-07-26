@@ -280,8 +280,8 @@ public class AppointmentController {
                 .build();
     }
 
-    @PreAuthorize("hasRole('Doctor')")
-    @GetMapping("/doctor/appointment/re-exam/list")
+    @PreAuthorize("hasRole('Staff')")
+    @GetMapping("/staff/appointment/re-exam/list")
     public ApiResponse<List<Appointments>> getAppointmentsHaveTypeReExam() {
         List<Appointments> appointmentsList = appointmentService.getAppointmentsHaveTypeReExamAndActive();
         boolean result = appointmentsList != null;
