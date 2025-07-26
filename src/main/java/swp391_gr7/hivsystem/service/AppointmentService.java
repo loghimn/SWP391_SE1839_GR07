@@ -56,4 +56,6 @@ public interface AppointmentService {
     Appointments getAppointmentByIdIgnoreAnonymous(int appointmentId);
 
     Appointments saveAppointment(Appointments appointment);
+
+    List<Appointments> getAppointmentsHaveTypeReExamAndActiveForStaff();
 }
