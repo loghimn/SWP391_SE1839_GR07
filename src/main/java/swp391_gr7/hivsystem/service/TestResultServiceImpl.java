@@ -43,7 +43,7 @@ public class TestResultServiceImpl implements TestResultService {
             throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
         }
 
-        if (!"Test HIV".equals(appointment.getAppointmentType())) {
+        if (!"Test HIV".equals(appointment.getAppointmentType()) || !"Re-Examination".equals(appointment.getAppointmentType())) {
             throw new AppException(ErrorCode.APPOINTMENT_TYPE_IS_NOT_HIV_TEST);
         }
 
