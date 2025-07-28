@@ -30,7 +30,7 @@ public class ConsultationController {
         boolean result = consultation != null;
         return ApiResponse.<Boolean>builder()
                 .result(result)
-                .message("Success")
+                .message("Tạo Tư Vấn Thành Công")
                 .build();
     }
 
@@ -44,14 +44,14 @@ public class ConsultationController {
                 return ApiResponse.<Consultations>builder()
                         .code(404)
                         .result(null)
-                        .message("Consultation not found")
+                        .message("Không tìm thấy buổi tư vấn nào !!!")
                         .build();
             }
 
             return ApiResponse.<Consultations>builder()
                     .code(200)
                     .result(consultation)
-                    .message("Success")
+                    .message("Tư vấn thành công")
                     .build();
         } catch (Exception e) {
             return ApiResponse.<Consultations>builder()
@@ -70,7 +70,7 @@ public class ConsultationController {
             return ApiResponse.<List<Consultations>>builder()
                     .code(200)
                     .result(consultations)
-                    .message(consultations.isEmpty() ? "No consultations found" : "Success")
+                    .message(consultations.isEmpty() ? "Không tìm thấy tư vấn" : "Lấy tư vấn thành công")
                     .build();
         } catch (Exception e) {
             return ApiResponse.<List<Consultations>>builder()
@@ -89,7 +89,7 @@ public class ConsultationController {
             return ApiResponse.<List<Consultations>>builder()
                     .code(200)
                     .result(consultations)
-                    .message(consultations.isEmpty() ? "No consultations found" : "Success")
+                    .message(consultations.isEmpty() ? "Không tìm thấy tư vấn" : "Lấy tư vấn thành công")
                     .build();
         } catch (Exception e) {
             return ApiResponse.<List<Consultations>>builder()
@@ -108,13 +108,13 @@ public class ConsultationController {
             return ApiResponse.<Consultations>builder()
                     .code(200)
                     .result(updatedConsultation)
-                    .message("Update successful")
+                    .message("Cập nhật lịch sử tư vấn thành công")
                     .build();
         } catch (Exception e) {
             return ApiResponse.<Consultations>builder()
                     .code(400)
                     .result(null)
-                    .message("Update failed: " + e.getMessage())
+                    .message("Cập nhật thất bại: " + e.getMessage())
                     .build();
         }
     }
@@ -131,7 +131,7 @@ public class ConsultationController {
             return ApiResponse.<List<Consultations>>builder()
                     .code(200)
                     .result(consultations)
-                    .message(consultations.isEmpty() ? "No consultations found" : "Success")
+                    .message(consultations.isEmpty() ? "Không tìm thấy tư vấn" : "Lấy tư vấn thành công")
                     .build();
         } catch (Exception e) {
             return ApiResponse.<List<Consultations>>builder()
@@ -155,7 +155,7 @@ public class ConsultationController {
             return ApiResponse.<List<Consultations>>builder()
                     .code(200)
                     .result(consultations)
-                    .message(consultations.isEmpty() ? "No consultations found" : "Success")
+                    .message(consultations.isEmpty() ? "Không tìm thấy tư vấn" : "Lấy tư vấn thành công")
                     .build();
         } catch (Exception e) {
             return ApiResponse.<List<Consultations>>builder()
