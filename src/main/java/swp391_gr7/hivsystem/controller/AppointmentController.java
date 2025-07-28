@@ -352,7 +352,7 @@ public class AppointmentController {
         String meetingLink = baseLink + "#" + String.join("&",
                 "config.prejoinPageEnabled=false",
                 "userType=host",
-                "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"closedcaptions\",\"desktop\",\"fullscreen\",\"recording\",\"settings\",\"raisehand\",\"videoquality\",\"filmstrip\",\"chat\",\"tileview\"]"
+                "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"closedcaptions\",\"desktop\",\"fullscreen\",\"recording\",\"settings\",\"raisehand\",\"videoquality\",\"filmstrip\",\"chat\",\"tileview\",\"hangup\"]\n"
         );
 
         MeetingLinkResponse response = MeetingLinkResponse.builder()
@@ -386,7 +386,7 @@ public class AppointmentController {
         String meetingLink = baseLink + "#" + String.join("&",
                 "config.prejoinPageEnabled=true",
                 "userType=participant",
-                "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"raisehand\",\"chat\",\"tileview\"]"
+                "interfaceConfig.TOOLBAR_BUTTONS=[\"microphone\",\"camera\",\"raisehand\",\"chat\",\"tileview\",\"hangup\"]\n"
         );
 
         MeetingLinkResponse response = MeetingLinkResponse.builder()
