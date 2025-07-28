@@ -155,7 +155,7 @@ public class DataSeeder implements CommandLineRunner {
         staffUser.setEmail("staff1@fpt.edu.vn");
         staffUser.setPhone("0444444444");
         staffUser.setFullName("Staff One");
-        staffUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        staffUser.setDateOfBirth(LocalDate.of(1990, 4, 25));
         staffUser.setGender("female");
         staffUser.setRole("Staff");
         staffUser.setCreatedAt(LocalDateTime.now());
@@ -168,7 +168,7 @@ public class DataSeeder implements CommandLineRunner {
         staffUser2.setEmail("staff2@fpt.edu.vn");
         staffUser2.setPhone("0444444445");
         staffUser2.setFullName("Staff Two");
-        staffUser2.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        staffUser2.setDateOfBirth(LocalDate.of(1995, 12, 25));
         staffUser2.setGender("female");
         staffUser2.setRole("Staff");
         staffUser2.setCreatedAt(LocalDateTime.now());
@@ -178,11 +178,11 @@ public class DataSeeder implements CommandLineRunner {
         // Add a customer user
         Users customerUser = new Users();
         customerUser.setUsername("customer");
-        customerUser.setPassword(passwordEncoder.encode("customerpass"));
+        customerUser.setPassword(passwordEncoder.encode("customer123@"));
         customerUser.setEmail("customer1@gmail.com");
         customerUser.setPhone("0555555555");
         customerUser.setFullName("Customer One");
-        customerUser.setDateOfBirth(LocalDate.of(1995, 4, 25));
+        customerUser.setDateOfBirth(LocalDate.of(1985, 7, 25));
         customerUser.setGender("female");
         customerUser.setRole("Customer");
         customerUser.setCreatedAt(LocalDateTime.now());

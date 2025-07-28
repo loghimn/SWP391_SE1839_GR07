@@ -17,7 +17,7 @@ import java.util.*;
 
 @Service
 public class JWTService {
-    private static final String SECRET_KEY = "secret_la_bi_mat_thoi-lam-on-chay-dum-tao";
+    private static final String SECRET_KEY = "secret_key_is_very_long_and_secure_sum25_swp391_hiv";
 
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
