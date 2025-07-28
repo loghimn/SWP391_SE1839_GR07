@@ -10,6 +10,7 @@ import swp391_gr7.hivsystem.exception.ErrorCode;
 import swp391_gr7.hivsystem.model.*;
 import swp391_gr7.hivsystem.repository.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -229,7 +230,13 @@ public class UserServiceImp implements UserService {
         if (userRepository.findAll() == null) {
             throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
-        return userRepository.findAll();
+        List<Users> findAllUsersNotAdminAndManager = new ArrayList<>();
+        for (Users user : userRepository.findAll()) {
+            if (!user.getRole().equals("Admin") && !user.getRole().equals("Manager")) {
+                findAllUsersNotAdminAndManager.add(user);
+            }
+        }
+        return findAllUsersNotAdminAndManager;
     }
 
     @Override
